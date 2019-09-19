@@ -1,31 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store'
+// import store from '@/store'
 
-import HelloWorld from '@/components/HelloWorld'
-import Test from '@/views/Test'
+// modules
+import mainRouter from '@/router/_main'
+import adminRouter from '@/router/_admin'
+import { login, dev } from '@/router/_other'
 
 Vue.use(Router)
 
 const routes = [
-  {
-    path: '/',
-    name: 'primary',
-    component: () => import(/* webpackChunkName: "about" */ './../templates/Default.vue'),
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: HelloWorld
-      },
-      {
-        path: '/test',
-        name: 'test',
-        component: Test
-      },
-    ]
-  }
+  mainRouter,
+  adminRouter,
+  login,
+  dev
 ]
+
+console.log(routes)
 
 const router = new Router({routes, mode: 'history'})
 

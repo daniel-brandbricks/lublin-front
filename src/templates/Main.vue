@@ -29,8 +29,7 @@ export default {
     Navbar
   },
   created () {
-    console.log(this.$refs)
-    console.log('default template created')
+    console.log('Main template created')
   }
 }
 </script>

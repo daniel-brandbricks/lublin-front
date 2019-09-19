@@ -98,10 +98,10 @@ export default {
       let data = {email: this.email, password: this.password}
       this.$store.dispatch('login', data)
         .then((response) => {
-          console.log(response);
+          console.log(response)
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error)
         })
     }
   },

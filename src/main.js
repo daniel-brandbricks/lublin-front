@@ -18,10 +18,17 @@ import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import Treeselect from '@riophae/vue-treeselect'
 
+// Cropper
+import VueCropper from 'vue-cropperjs'
+import 'cropperjs/dist/cropper.css'
+
+// DatePicker
+import DatePicker from 'vue2-datepicker';
+
 import './assets/scss/style.scss'
 
-// Vee validate
 // todo
+// Vee validate
 // import locale from '@/config/ValidatorConfig';
 // import VeeValidate from 'vee-validate';
 // const rulesPlugin = ({ Validator }) => {
@@ -37,6 +44,8 @@ import './assets/scss/style.scss'
 Vue.use(PerfectScrollbar)
 Vue.use(BootstrapVue)
 Vue.use(Treeselect)
+Vue.component(DatePicker)
+Vue.component(VueCropper)
 
 Vue.config.productionTip = false
 

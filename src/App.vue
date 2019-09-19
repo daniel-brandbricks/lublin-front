@@ -5,11 +5,10 @@
 </template>
 
 <script>
-import Navbar from './components/main/Navbar'
 
 export default {
   name: 'App',
-  components: {Navbar}
+  components: {}
 }
 </script>
 

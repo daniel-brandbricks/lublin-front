@@ -3,8 +3,6 @@ import { BASE_API_URL } from '@/config/AppConfig'
 import router from '@/router'
 import store from '@/store'
 
-console.log(BASE_API_URL)
-
 const CancelToken = axios.CancelToken
 
 let cancelTokens = {}
@@ -26,8 +24,6 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
     if (isAuthorized === true) {
       configAuthorizedCall()
     }
-
-    console.log(method)
 
     axios({
       url: BASE_API_URL + uri,
@@ -59,16 +55,11 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
       })
       .catch(error => {
         if (error.response && error.response.data.message === 'TOKEN_EXPIRED') {
-          firebase.auth()
-            .signOut()
-
           console.log('api service TOKEN_EXPIRED')
           router.push({ name: 'login' })
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
-          firebase.auth()
-            .signOut()
           console.log('api service 401 [2]')
           router.push({ name: 'login' })
         }
@@ -116,7 +107,6 @@ let configAuthorizedCall = function () {
     return Promise.reject(error)
   })
 }
-
 
 let checkResponse = function (response, successStatus = 200) {
   if (undefined === response || response === null) {

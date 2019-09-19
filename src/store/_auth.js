@@ -1,4 +1,6 @@
 import * as apiService from '@/services/apiService'
+import { BASE_API_URL } from '@/config/AppConfig'
+
 import router from '@/router'
 
 let generateToken = function () {
@@ -8,6 +10,8 @@ let generateToken = function () {
   }
   return null
 }
+
+let prefix = BASE_API_URL
 
 export default {
   state: {
@@ -49,7 +53,7 @@ export default {
     },
     login (context, data) {
       return new Promise((resolve, reject) => {
-console.log(data)
+        console.log(data)
         apiService.makeApiCall('login/', 'post', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
@@ -68,9 +72,9 @@ console.log(data)
     },
     logout (context) {
       return new Promise((resolve, reject) => {
-        let data = {
-          token: context.getters.authToken
-        }
+        // let data = {
+        //   token: context.getters.authToken
+        // }
       })
     },
     getCurrentUser (context, data) {
