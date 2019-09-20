@@ -1,0 +1,21 @@
+#parallelogram {
+  width: 150px;
+  height: 100px;
+  margin: 0 0 0 -20px;
+  -webkit-transform: skew(20deg);
+  -moz-transform: skew(20deg);
+  -o-transform: skew(20deg);
+  background: red;
+  overflow: hidden;
+  position: relative; }
+
+.image {
+  background: red;
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  transform: skew(-20deg); }
+
+/*# sourceMappingURL=figure.css.map */

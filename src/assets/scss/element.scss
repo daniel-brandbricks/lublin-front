@@ -1,0 +1,126 @@
+// button
+.btn {
+  @extend %font-bold;
+  padding: 12px 20px;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  line-height: 14px;
+  text-align: center;
+  border-radius: unset;
+
+  &:hover, &:focus, &.focus {
+    box-shadow: unset;
+  }
+
+  &.disabled, &:disabled {
+    opacity: 0.5;
+  }
+}
+
+
+/**/
+/**/
+
+/**/
+/**/
+.btn.btn-primary {
+  color: $c-white;
+  border: 1px solid $c-red-dark;
+  background-color: $c-red-dark;
+
+  &:hover {
+    box-shadow: unset;
+    background-color: $c-red;
+    border: 1px solid $c-red;
+  }
+
+  &:active {
+    background-color: inherit;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: $c-red-dark;
+    border-color: $c-red-dark;
+    box-shadow: unset;
+  }
+
+  &:not(:disabled):not(.disabled):active:focus,
+  &:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: unset;
+  }
+
+}
+
+.btn.btn-secondary {
+  color: $c-white;
+  border: 1px solid $c-gray;
+  background-color: $c-gray;
+
+  &:hover {
+    box-shadow: unset;
+    background-color: gray;
+    border: 1px solid gray;
+  }
+
+  &:active {
+    background-color: inherit;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: $c-gray;
+    border-color: $c-gray;
+    box-shadow: unset;
+  }
+
+  &:not(:disabled):not(.disabled):active:focus,
+  &:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: unset;
+  }
+}
+
+
+
+//input+++++++++++++++++++
+.form-group.custom {
+  margin-bottom: 2px;
+
+  .form-control.custom,
+  .form-control-plaintext,
+  .custom-select,
+  .custom-file {
+    @extend  %font-regular;
+    border: 1px solid $c-black-30;
+    border-radius: unset;
+    padding: 0 20px;
+    line-height: 40px;
+    height: 40px;
+&:focus,&:active{
+  box-shadow: unset;
+}
+    &::placeholder {
+      color: $c-black-50;
+      font-size: 13px;
+    }
+  }
+}
+
+
+/*card custom +++++++++++++++++++++*/
+
+.card.custom{
+  background-color: $c-black-15;
+  padding: 8px;
+  .card-body{
+    padding: 16px;
+    background-color: #fff;
+
+  }
+}

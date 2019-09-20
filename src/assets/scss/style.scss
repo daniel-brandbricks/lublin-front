@@ -2,20 +2,42 @@
 @import "color";
 @import "element";
 @import "_default";
+@import "_form-check";
+@import "figure";
 
-* {
-  padding: 0;
-  margin: 0;
+.Vv {
+  outline: 1px solid navy;
 }
 
-footer{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: #cecdc2;
+.Cc {
+  border: 1px solid red;
+}
+
+
+h1 {
+  @extend %font-medium;
+  font-size: 40px;
+  letter-spacing: 1px;
+  line-height: 48px;
+}
+
+h2 {
+  @extend %font-medium;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.c-green {
+  color: $c-green;
+}
+
+.bgc-green {
+  background-color: $c-green;
 }
 
 a {
   text-decoration: none;
 }
+
+

@@ -1,0 +1,19 @@
+.container-figure{
+  overflow: hidden;
+}
+.parallelogram {
+  width: 150px;
+  float: right;
+  transform: skew(30deg);
+  margin-right: -30px;
+  background-color: white;
+  p{
+    padding-left:15px ;
+    padding-right:30px ;
+    transform: skew(-30deg);
+    margin-bottom: 0;
+    line-height: 20px;
+    text-align: center;
+  }
+}
+
