@@ -85,11 +85,8 @@
           <p class="card-signature mb-0">Finansowane ze środków Gminy Lublin</p>
           <p class="">Tak</p>
 
-
         </b-card>
       </b-col>
-
-
 
       <b-col cols="12" lg="6">
         <template>
@@ -142,7 +139,6 @@
         </b-row>
       </b-col>
 
-
       <b-col cols="4" class="mb-3">
         <b-card
           class="custom"
@@ -191,58 +187,56 @@
 
       </b-col>
 
-
     </div>
 
   </div>
 </template>
 
 <script>
-  import Datepicker from 'vuejs-datepicker';
-  // import the component
-  import Treeselect from '@riophae/vue-treeselect'
-  // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import Datepicker from 'vuejs-datepicker'
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import DatePick from 'vue-date-pick';
-  import 'vue-date-pick/dist/vueDatePick.css';
+import DatePick from 'vue-date-pick'
+import 'vue-date-pick/dist/vueDatePick.css'
 
-
-  export default {
-    components: { Datepicker, Treeselect,DatePick },
-    data () {
-      return {
-        date: '2019-09-01',
-        selected: [],
-        selectedRadio: 'A',
-        options: [
-          {text: 'first', value: '1'},
-          {text: 'secondary', value: '2'},
-          {text: 'third', value: '3'},
-        ],
-        // define the default value
-        value: null,
-        // define options
-        optionsTS: [ {
-          id: 'a',
-          label: 'a',
-          children: [ {
-            id: 'aa',
-            label: 'aa',
-          }, {
-            id: 'ab',
-            label: 'ab',
-          } ],
+export default {
+  components: { Datepicker, Treeselect, DatePick },
+  data () {
+    return {
+      date: '2019-09-01',
+      selected: [],
+      selectedRadio: 'A',
+      options: [
+        {text: 'first', value: '1'},
+        {text: 'secondary', value: '2'},
+        {text: 'third', value: '3'}
+      ],
+      // define the default value
+      value: null,
+      // define options
+      optionsTS: [ {
+        id: 'a',
+        label: 'a',
+        children: [ {
+          id: 'aa',
+          label: 'aa'
         }, {
-          id: 'b',
-          label: 'b',
-        }, {
-          id: 'c',
-          label: 'c',
-        } ],
-      }
+          id: 'ab',
+          label: 'ab'
+        } ]
+      }, {
+        id: 'b',
+        label: 'b'
+      }, {
+        id: 'c',
+        label: 'c'
+      } ]
     }
   }
+}
 </script>
 
 <style scoped>

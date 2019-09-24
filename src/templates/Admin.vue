@@ -1,27 +1,27 @@
 <template>
-  <div class="d-flex" id="wrapper" :class="{'toggled': showSidebar}">
+  <div class="d-flex container" id="wrapper" :class="{'toggled': showSidebar}">
     <Sidebar></Sidebar>
 
-    <main class="">
+    <main class="px-5" id="page-content-wrapper">
       <nav>
-        <Navbar></Navbar>
+        <AdminNavbar></AdminNavbar>
       </nav>
 
-      <div class="page-content-wrapper">
-        <perfect-scrollbar id="scrollbar" class="custom pt75">
+      <div class="h-100">
+        <perfect-scrollbar id="scrollbar" class="custom pt75 h-100">
           <router-view/>
         </perfect-scrollbar>
       </div>
     </main>
 
-<!--    <footer>-->
-<!--      <Footer></Footer>-->
-<!--    </footer>-->
+    <!--    <footer>-->
+    <!--      <Footer></Footer>-->
+    <!--    </footer>-->
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/main/Navbar'
+import AdminNavbar from '@/components/main/AdminNavbar'
 import Sidebar from '../components/main/Sidebar'
 import Footer from '../components/main/Footer'
 
@@ -30,9 +30,9 @@ import EventBus from '../event-bus'
 export default {
   name: 'Admin',
   components: {
+    AdminNavbar,
     Footer,
-    Sidebar,
-    Navbar
+    Sidebar
   },
   data () {
     return {

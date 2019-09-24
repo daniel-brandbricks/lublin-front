@@ -1,7 +1,6 @@
 <template>
   <!-- Page Content -->
-  <div id="page-content-wrapper">
-
+  <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <button class="btn btn-primary" id="menu-toggle" @click="toggleSidebar">Toggle Menu</button>
 
@@ -66,16 +65,4 @@ export default {
 </script>
 
 <style scoped>
-
-  #page-content-wrapper {
-    min-width: 100vw;
-  }
-
-  @media (min-width: 768px) {
-    #page-content-wrapper {
-      min-width: 0;
-      width: 100%;
-    }
-  }
-
 </style>

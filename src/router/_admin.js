@@ -4,6 +4,9 @@ import HelloWorld from '@/components/HelloWorld'
 import Test from '@/views/Test'
 import TestContent from '@/views/TestContent'
 
+// official
+import SchoolsAndClubsList from '@/views/SchoolsAndClubsList'
+
 const adminRouter = {
   path: '/admin',
   // redirect: 'admin/home',
@@ -23,8 +26,15 @@ const adminRouter = {
       path: 'test-content',
       name: 'test.content',
       component: TestContent
+    },
+
+    // official
+    {
+      path: 'schools-and-clubs',
+      name: 'schools.and.clubs',
+      component: SchoolsAndClubsList
     }
   ]
 }
 
-export default adminRouter;
+export default adminRouter
