@@ -85,11 +85,8 @@
           <p class="card-signature mb-0">Finansowane ze środków Gminy Lublin</p>
           <p class="">Tak</p>
 
-
         </b-card>
       </b-col>
-
-
 
       <b-col cols="12" lg="6">
         <template>
@@ -132,6 +129,8 @@
         <span class="status active">aktywny</span>
         <span class="status inactive">nieaktywny</span>
       </b-col>
+
+      <!--   admin navbar   -->
       <b-col cols="12">
         <b-row >
           <b-col>
@@ -142,7 +141,6 @@
           </b-col>
         </b-row>
       </b-col>
-
 
       <b-col cols="4" class="mb-3">
         <b-card
@@ -191,7 +189,6 @@
         </div>
 
       </b-col>
-
 
     </div>
 

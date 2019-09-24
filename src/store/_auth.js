@@ -46,6 +46,7 @@ export default {
     }
   },
   actions: {
+    // we need it? todo check
     autoSignIn (context, data) {
       context.commit('setAuthToken', {
         authToken: data.authToken
@@ -54,14 +55,16 @@ export default {
     login (context, data) {
       return new Promise((resolve, reject) => {
         console.log(data)
-        apiService.makeApiCall('login/', 'post', true, data, null, 200)
+        apiService.makeApiCall('login/', 'post', false, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setUser', response)
+            console.log(response)
+
+            context.commit('setAuthToken', response)
             resolve(response)
           })
           .catch(error => {
@@ -72,9 +75,24 @@ export default {
     },
     logout (context) {
       return new Promise((resolve, reject) => {
-        // let data = {
-        //   token: context.getters.authToken
-        // }
+        let data = {
+          token: context.getters.authToken
+        }
+        apiService.makeApiCall('logout/', 'post', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('destroyAuthToken')
+            context.commit('setUser', null)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
       })
     },
     getCurrentUser (context, data) {

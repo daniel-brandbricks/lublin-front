@@ -1,40 +1,51 @@
 <template>
-  <div class="main-wrap">
-    <nav>
-      <Navbar></Navbar>
-    </nav>
+  <div class="d-flex container" id="wrapper" :class="{'toggled': showSidebar}">
+    <Sidebar></Sidebar>
 
-    <main>
-      <div class="sidebar-wrap float-left">
-        <Sidebar></Sidebar>
-      </div>
-      <div class="content-wrap">
-        <perfect-scrollbar id="scrollbar" class="custom pt75">
+    <main class="px-5" id="page-content-wrapper">
+      <nav>
+        <AdminNavbar></AdminNavbar>
+      </nav>
+
+      <div class="h-100">
+        <perfect-scrollbar id="scrollbar" class="custom pt75 h-100">
           <router-view/>
         </perfect-scrollbar>
       </div>
     </main>
 
-    <footer>
-      <Footer></Footer>
-    </footer>
+    <!--    <footer>-->
+    <!--      <Footer></Footer>-->
+    <!--    </footer>-->
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/main/Navbar'
+import AdminNavbar from '@/components/main/AdminNavbar'
 import Sidebar from '../components/main/Sidebar'
 import Footer from '../components/main/Footer'
+
+import EventBus from '../event-bus'
 
 export default {
   name: 'Admin',
   components: {
+    AdminNavbar,
     Footer,
-    Sidebar,
-    Navbar
+    Sidebar
+  },
+  data () {
+    return {
+      showSidebar: false
+    }
   },
   created () {
     console.log('Admin template created')
+
+    EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
+      console.log(111222)
+      this.showSidebar = !this.showSidebar
+    })
   }
 }
 </script>
