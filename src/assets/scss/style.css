@@ -62,7 +62,7 @@
   font-style: normal;
   font-weight: 600; }
 
-.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdp-datepicker .vdp-datepicker__calendar .cell, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, h1, h2,
+.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl .vdpPrevDirection, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, h1, h2,
 .font-medium {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -453,44 +453,25 @@ html body .custom-radio .custom-control-label::after {
   height: 18px;
   background: unset; }
 
-.vdp-datepicker .vdp-datepicker__calendar {
-  width: unset;
-  border: unset; }
-  .vdp-datepicker .vdp-datepicker__calendar header .next, .vdp-datepicker .vdp-datepicker__calendar header .prev {
-    background-color: red; }
-  .vdp-datepicker .vdp-datepicker__calendar .cell {
-    height: unset;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 20px;
-    letter-spacing: 0.2px;
-    line-height: 21px;
-    text-align: center; }
-    .vdp-datepicker .vdp-datepicker__calendar .cell.day-header {
-      color: gray; }
-    .vdp-datepicker .vdp-datepicker__calendar .cell.day {
-      border: 1px solid #000000; }
-    .vdp-datepicker .vdp-datepicker__calendar .cell:hover {
-      border-color: unset !important; }
-    .vdp-datepicker .vdp-datepicker__calendar .cell.selected {
-      border: unset;
-      background: #FA1414;
-      color: #fff;
-      box-shadow: 5px 5px 0px 0px #fc8989; }
-      .vdp-datepicker .vdp-datepicker__calendar .cell.selected:hover {
-        border: unset !important;
-        background: #FA1414; }
-    .vdp-datepicker .vdp-datepicker__calendar .cell.disabled {
-      background-color: gray;
-      color: #fff; }
-
 .vdpOuterWrap .vdpInnerWrap {
   padding: 0;
   border: unset;
   box-shadow: unset; }
   .vdpOuterWrap .vdpInnerWrap .vdpHeader {
     background: unset;
-    padding-right: 20px; }
+    padding-bottom: 2em; }
+    .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl .vdpPrevDirection {
+      color: #000000;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+      line-height: 21px;
+      text-align: center; }
+  .vdpOuterWrap .vdpInnerWrap .vdpTable thead tr th.vdpHeadCell {
+    padding-bottom: 10px;
+    color: #b3b3b3;
+    font-size: 13px; }
+    .vdpOuterWrap .vdpInnerWrap .vdpTable thead tr th.vdpHeadCell span {
+      color: inherit; }
   .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell {
     padding: 10px;
     font-size: 20px;
@@ -505,6 +486,11 @@ html body .custom-radio .custom-control-label::after {
     .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.disabled .vdpCellContent {
       background-color: gray;
       color: #fff; }
+    .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.today .vdpCellContent {
+      border: unset; }
+    .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.outOfRange .vdpCellContent {
+      color: #d9d9d9;
+      border: 1px solid #d9d9d9; }
     .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell .vdpCellContent {
       border-radius: unset;
       padding: 10px;
@@ -514,7 +500,8 @@ html body .custom-radio .custom-control-label::after {
       text-align: center;
       height: unset;
       width: unset;
-      border: 1px solid gray; }
+      border: 1px solid #b3b3b3;
+      color: gray; }
 
 .container-figure {
   overflow: hidden; }
@@ -671,5 +658,7 @@ a {
 
 p {
   margin-bottom: 0.5rem; }
+
+/*----------------------------------------*/
 
 /*# sourceMappingURL=style.css.map */

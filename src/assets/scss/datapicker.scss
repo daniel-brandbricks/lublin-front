@@ -1,100 +1,88 @@
-.vdp-datepicker {
-  .vdp-datepicker__calendar {
-    width: unset;
-    border: unset;
-    header{
-      .next,.prev{
-        background-color: red;
-      }
-    }
-
-    .cell{
-      @extend %font-medium;
-      height: unset;
-      box-sizing: border-box;
-
-
-      padding: 10px;
-      font-size: 20px;
-      letter-spacing: 0.2px;
-      line-height: 21px;
-      text-align: center;
-      &.day-header{
-        color: $c-black-50;
-      }
-      &.day{
-        border: 1px solid $c-black;
-      }
-      &:hover{
-        border-color: unset!important;
-      }
-      &.selected {
-        border: unset;
-        background: $c-red;
-        color: #fff;
-        box-shadow: 5px 5px 0px 0px $c-red-dark;
-        &:hover{
-          border: unset!important;
-          background: $c-red;
-        }
-      }
-      &.disabled{
-        background-color: $c-black-50;
-        color: #fff;
-
-      }
-    }
-
-  }
-}
-
-
-.vdpOuterWrap{
-
-  .vdpInnerWrap{
+.vdpOuterWrap {
+  .vdpInnerWrap {
     padding: 0;
     border: unset;
-    box-shadow: unset ;
-    .vdpHeader{
-      background: unset;
-      padding-right: 20px;
-    }
-    .vdpTable{
-      thead{
-        tr{
-          th{
+    box-shadow: unset;
 
+    .vdpHeader {
+      background: unset;
+      padding-bottom: 2em;
+      .vdpPeriodControls {
+        .vdpPeriodControl {
+          .vdpPrevDirection {
+            @extend %font-medium;
+            color: $c-black;
+            font-size: 20px;
+            letter-spacing: 0.2px;
+            line-height: 21px;
+            text-align: center;
           }
         }
       }
 
-      tbody{
+      .vdpArrow{
+        &.dpArrowPrev{}
+        &.vdpArrowNext{}
+      }
+    }
 
-        .vdpRow{
-          .vdpCell{
+    .vdpTable {
+      thead {
+        tr {
+          th.vdpHeadCell {
+            padding-bottom: 10px;
+            color: $c-black-30;
+            font-size: 13px;
 
+            span {
+              color: inherit;
+            }
+          }
+        }
+      }
+
+      tbody {
+
+        .vdpRow {
+          .vdpCell {
             @extend %font-medium;
             padding: 10px;
             font-size: 20px;
             letter-spacing: 0.2px;
             line-height: 21px;
             text-align: center;
-            &.selected,&:hover{
-              .vdpCellContent{
+
+            &.selected, &:hover {
+              .vdpCellContent {
                 background-color: $c-red;
                 box-shadow: 5px 5px 0px 0px $c-red-dark;
                 color: #fff;
                 border: unset;
               }
             }
-            &.disabled{
-              .vdpCellContent{
+
+            &.disabled {
+              .vdpCellContent {
                 background-color: $c-black-50;
                 color: #fff;
 
               }
             }
-            .vdpCellContent{
+
+            &.today {
+              .vdpCellContent {
+                border: unset;
+              }
+            }
+
+            &.outOfRange {
+              .vdpCellContent {
+                color: $c-black-15;
+                border: 1px solid $c-black-15;
+              }
+            }
+
+            .vdpCellContent {
               border-radius: unset;
               padding: 10px;
               font-size: 20px;
@@ -103,15 +91,12 @@
               text-align: center;
               height: unset;
               width: unset;
-              border: 1px solid $c-black-50;
-
+              border: 1px solid $c-black-30;
+              color: $c-black-50;
             }
           }
         }
       }
-
-
-
     }
   }
 }
