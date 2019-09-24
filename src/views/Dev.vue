@@ -127,6 +127,8 @@
         <span class="status active">aktywny</span>
         <span class="status inactive">nieaktywny</span>
       </b-col>
+
+      <!--   admin navbar   -->
       <b-col cols="12">
         <b-row >
           <b-col>

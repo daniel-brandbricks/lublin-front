@@ -1,23 +1,22 @@
 <template>
-  <div class="main-wrap">
-    <nav>
-      <Navbar></Navbar>
-    </nav>
+  <div class="d-flex" id="wrapper" :class="{'toggled': showSidebar}">
+    <Sidebar></Sidebar>
 
-    <main>
-      <div class="sidebar-wrap float-left">
-        <Sidebar></Sidebar>
-      </div>
-      <div class="content-wrap">
+    <main class="">
+      <nav>
+        <Navbar></Navbar>
+      </nav>
+
+      <div class="page-content-wrapper">
         <perfect-scrollbar id="scrollbar" class="custom pt75">
           <router-view/>
         </perfect-scrollbar>
       </div>
     </main>
 
-    <footer>
-      <Footer></Footer>
-    </footer>
+<!--    <footer>-->
+<!--      <Footer></Footer>-->
+<!--    </footer>-->
   </div>
 </template>
 
@@ -26,6 +25,8 @@ import Navbar from '@/components/main/Navbar'
 import Sidebar from '../components/main/Sidebar'
 import Footer from '../components/main/Footer'
 
+import EventBus from '../event-bus'
+
 export default {
   name: 'Admin',
   components: {
@@ -33,8 +34,18 @@ export default {
     Sidebar,
     Navbar
   },
+  data () {
+    return {
+      showSidebar: false
+    }
+  },
   created () {
     console.log('Admin template created')
+
+    EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
+      console.log(111222)
+      this.showSidebar = !this.showSidebar
+    })
   }
 }
 </script>

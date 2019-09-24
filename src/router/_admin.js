@@ -2,6 +2,7 @@
 
 import HelloWorld from '@/components/HelloWorld'
 import Test from '@/views/Test'
+import TestContent from '@/views/TestContent'
 
 const adminRouter = {
   path: '/admin',
@@ -17,6 +18,11 @@ const adminRouter = {
       path: 'test',
       name: 'test',
       component: Test
+    },
+    {
+      path: 'test-content',
+      name: 'test.content',
+      component: TestContent
     }
   ]
 }
