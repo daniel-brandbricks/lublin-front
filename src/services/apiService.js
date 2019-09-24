@@ -21,9 +21,7 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
       cancelTokens[cancelTokenKey]()
     }
 
-    if (isAuthorized === true) {
-      configAuthorizedCall()
-    }
+    addAuthHeader = isAuthorized
 
     axios({
       url: BASE_API_URL + uri,
@@ -54,14 +52,15 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         resolve(data)
       })
       .catch(error => {
+        // todo change on BACK
         if (error.response && error.response.data.message === 'TOKEN_EXPIRED') {
           console.log('api service TOKEN_EXPIRED')
-          router.push({ name: 'login' })
+          // router.push({ name: 'login' })
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
           console.log('api service 401 [2]')
-          router.push({ name: 'login' })
+          // router.push({ name: 'login' })
         }
 
         if (axios.isCancel(error)) {
@@ -74,39 +73,44 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
 }
 
 export function configAuthHeader () {
-  return configAuthorizedCall()
+  // return configAuthorizedCall()
 }
 
-let configAuthorizedCall = function () {
-  axios.interceptors.request.use((config) => {
-    if (store.getters.isLoggedIn) {
-      config.headers['Authorization'] = 'Bearer ' + store.state.authToken
-    }
-    return config
-  }, function (err) {
-    return Promise.reject(err)
-  })
+let addAuthHeader = false
 
-  axios.interceptors.response.use((response) => {
-    return response
-  }, (error) => {
-    if (undefined === error || error.length < 1 || error === null || error === '') {
-      return
-    }
-    if (undefined === error.response || error.response.length < 1 || error.response === null || error.response === '') {
-      return
-    }
-    if (undefined === error.response.status || error.response.status.length < 1 || error.response.status === null || error.response.status === '') {
-      return
-    }
+console.log('POPALO')
+axios.interceptors.request.use((config) => {
+  console.log(config)
+  if (addAuthHeader && store.getters.isLoggedIn) {
+    console.log(store.state.authModule.authToken)
+    console.log(store.state)
+    config.headers['X-AUTH-Token'] = store.state.authModule.authToken
+  }
+  return config
+}, function (err) {
+  return Promise.reject(err)
+})
 
-    if (error.response.status === 401) {
-      console.log('response 401')
-    }
+axios.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  if (undefined === error || error.length < 1 || error === null || error === '') {
+    return
+  }
+  if (undefined === error.response || error.response.length < 1 || error.response === null || error.response === '') {
+    return
+  }
+  if (undefined === error.response.status || error.response.status.length < 1 || error.response.status === null || error.response.status === '') {
+    return
+  }
 
-    return Promise.reject(error)
-  })
-}
+  if (error.response.status === 401) {
+    console.log('response 401')
+  }
+
+  return Promise.reject(error)
+})
+// }
 
 let checkResponse = function (response, successStatus = 200) {
   if (undefined === response || response === null) {
@@ -120,6 +124,7 @@ let checkResponse = function (response, successStatus = 200) {
   }
   return true
 }
+
 let checkEmptyObject = function (currentObject, keysArray = null) {
   if (undefined === currentObject || currentObject === null) {
     return false

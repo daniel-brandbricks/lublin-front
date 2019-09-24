@@ -1,6 +1,8 @@
 <template>
   <div class="hello Cc">
     <h1>{{ msg }}</h1>
+    <b-button @click="getUser">GET USER</b-button>
+    <b-button @click="logout">Logout</b-button>
   </div>
 </template>
 
@@ -10,6 +12,23 @@ export default {
   data () {
     return {
       msg: 'TEST'
+    }
+  },
+  methods: {
+    getUser () {
+      this.$store.dispatch('getAllUsers')
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    logout () {
+      this.$store.dispatch('logout')
+        .then((response) => {
+          console.log(response)
+        })
     }
   },
   created () {
