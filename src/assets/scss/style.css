@@ -46,7 +46,7 @@
 .form-group.custom .form-control.custom,
 .form-group.custom .form-control-plaintext,
 .form-group.custom .custom-select,
-.form-group.custom .custom-file,
+.form-group.custom .custom-file, .card.custom .card-body p, .info-box,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -62,7 +62,7 @@
   font-style: normal;
   font-weight: 600; }
 
-h1, h2,
+.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdp-datepicker .vdp-datepicker__calendar .cell, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, h1, h2,
 .font-medium {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -162,8 +162,14 @@ h1, h2,
 .icon-icon_arrow_3_down:before {
   content: "\e915"; }
 
-.icon-smile_check:before {
+.icon-discipline:before {
   content: "\e90b"; }
+
+.icon-illustration_11:before {
+  content: "\e916"; }
+
+.icon {
+  padding-right: 10px; }
 
 /*Colors  */
 .btn {
@@ -250,11 +256,102 @@ h1, h2,
 
 /*card custom +++++++++++++++++++++*/
 .card.custom {
+  border-radius: unset;
+  border: unset;
   background-color: #d9d9d9;
   padding: 8px; }
   .card.custom .card-body {
     padding: 16px;
-    background-color: #fff; }
+    background-color: #fff;
+    position: relative; }
+    .card.custom .card-body .card-title.nowrap {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      cursor: pointer;
+      margin-bottom: 0.5rem; }
+      .card.custom .card-body .card-title.nowrap:before {
+        content: "";
+        position: absolute;
+        display: block;
+        background: white;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 61%, white 100%);
+        right: 0;
+        width: 2em;
+        height: 1.5em; }
+    .card.custom .card-body .card-signature {
+      color: #b3b3b3;
+      font-size: 12px;
+      line-height: 13px; }
+    .card.custom .card-body p {
+      line-height: 20px;
+      font-size: 13px; }
+      .card.custom .card-body p:last-child {
+        margin-bottom: 0; }
+    .card.custom .card-body .card-arrow {
+      color: #FA1414;
+      position: absolute;
+      bottom: 16px;
+      right: 16px; }
+      .card.custom .card-body .card-arrow.b8 {
+        bottom: 8px; }
+    .card.custom .card-body .card-text.height-hidden {
+      position: relative;
+      margin-bottom: .5rem;
+      max-height: 140px;
+      overflow: hidden; }
+      .card.custom .card-body .card-text.height-hidden:after {
+        position: absolute;
+        height: 60px;
+        width: 100%;
+        bottom: 0;
+        content: '';
+        background: white;
+        background: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 0.1) 100%); }
+  .card.custom .card-footer {
+    border-top: unset;
+    background: #d9d9d9; }
+    .card.custom .card-footer .type-card {
+      background: #fff;
+      color: #73BE46;
+      position: relative;
+      font-size: 12px;
+      line-height: 1.5em;
+      min-width: 76px;
+      padding-right: 10px;
+      padding-left: 10px;
+      text-align: center;
+      text-transform: uppercase; }
+      .card.custom .card-footer .type-card:before {
+        content: "";
+        position: absolute;
+        left: -1.5em;
+        border-top: 1.5em solid #fff;
+        border-left: 1.5em solid transparent; }
+
+.info-box {
+  font-size: 13px;
+  line-height: 20px; }
+  .info-box.border-r {
+    border-right: 2px solid #ededed; }
+  .info-box .signature {
+    color: #b3b3b3;
+    font-size: 12px;
+    line-height: 13px; }
+
+.status {
+  display: inline-block;
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: #000000;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase; }
+  .status.inactive {
+    background: #fc8989; }
+  .status.active {
+    background: #73BE46; }
 
 html body .custom-checkbox .custom-control-label,
 html body .custom-radio .custom-control-label {
@@ -356,6 +453,69 @@ html body .custom-radio .custom-control-label::after {
   height: 18px;
   background: unset; }
 
+.vdp-datepicker .vdp-datepicker__calendar {
+  width: unset;
+  border: unset; }
+  .vdp-datepicker .vdp-datepicker__calendar header .next, .vdp-datepicker .vdp-datepicker__calendar header .prev {
+    background-color: red; }
+  .vdp-datepicker .vdp-datepicker__calendar .cell {
+    height: unset;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 20px;
+    letter-spacing: 0.2px;
+    line-height: 21px;
+    text-align: center; }
+    .vdp-datepicker .vdp-datepicker__calendar .cell.day-header {
+      color: gray; }
+    .vdp-datepicker .vdp-datepicker__calendar .cell.day {
+      border: 1px solid #000000; }
+    .vdp-datepicker .vdp-datepicker__calendar .cell:hover {
+      border-color: unset !important; }
+    .vdp-datepicker .vdp-datepicker__calendar .cell.selected {
+      border: unset;
+      background: #FA1414;
+      color: #fff;
+      box-shadow: 5px 5px 0px 0px #fc8989; }
+      .vdp-datepicker .vdp-datepicker__calendar .cell.selected:hover {
+        border: unset !important;
+        background: #FA1414; }
+    .vdp-datepicker .vdp-datepicker__calendar .cell.disabled {
+      background-color: gray;
+      color: #fff; }
+
+.vdpOuterWrap .vdpInnerWrap {
+  padding: 0;
+  border: unset;
+  box-shadow: unset; }
+  .vdpOuterWrap .vdpInnerWrap .vdpHeader {
+    background: unset;
+    padding-right: 20px; }
+  .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell {
+    padding: 10px;
+    font-size: 20px;
+    letter-spacing: 0.2px;
+    line-height: 21px;
+    text-align: center; }
+    .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.selected .vdpCellContent, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell:hover .vdpCellContent {
+      background-color: #FA1414;
+      box-shadow: 5px 5px 0px 0px #fc8989;
+      color: #fff;
+      border: unset; }
+    .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.disabled .vdpCellContent {
+      background-color: gray;
+      color: #fff; }
+    .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell .vdpCellContent {
+      border-radius: unset;
+      padding: 10px;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+      line-height: 21px;
+      text-align: center;
+      height: unset;
+      width: unset;
+      border: 1px solid gray; }
+
 .container-figure {
   overflow: hidden; }
 
@@ -372,6 +532,115 @@ html body .custom-radio .custom-control-label::after {
     margin-bottom: 0;
     line-height: 20px;
     text-align: center; }
+
+.android-box {
+  background-color: lightyellow; }
+  .android-box .header-android {
+    width: 140px;
+    height: 75px;
+    border-radius: 50% 50% 0 0/ 100% 100% 0 0;
+    background-color: #73BE46;
+    position: relative;
+    margin-bottom: 8px; }
+    .android-box .header-android:hover .circle.right {
+      background-color: #73BE46; }
+    .android-box .header-android:after, .android-box .header-android:before {
+      position: absolute;
+      content: "";
+      height: 40px;
+      width: 5px;
+      background-color: #73BE46;
+      left: 35px;
+      top: -20px;
+      transform: rotate(-25deg); }
+    .android-box .header-android:before {
+      left: 100px;
+      transform: rotate(25deg); }
+    .android-box .header-android .circle {
+      transition: background-color 1s ease;
+      position: absolute;
+      background-color: #fff;
+      width: 10px;
+      height: 10px;
+      display: block;
+      left: 35px;
+      top: 35px;
+      border-radius: 50%; }
+      .android-box .header-android .circle.right {
+        right: 35px;
+        left: unset; }
+  .android-box .body-android {
+    height: 110px;
+    width: 140px;
+    border-radius: 0 0 20px 20px;
+    background-color: #73BE46;
+    position: relative; }
+    .android-box .body-android:after, .android-box .body-android:before {
+      position: absolute;
+      content: "";
+      height: 90px;
+      width: 25px;
+      background-color: #73BE46;
+      top: 0;
+      left: -35px;
+      border-radius: 90px/75px; }
+    .android-box .body-android:before {
+      left: 150px; }
+  .android-box .footer-android {
+    position: relative; }
+    .android-box .footer-android:after, .android-box .footer-android:before {
+      position: absolute;
+      content: "";
+      height: 80px;
+      width: 25px;
+      background-color: #73BE46;
+      top: -25px;
+      left: 25px;
+      border-radius: 0px 0px 90px 90px/0px 0px 75px 75px; }
+    .android-box .footer-android:before {
+      left: 90px; }
+
+.smile {
+  height: 200px;
+  width: 200px;
+  background-color: #e2d239;
+  border-radius: 50%;
+  position: relative; }
+  .smile .circle {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    left: 40px;
+    top: 50px; }
+    .smile .circle.two {
+      left: 120px; }
+    .smile .circle:after, .smile .circle:before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: black;
+      top: 12px; }
+  .smile .past {
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+    width: 80px;
+    height: 5px;
+    background-color: black;
+    display: block; }
+    .smile .past:after, .smile .past:before {
+      content: "";
+      width: 5px;
+      height: 17px;
+      position: absolute;
+      background-color: black;
+      top: -6px; }
+    .smile .past:after {
+      right: 0; }
 
 .Vv {
   outline: 1px solid navy; }
@@ -397,5 +666,10 @@ h2 {
 
 a {
   text-decoration: none; }
+  a:hover {
+    text-decoration: none; }
+
+p {
+  margin-bottom: 0.5rem; }
 
 /*# sourceMappingURL=style.css.map */

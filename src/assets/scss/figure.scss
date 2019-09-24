@@ -17,3 +17,147 @@
   }
 }
 
+
+.android-box{
+  background-color: lightyellow;
+  .header-android{
+    width: 140px;
+    height: 75px;
+    border-radius: 50% 50% 0 0/ 100% 100% 0 0;
+    background-color: $c-green;
+    position: relative;
+
+    margin-bottom: 8px;
+
+    &:hover{
+      .circle{
+        &.right{
+          background-color: $c-green;
+
+        }
+      }
+    }
+
+    &:after,&:before{
+      position: absolute;
+      content: "";
+      height: 40px;
+      width: 5px;
+      background-color: $c-green;
+      left: 35px;
+      top: -20px;
+      transform: rotate(-25deg);
+    }
+    &:before{
+      left: 100px;
+      transform: rotate(25deg);
+    }
+
+    .circle{
+      transition: background-color 1s ease;
+      position: absolute;
+      background-color: #fff;
+      width: 10px;
+      height: 10px;
+      display: block;
+      left: 35px;
+      top: 35px;
+      border-radius: 50%;
+      &.right{
+        right: 35px;
+        left: unset;
+      }
+    }
+  }
+  .body-android{
+    height: 110px;
+    width: 140px;
+    border-radius:0 0 20px 20px ;
+    background-color: $c-green;
+position: relative;
+    &:after,&:before{
+      position: absolute;
+      content: "";
+      height: 90px;
+      width: 25px;
+      background-color: $c-green;
+      top:0;
+      left: -35px;
+      border-radius:90px / 75px ;
+    }
+    &:before{
+      left: 150px;
+    }
+  }
+  .footer-android{
+      position: relative;
+    &:after,&:before{
+      position: absolute;
+      content: "";
+      height: 80px;
+      width: 25px;
+      background-color: $c-green;
+      top:-25px;
+      left: 25px;
+
+      border-radius: 0px 0px 90px 90px  /0px 0px 75px 75px ;
+
+    }
+    &:before{
+      left: 90px;
+    }
+  }
+}
+
+
+
+.smile{
+  height: 200px;
+  width: 200px;
+  background-color: #e2d239;
+  border-radius: 50%;
+  position: relative;
+  .circle{
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    left: 40px;
+    top: 50px;
+    &.two{
+      left: 120px;
+    }
+    &:after,&:before{
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: black;
+      top: 12px;
+    }
+  }
+
+  .past{
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+
+    width: 80px;
+    height: 5px;
+    background-color: black;
+    display: block;
+    &:after,&:before{
+      content: "";
+      width: 5px;
+      height: 17px;
+      position: absolute;
+      background-color: black;
+      top: -6px;
+    }
+    &:after{
+      right: 0;
+    }
+  }
+}
