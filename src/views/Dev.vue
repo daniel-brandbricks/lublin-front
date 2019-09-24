@@ -91,12 +91,14 @@
 
 
 
-      <b-col cols="6">
+      <b-col cols="12" lg="6">
         <template>
           <date-pick
             v-model="date"
             :hasInputElement="false"
           ></date-pick>
+          <!--todo добавить класс на ячейку с событием, и дописать ему стиля от .disablet-->
+          <!--todo убрать с header select-->
         </template>
       </b-col>
 
