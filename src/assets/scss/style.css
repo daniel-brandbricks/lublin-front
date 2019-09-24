@@ -62,7 +62,7 @@
   font-style: normal;
   font-weight: 600; }
 
-.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl .vdpPrevDirection, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, h1, h2,
+.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, h1, h2,
 .font-medium {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -453,19 +453,40 @@ html body .custom-radio .custom-control-label::after {
   height: 18px;
   background: unset; }
 
+.vdpComponent {
+  margin: 0 -10px; }
+
 .vdpOuterWrap .vdpInnerWrap {
   padding: 0;
   border: unset;
+  border-radius: unset;
   box-shadow: unset; }
   .vdpOuterWrap .vdpInnerWrap .vdpHeader {
     background: unset;
-    padding-bottom: 2em; }
-    .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl .vdpPrevDirection {
-      color: #000000;
+    padding-bottom: 2em;
+    margin: 0; }
+    .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl {
+      color: red;
       font-size: 20px;
       letter-spacing: 0.2px;
       line-height: 21px;
       text-align: center; }
+      @media (max-width: 575px) {
+        .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl {
+          font-size: 15px; } }
+      .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl button {
+        padding: 15px 10px; }
+    .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpArrow {
+      background: #b3b3b3; }
+      @media (max-width: 575px) {
+        .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpArrow {
+          width: 2.5em;
+          top: 15px;
+          bottom: 3em; } }
+      .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpArrow.vdpArrowPrev {
+        left: 10px; }
+      .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpArrow.vdpArrowNext {
+        right: 10px; }
   .vdpOuterWrap .vdpInnerWrap .vdpTable thead tr th.vdpHeadCell {
     padding-bottom: 10px;
     color: #b3b3b3;
@@ -473,11 +494,14 @@ html body .custom-radio .custom-control-label::after {
     .vdpOuterWrap .vdpInnerWrap .vdpTable thead tr th.vdpHeadCell span {
       color: inherit; }
   .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell {
-    padding: 10px;
+    padding: 5px;
     font-size: 20px;
     letter-spacing: 0.2px;
     line-height: 21px;
     text-align: center; }
+    @media (min-width: 576px) {
+      .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell {
+        padding: 10px; } }
     .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.selected .vdpCellContent, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell:hover .vdpCellContent {
       background-color: #FA1414;
       box-shadow: 5px 5px 0px 0px #fc8989;
@@ -493,7 +517,7 @@ html body .custom-radio .custom-control-label::after {
       border: 1px solid #d9d9d9; }
     .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell .vdpCellContent {
       border-radius: unset;
-      padding: 10px;
+      padding: 5px;
       font-size: 20px;
       letter-spacing: 0.2px;
       line-height: 21px;
@@ -502,6 +526,32 @@ html body .custom-radio .custom-control-label::after {
       width: unset;
       border: 1px solid #b3b3b3;
       color: gray; }
+      @media (min-width: 1200px) {
+        .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell .vdpCellContent {
+          padding: 15px; } }
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell .vdpCellContent {
+          padding: 25px; } }
+      @media (min-width: 576px) and (max-width: 765px) {
+        .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell .vdpCellContent {
+          padding: 10px; } }
+
+.custom.vue-treeselect {
+  /*----------------------------*/ }
+  .custom.vue-treeselect--focused .vue-treeselect__control {
+    box-shadow: none; }
+  .custom.vue-treeselect .vue-treeselect__control {
+    border: 1px solid #b3b3b3;
+    border-radius: unset;
+    padding: 0 10px 0 20px;
+    line-height: 40px;
+    height: 40px; }
+    .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder {
+      padding: 0 0;
+      line-height: 40px; }
+  .custom.vue-treeselect .vue-treeselect__menu-container .vue-treeselect__menu {
+    border: 1px solid #b3b3b3;
+    border-radius: unset; }
 
 .container-figure {
   overflow: hidden; }

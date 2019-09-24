@@ -103,7 +103,10 @@
       </b-col>
 
       <b-col cols="12">
-        <treeselect v-model="value" :multiple="true" :options="optionsTS" />
+        <treeselect v-model="value"
+                    :multiple="false"
+                    :options="optionsTS"
+                    class="custom" />
       </b-col>
 
       <b-col cols="12">
@@ -223,7 +226,7 @@
         // define options
         optionsTS: [ {
           id: 'a',
-          label: 'a',
+          label: 'first',
           children: [ {
             id: 'aa',
             label: 'aa',
@@ -233,10 +236,10 @@
           } ],
         }, {
           id: 'b',
-          label: 'b',
+          label: 'second',
         }, {
           id: 'c',
-          label: 'c',
+          label: 'third',
         } ],
       }
     }

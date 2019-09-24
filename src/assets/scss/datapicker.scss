@@ -1,28 +1,51 @@
+.vdpComponent {
+  margin: 0 -10px;
+}
+
 .vdpOuterWrap {
   .vdpInnerWrap {
     padding: 0;
     border: unset;
+    border-radius: unset;
     box-shadow: unset;
 
     .vdpHeader {
       background: unset;
       padding-bottom: 2em;
+      margin: 0;
       .vdpPeriodControls {
         .vdpPeriodControl {
-          .vdpPrevDirection {
+          @media(max-width: 575px){
+            font-size: 15px;
+          }
             @extend %font-medium;
-            color: $c-black;
+            color: red;
             font-size: 20px;
             letter-spacing: 0.2px;
             line-height: 21px;
             text-align: center;
+          button{
+            padding: 15px 10px;
+
           }
         }
       }
 
       .vdpArrow{
-        &.dpArrowPrev{}
-        &.vdpArrowNext{}
+        background: $c-black-30;
+        @media (max-width: 575px){
+          width: 2.5em;
+          top: 15px;
+          bottom: 3em;
+        }
+
+
+        &.vdpArrowPrev{
+          left: 10px;
+          }
+        &.vdpArrowNext{
+          right: 10px;
+        }
       }
     }
 
@@ -45,8 +68,11 @@
 
         .vdpRow {
           .vdpCell {
+            @media (min-width: 576px){
+              padding: 10px;
+            }
+            padding: 5px;
             @extend %font-medium;
-            padding: 10px;
             font-size: 20px;
             letter-spacing: 0.2px;
             line-height: 21px;
@@ -83,8 +109,19 @@
             }
 
             .vdpCellContent {
+              @media (min-width: 1200px){
+                padding: 15px;
+              }
+
+              @media (min-width: 768px)and (max-width: 1199px){
+                padding: 25px;
+
+              }
+              @media (min-width: 576px ) and (max-width: 765px){
+                padding: 10px;
+              }
               border-radius: unset;
-              padding: 10px;
+              padding: 5px;
               font-size: 20px;
               letter-spacing: 0.2px;
               line-height: 21px;

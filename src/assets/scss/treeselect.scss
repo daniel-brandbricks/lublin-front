@@ -1,0 +1,30 @@
+.custom.vue-treeselect {
+  &--focused {
+    .vue-treeselect__control {
+      box-shadow: none;
+    }
+  }
+  .vue-treeselect__control{
+    border: 1px solid $c-black-30;
+    border-radius: unset;
+    padding: 0 10px 0 20px;
+    line-height: 40px;
+    height: 40px;
+
+    .vue-treeselect__value-container{
+      .vue-treeselect__placeholder{
+        padding: 0 0;
+        line-height: 40px;
+      }
+    }
+    .vue-treeselect__control-arrow-container{}
+  }
+  /*----------------------------*/
+  .vue-treeselect__menu-container{
+    .vue-treeselect__menu{
+      border: 1px solid $c-black-30;
+      border-radius: unset;
+
+    }
+  }
+}
