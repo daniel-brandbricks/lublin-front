@@ -1,16 +1,18 @@
 <template>
-  <div class="d-flex container" id="wrapper" :class="{'toggled': showSidebar}">
+  <div class="d-flex" id="wrapper" :class="{'toggled': showSidebar}">
     <Sidebar></Sidebar>
 
-    <main class="px-5" id="page-content-wrapper">
+    <main class="" id="page-content-wrapper">
       <nav>
+        <!--todo Переделать-->
         <AdminNavbar></AdminNavbar>
       </nav>
 
-      <div class="h-100">
-        <perfect-scrollbar id="scrollbar" class="custom pt75 h-100">
-          <router-view/>
-        </perfect-scrollbar>
+      <div class="container-fluid">
+        <button class="btn btn-primary btn-sidebar-toggle" id="menu-toggle" @click="toggleSidebar">
+          <span class="icon-icon_arrow_24"></span>
+        </button>
+        <router-view/>
       </div>
     </main>
 
@@ -37,6 +39,12 @@ export default {
   data () {
     return {
       showSidebar: false
+    }
+  },
+  methods:{
+    toggleSidebar () {
+      console.log(111)
+      EventBus.$emit('TOGGLE_SIDEBAR')
     }
   },
   created () {

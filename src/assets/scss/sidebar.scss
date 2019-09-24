@@ -1,0 +1,36 @@
+#sidebar-wrapper{
+  max-height: 100vh;
+  //overflow-y:scroll;
+  //min-width: 260px;
+}
+
+.sidebar{
+  position: relative;
+  .list-group,.sidebar-footer{
+    .list-group-item{
+      font-size: 15px;
+      @extend %font-medium;
+      border: unset;
+      color: $c-black-30;
+      transition:all .5s ease ;
+      &:hover,&.action{
+        color: $c-black;
+        background-color: unset;
+      }
+
+     span.icon{
+        font-size: 1.5em;
+     }
+    }
+
+  }
+  .sidebar-footer{
+    border-top: 1px solid $c-black-30;
+    padding-top: 15px;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+  }
+}
+

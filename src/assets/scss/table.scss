@@ -1,0 +1,23 @@
+.custom.table-responsive{
+  border: 1px solid $c-black-30;
+  table{
+
+    thead{
+
+      tr{
+        text-align: center;
+        th{
+          border-bottom: unset;
+        }
+      }
+    }
+    tbody{
+      border-top: 2px solid $c-black-30;
+
+      tr{
+        td{
+        }
+      }
+    }
+  }
+}

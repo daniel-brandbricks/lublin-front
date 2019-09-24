@@ -5,7 +5,7 @@ import Router from 'vue-router'
 // modules
 import mainRouter from '@/router/_main'
 import adminRouter from '@/router/_admin'
-import { login, dev } from '@/router/_other'
+import { login, dev, my } from '@/router/_other'
 
 Vue.use(Router)
 
@@ -13,7 +13,8 @@ const routes = [
   mainRouter,
   adminRouter,
   login,
-  dev
+  dev,
+  my
 ]
 
 console.log(routes)

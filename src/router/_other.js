@@ -3,6 +3,7 @@
 // todo change
 import HelloWorld from '@/components/HelloWorld'
 import Dev from '@/views/Dev'
+import My from '@/views/My'
 
 const login = {
   path: '/login',
@@ -15,8 +16,14 @@ const dev = {
   name: 'dev',
   component: Dev
 }
+const my = {
+  path: '/my',
+  name: 'my',
+  component: My
+}
 
 export {
   login,
-  dev
+  dev,
+  my
 }
