@@ -66,7 +66,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import EventBus from '../event-bus'
 
 export default {
-  name: 'SchoolsAndClubsList',
+  name: 'SchoolAndClubListList',
   components: {Treeselect},
   data () {
     return {

@@ -148,7 +148,7 @@
 
   import EventBusEmit from '@/mixins/event-bus-emit'
 
-  import TabLinks from '../../components/main/TabLinks'
+  import TabLinks from '../../components/TabLinks'
   import EventBus from '@/event-bus'
 
   export default {
@@ -167,20 +167,20 @@
         districtValue: null,
         optionsTS: [{
           id: 'a',
-          label: 'a',
+          label: 'first',
           children: [{
             id: 'aa',
-            label: 'aa'
+            label: 'aa',
           }, {
             id: 'ab',
-            label: 'ab'
-          }]
+            label: 'ab',
+          }],
         }, {
           id: 'b',
-          label: 'b'
+          label: 'second',
         }, {
           id: 'c',
-          label: 'c'
+          label: 'third',
         }],
 
         // table

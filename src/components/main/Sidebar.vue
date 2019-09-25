@@ -30,7 +30,7 @@
             <span class="icon icon-icon_www"></span>
             obiekty sportowe (2,048)
           </b-link>
-          
+
           <b-link :to="{name:'sport.objects'}"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>

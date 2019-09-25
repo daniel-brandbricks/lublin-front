@@ -6,7 +6,9 @@
         <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
       </b-col>
       <b-col cols="2">
-        <b-link variant="primary" block class="nowrap btn btn-primary btn-block">Dodaj...</b-link>
+        <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink }">
+          Dodaj...
+        </b-link>
       </b-col>
     </b-row>
   </b-col>
