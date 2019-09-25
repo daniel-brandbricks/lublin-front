@@ -31,14 +31,21 @@
             obiekty sportowe (2,048)
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_play"></span>
+          <b-link :to="{name:'sport.objects'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_www"></span>
             Prowadzący (568)
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_discipline"></span>
+          </b-link>
+
+          <b-link :to="{name:'participant.groups'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_www"></span>
             Grupy zawodników (200)
-          </a>
+
+          </b-link>
+
+
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
             Zawodnicy (12,000)

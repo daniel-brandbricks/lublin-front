@@ -356,6 +356,12 @@
   width: 100%;
   height: auto; }
 
+/*icon-link*/
+.icon-link {
+  color: #b3b3b3; }
+  .icon-link:hover, .icon-link:active {
+    color: #000000; }
+
 html body .custom-checkbox .custom-control-label,
 html body .custom-radio .custom-control-label {
   font-weight: 400;
