@@ -7,6 +7,7 @@
   line-height: 14px;
   text-align: center;
   border-radius: unset;
+  margin-bottom: 1rem;
 
   &:hover, &:focus, &.focus {
     box-shadow: unset;
@@ -17,12 +18,6 @@
   }
 }
 
-
-/**/
-/**/
-
-/**/
-/**/
 .btn.btn-primary {
   color: $c-white;
   border: 1px solid $c-red-dark;
@@ -102,6 +97,7 @@
     padding: 0 20px;
     line-height: 40px;
     height: 40px;
+    margin-bottom: 1rem;
 &:focus,&:active{
   box-shadow: unset;
 }
@@ -240,6 +236,15 @@ $padding-card:16px;
   }
   &.active{
     background: $c-green;
+  }
+
+}
+
+/*wrap-img-input ++++++++++++++++++*/
+.wrap-img-input{
+  img{
+    width: 100%;
+    height: auto;
   }
 
 }

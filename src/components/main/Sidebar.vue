@@ -7,31 +7,103 @@
         <img src="/static/img/logo.svg" alt="">
       </div>
       <div class="list-group list-group-flush">
+        <perfect-scrollbar id="scrollbar" class="custom ps-sidebar">
 
-        <a href="#" class="list-group-item list-group-item-action">
-          <span class="icon icon-icon_discipline"></span>
-          Dashboard
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <span class="icon icon-iconm_search"></span>
-          Shortcuts
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <span class="icon icon-icon_arrow_24"></span>
-          Overview
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <span class="icon icon-icon_www"></span>
-          Events
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <span class="icon icon-icon_play"></span>
-          Profile
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <span class="icon icon-icon_discipline"></span>
-          Status
-        </a>
+          <b-link :to="{name:'dev'}"
+                  active-class="active"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
+            dashboard
+          </b-link>
+          <b-link :to="{name:'www'}"
+                  class="list-group-item">
+            <span class="icon icon-iconm_search"></span>
+            Strona www
+          </b-link>
+
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_arrow_24"></span>
+            kłuby i szkoły (1,024)
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_www"></span>
+            obiekty sportowe (2,048)
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_play"></span>
+            Prowadzący (568)
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Grupy zawodników (200)
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Zawodnicy (12,000)
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Zajęcia (4,000)
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Kalendarz
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Frekwencja
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            MTSF
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Wydarzenia
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-iconm_search"></span>
+            Raporty
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_arrow_24"></span>
+            Słownik
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_www"></span>
+            Historia
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_play"></span>
+            współadministratorzy
+          </a>
+
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            MTSF
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_discipline"></span>
+            Wydarzenia
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-iconm_search"></span>
+            Raporty
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_arrow_24"></span>
+            Słownik
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_www"></span>
+            Historia
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_play"></span>
+            współadministratorzy
+          </a>
+        </perfect-scrollbar>
+
       </div>
       <footer class="sidebar-footer">
         <a href="#" class="list-group-item text-center ">
@@ -59,5 +131,6 @@
   }
 </script>
 
-<style scoped>
+<style>
+
 </style>

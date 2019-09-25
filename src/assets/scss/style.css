@@ -62,7 +62,7 @@
   font-style: normal;
   font-weight: 600; }
 
-.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, h2,
+.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .tab-link-list .tab-link-item, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, h2,
 .font-medium {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -178,16 +178,13 @@
   letter-spacing: 0.3px;
   line-height: 14px;
   text-align: center;
-  border-radius: unset; }
+  border-radius: unset;
+  margin-bottom: 1rem; }
   .btn:hover, .btn:focus, .btn.focus {
     box-shadow: unset; }
   .btn.disabled, .btn:disabled {
     opacity: 0.5; }
 
-/**/
-/**/
-/**/
-/**/
 .btn.btn-primary {
   color: #fff;
   border: 1px solid #fc8989;
@@ -238,7 +235,8 @@
     border-radius: unset;
     padding: 0 20px;
     line-height: 40px;
-    height: 40px; }
+    height: 40px;
+    margin-bottom: 1rem; }
     .form-group.custom .form-control.custom:focus, .form-group.custom .form-control.custom:active,
     .form-group.custom .form-control-plaintext:focus,
     .form-group.custom .form-control-plaintext:active,
@@ -352,6 +350,11 @@
     background: #fc8989; }
   .status.active {
     background: #73BE46; }
+
+/*wrap-img-input ++++++++++++++++++*/
+.wrap-img-input img {
+  width: 100%;
+  height: auto; }
 
 html body .custom-checkbox .custom-control-label,
 html body .custom-radio .custom-control-label {
@@ -688,6 +691,18 @@ html body .custom-radio .custom-control-label::after {
   .custom.table-responsive table tbody {
     border-top: 2px solid #b3b3b3; }
 
+.tab-link-list .tab-link-item {
+  border: unset;
+  font-size: 20px;
+  color: #b3b3b3;
+  border-right: 2px solid #b3b3b3;
+  padding-right: 10px;
+  margin-right: 10px; }
+  .tab-link-list .tab-link-item:hover, .tab-link-list .tab-link-item.active {
+    color: #000000; }
+  .tab-link-list .tab-link-item:last-child {
+    border: unset; }
+
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
  * Copyright 2013-2019 Start Bootstrap
@@ -730,14 +745,27 @@ body {
 #sidebar-wrapper {
   max-height: 100vh; }
 
+.ps-sidebar {
+  height: calc(100vh - 170px); }
+
+.ps-content {
+  height: calc( 100vh - 65px); }
+  .ps-content .ps__rail-x {
+    display: none; }
+
 .sidebar {
   position: relative; }
   .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item {
     font-size: 15px;
     border: unset;
     color: #b3b3b3;
-    transition: all 0.5s ease; }
-    .sidebar .list-group .list-group-item:hover, .sidebar .list-group .list-group-item.action, .sidebar .sidebar-footer .list-group-item:hover, .sidebar .sidebar-footer .list-group-item.action {
+    -webkit-transition: unset;
+    -moz-transition: unset;
+    -ms-transition: unset;
+    -o-transition: unset;
+    transition: unset;
+    transition: color 0.5s ease; }
+    .sidebar .list-group .list-group-item:hover, .sidebar .list-group .list-group-item.active, .sidebar .sidebar-footer .list-group-item:hover, .sidebar .sidebar-footer .list-group-item.active {
       color: #000000;
       background-color: unset; }
     .sidebar .list-group .list-group-item span.icon, .sidebar .sidebar-footer .list-group-item span.icon {

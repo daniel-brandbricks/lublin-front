@@ -6,6 +6,7 @@ import TestContent from '@/views/TestContent'
 
 // official
 import SchoolsAndClubsList from '@/views/SchoolsAndClubsList'
+import Www from '@/views/www/Www'
 
 const adminRouter = {
   path: '/admin',
@@ -33,6 +34,11 @@ const adminRouter = {
       path: 'schools-and-clubs',
       name: 'schools.and.clubs',
       component: SchoolsAndClubsList
+    },
+    {
+      path: 'www',
+      name: 'www',
+      component: Www
     }
   ]
 }

@@ -1,0 +1,17 @@
+.tab-link-list{
+  .tab-link-item{
+    @extend %font-medium;
+    border: unset;
+    font-size: 20px;
+    color: $c-black-30;
+    border-right: 2px solid $c-black-30;
+    padding-right: 10px;
+    margin-right: 10px;
+    &:hover,&.active{
+      color: $c-black;
+    }
+    &:last-child{
+      border: unset;
+    }
+  }
+}

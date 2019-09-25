@@ -6,7 +6,7 @@
 
     <main>
       <div class="content-wrap">
-        <perfect-scrollbar id="scrollbar" class="custom pt75">
+        <perfect-scrollbar id="scrollbar" class="custom">
           <router-view/>
         </perfect-scrollbar>
       </div>
