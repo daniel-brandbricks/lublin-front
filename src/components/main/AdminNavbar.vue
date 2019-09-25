@@ -6,7 +6,10 @@
         <b-breadcrumb :items="items"></b-breadcrumb>
       </b-col>
       <b-col cols="2">
-        <b-btn variant="primary" block class="nowrap">Dodaj...</b-btn>
+        <b-link class="btn btn-primary w-100" :to="{ name: buttonLink }">
+          Dodaj...
+        </b-link>
+<!--        <router-link class="btn btn-primary" :to="{ name: buttonLink }">Dodaj...</router-link>-->
       </b-col>
     </b-row>
   </b-col>

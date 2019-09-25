@@ -21,9 +21,22 @@
 </template>
 
 <script>
-  export default {
-    name: 'TabLinks'
+import EventBus from '@/event-bus'
+
+export default {
+  name: 'TabLinks',
+  data () {
+    return {
+    }
+  },
+  computed: {},
+  methods: {},
+  created () {
+    EventBus.$on('CHANGE_TABS', (params) => {
+      console.log(params)
+    })
   }
+}
 </script>
 
 <style scoped>

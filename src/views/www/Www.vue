@@ -143,7 +143,7 @@
 
   import DatePick from 'vue-date-pick';
   import 'vue-date-pick/dist/vueDatePick.css';
-  import TabLinks from '../../components/main/TabLinks'
+  import TabLinks from '../../components/TabLinks'
 
 
   export default {

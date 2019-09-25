@@ -6,8 +6,9 @@ import TestContent from '@/views/TestContent'
 
 // official
 import Www from '@/views/www/Www'
-import SchoolsAndClubs from '@/views/schools-and-clubs/SchoolsAndClubs'
+import SchoolAndClubList from '@/views/schools-and-clubs/SchoolAndClubList'
 import SportObjects from '@/views/sport-objects/SportObjects'
+import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
 
 const adminRouter = {
   path: '/admin',
@@ -41,12 +42,12 @@ const adminRouter = {
     {
       path: 'schools-and-clubs',
       name: 'schools.and.clubs',
-      component: SchoolsAndClubs
+      component: SchoolAndClubList
     },
     {
       path: 'school-or-club',
       name: 'school.or.club',
-      component: SchoolsAndClubs
+      component: SchoolAndClubForm
     },
 
     // Sport Objects

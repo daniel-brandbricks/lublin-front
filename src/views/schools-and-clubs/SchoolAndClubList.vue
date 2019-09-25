@@ -69,7 +69,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 import EventBusEmit from '@/mixins/event-bus-emit'
 
-import TabLinks from '../../components/main/TabLinks'
+import TabLinks from '../../components/TabLinks'
 import EventBus from '@/event-bus'
 
 export default {
@@ -124,7 +124,7 @@ export default {
   methods: {},
   created () {
     /**
-     * @buttonLink route name
+     * @buttonLink - route name
      */
     this.changeAdminNavbarButton({ buttonLink: 'school.or.club' })
     this.changeAdminNavbarBreadcrumbs()
