@@ -684,12 +684,23 @@ html body .custom-radio .custom-control-label::after {
 
 .custom.table-responsive {
   border: 1px solid #b3b3b3; }
-  .custom.table-responsive table thead tr {
-    text-align: center; }
-    .custom.table-responsive table thead tr th {
-      border-bottom: unset; }
+  .custom.table-responsive table thead {
+    font-size: 13px; }
+    .custom.table-responsive table thead tr {
+      text-align: center; }
+      .custom.table-responsive table thead tr th[aria-sort]::before {
+        float: unset;
+        padding-right: .5rem; }
+      .custom.table-responsive table thead tr th {
+        text-align: left;
+        white-space: nowrap;
+        padding: 15px 0;
+        border-bottom: unset; }
   .custom.table-responsive table tbody {
     border-top: 2px solid #b3b3b3; }
+    .custom.table-responsive table tbody tr td {
+      vertical-align: middle;
+      text-align: center; }
 
 .tab-link-list .tab-link-item {
   border: unset;
