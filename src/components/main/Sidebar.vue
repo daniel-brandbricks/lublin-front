@@ -20,15 +20,17 @@
             <span class="icon icon-iconm_search"></span>
             Strona www
           </b-link>
-
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_arrow_24"></span>
+          <b-link :to="{name:'schools.and.clubs'}"
+                  class="list-group-item">
+            <span class="icon icon-iconm_search"></span>
             kłuby i szkoły (1,024)
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          </b-link>
+          <b-link :to="{name:'sport.objects'}"
+                  class="list-group-item">
             <span class="icon icon-icon_www"></span>
             obiekty sportowe (2,048)
-          </a>
+          </b-link>
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_play"></span>
             Prowadzący (568)
