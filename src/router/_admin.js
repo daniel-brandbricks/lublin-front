@@ -8,6 +8,7 @@ import TestContent from '@/views/TestContent'
 import Www from '@/views/www/Www'
 import SchoolsAndClubs from '@/views/schools-and-clubs/SchoolsAndClubs'
 import SportObjects from '@/views/sport-objects/SportObjects'
+import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 
 const adminRouter = {
   path: '/admin',
@@ -54,6 +55,12 @@ const adminRouter = {
       path: 'sport-objects',
       name: 'sport.objects',
       component: SportObjects
+    },
+    // Participant Groups
+    {
+      path: 'participant-groups',
+      name: 'participant.groups',
+      component: ParticipantGroups
     },
   ]
 }

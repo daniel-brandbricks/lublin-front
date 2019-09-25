@@ -248,3 +248,10 @@ $padding-card:16px;
   }
 
 }
+/*icon-link*/
+.icon-link{
+  color: $c-black-30;
+  &:hover,&:active{
+    color: $c-black;
+  }
+}
