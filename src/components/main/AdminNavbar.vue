@@ -49,7 +49,7 @@ export default {
       }
       console.log(params)
     })
-    EventBus.$on('CHANGE_BREADCRUMBS', (params) => {
+    EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
       // todo
       console.log(params)
     })

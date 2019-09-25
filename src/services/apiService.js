@@ -78,7 +78,6 @@ export function configAuthHeader () {
 
 let addAuthHeader = false
 
-console.log('POPALO')
 axios.interceptors.request.use((config) => {
   console.log(config)
   if (addAuthHeader && store.getters.isLoggedIn) {

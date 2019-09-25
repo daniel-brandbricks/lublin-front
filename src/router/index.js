@@ -17,8 +17,6 @@ const routes = [
   my
 ]
 
-console.log(routes)
-
 const router = new Router({routes, mode: 'history'})
 
 router.beforeEach((to, from, next) => {
@@ -29,7 +27,6 @@ router.beforeEach((to, from, next) => {
     next('/login');
   }
 
-  console.log('before each route')
   next()
 })
 

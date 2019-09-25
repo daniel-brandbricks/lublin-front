@@ -54,8 +54,6 @@
       }
     },
     created () {
-      console.log('Admin template created')
-
       EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
         console.log(111222)
         this.showSidebar = !this.showSidebar

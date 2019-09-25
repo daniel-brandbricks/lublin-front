@@ -57,6 +57,5 @@ new Vue({
   components: {App},
   template: '<App/>',
   created () {
-    console.log('MAIN CREATED')
   }
 })

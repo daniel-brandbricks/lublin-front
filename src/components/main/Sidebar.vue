@@ -140,7 +140,6 @@ export default {
   },
   watch: {},
   created () {
-    console.log('sidebar created')
   }
 }
 </script>
