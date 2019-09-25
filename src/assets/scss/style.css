@@ -46,7 +46,7 @@
 .form-group.custom .form-control.custom,
 .form-group.custom .form-control-plaintext,
 .form-group.custom .custom-select,
-.form-group.custom .custom-file, .card.custom .card-body p, .info-box,
+.form-group.custom .custom-file, .card.custom .card-body p, .info-box, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -62,7 +62,7 @@
   font-style: normal;
   font-weight: 600; }
 
-.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .tab-link-list .tab-link-item, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, h2,
+.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .custom.table-responsive table thead tr, .tab-link-list .tab-link-item, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcrumb-item,
 .font-medium {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -75,7 +75,7 @@
 
 .btn,
 .font-bold {
-  font-family: 'Barlow',sans-serif;
+  font-family: 'Klavika',sans-serif;
   font-style: normal;
   font-weight: 700; }
 
@@ -714,6 +714,26 @@ html body .custom-radio .custom-control-label::after {
   .tab-link-list .tab-link-item:last-child {
     border: unset; }
 
+.breadcrumb.custom {
+  background-color: unset;
+  vertical-align: middle;
+  padding: 0; }
+  .breadcrumb.custom .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    color: #b3b3b3; }
+    .breadcrumb.custom .breadcrumb-item:before {
+      content: none; }
+    .breadcrumb.custom .breadcrumb-item:after {
+      padding-left: .5rem;
+      content: "/"; }
+    .breadcrumb.custom .breadcrumb-item:last-child:after {
+      content: none; }
+    .breadcrumb.custom .breadcrumb-item a {
+      color: inherit; }
+    .breadcrumb.custom .breadcrumb-item.active {
+      color: #000000; }
+
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
  * Copyright 2013-2019 Start Bootstrap
@@ -803,12 +823,12 @@ body {
 .Cc {
   border: 1px solid red; }
 
-h1 {
+h1, .breadcrumb.custom .breadcrumb-item.active {
   font-size: 40px;
   letter-spacing: 1px;
   line-height: 48px; }
 
-h2 {
+h2, .breadcrumb.custom .breadcrumb-item {
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 0.2px; }

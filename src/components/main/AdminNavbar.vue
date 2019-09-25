@@ -3,13 +3,12 @@
   <b-col cols="12" class="mt-2">
     <b-row>
       <b-col>
-        <b-breadcrumb :items="items"></b-breadcrumb>
+        <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
       </b-col>
       <b-col cols="2">
-        <b-link class="btn btn-primary w-100" :to="{ name: buttonLink }">
+        <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink }">
           Dodaj...
         </b-link>
-<!--        <router-link class="btn btn-primary" :to="{ name: buttonLink }">Dodaj...</router-link>-->
       </b-col>
     </b-row>
   </b-col>
