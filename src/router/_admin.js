@@ -31,18 +31,25 @@ const adminRouter = {
     },
 
     // official
-
     {
       path: 'www',
       name: 'www',
       component: Www
     },
+
+    // Schools And Clubs
     {
       path: 'schools-and-clubs',
       name: 'schools.and.clubs',
       component: SchoolsAndClubs
     },
+    {
+      path: 'school-or-club',
+      name: 'school.or.club',
+      component: SchoolsAndClubs
+    },
 
+    // Sport Objects
     {
       path: 'sport-objects',
       name: 'sport.objects',

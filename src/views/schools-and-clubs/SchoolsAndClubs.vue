@@ -49,7 +49,6 @@
               <span>club/szkola</span>
             </div>
 
-
           </template>
           <template slot="status" slot-scope="scope">
             2
@@ -63,15 +62,19 @@
 </template>
 
 <script>
-  // import the component
-  import Treeselect from '@riophae/vue-treeselect'
-  // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import TabLinks from '../../components/main/TabLinks'
+import EventBusEmit from '@/mixins/event-bus-emit'
+
+import TabLinks from '../../components/main/TabLinks'
+import EventBus from '@/event-bus'
 
 export default {
-  components: {TabLinks, Treeselect },
+  components: { TabLinks, Treeselect },
+  mixins: [ EventBusEmit ],
   data () {
     return {
       // checkboxes
@@ -103,19 +106,28 @@ export default {
 
       // table
       fields: [
-        { key: 'type', label:'Typ', sortable: true},
-        { key: 'name', label:'Nazwa', sortable: true },
-        { key: 'object',label:'Obiekty sportowe', sortable: true },
-        { key: 'email',label:'E-mail', sortable: true },
-        { key: 'status',label:'status w systemie', sortable: true },
-        { key: 'edit',label:''}
+        { key: 'type', label: 'Typ', sortable: true},
+        { key: 'name', label: 'Nazwa', sortable: true },
+        { key: 'object', label: 'Obiekty sportowe', sortable: true },
+        { key: 'email', label: 'E-mail', sortable: true },
+        { key: 'status', label: 'status w systemie', sortable: true },
+        { key: 'edit', label: ''}
       ],
       items: [
-        { type: 'type',name: 'name', object: 'object', email: 'email@email.com', status:'status', edit:'2' },
-        { type: 'type', name: 'name', object: 'object', email: 'email@email.com', status:'status', edit:'2' },
-        { type: 'type', name: 'name', object: 'object', email: 'email@email.com', status:'status', edit:'2' }
+        { type: 'type', name: 'name', object: 'object', email: 'email@email.com', status: 'status', edit: '2' },
+        { type: 'type', name: 'name', object: 'object', email: 'email@email.com', status: 'status', edit: '2' },
+        { type: 'type', name: 'name', object: 'object', email: 'email@email.com', status: 'status', edit: '2' }
       ]
     }
+  },
+  computed: {},
+  methods: {},
+  created () {
+    /**
+     * @buttonLink route name
+     */
+    this.changeAdminNavbarButton({ buttonLink: 'school.or.club' })
+    this.changeAdminNavbarBreadcrumbs()
   }
 }
 </script>

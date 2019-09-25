@@ -1,9 +1,9 @@
 <template>
   <!--todo Переделать  хреново ломается -->
   <b-col cols="12" class="mt-2">
-    <b-row >
+    <b-row>
       <b-col>
-        <h1 class="">Lorem ipsum.</h1>
+        <b-breadcrumb :items="items"></b-breadcrumb>
       </b-col>
       <b-col cols="2">
         <b-btn variant="primary" block class="nowrap">Dodaj...</b-btn>
@@ -13,8 +13,45 @@
 </template>
 
 <script>
+import EventBus from '@/event-bus'
+
 export default {
-  name: 'AdminNavbar'
+  name: 'AdminNavbar',
+  data () {
+    return {
+      buttonLink: '#',
+
+      // breadcrumb
+      items: [
+        {
+          text: 'Admin',
+          href: '#'
+        },
+        {
+          text: 'Manage',
+          href: '#'
+        },
+        {
+          text: 'Library',
+          active: true
+        }
+      ]
+    }
+  },
+  computed: {},
+  methods: {},
+  created () {
+    EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
+      if (params.buttonLink) {
+        this.buttonLink = params.buttonLink
+      }
+      console.log(params)
+    })
+    EventBus.$on('CHANGE_BREADCRUMBS', (params) => {
+      // todo
+      console.log(params)
+    })
+  }
 }
 </script>
 
