@@ -1,0 +1,33 @@
+.breadcrumb.custom {
+  background-color: unset;
+  vertical-align: middle;
+  padding: 0;
+
+  .breadcrumb-item {
+    @extend %h2;
+    display: flex;
+    align-items: center;
+    color: $c-black-30;
+    &:before{
+      content: none;
+    }
+    &:after{
+      padding-left: .5rem;
+      content: "/";
+    }
+    &:last-child{
+      &:after{
+        content: none;
+      }
+    }
+
+    a {
+      color: inherit;
+    }
+
+    &.active {
+      @extend %h1;
+      color: $c-black;
+    }
+  }
+}

@@ -5,6 +5,7 @@
     }
   }
   .vue-treeselect__control{
+    @extend %font-regular;
     border: 1px solid $c-black-30;
     border-radius: unset;
     padding: 0 10px 0 20px;
@@ -13,6 +14,7 @@
 
     .vue-treeselect__value-container{
       .vue-treeselect__placeholder{
+        @extend %font-regular;
         padding: 0 0;
         line-height: 40px;
       }

@@ -3,10 +3,10 @@
   <b-col cols="12" class="mt-2">
     <b-row>
       <b-col>
-        <b-breadcrumb :items="items"></b-breadcrumb>
+        <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
       </b-col>
       <b-col cols="2">
-        <b-btn variant="primary" block class="nowrap">Dodaj...</b-btn>
+        <b-link variant="primary" block class="nowrap btn btn-primary btn-block">Dodaj...</b-link>
       </b-col>
     </b-row>
   </b-col>

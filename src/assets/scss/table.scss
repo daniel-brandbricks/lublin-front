@@ -7,7 +7,9 @@
       font-size: 13px;
 
       tr {
+        @extend %font-medium;
         text-align: center;
+
         th[aria-sort]::before{
           float: unset;
           padding-right: .5rem;
@@ -27,6 +29,7 @@
       border-top: 2px solid $c-black-30;
 
       tr {
+        @extend %font-regular;
         td {
           vertical-align: middle;
           text-align: center;
