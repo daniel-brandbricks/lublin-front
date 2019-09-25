@@ -106,7 +106,8 @@
 
       </div>
       <footer class="sidebar-footer">
-        <a href="#" class="list-group-item text-center ">
+        <a href="#" class="list-group-item text-center"
+           @click.prevent="logout">
           <span class="icon icon-icon_discipline"></span>
           Wylogui
         </a>
@@ -118,17 +119,28 @@
 
 <script>
 
-  export default {
-    name: 'Sidebar',
-    data () {
-      return {}
-    },
-    methods: {},
-    watch: {},
-    created () {
-      console.log('sidebar created')
+export default {
+  name: 'Sidebar',
+  data () {
+    return {}
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+        .then((response) => {
+          this.$router.push({name: 'login'})
+        })
+        .catch((error) => {
+          console.log(error)
+          // todo error handle
+        })
     }
+  },
+  watch: {},
+  created () {
+    console.log('sidebar created')
   }
+}
 </script>
 
 <style>

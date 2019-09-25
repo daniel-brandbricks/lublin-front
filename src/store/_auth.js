@@ -16,7 +16,7 @@ let prefix = BASE_API_URL
 export default {
   state: {
     authToken: generateToken(),
-    user: null
+    authUser: null
   },
   getters: {
     authToken (state) {
@@ -28,8 +28,8 @@ export default {
       }
       return false
     },
-    user (state) {
-      return state.user
+    authUser (state) {
+      return state.authUser
     }
   },
   mutations: {
@@ -41,8 +41,8 @@ export default {
       localStorage.setItem('authToken', '')
       state.authToken = null
     },
-    setUser (state, data) {
-      state.user = data
+    setAuthUser (state, data) {
+      state.authUser = data
     }
   },
   actions: {
@@ -86,7 +86,7 @@ export default {
             }
 
             context.commit('destroyAuthToken')
-            context.commit('setUser', null)
+            context.commit('setAuthUser', null)
             resolve()
           })
           .catch(error => {
@@ -104,7 +104,7 @@ export default {
               return
             }
 
-            context.commit('setUser', response)
+            context.commit('setAuthUser', response)
             resolve(response)
           })
           .catch(error => {
@@ -115,16 +115,16 @@ export default {
     },
     updateUserData (context, data) {
       return new Promise((resolve, reject) => {
-        /* let user = data
-         context.commit('setUser', user)
-         resolve(user) */
+        /* let authUser = data
+         context.commit('setAuthUser', authUser)
+         resolve(authUser) */
         apiService.makeApiCall(prefix + 'user/data', 'put', true, data, null, 200, ['user', 'token'])
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
-            context.commit('setUser', data)
+            context.commit('setAuthUser', data)
             resolve(response)
           })
           .catch(error => {
@@ -164,7 +164,7 @@ export default {
               resolve('error')
               return
             }
-            // context.commit('setUser', response.user)
+            // context.commit('setAuthUser', response.user)
             resolve(response)
           })
           .catch(error => {

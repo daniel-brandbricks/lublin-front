@@ -1,85 +1,42 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <b-button v-b-modal.modal-login>Login</b-button>
+
+    <b-modal
+      id="modal-login"
+      ref="modal-login"
+      title="Logowanie"
+      size="sm"
+      hide-footer
+      @show="resetModal"
+      @hidden="resetModal">
+      <b-form ref="form" @submit.prevent="login">
+        <b-form-group
+          label-for="name-input">
+          <b-form-input
+            id="name-input"
+            type="email"
+            required
+            placeholder="E-mail"
+            v-model="email"></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          label-for="name-input">
+          <b-form-input
+            id="name-input"
+            type="password"
+            placeholder="Hasło"
+            required
+            v-model="password"></b-form-input>
+        </b-form-group>
+
+        <b-btn type="submit" block class="mt-4">
+          Zaloguj się
+        </b-btn>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -88,7 +45,51 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      email: '',
+      password: '',
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods: {
+    resetModal () {
+      this.email = ''
+      this.password = ''
+    },
+    validateEmail (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email)
+        .toLowerCase())
+    },
+    login () {
+      if (this.email === '') {
+        this.emptyEmail = false
+        return false
+      }
+      if (this.password.length < 6) {
+        this.passwordSimilarity = false
+        return false
+      }
+
+      if (!this.validateEmail(this.email)) {
+        this.$bvToast.toast('Niepoprawny format adresu e-mail', {
+          title: 'Uwaga!',
+          toaster: 'b-toaster-bottom-full',
+          solid: true,
+          variant: 'danger'
+        })
+
+        return false
+      }
+
+      let data = {email: this.email, password: this.password}
+      this.$store.dispatch('login', data)
+        .then((response) => {
+          console.log(response)
+          this.$router.push({ name: 'test.content' })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }

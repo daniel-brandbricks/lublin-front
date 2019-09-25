@@ -33,6 +33,10 @@
       </div>
     </nav>
 
+    <b-button @click="showDeleteModal">
+      DELETE MODAL
+    </b-button>
+
     <div class="container-fluid">
       <h1 class="mt-4">Simple Sidebar</h1>
       <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on
@@ -57,6 +61,9 @@ export default {
     toggleSidebar () {
       console.log(111)
       EventBus.$emit('TOGGLE_SIDEBAR')
+    },
+    showDeleteModal () {
+      EventBus.$emit('SHOW_CONFIRM_DELETE_MODAL')
     }
   },
   created () {
