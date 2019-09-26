@@ -5,7 +5,7 @@
       <b-col>
         <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="2" v-if="buttonLink">
         <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink }">
           Dodaj...
         </b-link>
@@ -44,9 +44,7 @@ export default {
   methods: {},
   created () {
     EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
-      if (params.buttonLink) {
-        this.buttonLink = params.buttonLink
-      }
+      this.buttonLink = params.buttonLink
     })
     EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
       // todo

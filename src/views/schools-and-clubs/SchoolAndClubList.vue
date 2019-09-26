@@ -103,7 +103,11 @@ export default {
   computed: {},
   methods: {},
   created () {
-    /** @buttonLink route name */
+    if (this.$route.params.tab === undefined) {
+      this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
+    }
+
+    /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: 'school.or.club'})
     this.changeAdminNavbarBreadcrumbs()
   }

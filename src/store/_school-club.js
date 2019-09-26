@@ -28,6 +28,9 @@ export default {
     },
     setSchool (state, data) {
       state.school = data
+    },
+    deleteSchool (state, data) {
+      // todo
     }
   },
   actions: {
@@ -98,6 +101,25 @@ export default {
             }
 
             context.commit('setSchool', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deleteSchool (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/school/' + id, 'delete', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('deleteSchool', response)
             resolve()
           })
           .catch(error => {
