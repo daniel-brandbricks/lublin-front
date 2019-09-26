@@ -47,11 +47,9 @@ export default {
       if (params.buttonLink) {
         this.buttonLink = params.buttonLink
       }
-      console.log(params)
     })
     EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
       // todo
-      console.log(params)
     })
   }
 }

@@ -1,10 +1,10 @@
 <template>
   <div class="tab-link-list mb-4">
-    <b-link v-for="(link,index) in links" :key="index"
-            :to="{name:'www'}"
+    <b-link v-for="(item,index) in links" :key="index"
+            :to="{ name: item.link, params: { tab: item.tab } }"
             active-class="active"
             class="tab-link-item">
-      {{ link.title }}
+      {{ item.title }}
     </b-link>
   </div>
 </template>
@@ -19,7 +19,6 @@ export default {
   computed: {},
   methods: {},
   created () {
-    console.log(this.links)
   }
 }
 </script>

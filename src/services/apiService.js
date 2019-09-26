@@ -79,10 +79,7 @@ export function configAuthHeader () {
 let addAuthHeader = false
 
 axios.interceptors.request.use((config) => {
-  console.log(config)
   if (addAuthHeader && store.getters.isLoggedIn) {
-    console.log(store.state.authModule.authToken)
-    console.log(store.state)
     config.headers['X-AUTH-Token'] = store.state.authModule.authToken
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
   }

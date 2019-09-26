@@ -240,7 +240,6 @@ export default {
 
           let school = this.school
           school.image = this.mixinImage
-          console.log(school)
 
           const method = this.id === undefined ? 'postSchool' : 'putSchool'
           this.$store.dispatch(method, school)

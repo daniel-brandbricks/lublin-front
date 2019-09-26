@@ -54,7 +54,6 @@ export default {
     },
     login (context, data) {
       return new Promise((resolve, reject) => {
-        console.log(data)
         apiService.makeApiCall('login/', 'post', false, data, null, 200)
           .then(response => {
             if (response === 'error') {

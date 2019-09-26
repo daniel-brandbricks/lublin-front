@@ -2,20 +2,29 @@ import * as apiService from '@/services/apiService'
 
 export default {
   state: {
-    schools: [],
+    schools: {
+      confirmed: [],
+      toConfirm: []
+    },
     school: null
   },
   getters: {
-    schools (state) {
-      return state.schools
+    schoolsConfirmed (state) {
+      return state.schools.confirmed
+    },
+    schoolsToConfirm (state) {
+      return state.schools.toConfirm
     },
     school (state) {
-      return state.schools
+      return state.school
     }
   },
   mutations: {
-    setSchools (state, data) {
-      state.schools = data.schools
+    setConfirmedSchools (state, data) {
+      state.schools.confirmed = data
+    },
+    setSchoolsToConfirm (state, data) {
+      state.schools.toConfirm = data
     },
     setSchool (state, data) {
       state.school = data
@@ -43,14 +52,14 @@ export default {
     },
     getSchools (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/school', 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/school', 'get', true, data, data, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSchools', response)
+            data.confirmed === 1 ? context.commit('setConfirmedSchools', response) : context.commit('setSchoolsToConfirm', response)
             resolve()
           })
           .catch(error => {
@@ -60,6 +69,7 @@ export default {
       })
     },
     postSchool (context, data) {
+      console.log(data)
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/school', 'post', true, data, null, 200)
           .then(response => {

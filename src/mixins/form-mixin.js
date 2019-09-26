@@ -29,7 +29,6 @@ export default {
     },
     postSubmitError (error) {
       this.loading = false
-      console.log(error)
 
       // todo change
       if (!error.hasOwnProperty('data') || !error.data.hasOwnProperty('validationErrors')) {
