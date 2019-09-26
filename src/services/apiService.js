@@ -84,6 +84,7 @@ axios.interceptors.request.use((config) => {
     console.log(store.state.authModule.authToken)
     console.log(store.state)
     config.headers['X-AUTH-Token'] = store.state.authModule.authToken
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
   }
   return config
 }, function (err) {

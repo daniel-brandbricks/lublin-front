@@ -49,13 +49,11 @@
     },
     methods: {
       toggleSidebar () {
-        console.log(111)
         EventBus.$emit('TOGGLE_SIDEBAR')
       }
     },
     created () {
       EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
-        console.log(111222)
         this.showSidebar = !this.showSidebar
       })
     }
