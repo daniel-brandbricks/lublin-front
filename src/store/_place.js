@@ -2,37 +2,37 @@ import * as apiService from '@/services/apiService'
 
 export default {
   state: {
-    schools: [],
-    school: null
+    places: [],
+    place: null
   },
   getters: {
-    schools (state) {
-      return state.schools
+    places (state) {
+      return state.places
     },
-    school (state) {
-      return state.school
+    place (state) {
+      return state.place
     }
   },
   mutations: {
-    setSchools (state, data) {
-      state.schools = data.schools
+    setEPlaces (state, data) {
+      state.places = data.places
     },
-    setSchool (state, data) {
-      state.school = data
+    setPlaces (state, data) {
+      state.place = data
     }
   },
   actions: {
-    getSchool (context, data) {
+    getPlace (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/school/' + id, 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/place/' + id, 'get', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSchool', response)
+            context.commit('setPlace', response)
             resolve()
           })
           .catch(error => {
@@ -41,16 +41,16 @@ export default {
           })
       })
     },
-    getSchools (context, data) {
+    getPlaces (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/school', 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/place', 'get', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSchools', response)
+            context.commit('setPlaces', response)
             resolve()
           })
           .catch(error => {
@@ -59,16 +59,16 @@ export default {
           })
       })
     },
-    postSchool (context, data) {
+    postPlace (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/school', 'post', true, data, null, 200)
+        apiService.makeApiCall('resource/place', 'post', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSchool', response)
+            context.commit('setPlace', response)
             resolve()
           })
           .catch(error => {
@@ -77,17 +77,17 @@ export default {
           })
       })
     },
-    putSchool (context, data) {
+    putPlace (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/school/' + id, 'put', true, data, null, 200)
+        apiService.makeApiCall('resource/place/' + id, 'put', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSchool', response)
+            context.commit('setPlace', response)
             resolve()
           })
           .catch(error => {
