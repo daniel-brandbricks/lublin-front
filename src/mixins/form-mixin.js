@@ -2,6 +2,7 @@ export default {
   name: 'FormMixin',
   data () {
     return {
+      id: this.$route.params.id,
       loading: false,
       mixinImage: null,
       allowedImageTypes: [
@@ -12,6 +13,9 @@ export default {
   methods: {
     preSubmit () {
       this.loading = true
+      return this.$validator.validateScopes()
+    },
+    checkValidForm () {
       return this.$validator.validateScopes()
     },
     afterCropImage (base64) {

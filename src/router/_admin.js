@@ -41,12 +41,12 @@ const adminRouter = {
 
     // Schools And Clubs
     {
-      path: 'schools-and-clubs/:tab',
+      path: 'schools-and-clubs/:tab?',
       name: 'schools.and.clubs',
       component: SchoolAndClubList
     },
     {
-      path: 'school-or-club',
+      path: 'school-or-club/:tab?/:id?',
       name: 'school.or.club',
       component: SchoolAndClubForm
     },

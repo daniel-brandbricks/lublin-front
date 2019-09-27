@@ -8,6 +8,7 @@
         sort-icon-left
         responsive="md"
         class="custom table-responsive"
+        @row-clicked="rowRedirect"
       >
         <template slot="type" slot-scope="scope">
           <div class="d-flex align-items-center justify-content-between">
@@ -45,12 +46,17 @@ export default {
         {key: 'email', label: 'E-mail', sortable: true},
         {key: 'status', label: 'status w systemie', sortable: true},
         {key: 'edit', label: ''}
-      ],
+      ]
     }
   },
   computed: {
     schoolsConfirmed () {
       return this.$store.getters.schoolsConfirmed
+    }
+  },
+  methods: {
+    rowRedirect (row) {
+      this.$parent.rowRedirect(row.id, true)
     }
   },
   created () {

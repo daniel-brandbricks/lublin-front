@@ -1,187 +1,39 @@
 <template>
   <div>
     <TabLinks :links="tabLinks"></TabLinks>
-    <b-row class="justify-content-center">
-      <!--   image   -->
-      <b-col cols="12" lg="3" class="">
-        <h2>Zdjęcie</h2>
-        <ImageInputAdvanced :existedImgPath="school.image" @afterCropImage="afterCropImage"
-                            :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                            :min-width="100" :max-height="1000" :max-width="1000"></ImageInputAdvanced>
-      </b-col>
-
-      <b-col cols="12" lg="5" class="">
-
-        <!--    radios    -->
-        <h2 class="mb-4">Aktywuj</h2>
-        <b-form-group>
-          <b-form-radio v-model="school.active" :value="element.value" class="d-inline-block mr-3"
-                        :class="{'error-input-custom': veeErrors.has('school.active')}"
-                        name="school.active" :key="'school.active'+index" v-validate="'required'"
-                        v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
-            {{ element.title }}
-          </b-form-radio>
-        </b-form-group>
-
-        <h2 class="my-4">Dane ogólne</h2>
-        <b-form-group>
-          <b-form-radio v-model="school.type" :value="element.value" class="d-inline-block mr-3"
-                        :class="{'error-input-custom': veeErrors.has('school.type')}"
-                        name="school.type" :key="'school.type'+index" v-validate="'required'"
-                        v-for="(element,index) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
-            {{ element.title }}
-          </b-form-radio>
-        </b-form-group>
-
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Nazwa"
-                        :class="{'error-input-custom': veeErrors.has('school.name')}"
-                        name="school.name" key="school.name" v-validate="'required'"
-                        v-model="school.name"></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="E-mail"
-                        :class="{'error-input-custom': veeErrors.has('school.email')}"
-                        name="school.email" key="school.email" v-validate="'required|email'"
-                        v-model="school.email"></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Hasło"
-                        :class="{'error-input-custom': veeErrors.has('school.password')}"
-                        name="school.password" key="school.password" v-validate="'required'"
-                        v-model="school.password"></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Telefon"
-                        :class="{'error-input-custom': veeErrors.has('school.phone')}"
-                        name="school.phone" key="school.phone" v-validate="'required'"
-                        v-model="school.phone"></b-form-input>
-        </b-form-group>
-
-        <h2 class="my-4">Lokalizacja</h2>
-
-        <!--    treeselect    -->
-        <treeselect v-model="school.district"
-                    :multiple="false"
-                    placeholder="Dzielnica"
-                    :options="optionsTS"
-                    :class="{'error-input-custom': veeErrors.has('school.district')}"
-                    name="school.district" key="school.district" v-validate="'required'"
-                    class="custom mb-3"/>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Adres"
-                        :class="{'error-input-custom': veeErrors.has('school.address')}"
-                        name="school.address" key="school.address" v-validate="'required'"
-                        v-model="school.address"></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Kod pocztowy"
-                        :class="{'error-input-custom': veeErrors.has('school.postcode')}"
-                        name="school.postcode" key="school.postcode" v-validate="'required'"
-                        v-model="school.postcode"></b-form-input>
-        </b-form-group>
-        <h1>MAP</h1>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Godziny otwarcia"
-                        :class="{'error-input-custom': veeErrors.has('school.openHours')}"
-                        name="school.openHours" key="school.openHours" v-validate="'required'"
-                        v-model="school.openHours"></b-form-input>
-        </b-form-group>
-        <textarea class="custom w-100" v-model="school.comments" placeholder="Uwagi"
-                  :class="{'error-input-custom': veeErrors.has('school.comments')}"
-                  name="school.comments" :key="'school.comments'" :v-validate="'required'"></textarea>
-
-        <h2 class="my-4">Osoba do kontaktu</h2>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Imię i Nazwisko"
-                        :class="{'error-input-custom': veeErrors.has('school.personToContactFullName')}"
-                        name="school.personToContactFullName" key="school.personToContactFullName"
-                        v-validate="'required'"
-                        v-model="school.personToContactFullName"></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="custom">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="Telefon"
-                        :class="{'error-input-custom': veeErrors.has('school.personToContactPhone')}"
-                        name="school.personToContactPhone" key="school.personToContactPhone" v-validate="'required'"
-                        v-model="school.personToContactPhone"></b-form-input>
-        </b-form-group>
-
-        <h1>{{this.loading}}</h1>
-
-        <!--buttons-->
-        <b-row class="mt-4">
-          <b-col>
-            <b-btn variant="outline-primary" class="custom"> <!-- todo Vetal' -->
-              Usuń
-            </b-btn>
-          </b-col>
-          <b-col>
-            <b-btn block class="custom">
-              Anuluj
-            </b-btn>
-          </b-col>
-          <b-col>
-            <b-btn block class="custom" @click="submit">
-              Zapisz
-            </b-btn>
-          </b-col>
-          <b-col>
-            <b-btn block variant="primary" class="custom">
-              Dalej
-            </b-btn>
-          </b-col>
-        </b-row>
-      </b-col>
-
-    </b-row>
+    <template>
+      <FormMainData :school="school" @childSubmit="submit" ref="FormMainData"
+                    :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+      <FormSportObjects :school="school" :isValidForm="isValidForm" @childSubmit="submit"
+                        :key="$route.params.tab+'FormSportObjects'" v-show="$route.params.tab === 'sport-objects'"/>
+    </template>
   </div>
 </template>
 
 <script>
-// import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
 import TabLinks from '@/components/TabLinks'
 import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
-import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+import FormMainData from '@/views/schools-and-clubs/components/FormMainData'
+import FormSportObjects from '@/views/schools-and-clubs/components/FormSportObjects'
 
 export default {
   name: 'SchoolAndClubForm',
-  components: {TabLinks, Treeselect, ImageInputAdvanced},
+  components: {TabLinks, FormMainData, FormSportObjects},
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
-      id: this.$route.params.id,
-
       tabLinks: [
         {
           title: 'Dane ogólne',
-          link: 'dane-ogólne'
+          link: 'school.or.club',
+          tab: 'main-data'
         },
         {
           title: 'Obiekty sportowe',
-          link: 'obiekty-sportowe'
+          link: 'school.or.club',
+          tab: 'sport-objects',
+          method: 'checkValidForm'
         }
       ],
 
@@ -206,53 +58,98 @@ export default {
 
         // contact person
         personToContactFullName: '',
-        personToContactPhone: ''
+        personToContactPhone: '',
+
+        // foreign
+        sportObjects: []
       },
 
-      selectedRadio: 'A',
+      // sportObjects: [],
+      sportObjectsToDelete: [], // ???
+      sportObjectDefault: {
+        active: 1,
+        confirmed: null,
+        type: '0',
+        name: '',
 
-      // define options
-      optionsTS: [{
-        id: 'a',
-        label: 'first',
-        children: [{
-          id: 'aa',
-          label: 'aa'
-        }, {
-          id: 'ab',
-          label: 'ab'
-        }]
-      }, {
-        id: 'b',
-        label: 'second'
-      }, {
-        id: 'c',
-        label: 'third'
-      }]
+        // location
+        district: null,
+        address: '',
+        postcode: '',
+        // todo
+        mapImg: ''
+      },
+
+      isValidForm: false,
+      isConfirmed: undefined
     }
   },
-  computed: {},
+  computed: {
+    schoolComputed () {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.school = Object.assign(this.school, this.$store.getters.school(this.isConfirmed, this.id))
+      // return this.$store.getters.school(this.isConfirmed, this.id)
+    }
+  },
   methods: {
-    submit () {
-      this.preSubmit()
+    // FormSportObjects
+    addSportObject () {
+      console.log(111)
+      let copy = { ...this.sportObjectDefault }
+      this.school.sportObjects.push(copy)
+    },
+    removeSportObject (index) {
+      // this.sportObjectsToDelete.push(this.sportObjects[index].id)
+      this.school.sportObjects.splice(index, 1)
+    },
+
+    checkValidForm () {
+      this.$refs.FormMainData.checkValidForm()
         .then((result) => {
-          // if (!result) return
+          this.isValidForm = result
+        })
+    },
+    goToFormTab (tabName) {
+      this.checkValidForm()
+      this.$router.push({name: 'school.or.club', params: {'tab': tabName}})
+    },
+    submit () {
+      let school = this.school
+      school.image = this.mixinImage
 
-          let school = this.school
-          school.image = this.mixinImage
-
-          const method = this.id === undefined ? 'postSchool' : 'putSchool'
-          this.$store.dispatch(method, school)
-            .then(() => {
-              this.postSubmitRedirect('schools.and.clubs')
-            })
-            .catch((error) => {
-              this.postSubmitError(error)
-            })
+      const method = this.id === undefined ? 'postSchool' : 'putSchool'
+      this.$store.dispatch(method, school)
+        .then(() => {
+          this.postSubmitRedirect('schools.and.clubs')
+        })
+        .catch((error) => {
+          this.postSubmitError(error)
         })
     }
   },
   created () {
+    this.school = Object.assign(this.school, this.$store.getters.school(this.isConfirmed, this.id))
+    // todo remove + find solution
+    this.school.sportObjects = []
+
+    // auto redirect if url is without 'tab' param
+    if (this.$route.params.tab === undefined) {
+      this.$router.push({name: 'school.or.club', params: {'tab': 'main-data'}})
+    }
+
+    // set isConfirmed data from table redirect only
+    if (this.$route.params.isConfirmed) {
+      this.isConfirmed = this.$route.params.isConfirmed
+    }
+
+    if (this.id) {
+      this.$store.dispatch('getSchool', {id: this.id})
+        .then((response) => {
+          this.school = response
+          // todo remove + find solution
+          this.school.sportObjects = []   })
+    }
+
     /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: false})
     this.changeAdminNavbarBreadcrumbs()
@@ -261,7 +158,4 @@ export default {
 </script>
 
 <style scoped>
-  .error-input-custom {
-    border: 1px solid red !important;
-  }
 </style>

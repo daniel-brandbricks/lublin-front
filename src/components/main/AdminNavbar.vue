@@ -6,7 +6,7 @@
         <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
       </b-col>
       <b-col cols="2" v-if="buttonLink">
-        <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink }">
+        <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink, params: buttonLinkParams }">
           Dodaj...
         </b-link>
       </b-col>
@@ -22,6 +22,7 @@ export default {
   data () {
     return {
       buttonLink: '#',
+      buttonLinkParams: {},
 
       // breadcrumb
       items: [
@@ -45,6 +46,7 @@ export default {
   created () {
     EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
       this.buttonLink = params.buttonLink
+      this.buttonLinkParams = params.params
     })
     EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
       // todo

@@ -8,6 +8,7 @@
         sort-icon-left
         responsive="md"
         class="custom table-responsive"
+        @row-clicked="rowRedirect"
       >
         <template slot="type" slot-scope="scope">
           <div class="d-flex align-items-center justify-content-between">
@@ -46,12 +47,17 @@ export default {
         {key: 'data', label: 'Data dodania', sortable: true},
         {key: 'btnTable', label: '', sortable: true},
         {key: 'edit', label: ''}
-      ],
+      ]
     }
   },
   computed: {
     schoolsToConfirm () {
       return this.$store.getters.schoolsToConfirm
+    }
+  },
+  methods: {
+    rowRedirect (row) {
+      this.$parent.rowRedirect(row.id, false)
     }
   },
   created () {

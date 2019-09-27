@@ -101,14 +101,19 @@ export default {
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+    rowRedirect (id, isConfirmed) {
+      this.$router.push({ name: 'school.or.club',
+        params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed } })
+    }
+  },
   created () {
     if (this.$route.params.tab === undefined) {
       this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
     }
 
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'school.or.club'})
+    this.changeAdminNavbarButton({buttonLink: 'school.or.club', params: { tab: 'main-data' }})
     this.changeAdminNavbarBreadcrumbs()
   }
 }

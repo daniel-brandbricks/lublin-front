@@ -20,7 +20,7 @@
             <span class="icon icon-iconm_search"></span>
             Strona www
           </b-link>
-          <b-link :to="{name:'schools.and.clubs'}"
+          <b-link :to="{name:'schools.and.clubs', params: {'tab': 'confirmed'} }"
                   class="list-group-item">
             <span class="icon icon-iconm_search"></span>
             kłuby i szkoły (1,024)

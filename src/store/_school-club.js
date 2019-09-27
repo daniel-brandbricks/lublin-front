@@ -15,8 +15,28 @@ export default {
     schoolsToConfirm (state) {
       return state.schools.toConfirm
     },
-    school (state) {
-      return state.school
+    schools: (state) => (isConfirmed) => {
+      console.log(isConfirmed)
+    },
+    school: (state) => (isConfirmed, id) => {
+      let schools = []
+
+      // merge two arrays
+      if (undefined === isConfirmed) {
+        schools = state.schools.confirmed.concat(state.schools.toConfirm)
+      } else {
+        schools = isConfirmed ? state.schools.confirmed : state.schools.toConfirm
+      }
+
+      for (let i = 0; i < schools.length; i++) {
+        const school = schools[i]
+        if (undefined === school || school === null || school.length < 1) {
+          continue
+        }
+        if (school.id == id) {
+          return school
+        }
+      }
     }
   },
   mutations: {
@@ -27,7 +47,28 @@ export default {
       state.schools.toConfirm = data
     },
     setSchool (state, data) {
-      state.school = data
+      const id = data.id
+      const confirmed = data.confirmed
+      let schools = []
+
+      if (undefined === id || id === null) {
+        return
+      }
+
+      schools = confirmed ? state.schools.confirmed : state.schools.toConfirm
+
+      for (let i = 0; i < schools.length; i++) {
+        const storeSchool = schools[i]
+        if (storeSchool.id !== id) {
+          continue
+        }
+        schools.splice(i, 1, data)
+        confirmed ? state.schools.confirmed = schools : state.schools.toConfirm = schools
+
+        return
+      }
+
+      confirmed ? state.schools.confirmed.push(data) : state.schools.toConfirm.push(data)
     },
     deleteSchool (state, data) {
       // todo
@@ -45,7 +86,7 @@ export default {
             }
 
             context.commit('setSchool', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)
