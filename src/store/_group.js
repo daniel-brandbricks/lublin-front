@@ -19,6 +19,9 @@ export default {
     },
     setGroup (state, data) {
       state.group = data
+    },
+    deleteGroup (state, data) {
+      // todo
     }
   },
   actions: {
@@ -88,6 +91,25 @@ export default {
             }
 
             context.commit('setGroup', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deleteGroup (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/group/' + id, 'delete', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('deleteGroup', response)
             resolve()
           })
           .catch(error => {

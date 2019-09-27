@@ -19,6 +19,9 @@ export default {
     },
     setPlaces (state, data) {
       state.place = data
+    },
+    deletePlace (state, data) {
+      // todo
     }
   },
   actions: {
@@ -88,6 +91,25 @@ export default {
             }
 
             context.commit('setPlace', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deletePlace (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/place/' + id, 'delete', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('deletePlace', response)
             resolve()
           })
           .catch(error => {

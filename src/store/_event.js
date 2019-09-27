@@ -19,6 +19,9 @@ export default {
     },
     setEvent (state, data) {
       state.event = data
+    },
+    deleteEvent (state, data) {
+      // todo
     }
   },
   actions: {
@@ -88,6 +91,25 @@ export default {
             }
 
             context.commit('setEvent', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deleteEvent (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/event/' + id, 'delete', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('deleteEvent', response)
             resolve()
           })
           .catch(error => {

@@ -19,6 +19,9 @@ export default {
     },
     setSkill (state, data) {
       state.skill = data
+    },
+    deleteSkill (state, data) {
+      // todo
     }
   },
   actions: {
@@ -88,6 +91,25 @@ export default {
             }
 
             context.commit('setSkill', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deleteSkill (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/skill/' + id, 'delete', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('deleteSkill', response)
             resolve()
           })
           .catch(error => {

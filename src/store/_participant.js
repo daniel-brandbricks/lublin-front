@@ -19,6 +19,9 @@ export default {
     },
     setParticipant (state, data) {
       state.participant = data
+    },
+    deleteParticipant (state, data) {
+      // todo
     }
   },
   actions: {
@@ -88,6 +91,25 @@ export default {
             }
 
             context.commit('setParticipant', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    deleteParticipant (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/participant/' + id, 'delete', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('deleteParticipant', response)
             resolve()
           })
           .catch(error => {
