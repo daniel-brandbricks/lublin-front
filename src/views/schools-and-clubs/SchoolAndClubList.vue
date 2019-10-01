@@ -114,7 +114,7 @@ export default {
 
     /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: 'school.or.club', params: { tab: 'main-data' }})
-    this.changeAdminNavbarBreadcrumbs()
+    this.changeAdminNavbarBreadcrumbs([{text: 'Kłuby i szkoły', active: true}])
   }
 }
 </script>

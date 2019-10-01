@@ -2,10 +2,13 @@
   <div>
     <TabLinks :links="tabLinks"></TabLinks>
     <template>
+      <!--   Component for SchoolEntity   -->
       <FormMainData :school="school" @childSubmit="submit" ref="FormMainData"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
-      <FormSportObjects :school="school" :isValidForm="isValidForm" @childSubmit="submit"
-                        :key="$route.params.tab+'FormSportObjects'" v-show="$route.params.tab === 'sport-objects'"/>
+
+      <!--   Component for PlaceEntity   -->
+      <FormPlaces :school="school" :isValidForm="isValidForm" @childSubmit="submit"
+                  :key="$route.params.tab+'FormPlaces'" v-show="$route.params.tab === 'places'"/>
     </template>
   </div>
 </template>
@@ -15,11 +18,11 @@ import TabLinks from '@/components/TabLinks'
 import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
 import FormMainData from '@/views/schools-and-clubs/components/FormMainData'
-import FormSportObjects from '@/views/schools-and-clubs/components/FormSportObjects'
+import FormPlaces from '@/views/schools-and-clubs/components/FormPlaces'
 
 export default {
   name: 'SchoolAndClubForm',
-  components: {TabLinks, FormMainData, FormSportObjects},
+  components: {TabLinks, FormMainData, FormPlaces},
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
@@ -32,15 +35,15 @@ export default {
         {
           title: 'Obiekty sportowe',
           link: 'school.or.club',
-          tab: 'sport-objects',
-          method: 'checkValidForm'
+          tab: 'places',
+          method: 'checkValidMainForm'
         }
       ],
 
       school: {
         image: null,
         active: 1,
-        confirmed: null,
+        confirmed: false,
         type: 0,
         name: '',
         email: '',
@@ -61,58 +64,41 @@ export default {
         personToContactPhone: '',
 
         // foreign
-        sportObjects: []
-      },
-
-      // sportObjects: [],
-      sportObjectsToDelete: [], // ???
-      sportObjectDefault: {
-        active: 1,
-        confirmed: null,
-        type: '0',
-        name: '',
-
-        // location
-        district: null,
-        address: '',
-        postcode: '',
-        // todo
-        mapImg: ''
+        places: []
       },
 
       isValidForm: false,
       isConfirmed: undefined
     }
   },
-  computed: {
-    schoolComputed () {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.school = Object.assign(this.school, this.$store.getters.school(this.isConfirmed, this.id))
-      // return this.$store.getters.school(this.isConfirmed, this.id)
-    }
-  },
+  computed: {},
   methods: {
-    // FormSportObjects
-    addSportObject () {
-      console.log(111)
-      let copy = { ...this.sportObjectDefault }
-      this.school.sportObjects.push(copy)
+    // FormPlaces
+    addPlace (placeDefault) {
+      let copy = {...placeDefault}
+      copy.collectionType = 'add'
+      this.school.places.push(copy)
     },
-    removeSportObject (index) {
-      // this.sportObjectsToDelete.push(this.sportObjects[index].id)
-      this.school.sportObjects.splice(index, 1)
+    removePlace (index) {
+      this.school.places.splice(index, 1)
+    },
+    concatPlaces (placesToDelete) {
+      this.school.places = [...this.school.places, ...placesToDelete]
     },
 
-    checkValidForm () {
+    checkValidMainForm () {
       this.$refs.FormMainData.checkValidForm()
         .then((result) => {
           this.isValidForm = result
         })
     },
-    goToFormTab (tabName) {
-      this.checkValidForm()
-      this.$router.push({name: 'school.or.club', params: {'tab': tabName}})
+    goToFormTab (tabName, params = {}) {
+      this.checkValidMainForm()
+      let defaultParams = {...{'tab': tabName, 'id': this.id}, ...params}
+      this.$router.push({name: 'school.or.club', params: defaultParams})
     },
+
+    // submit full school and school places without form validation
     submit () {
       let school = this.school
       school.image = this.mixinImage
@@ -129,8 +115,6 @@ export default {
   },
   created () {
     this.school = Object.assign(this.school, this.$store.getters.school(this.isConfirmed, this.id))
-    // todo remove + find solution
-    this.school.sportObjects = []
 
     // auto redirect if url is without 'tab' param
     if (this.$route.params.tab === undefined) {
@@ -146,13 +130,15 @@ export default {
       this.$store.dispatch('getSchool', {id: this.id})
         .then((response) => {
           this.school = response
-          // todo remove + find solution
-          this.school.sportObjects = []   })
+        })
     }
 
     /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: false})
-    this.changeAdminNavbarBreadcrumbs()
+
+    let breadcrumbs = [{text: 'Kłuby i szkoły', to: {name: 'schools.and.clubs', params: {'tab': 'confirmed'}}},
+      {text: this.id ? this.school.type == 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true}]
+    this.changeAdminNavbarBreadcrumbs(breadcrumbs)
   }
 }
 </script>

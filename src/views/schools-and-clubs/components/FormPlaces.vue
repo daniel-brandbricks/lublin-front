@@ -4,14 +4,15 @@
 
     <b-row class="justify-content-center">
       <b-col cols="12" lg="6" class="">
-        <div class="row" v-if="school.sportObjects" v-for="(sportObject,index) in school.sportObjects" :key="index">
+        <div class="row" v-if="school.places"
+             v-for="(place,index) in school.places" :key="index">
           <div class="col-1">
             <!--   todo Веталь, перепиши в класс как будет время   -->
             <div class="text-center"
                  style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
               <p class="m-auto">{{index + 1}}</p>
             </div>
-            <p @click="removeSportObject(index)" v-if="school.sportObjects.length > 0">usuń</p>
+            <p @click="removePlace(index)" v-if="school.places.length > 0">usuń</p>
           </div>
           <div class="col-11 pl-4">
             <h2 class="mb-4">Dane ogólne</h2>
@@ -19,18 +20,19 @@
               class="custom">
               <b-form-input id="input-1" class="custom"
                             placeholder="Nazwa"
-                            :class="{'error-input-custom': veeErrors.has('sportObject.name'+index)}"
-                            :name="'sportObject.name'+index" :key="'sportObject.name'+index" v-validate="'required'"
-                            v-model="sportObject.name"></b-form-input>
+                            :class="{'error-input-custom': veeErrors.has('place.title'+index)}"
+                            :name="'place.title'+index" :key="'place.title'+index" v-validate="'required'"
+                            v-model="place.title"></b-form-input>
             </b-form-group>
 
             <!--    treeselect    -->
-            <treeselect v-model="sportObject.district"
+            <treeselect v-model="place.district"
                         :multiple="false"
                         placeholder="Dzielnica"
                         :options="optionsTS"
-                        :class="{'error-input-custom': veeErrors.has('sportObject.district'+index.toString())}"
-                        :name="'sportObject.district'+index.toString()" :key="'sportObject.district'+index.toString()" v-validate="'required'"
+                        :class="{'error-input-custom': veeErrors.has('place.district'+index.toString())}"
+                        :name="'place.district'+index.toString()" :key="'place.district'+index.toString()"
+                        v-validate="'required'"
                         class="custom mb-3"/>
 
             <h2 class="my-4">Lokalizacja</h2>
@@ -38,17 +40,19 @@
               class="custom">
               <b-form-input id="input-1" class="custom"
                             placeholder="Adres"
-                            :class="{'error-input-custom': veeErrors.has('sportObject.address'+index)}"
-                            :name="'sportObject.address'+index" :key="'sportObject.address'+index" v-validate="'required'"
-                            v-model="sportObject.address"></b-form-input>
+                            :class="{'error-input-custom': veeErrors.has('place.address'+index)}"
+                            :name="'place.address'+index" :key="'place.address'+index"
+                            v-validate="'required'"
+                            v-model="place.address"></b-form-input>
             </b-form-group>
             <b-form-group
               class="custom">
               <b-form-input id="input-1" class="custom"
                             placeholder="Kod pocztowy"
-                            :class="{'error-input-custom': veeErrors.has('sportObject.postcode'+index)}"
-                            :name="'sportObject.postcode'+index" :key="'sportObject.postcode'+index" v-validate="'required'"
-                            v-model="sportObject.postcode"></b-form-input>
+                            :class="{'error-input-custom': veeErrors.has('place.postcode'+index)}"
+                            :name="'place.postcode'+index" :key="'place.postcode'+index"
+                            v-validate="'required'"
+                            v-model="place.postcode"></b-form-input>
             </b-form-group>
             <h1>MAP</h1>
           </div>
@@ -63,12 +67,12 @@
             <!--   todo Веталь, перепиши в класс как будет время   -->
             <div class="text-center"
                  style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
-              <p class="m-auto" v-if="school.sportObjects">{{school.sportObjects.length + 1}}</p>
+              <p class="m-auto" v-if="school.places">{{school.places.length + 1}}</p>
             </div>
           </div>
 
           <div class="col-11 pl-4">
-            <b-btn variant="primary" class="w-50" @click="addSportObject">Dodaj</b-btn>
+            <b-btn variant="primary" class="w-50" @click="addPlace">Dodaj</b-btn>
           </div>
         </div>
       </b-col>
@@ -90,12 +94,15 @@
             </b-link>
           </b-col>
           <b-col>
-            <b-btn block class="custom" @click="submitSetConfirm(false, false)">
+            <b-btn block class="custom" @click="submitSetConfirm(null, false)">
               Zapisz
             </b-btn>
           </b-col>
           <b-col>
-            <b-btn block variant="primary" class="custom" @click="submitSetConfirm(true)">
+            <b-btn v-if="school.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
+              Odtwierdz
+            </b-btn>
+            <b-btn block v-else variant="primary" class="custom" @click="submitSetConfirm(1, true)">
               Zatwierdź
             </b-btn>
           </b-col>
@@ -118,12 +125,29 @@ import FormMixin from '@/mixins/form-mixin'
 import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
 export default {
-  name: 'FormSportObjects',
+  name: 'FormPlaces',
   props: ['school', 'isValidForm'],
   components: {Treeselect, ImageInputAdvanced},
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
+      // for school
+      places: [],
+      placesToDelete: [], // ???
+      placeDefault: {
+        active: 1,
+        confirmed: null,
+        type: '0',
+        name: '',
+
+        // location
+        district: null,
+        address: '',
+        postcode: '',
+        // todo
+        mapImg: ''
+      },
+
       optionsTS: [{
         id: 'a',
         label: 'first',
@@ -144,11 +168,16 @@ export default {
     }
   },
   methods: {
-    addSportObject () {
-      this.$parent.addSportObject()
+    addPlace () {
+      this.$parent.addPlace(this.placeDefault)
     },
-    removeSportObject (index) {
-      this.$parent.removeSportObject(index)
+    removePlace (index) {
+      let oldItem = {
+        id: this.school.places[index].id,
+        collectionType: 'remove'
+      }
+      this.placesToDelete.push(oldItem)
+      this.$parent.removePlace(index)
     },
 
     submit (validRequired) {
@@ -160,6 +189,7 @@ export default {
               return
             }
 
+            this.$parent.concatPlaces(this.placesToDelete)
             this.loading = false
             this.$parent.submit()
           })
@@ -168,8 +198,27 @@ export default {
       }
     },
     submitSetConfirm (isConfirmed, validRequired = true) {
-      this.school.confirmed = isConfirmed
-      this.submit(true)
+      // todo remake
+      if (this.isValidForm) {
+
+      }
+
+      if (validRequired) {
+        if (this.isValidForm) {
+          if (isConfirmed !== null) {
+            this.school.confirmed = isConfirmed
+          }
+          this.submit(validRequired)
+        } else {
+          // validate form in next tab (component)
+          this.$parent.goToFormTab('main-data', {'validateForm': true})
+        }
+      }
+
+      // if (isConfirmed !== null) {
+      //   this.school.confirmed = isConfirmed
+      // }
+      // this.submit(validRequired)
     }
   },
   created () {

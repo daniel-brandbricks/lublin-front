@@ -137,12 +137,12 @@
           </b-link>
         </b-col>
         <b-col>
-          <b-btn block class="custom" @click="submit(false)">
+          <b-btn block class="custom" @click="submit(true)">
             Zapisz
           </b-btn>
         </b-col>
         <b-col>
-          <b-btn block variant="primary" class="custom" @click="goToFormTab('sport-objects')">
+          <b-btn block variant="primary" class="custom" @click="goToFormTab('places')">
             Dalej
           </b-btn>
         </b-col>
@@ -207,7 +207,14 @@ export default {
       this.$parent.goToFormTab(tabName)
     }
   },
+  mounted () {
+    // validate form after redirect from another tab (component)
+    if (this.$route.params.validateForm) {
+      this.checkValidForm()
+    }
+  },
   created () {
+
   }
 }
 </script>

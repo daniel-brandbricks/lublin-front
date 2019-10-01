@@ -10,8 +10,8 @@ export default {
     changeAdminNavbarButton (params) {
       EventBus.$emit('NAVBAR_BUTTON_LINK', (params))
     },
-    changeAdminNavbarBreadcrumbs () {
-      EventBus.$emit('NAVBAR_CHANGE_BREADCRUMBS', ({ par1: 'breadcrumbs', par2: false }))
+    changeAdminNavbarBreadcrumbs (params) {
+      EventBus.$emit('NAVBAR_CHANGE_BREADCRUMBS', (params))
     }
   }
 }

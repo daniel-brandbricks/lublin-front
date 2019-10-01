@@ -1,7 +1,7 @@
 <template>
   <div class="tab-link-list mb-4">
     <b-link v-for="(item,index) in links" :key="index"
-            :to="{ name: item.link, params: { tab: item.tab } }"
+            :to="{ name: item.link, params: { tab: item.tab, id: id } }"
             active-class="active"
             @click="callParentMethod(index)"
             class="tab-link-item">
@@ -15,7 +15,10 @@ export default {
   name: 'TabLinks',
   props: ['links'],
   data () {
-    return {}
+    return {
+      // if we need to save id in different ulr tabs
+      id: this.$route.params.id
+    }
   },
   computed: {},
   methods: {

@@ -7,7 +7,7 @@ import TestContent from '@/views/TestContent'
 // official
 import Www from '@/views/www/Www'
 import SchoolAndClubList from '@/views/schools-and-clubs/SchoolAndClubList'
-import SportObjects from '@/views/sport-objects/SportObjects'
+import Places from '@/views/places/Places'
 import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
 
@@ -53,9 +53,9 @@ const adminRouter = {
 
     // Sport Objects
     {
-      path: 'sport-objects',
-      name: 'sport.objects',
-      component: SportObjects
+      path: 'places',
+      name: 'places',
+      component: Places
     },
 
     // Participant Groups
