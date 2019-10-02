@@ -94,7 +94,7 @@
             </b-link>
           </b-col>
           <b-col>
-            <b-btn block class="custom" @click="submitSetConfirm(null, false)">
+            <b-btn block class="custom" @click="submit">
               Zapisz
             </b-btn>
           </b-col>
@@ -180,7 +180,7 @@ export default {
       this.$parent.removePlace(index)
     },
 
-    submit (validRequired) {
+    submit (validRequired = false) {
       if (validRequired) {
         this.preSubmit()
           .then((result) => {
@@ -198,27 +198,18 @@ export default {
       }
     },
     submitSetConfirm (isConfirmed, validRequired = true) {
-      // todo remake
-      if (this.isValidForm) {
-
-      }
-
       if (validRequired) {
         if (this.isValidForm) {
-          if (isConfirmed !== null) {
-            this.school.confirmed = isConfirmed
-          }
+          this.school.confirmed = isConfirmed
           this.submit(validRequired)
         } else {
           // validate form in next tab (component)
           this.$parent.goToFormTab('main-data', {'validateForm': true})
         }
+      } else {
+        this.school.confirmed = isConfirmed
+        this.submit(validRequired)
       }
-
-      // if (isConfirmed !== null) {
-      //   this.school.confirmed = isConfirmed
-      // }
-      // this.submit(validRequired)
     }
   },
   created () {
