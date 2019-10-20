@@ -18,9 +18,10 @@ export default {
     checkValidForm () {
       return this.$validator.validateScopes()
     },
-    afterCropImage (base64) {
-      this.mixinImage = base64
-    },
+    // afterCropImage (base64) {
+    //   console.log(base64)
+    //   this.mixinImage = base64
+    // },
     postSubmitRedirect (routeName, toastText = 'Dane zostały zapisane', toastVariant = 'success') {
       this.loading = false
       this.$router.push({

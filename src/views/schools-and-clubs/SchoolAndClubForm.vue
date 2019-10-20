@@ -153,7 +153,8 @@ export default {
     // submit full school and school places without form validation
     submit () {
       let school = this.school
-      school.image = this.mixinImage
+        console.log(this.school)
+      // school.image = this.mixinImage
 
       const method = this.id === undefined ? 'postSchool' : 'putSchool'
       this.$store.dispatch(method, school)

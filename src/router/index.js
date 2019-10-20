@@ -20,11 +20,10 @@ const routes = [
 const router = new Router({routes, mode: 'history'})
 
 router.beforeEach((to, from, next) => {
-
   // check admin access
   let isAdminRoute = to.fullPath.indexOf('/admin/') !== -1
   if (isAdminRoute && !store.getters.isLoggedIn) {
-    next('/login');
+    next('/login')
   }
 
   next()
