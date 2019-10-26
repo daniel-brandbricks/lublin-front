@@ -3,7 +3,8 @@
     <!--   image   -->
     <b-col cols="12" lg="3" class="">
       <h2>Zdjęcie</h2>
-      <ImageInputAdvanced :existedImgPath="school.image" @afterCropImage="afterCropImage"
+<!--      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">-->
+      <ImageInputAdvanced :imgPath="school.image" @afterCropImage="afterCropImage"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
                           :min-width="100" :max-height="1000" :max-width="1000"></ImageInputAdvanced>
     </b-col>
@@ -70,7 +71,7 @@
       <treeselect v-model="school.district"
                   :multiple="false"
                   placeholder="Dzielnica"
-                  :options="optionsTS"
+                  :options="districts"
                   :class="{'error-input-custom': veeErrors.has('school.district')}"
                   name="school.district" key="school.district" v-validate="'required'"
                   class="custom mb-3"/>
@@ -122,12 +123,13 @@
                       v-model="school.personToContactPhone"></b-form-input>
       </b-form-group>
 
-      <h1>{{this.loading}}</h1>
+<!--      <h1>{{this.loading}}</h1>-->
 
       <!--buttons-->
       <b-row class="mt-4">
         <b-col>
-          <b-btn variant="outline-primary" class="custom"> <!-- todo Vetal' -->
+          <b-btn variant="outline-primary" class="custom"
+                 @click="deleteFromForm('deleteSchool', school.id, undefined, 'schools.and.clubs', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
@@ -161,29 +163,11 @@ import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
 export default {
   name: 'FormMainData',
-  props: ['school'],
+  props: ['school', 'districts'],
   components: {Treeselect, ImageInputAdvanced},
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
-      // define options
-      optionsTS: [{
-        id: 'a',
-        label: 'first',
-        children: [{
-          id: 'aa',
-          label: 'aa'
-        }, {
-          id: 'ab',
-          label: 'ab'
-        }]
-      }, {
-        id: 'b',
-        label: 'second'
-      }, {
-        id: 'c',
-        label: 'third'
-      }]
     }
   },
   methods: {
@@ -203,9 +187,9 @@ export default {
         this.$parent.submit()
       }
     },
-      // todo this method in form mixin
+    // todo this method in form mixin
     afterCropImage (base64) {
-        console.log(base64)
+      console.log(base64)
       this.school.image = base64
     },
     goToFormTab (tabName) {

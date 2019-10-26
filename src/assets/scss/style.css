@@ -362,6 +362,12 @@
   .icon-link:hover, .icon-link:active {
     color: #000000; }
 
+.wrap-img-type-table {
+  width: 50px; }
+
+.wrap-img-type-table img {
+  max-width: 100%; }
+
 html body .custom-checkbox .custom-control-label,
 html body .custom-radio .custom-control-label {
   font-weight: 400;

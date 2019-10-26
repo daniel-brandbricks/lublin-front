@@ -1,3 +1,5 @@
+import EventBus from '@/event-bus';
+
 export default {
   name: 'FormMixin',
   data () {
@@ -42,6 +44,9 @@ export default {
         let key = Object.keys(error.data.validationErrors)[0]
         this.showToast(error.data.validationErrors[key], 'Uwaga', 'danger')
       }
+    },
+    deleteFromForm (method, id, toDeleteWord = 'daną pozycję', routeToPush = false, routeParams = null) {
+      EventBus.$emit(`SHOW_CONFIRM_DELETE_MODAL`, method, id, toDeleteWord, routeToPush, routeParams)
     }
   }
 }

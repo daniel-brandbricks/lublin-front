@@ -29,7 +29,7 @@
             <treeselect v-model="place.district"
                         :multiple="false"
                         placeholder="Dzielnica"
-                        :options="optionsTS"
+                        :options="districts"
                         :class="{'error-input-custom': veeErrors.has('place.district'+index.toString())}"
                         :name="'place.district'+index.toString()" :key="'place.district'+index.toString()"
                         v-validate="'required'"
@@ -126,7 +126,7 @@ import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
 export default {
   name: 'FormPlaces',
-  props: ['school', 'isValidForm'],
+  props: ['school', 'isValidForm', 'districts'],
   components: {Treeselect, ImageInputAdvanced},
   mixins: [EventBusEmit, FormMixin],
   data () {
@@ -147,24 +147,6 @@ export default {
         // todo
         mapImg: ''
       },
-
-      optionsTS: [{
-        id: 'a',
-        label: 'first',
-        children: [{
-          id: 'aa',
-          label: 'aa'
-        }, {
-          id: 'ab',
-          label: 'ab'
-        }]
-      }, {
-        id: 'b',
-        label: 'second'
-      }, {
-        id: 'c',
-        label: 'third'
-      }]
     }
   },
   methods: {

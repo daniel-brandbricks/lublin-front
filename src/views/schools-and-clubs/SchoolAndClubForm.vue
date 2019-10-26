@@ -3,11 +3,12 @@
     <TabLinks :links="tabLinks"></TabLinks>
     <template>
       <!--   Component for SchoolEntity   -->
-      <FormMainData :school="school" @childSubmit="submit" ref="FormMainData"
+      <FormMainData :school="school" @childSubmit="submit" ref="FormMainData" :districts="districts"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
 
       <!--   Component for PlaceEntity   -->
       <FormPlaces :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormPlaces"
+                  :districts="districts"
                   :key="$route.params.tab+'FormPlaces'" v-show="$route.params.tab === 'places'"/>
 
       <!--   Component for todo Entity   -->
@@ -49,6 +50,7 @@
 import TabLinks from '@/components/TabLinks'
 import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
+
 import FormMainData from '@/views/schools-and-clubs/components/FormMainData'
 import FormPlaces from '@/views/schools-and-clubs/components/FormPlaces'
 import FormLeaders from '@/views/schools-and-clubs/components/FormLeaders'
@@ -59,6 +61,8 @@ import FormCalendar from '@/views/schools-and-clubs/components/FormCalendar'
 import FormFrequency from '@/views/schools-and-clubs/components/FormFrequency'
 import FormMTSF from '@/views/schools-and-clubs/components/FormMTSF'
 import FormEvents from '@/views/schools-and-clubs/components/FormEvents'
+
+import { DISTRICTS } from '@/config/AppConfig'
 
 export default {
   name: 'SchoolAndClubForm',
@@ -91,6 +95,7 @@ export default {
           method: 'checkValidMainForm'
         }
       ],
+      districts: DISTRICTS,
 
       school: {
         image: null,

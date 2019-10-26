@@ -2,7 +2,7 @@
   <b-row class="justify-content-center">
     <b-col cols="8">
       <b-table
-        :items="schoolsConfirmed"
+        :items="schoolListFiltered"
         :fields="fields"
         striped
         sort-icon-left
@@ -13,7 +13,7 @@
         <template slot="type" slot-scope="scope">
           <div class="d-flex align-items-center justify-content-between">
             <div class="wrap-img-type-table mr-3">
-              <img src="https://placeimg.com/50/50/any" alt="">
+              <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
             </div>
             <span>club/szkola</span>
           </div>
@@ -34,8 +34,12 @@
 </template>
 
 <script>
+import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
+
 export default {
   name: 'ListConfirmed',
+  props: ['filters'],
+  mixins: [SchoolsAndClubsMixin],
   data () {
     return {
       // table
