@@ -15,10 +15,15 @@
             <div class="wrap-img-type-table mr-3">
               <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
             </div>
-            <span>club/szkola</span>
+            <span>{{scope.item.type == 0 ? 'Klub' : 'Szkoła'}}</span>
           </div>
 
         </template>
+
+        <template slot="object" slot-scope="scope">
+          <span>{{scope.item.places.length}}</span>
+        </template>
+
         <template slot="status" slot-scope="scope">
           <span class="status active">aktywny</span>
         </template>

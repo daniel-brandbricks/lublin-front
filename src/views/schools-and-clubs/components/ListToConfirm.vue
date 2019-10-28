@@ -15,12 +15,21 @@
             <div class="wrap-img-type-table mr-3">
               <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
             </div>
-            <span>club/szkola</span>
+            <span>{{scope.item.type == 0 ? 'Klub' : 'Szkoła'}}</span>
           </div>
 
         </template>
+
+        <template slot="object" slot-scope="scope">
+          <span>{{scope.item.places.length}}</span>
+        </template>
+
+        <template slot="data" slot-scope="scope">
+          <span>{{scope.item.created}}</span>
+        </template>
+
         <template slot="btnTable" slot-scope="scope">
-          <b-btn variant="primary" class="custom mb-0">
+          <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
             Zatwierdź
           </b-btn>
         </template>
@@ -62,6 +71,12 @@ export default {
   methods: {
     rowRedirect (row) {
       this.$parent.rowRedirect(row.id, false)
+    },
+    confirmItem (id) {
+      this.$store.dispatch('putSchool', {id: id, confirmed: 1})
+        .then((response) => {
+          this.$store.dispatch('getSchools', {confirmed: 0})
+        })
     }
   },
   created () {

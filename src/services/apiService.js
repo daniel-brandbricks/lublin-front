@@ -52,10 +52,10 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         resolve(data)
       })
       .catch(error => {
-        // todo change on BACK
-        if (error.response && error.response.data.message === 'TOKEN_EXPIRED') {
+        if (isAuthorized && error.response && error.response.data.error === 'empty user') {
           console.log('api service TOKEN_EXPIRED')
-          // router.push({ name: 'login' })
+          store.dispatch('clearAuthToken')
+          router.push({ name: 'login' })
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
