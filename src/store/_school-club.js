@@ -15,8 +15,8 @@ export default {
     schoolsToConfirm (state) {
       return state.schools.toConfirm
     },
-    schools: (state) => (isConfirmed) => {
-      console.log(isConfirmed)
+    schools (state) {
+      return state.schools.confirmed.concat(state.schools.toConfirm)
     },
     school: (state) => (isConfirmed, id) => {
       let schools = []
@@ -45,6 +45,21 @@ export default {
     },
     setSchoolsToConfirm (state, data) {
       state.schools.toConfirm = data
+    },
+    setSchools (state, data) {
+      let schoolsConfirmed = []
+      let schoolsToConfirm = []
+
+      for (let schoolIndex in data) {
+        if (data[schoolIndex].confirmed) {
+          schoolsConfirmed.push(data[schoolIndex])
+        } else {
+          schoolsToConfirm.push(data[schoolIndex])
+        }
+      }
+
+      state.schools.confirmed = schoolsConfirmed
+      state.schools.toConfirm = schoolsToConfirm
     },
     setSchool (state, data) {
       const id = data.id
@@ -103,7 +118,11 @@ export default {
               return
             }
 
-            data.confirmed === 1 ? context.commit('setConfirmedSchools', response) : context.commit('setSchoolsToConfirm', response)
+            if (data.confirmed) {
+              data.confirmed === 1 ? context.commit('setConfirmedSchools', response) : context.commit('setSchoolsToConfirm', response)
+            } else {
+              context.commit('setSchools', response)
+            }
             resolve()
           })
           .catch(error => {

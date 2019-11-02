@@ -25,10 +25,10 @@
             <span class="icon icon-iconm_search"></span>
             kłuby i szkoły (1,024)
           </b-link>
-          <b-link :to="{name:'sport.objects'}"
+          <b-link :to="{name:'sport.objects', params: {'tab': 'confirmed'} }"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
-            obiekty sportowe (2,048)
+            Obiekty sportowe (2,048)
           </b-link>
 
           <b-link :to="{name:'sport.objects'}"
@@ -40,11 +40,8 @@
           <b-link :to="{name:'participant.groups'}"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
-            Grupy zawodników (200)
-
+            Lista zawodników (200)
           </b-link>
-
-
 
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
@@ -52,11 +49,11 @@
           </a>
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
-            Zajęcia (4,000)
+            Lista zajęć (4,000)
           </a>
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
-            Kalendarz
+            Kalendarz <br><span class="pl-4">Zajęć i wydarzeń</span>
           </a>
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
@@ -64,11 +61,11 @@
           </a>
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
-            MTSF
+            Lista MTSF
           </a>
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
-            Wydarzenia
+            Lista imprez
           </a>
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-iconm_search"></span>
@@ -89,27 +86,7 @@
 
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
-            MTSF
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_discipline"></span>
-            Wydarzenia
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-iconm_search"></span>
-            Raporty
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_arrow_24"></span>
-            Słownik
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_www"></span>
-            Historia
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_play"></span>
-            współadministratorzy
+            Komunikaty
           </a>
         </perfect-scrollbar>
 

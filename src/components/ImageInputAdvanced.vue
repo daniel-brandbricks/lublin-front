@@ -3,7 +3,7 @@
     <div class="wrap-img-input mb-3 mt-4">
       <img :src="image" alt="img">
     </div>
-    <b-btn variant="primary" class="custom" block @click="showModal">Zmień</b-btn>
+    <b-btn variant="primary" v-if="!hideImage" class="custom" block @click="showModal">Zmień</b-btn>
 
     <b-modal ref="advancedCropperModal" hide-footer size="xl"
              no-close-on-backdrop>
@@ -44,7 +44,8 @@ export default {
   name: 'ImageInputAdvanced',
   mixins: [ToastMixin],
   props: [
-    'minAspectRatio', 'maxAspectRatio', 'minHeight', 'minWidth', 'maxWidth', 'maxHeight', 'imgPath'
+    'minAspectRatio', 'maxAspectRatio', 'hideImage',
+    'minHeight', 'minWidth', 'maxWidth', 'maxHeight', 'imgPath'
   ],
   components: {Cropper},
   data () {

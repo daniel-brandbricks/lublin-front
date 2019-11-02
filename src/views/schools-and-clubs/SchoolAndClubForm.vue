@@ -155,7 +155,7 @@ export default {
       this.$router.push({name: 'school.or.club', params: defaultParams})
     },
 
-    // submit full school and school places without form validation
+    // submit full school and school sport-objects without form validation
     submit () {
       let school = this.school
         console.log(this.school)

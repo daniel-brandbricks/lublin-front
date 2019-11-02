@@ -7,9 +7,10 @@ import TestContent from '@/views/TestContent'
 // official
 import Www from '@/views/www/Www'
 import SchoolAndClubList from '@/views/schools-and-clubs/SchoolAndClubList'
-import Places from '@/views/places/Places'
+import SportObjectsList from '@/views/sport-objects/SportObjectsList'
 import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
+import SportObjectForm from '@/views/sport-objects/SportObjectForm'
 
 const adminRouter = {
   path: '/admin',
@@ -53,9 +54,14 @@ const adminRouter = {
 
     // Sport Objects
     {
-      path: 'places',
-      name: 'places',
-      component: Places
+      path: 'sport-objects/:tab?',
+      name: 'sport.objects',
+      component: SportObjectsList
+    },
+    {
+      path: 'sport-object/:tab?/:id?',
+      name: 'sport.object',
+      component: SportObjectForm
     },
 
     // Participant Groups
