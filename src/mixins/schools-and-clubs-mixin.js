@@ -3,19 +3,17 @@ export default {
   data () {
     return {}
   },
-  methods: {
-  },
+  methods: {},
   computed: {
     schoolListFiltered () {
+      if (!this.filters) this.filters = {}
+
       // eslint-disable-next-line one-var
       let schools = this.schoolsConfirmed || this.schoolsToConfirm || [],
-        filteredSchools = []
-
-      if (this.filters) {
-        let search = this.filters.search || '',
-          selectedType = this.filters.selectedType || [],
-          districtValue = this.filters.districtValue || []
-      }
+        filteredSchools = [],
+        search = this.filters.search || '',
+        selectedType = this.filters.selectedType || [],
+        districtValue = this.filters.districtValue || []
 
       for (let schoolIndex in schools) {
         if (search.length > 0 && schools[schoolIndex].name.toLowerCase().indexOf(search.toLowerCase()) === -1) continue

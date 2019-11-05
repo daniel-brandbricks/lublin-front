@@ -41,7 +41,7 @@ const adminRouter = {
       component: Dashboard
     },
     {
-      path: 'www',
+      path: 'www/:tab?',
       name: 'www',
       component: Www
     },
