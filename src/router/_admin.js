@@ -11,6 +11,7 @@ import SportObjectsList from '@/views/sport-objects/SportObjectsList'
 import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
 import SportObjectForm from '@/views/sport-objects/SportObjectForm'
+import Dashboard from '@/views/dashboard/Dashboard'
 
 const adminRouter = {
   path: '/admin',
@@ -34,6 +35,11 @@ const adminRouter = {
     },
 
     // official
+    {
+      path: 'dashboard',
+      name: 'dashboard',
+      component: Dashboard
+    },
     {
       path: 'www',
       name: 'www',

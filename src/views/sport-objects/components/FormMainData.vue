@@ -37,7 +37,7 @@
                       v-model="sportObject.title"></b-form-input>
       </b-form-group>
       <!--    treeselect    -->
-      <treeselect v-model="sportObject.type.id"
+      <treeselect v-model="sportObject.type.id" v-if="sportObject.type"
                   :multiple="false" class="custom mb-3"
                   placeholder="Typ" :options="sportObjectTypesPrepared"
                   :class="{'error-input-custom': veeErrors.has('sportObject.type')}"
@@ -126,6 +126,7 @@ export default {
         preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
       }
 
+      console.log(preparedSchools)
       return preparedSchools
     },
     sportObjectTypesPrepared () {

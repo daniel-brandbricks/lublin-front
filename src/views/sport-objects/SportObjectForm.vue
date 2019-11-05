@@ -1,7 +1,7 @@
 <template>
   <div>
     <template>
-      {{sportObject}}
+      {{sportObject.schools}}
       <!--   Component for PlaceEntity   -->
       <FormMainData :sportObject="sportObject" @childSubmit="submit" ref="FormMainData" :districts="districts"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import TabLinks from '@/components/TabLinks'
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
+  import TabLinks from '@/components/TabLinks'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
 
-import FormMainData from '@/views/sport-objects/components/FormMainData'
-import {DISTRICTS} from '@/config/AppConfig'
+  import FormMainData from '@/views/sport-objects/components/FormMainData'
+  import {DISTRICTS} from '@/config/AppConfig'
 
-export default {
+  export default {
   name: 'SportObjectForm',
   components: {
     TabLinks,
@@ -71,6 +71,16 @@ export default {
         .catch((error) => {
           this.postSubmitError(error)
         })
+    },
+    // todo look at this
+    prepareSportObject (response) {
+      response.schools = response.schools.map(school => school.id)
+      if (undefined === response.type || null === response.type) {
+        response.type = {
+          id: null
+        }
+      }
+      this.sportObject = response
     }
   },
   created () {
@@ -90,7 +100,7 @@ export default {
     if (this.id) {
       this.$store.dispatch('getSportObject', {id: this.id})
         .then((response) => {
-          this.sportObject = response
+          this.prepareSportObject(response)
         })
     }
 

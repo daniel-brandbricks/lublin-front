@@ -137,7 +137,7 @@ export default {
       placeDefault: {
         active: 1,
         confirmed: null,
-        type: '0',
+        type: null,
         name: '',
 
         // location
@@ -158,7 +158,7 @@ export default {
         id: this.school.places[index].id,
         collectionType: 'remove'
       }
-      this.placesToDelete.push(oldItem)
+      // this.placesToDelete.push(oldItem)
       this.$parent.removePlace(index)
     },
 
@@ -171,7 +171,7 @@ export default {
               return
             }
 
-            this.$parent.concatPlaces(this.placesToDelete)
+            // this.$parent.concatPlaces(this.placesToDelete)
             this.loading = false
             this.$parent.submit()
           })

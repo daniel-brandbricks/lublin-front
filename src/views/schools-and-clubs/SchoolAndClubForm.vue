@@ -140,7 +140,7 @@ export default {
       this.school.places.splice(index, 1)
     },
     concatPlaces (placesToDelete) {
-      this.school.places = [...this.school.places, ...placesToDelete]
+      // this.school.places = [...this.school.places, ...placesToDelete]
     },
 
     checkValidMainForm () {

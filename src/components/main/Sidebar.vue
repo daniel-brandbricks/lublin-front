@@ -9,7 +9,7 @@
       <div class="list-group list-group-flush">
         <perfect-scrollbar id="scrollbar" class="custom ps-sidebar">
 
-          <b-link :to="{name:'dev'}"
+          <b-link :to="{name:'dashboard'}"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
