@@ -368,6 +368,9 @@
 .wrap-img-type-table img {
   max-width: 100%; }
 
+.checkbox-big-span span {
+  font-size: 20px; }
+
 html body .custom-checkbox .custom-control-label,
 html body .custom-radio .custom-control-label {
   font-weight: 400;

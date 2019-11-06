@@ -117,6 +117,7 @@ export default {
     return {}
   },
   computed: {
+    // copied in Calendar.vue -> Lessons.vue
     schoolsAndClubsPrepared () {
       // eslint-disable-next-line one-var
       let data = this.$store.getters.schools,

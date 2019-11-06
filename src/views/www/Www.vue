@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
         <TabLinks :links="tabLinks"></TabLinks>
@@ -9,7 +9,6 @@
     <Menu v-if="$route.params.tab === 'menu'"/>
     <Home v-if="$route.params.tab === 'home'"/>
     <Footer v-if="$route.params.tab === 'footer'"/>
-
   </div>
 </template>
 

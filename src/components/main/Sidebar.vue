@@ -31,7 +31,7 @@
             Obiekty sportowe (2,048)
           </b-link>
 
-          <b-link :to="{name:'sport.objects'}"
+          <b-link :to="{name:'leaders'}"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
             Prowadzący (568)
@@ -43,22 +43,30 @@
             Lista zawodników (200)
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
+          <b-link :to="{name:'participants'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Zawodnicy (12,000)
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          </b-link>
+
+          <b-link :to="{name:'lessons'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista zajęć (4,000)
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          </b-link>
+
+          <b-link :to="{name:'calendar'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Kalendarz <br><span class="pl-4">Zajęć i wydarzeń</span>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          </b-link>
+
+          <b-link :to="{name:'frequency'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Frekwencja
-          </a>
+          </b-link>
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_discipline"></span>
             Lista MTSF

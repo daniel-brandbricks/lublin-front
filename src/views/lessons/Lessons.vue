@@ -1,27 +1,19 @@
 <template>
   <div>
-    <b-row class="justify-content-center">
+    <b-row class="justify-content-center align-items-center">
       <b-col cols="8">
-        <b-row class="justify-content-between align-items-center">
-          <b-col cols="6">
+        <b-row class="justify-content-center align-items-center">
+          <b-col cols="3">
             <b-form-group class="custom d-inline-block">
               <b-form-checkbox-group
                 id="checkbox-group-1"
-                v-model="selectedGender"
-                :options="genderOptions"
+                v-model="selectedType"
+                :options="typeOptions"
                 name="flavour-1"
               ></b-form-checkbox-group>
             </b-form-group>
-            <b-form-group class="custom d-inline-block">
-              <b-form-checkbox-group
-                id="checkbox-group-2"
-                v-model="selectedType"
-                :options="typeOptions"
-                name="flavour-2"
-              ></b-form-checkbox-group>
-            </b-form-group>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="9">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
@@ -31,8 +23,8 @@
         </b-row>
       </b-col>
 
-      <b-col cols="8" class="mt-4">
-        <b-row class="justify-content-between align-items-center">
+      <b-col cols="8" class="mt-3">
+        <b-row class="align-items-center">
           <b-col cols="4">
             <treeselect class="custom"
                         v-model="selectedDiscipline"
@@ -60,14 +52,24 @@
       <!--   Table   -->
       <b-col cols="8" class="mt-4">
         <b-table
-          :items="participantList"
+          :items="participants"
           :fields="fields"
           striped
           sort-icon-left
           responsive="md"
           class="custom table-responsive"
         >
-<!--          @row-clicked="rowRedirect"-->
+          <!--          @row-clicked="rowRedirect"-->
+
+          <template slot="name" slot-scope="scope">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="wrap-img-type-table mr-3">
+                <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
+              </div>
+              <span>{{scope.item.name}}</span>
+            </div>
+
+          </template>
 
           <template slot="status" slot-scope="scope">
             <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
@@ -102,26 +104,21 @@ export default {
   data () {
     return {
       fields: [
-        {key: 'name', label: 'Nazwa listy', sortable: true},
+        {key: 'name', label: 'Nazwa zajęcia', sortable: true},
         {key: 'discipline', label: 'Dyscyplina', sortable: true},
-        {key: 'gender', label: 'Płeć', sortable: true},
         {key: 'category', label: 'Kategoria', sortable: true},
         {key: 'class', label: 'Klasa', sortable: true},
+        {key: 'leader', label: 'Prowadzący', sortable: true},
         {key: 'status', label: 'Status w systemie', sortable: true},
         {key: 'edit', label: ''}
       ],
 
       search: '',
 
-      selectedGender: [],
       selectedType: [],
       typeOptions: [
         {text: 'klub', value: 0},
         {text: 'szkola', value: 1}
-      ],
-      genderOptions: [
-        {text: 'kobieta', value: 0},
-        {text: 'mężczyzna', value: 1}
       ],
 
       selectedDiscipline: null,
@@ -142,23 +139,23 @@ export default {
         {id: 1, label: '2b'},
         {id: 2, label: '6a'},
         {id: 3, label: '8c'}
-      ],
+      ]
     }
   },
   computed: {
-    participantList () {
+    participants () {
       return [
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1}
+        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0},
+        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0},
+        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1},
+        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1}
       ]
     }
   },
   created () {
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'participant.group'})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Lista zawodników', active: true}])
+    this.changeAdminNavbarButton({buttonLink: 'lesson'})
+    this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
   }
 }
 </script>

@@ -12,6 +12,11 @@ import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
 import SportObjectForm from '@/views/sport-objects/SportObjectForm'
 import Dashboard from '@/views/dashboard/Dashboard'
+import Leaders from '@/views/leaders/Leaders'
+import Participants from '@/views/participants/Participants'
+import Lessons from '@/views/lessons/Lessons'
+import Calendar from '@/views/calendar/Calendar'
+import Frequency from '@/views/fregucncy/Frequency'
 
 const adminRouter = {
   path: '/admin',
@@ -70,12 +75,71 @@ const adminRouter = {
       component: SportObjectForm
     },
 
+    // Leaders
+    {
+      path: 'leaders/:tab?',
+      name: 'leaders',
+      component: Leaders
+    },
+    {
+      path: 'leader/:id?',
+      name: 'leader',
+      // todo
+      component: Leaders
+    },
+
     // Participant Groups
     {
       path: 'participant-groups',
       name: 'participant.groups',
       component: ParticipantGroups
     },
+    {
+      path: 'participant-group/:id?',
+      name: 'participant.group',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Participants
+    {
+      path: 'participants',
+      name: 'participants',
+      component: Participants
+    },
+    {
+      path: 'participant/:id?',
+      name: 'participant',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Lessons list
+    {
+      path: 'lessons',
+      name: 'lessons',
+      component: Lessons
+    },
+    {
+      path: 'lesson/:id?',
+      name: 'lesson',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Calendar
+    {
+      path: 'calendar/:tab?',
+      name: 'calendar',
+      component: Calendar
+    },
+
+    // Frequency
+    {
+      path: 'frequency',
+      name: 'frequency',
+      component: Frequency
+    }
   ]
 }
 

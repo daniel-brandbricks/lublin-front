@@ -1,17 +1,19 @@
 <template>
   <!--todo Переделать  хреново ломается -->
-  <b-col cols="12" class="mt-2">
-    <b-row>
-      <b-col>
-        <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
-      </b-col>
-      <b-col cols="2" v-if="buttonLink">
-        <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink, params: buttonLinkParams }">
-          Dodaj...
-        </b-link>
-      </b-col>
-    </b-row>
-  </b-col>
+  <div class="container">
+    <b-col cols="12" class="p-0 mt-2">
+      <b-row>
+        <b-col>
+          <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
+        </b-col>
+        <b-col cols="2" v-if="buttonLink">
+          <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink, params: buttonLinkParams }">
+            Dodaj...
+          </b-link>
+        </b-col>
+      </b-row>
+    </b-col>
+  </div>
 </template>
 
 <script>
