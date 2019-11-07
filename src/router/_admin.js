@@ -19,6 +19,7 @@ import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
 import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
+import Reports from '@/views/reports/Reports'
 
 const adminRouter = {
   path: '/admin',
@@ -161,6 +162,13 @@ const adminRouter = {
       name: 'event',
       // todo
       component: ParticipantGroups
+    },
+
+    // Reports
+    {
+      path: 'reports/:tab?',
+      name: 'reports',
+      component: Reports
     }
   ]
 }

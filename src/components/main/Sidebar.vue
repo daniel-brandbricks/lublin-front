@@ -73,17 +73,18 @@
             Lista MTSF
           </b-link>
 
-
           <b-link :to="{name:'events'}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista imprez
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-iconm_search"></span>
+          <b-link :to="{name:'reports'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
             Raporty
-          </a>
+          </b-link>
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_arrow_24"></span>
             Słownik
