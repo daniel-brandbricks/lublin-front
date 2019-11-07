@@ -52,10 +52,10 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         resolve(data)
       })
       .catch(error => {
-        // todo change on BACK
-        if (error.response && error.response.data.message === 'TOKEN_EXPIRED') {
+        if (isAuthorized && error.response && error.response.data.error === 'empty user') {
           console.log('api service TOKEN_EXPIRED')
-          // router.push({ name: 'login' })
+          store.dispatch('clearAuthToken')
+          router.push({ name: 'login' })
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
@@ -78,13 +78,10 @@ export function configAuthHeader () {
 
 let addAuthHeader = false
 
-console.log('POPALO')
 axios.interceptors.request.use((config) => {
-  console.log(config)
   if (addAuthHeader && store.getters.isLoggedIn) {
-    console.log(store.state.authModule.authToken)
-    console.log(store.state)
     config.headers['X-AUTH-Token'] = store.state.authModule.authToken
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
   }
   return config
 }, function (err) {

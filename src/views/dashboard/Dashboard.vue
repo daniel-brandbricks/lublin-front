@@ -1,246 +1,170 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <b-btn variant="primary">Primary</b-btn>
-        <b-btn>Primary</b-btn>
-        <p>
-          <span class="icon-icon_login"></span>Primary
-        </p>
-        <h1>Lorem ipsum. </h1>
-        <h1 class="c-green">Lorem ipsum. </h1>
-        <h1 class="bgc-green">Lorem ipsum. </h1>
+    <b-row class="justify-content-between">
+      <b-col cols="6">
+        <h3 class="mb-4">Do zatwierdzenia</h3>
 
-      </div>
+        <!--    Schools And Clubs    -->
+        <h4 v-b-toggle.collapse-schools><span class="mr-3">^</span>Kłuby i szkoły</h4>
+        <b-collapse visible id="collapse-schools" class="mt-2">
+          <b-table
+            :items="schoolListFiltered"
+            :fields="fieldsSchools"
+            striped
+            sort-icon-left
+            responsive="md"
+            class="custom table-responsive"
+          >
+<!--            @row-clicked="rowRedirect"-->
+            <template slot="type" slot-scope="scope">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="wrap-img-type-table mr-3">
+                  <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
+                </div>
+                <span>{{scope.item.type == 0 ? 'Klub' : 'Szkoła'}}</span>
+              </div>
 
-      <div class="col-12 mt-5">
-        <b-form-group
-          class="custom"
-          label="Enter your name"
-          label-for="input-1">
-          <b-form-input id="input-1" class="custom"
-                        placeholder="E-mail"
-                        v-model="name"></b-form-input>
-        </b-form-group>
-        <b-form-group
-          class="custom"
-          label="Enter your name"
-          label-for="input-2">
-          <b-form-input id="input-2" class="custom" v-model="name"></b-form-input>
-        </b-form-group>
-      </div>
-      <b-col cols="12">
-        <b-form-group label="Using options array:" class="custom">
-          <b-form-checkbox-group
-            id="checkbox-group-1"
-            v-model="selected"
-            :options="options"
-            name="flavour-1"
-          ></b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
-      <b-col cols="12">
-        <b-form-group label="Individual radios">
-          <b-form-radio v-model="selectedRadio" name="some-radios" value="A">Option A</b-form-radio>
-          <b-form-radio v-model="selectedRadio" name="some-radios" value="B">Option B</b-form-radio>
-        </b-form-group>
-      </b-col>
+            </template>
 
-      <b-col cols="4" class="mb-3">
-        <b-card
-          class="custom"
-          footer-class="p-0"
-        >
+            <template slot="object" slot-scope="scope">
+              <span>{{scope.item.places.length}}</span>
+            </template>
 
-          <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-          <p class="">ul. Krochmalna 29</p>
-          <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-          <a href="#" class="card-arrow">
-            <span class=" icon-icon_arrow_24"></span>
-          </a>
-          <template slot="footer">
-            <div class="d-inline-block type-card float-right">KLUB</div>
-          </template>
-        </b-card>
-      </b-col>
+            <template slot="data" slot-scope="scope">
+              <span>{{scope.item.created}}</span>
+            </template>
 
-      <b-col cols="3" class="mb-3">
-        <b-card
-          class="custom"
-          footer-class="p-0"
-        >
+            <template slot="btnTable" slot-scope="scope">
+              <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
+                Zatwierdź
+              </b-btn>
+            </template>
+            <template slot="edit" slot-scope="scope">
+              <b-link class="icon-link">
+                <span class="icon icon-iconm_search"></span>
+              </b-link>
+            </template>
 
-          <p class="card-signature mb-0">Dyscyplina</p>
-          <p class="">Piotr Wójcik</p>
+          </b-table>
+        </b-collapse>
 
-          <p class="card-signature mb-0">Czas trwania</p>
-          <p class="">17:00 - 18:30</p>
+        <!--    Sports Objects    -->
+        <h4 v-b-toggle.collapse-sport-objects><span class="mr-3">^</span>Obiekty sportowe</h4>
+        <b-collapse visible id="collapse-sport-objects" class="mt-2">
+          <b-table
+            :items="sportObjectsListFiltered"
+            :fields="fieldsSportObjects"
+            striped
+            sort-icon-left
+            responsive="md"
+            class="custom table-responsive"
+          >
+<!--            @row-clicked="rowRedirect"-->
 
-          <p class="card-signature mb-0">Obiekt sportowy</p>
-          <p class="">Gimnazjum nr 14 - Orlik (ul. Pogodna 19)</p>
+            <template slot="type" slot-scope="scope">
+              <span>{{scope.item.title}}</span>
+            </template>
 
-          <p class="card-signature mb-0">Typ</p>
-          <p class="">Sport dzieci i młodzieży</p>
+            <template slot="object" slot-scope="scope">
+              <span>{{scope.item.placeType.title}}</span>
+            </template>
 
-          <p class="card-signature mb-0">Finansowane ze środków Gminy Lublin</p>
-          <p class="">Tak</p>
+            <template slot="data" slot-scope="scope">
+              <span>{{scope.item.created}}</span>
+            </template>
 
-        </b-card>
-      </b-col>
+            <template slot="btnTable" slot-scope="scope">
+              <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
+                Zatwierdź
+              </b-btn>
+            </template>
+            <template slot="edit" slot-scope="scope">
+              <b-link class="icon-link">
+                <span class="icon icon-iconm_search"></span>
+              </b-link>
+            </template>
 
-      <b-col cols="12" lg="6">
-        <template>
-          <date-pick
-            v-model="date"
-            :hasInputElement="false"
-          ></date-pick>
-          <!--todo добавить класс на ячейку с событием, и дописать ему стиля от .disablet-->
-          <!--todo убрать с header select-->
-        </template>
+          </b-table>
+        </b-collapse>
+
+        <!--    Teachers    -->
+        <h4 v-b-toggle.collapse-teachers><span class="mr-3">^</span>Prowadzący</h4>
+
+        <!--    Parties    -->
+        <h4 v-b-toggle.collapse-parties><span class="mr-3">^</span>Imprezy</h4>
       </b-col>
 
-      <b-col cols="12">
-        <treeselect v-model="value"
-                    :multiple="false"
-                    :options="optionsTS"
-                    class="custom" />
+      <b-col cols="6">
+        <h3 class="mb-4">Ostatnie zmiany</h3>
+
+        <b-table
+          :items="historyTempData"
+          :fields="fieldsHistory"
+          striped
+          sort-icon-left
+          responsive="md"
+          class="custom table-responsive"
+        ></b-table>
       </b-col>
-
-      <b-col cols="12">
-        <h1>Akademia Piłkarska Bronowice Lublin</h1>
-      </b-col>
-      <b-col cols="4">
-        <div class="info-box border-r">
-          <h2><span class="icon icon-icon_pin_2 pr-3"></span>ul. Montażowa 16</h2>
-          <p><span class="icon icon-discipline pr-3"></span>Piłka nożna</p>
-          <p><span class="icon icon-icon_mail pr-3"></span>testing@test.com</p>
-          <p><span class="icon icon-icon_phone pr-3"></span>+11 111 111 111</p>
-        </div>
-      </b-col>
-      <b-col cols="4">
-        <div class="info-box">
-          <p class="signature mb-0">Typ</p>
-          <p class="">ORLIK</p>
-          <p><span class="icon icon-icon_pin_2 pr-3"></span>ul. Montażowa 16</p>
-          <p><span class="icon icon-icon_phone pr-3"></span>+11 111 111 111</p>
-        </div>
-      </b-col>
-      <b-col cols="12">
-        <span class="status active">aktywny</span>
-        <span class="status inactive">nieaktywny</span>
-      </b-col>
-
-      <!--   admin navbar   -->
-      <b-col cols="12">
-        <b-row >
-          <b-col>
-            <h1 class="">Lorem ipsum.</h1>
-          </b-col>
-          <b-col cols="2" class="">
-            <b-btn variant="primary" block>Primary</b-btn>
-          </b-col>
-        </b-row>
-      </b-col>
-
-      <b-col cols="4" class="mb-3">
-        <b-card
-          class="custom"
-          footer-class="p-0"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-        >
-
-          <!--Добавить проверку : Если текста больше 3 строк добавить класс height-hidden-->
-          <b-card-text text-tag="div" class="height-hidden">
-            <h2 class="card-title " title="lorem8">Lorem ipsum dolor sit amet,</h2>
-
-            <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequatur eligendi esse iusto minima non officia temporibus veniam! Beatae dolor in inventore minus pariatur, soluta suscipit! Ad aspernatur atque dignissimos eligendi, fugit inventore iure labore nesciunt non temporibus veniam veritatis!</p>
-          </b-card-text>
-          <p class="card-signature mb-0"><span class="icon icon-icon_date_16 pl-0"></span>11.07.19</p>
-
-          <a href="#" class="card-arrow" >
-            <span class=" icon-icon_arrow_24"></span>
-          </a>
-
-        </b-card>
-      </b-col>
-      <b-col cols="4">
-        <div class="android-box pt-5 pl-5">
-          <header class="header-android">
-            <span class="circle"></span>
-            <span class="circle right"></span>
-          </header>
-          <div class="body-android">
-
-          </div>
-          <footer class="footer-android"></footer>
-        </div>
-
-      </b-col>
-
-      <b-col cols="4">
-        <div class="android-box pt-5 pl-5">
-         <div class="smile">
-           <span class="circle"></span>
-           <span class="circle two"></span>
-           <span class="past"></span>
-         </div>
-        </div>
-
-      </b-col>
-
-    </div>
-
+    </b-row>
   </div>
 </template>
 
 <script>
-  import Datepicker from 'vuejs-datepicker';
-  // import the component
-  import Treeselect from '@riophae/vue-treeselect'
-  // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
+import SportObjectsMixin from '@/mixins/sport-objects-mixin'
+import EventBusEmit from '@/mixins/event-bus-emit'
 
-  import DatePick from 'vue-date-pick';
-  import 'vue-date-pick/dist/vueDatePick.css';
-
-
-  export default {
-    components: { Datepicker, Treeselect,DatePick },
-    data () {
-      return {
-        date: '2019-09-01',
-        selected: [],
-        selectedRadio: 'A',
-        options: [
-          {text: 'first', value: '1'},
-          {text: 'secondary', value: '2'},
-          {text: 'third', value: '3'},
-        ],
-        // define the default value
-        value: null,
-        // define options
-        optionsTS: [ {
-          id: 'a',
-          label: 'first',
-          children: [ {
-            id: 'aa',
-            label: 'aa',
-          }, {
-            id: 'ab',
-            label: 'ab',
-          } ],
-        }, {
-          id: 'b',
-          label: 'second',
-        }, {
-          id: 'c',
-          label: 'third',
-        } ],
-      }
+export default {
+  components: {},
+  mixins: [SchoolsAndClubsMixin, SportObjectsMixin, EventBusEmit],
+  data () {
+    return {
+      fieldsSchools: [
+        {key: 'type', label: 'Typ', sortable: true},
+        {key: 'name', label: 'Nazwa', sortable: true},
+        {key: 'object', label: 'Obiekty sportowe', sortable: true},
+        {key: 'data', label: 'Data dodania', sortable: true},
+        {key: 'btnTable', label: '', sortable: true},
+        {key: 'edit', label: ''}
+      ],
+      fieldsSportObjects: [
+        {key: 'type', label: 'Nazwa obiektu', sortable: true},
+        {key: 'name', label: 'Typ obiektu', sortable: true},
+        {key: 'data', label: 'Data dodania', sortable: true},
+        {key: 'btnTable', label: '', sortable: true},
+        {key: 'edit', label: ''}
+      ],
+      fieldsHistory: [
+        {key: 'person', label: 'Kto', sortable: true},
+        {key: 'date', label: 'Data', sortable: true},
+        {key: 'changes', label: 'Zmiana', sortable: true}
+      ],
+      historyTempData: [
+        {person: 'Marek', date: '23-11-2019', changes: 'Dodal klub "Fire"'},
+        {person: 'Kasia', date: '13-10-2019', changes: 'Edytowala zajecia "Poker"'},
+        {person: 'Ola', date: '11-10-2019', changes: 'Usunela trenera "Adam"'},
+        {person: 'Rafal', date: '03-10-2019', changes: 'Dodal obiekt sportowy "KKK"'}
+      ]
     }
+  },
+  computed: {
+    schoolsToConfirm () {
+      return this.$store.getters.schoolsToConfirm
+    },
+    sportObjectsToConfirm () {
+      return this.$store.getters.sportObjectsToConfirm
+    }
+  },
+  created () {
+    this.$store.dispatch('getSchools', {confirmed: 0})
+    this.$store.dispatch('getSportObjects', {confirmed: 0})
+
+    /** @buttonLink route name || false if button must be hidden */
+    this.changeAdminNavbarButton({buttonLink: false})
+    this.changeAdminNavbarBreadcrumbs([{text: 'Dashboard', active: true}])
   }
+}
 </script>
 
 <style scoped>

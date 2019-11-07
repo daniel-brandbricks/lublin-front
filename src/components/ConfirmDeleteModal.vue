@@ -30,15 +30,18 @@
 
 <script>
 import EventBus from '@/event-bus'
+import ToastMixin from '@/mixins/toast-mixin'
 
 export default {
   name: 'ConfirmDeleteModal',
-  mixins: [],
+  mixins: [ToastMixin],
   data () {
     return {
       toDeleteWord: '',
-      returnParam: '',
-      elementToDelete: null
+      method: null,
+      id: null,
+      routeToPush: false,
+      routeParams: {}
     }
   },
   methods: {
@@ -67,17 +70,48 @@ export default {
       Object.assign(this.$data, this.$options.data.call(this))
     },
     submitForm () {
-      EventBus.$emit(this.returnParam, this.element)
-      this.hideModal()
+      this.$store.dispatch(this.method, { id: this.id })
+        .then((response) => {
+          this.hideModal()
+          console.log(response)
+          if (this.routeToPush) {
+            this.routeParams['toastText'] = 'Dane zostały usunięte'
+            this.routeParams['toastVariant'] = 'success'
+            console.log(this.routeParams)
+            this.$router.push({
+              name: this.routeToPush,
+              params: this.routeParams
+            })
+          } else {
+            this.showToast('Dane zostały usunięte', 'Uwaga!', 'success')
+          }
+        })
+        .catch((error) => {
+          this.hideModal()
+          console.log(error)
+          if (this.routeToPush) {
+            this.routeParams['toastText'] = 'Dane zostały usunięte'
+            this.routeParams['toastVariant'] = 'success'
+            console.log(this.routeParams)
+            this.$router.push({
+              name: this.routeToPush,
+              params: this.routeParams
+            })
+          } else {
+            this.showToast('Wystąpil błąd', 'Uwaga!', 'danger')
+          }
+        })
     }
   },
   created () {
-    EventBus.$on('SHOW_CONFIRM_DELETE_MODAL', (returnParam = '', element = null, toDeleteWord = 'daną pozycję') => {
+    EventBus.$on('SHOW_CONFIRM_DELETE_MODAL', (method = '', id = null, toDeleteWord, routeToPush, routeParams) => {
       this.reset()
 
+      this.routeToPush = routeToPush
+      this.routeParams = routeParams
       this.toDeleteWord = toDeleteWord
-      this.returnParam = returnParam
-      this.element = element
+      this.method = method
+      this.id = id
 
       this.showModal()
     })

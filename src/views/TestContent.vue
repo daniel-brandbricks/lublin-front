@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     toggleSidebar () {
-      console.log(111)
       EventBus.$emit('TOGGLE_SIDEBAR')
     },
     showDeleteModal () {

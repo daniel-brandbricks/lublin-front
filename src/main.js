@@ -23,23 +23,24 @@ import VueCropper from 'vue-cropperjs'
 import 'cropperjs/dist/cropper.css'
 
 // DatePicker
-import DatePicker from 'vue2-datepicker';
+import DatePicker from 'vue2-datepicker'
 
 import './assets/scss/style.scss'
 
-// todo
 // Vee validate
-// import locale from '@/config/ValidatorConfig';
-// import VeeValidate from 'vee-validate';
-// const rulesPlugin = ({ Validator }) => {
-//   Validator.localize('pl', locale);
-// };
-// VeeValidate.use(rulesPlugin);
-// Vue.use(VeeValidate, {
-//   inject: true,
-//   fieldsBagName: 'veeFields',
-//   errorBagName: 'veeErrors'
-// });
+import locale from '@/config/ValidatorConfig'
+import VeeValidate from 'vee-validate'
+const rulesPlugin = ({ Validator }) => {
+  Validator.localize('pl', locale)
+}
+
+VeeValidate.use(rulesPlugin)
+Vue.use(VeeValidate, {
+  inject: true,
+  fieldsBagName: 'veeFields',
+  errorBagName: 'veeErrors'
+})
+// Vee validate
 
 Vue.use(PerfectScrollbar)
 Vue.use(BootstrapVue)
@@ -57,6 +58,5 @@ new Vue({
   components: {App},
   template: '<App/>',
   created () {
-    console.log('MAIN CREATED')
   }
 })

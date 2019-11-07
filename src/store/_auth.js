@@ -54,7 +54,6 @@ export default {
     },
     login (context, data) {
       return new Promise((resolve, reject) => {
-        console.log(data)
         apiService.makeApiCall('login/', 'post', false, data, null, 200)
           .then(response => {
             if (response === 'error') {
@@ -74,6 +73,7 @@ export default {
       })
     },
     logout (context) {
+      console.log('LOGOUT')
       return new Promise((resolve, reject) => {
         let data = {
           token: context.getters.authToken
@@ -95,6 +95,10 @@ export default {
           })
       })
     },
+    clearAuthToken (context) {
+      context.commit('destroyAuthToken')
+    },
+    // todo
     getCurrentUser (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('me/', 'get', true, null, null, 200)
@@ -108,135 +112,6 @@ export default {
             resolve(response)
           })
           .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    updateUserData (context, data) {
-      return new Promise((resolve, reject) => {
-        /* let authUser = data
-         context.commit('setAuthUser', authUser)
-         resolve(authUser) */
-        apiService.makeApiCall(prefix + 'user/data', 'put', true, data, null, 200, ['user', 'token'])
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-            context.commit('setAuthUser', data)
-            resolve(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error)
-          })
-      })
-    },
-    deleteAccount (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall(prefix + 'user', 'delete', true)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.dispatch('logout')
-              .then(response => {
-                console.log('_auth logout')
-                router.push({ name: 'auth.register' })
-              })
-            resolve(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error)
-          })
-      })
-    },
-    updateUserPassword (context, data) {
-      return new Promise((resolve, reject) => {
-        // resolve(data)
-        apiService.makeApiCall(prefix + 'user/password', 'put', true, data, null, 200, ['user', 'token'])
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-            // context.commit('setAuthUser', response.user)
-            resolve(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error)
-          })
-      })
-    },
-
-    // ADMIN / MANAGER POST
-    sendMailConfirm (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('me/send-account-confirm-email', 'post', true, data, null, 201)
-          .then(response => {
-            resolve(response)
-          })
-          .catch((error) => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    // register(context, data) {
-    //   return new Promise((resolve, reject) => {
-    //     apiService.makeApiCall(prefix + 'register', 'post', false, data, null, 201)
-    //       .then(response => {
-    //         if (response === 'error') {
-    //           resolve('error');
-    //           return;
-    //         }
-    //         resolve(response);
-    //       })
-    //       .catch(error => {
-    //         reject(error);
-    //     });
-    //   });
-    // },
-    registerConfirm (context, data) {
-      return new Promise((resolve, reject) => {
-        console.log(data)
-        apiService.makeApiCall('me/account-confirm', 'post', false, data, null, 201)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-            resolve(response)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
-    },
-    resetPassSendMail (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('me/send-password-reset-email', 'post', false, data, null, 201)
-          .then(response => {
-            resolve(response)
-          })
-          .catch((error) => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    resetPassConfirm (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('me/password-reset', 'post', false, data, null, 201)
-          .then(response => {
-            resolve(response)
-          })
-          .catch((error) => {
             console.log(error.response)
             reject(error.response)
           })

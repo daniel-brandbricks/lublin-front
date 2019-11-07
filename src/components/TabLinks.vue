@@ -1,40 +1,38 @@
 <template>
   <div class="tab-link-list mb-4">
-    <b-link :to="{name:'www'}"
+    <b-link v-for="(item,index) in links" :key="index"
+            :to="{ name: item.link, params: { tab: item.tab, id: id } }"
             active-class="active"
+            @click="callParentMethod(index)"
             class="tab-link-item">
-      Lorem
+      {{ item.title }}
     </b-link>
-    <b-link :to="{name:'my'}"
-            active-class="active"
-            class="tab-link-item">
-      Lorem
-    </b-link>
-    <b-link :to="{name:'dev'}"
-            active-class="active"
-            class="tab-link-item">
-      Lorem
-    </b-link>
-
   </div>
-
 </template>
 
 <script>
-import EventBus from '@/event-bus'
-
 export default {
   name: 'TabLinks',
+  props: ['links'],
   data () {
     return {
+      // if we need to save id in different ulr tabs
+      id: this.$route.params.id
     }
   },
   computed: {},
-  methods: {},
+  methods: {
+    // call method on click tab (needs param 'method' in 'links' prop)
+    callParentMethod (index) {
+      if (this.links[index].method) {
+        let funcName = this.$parent[this.links[index].method]
+        if (typeof funcName === 'function') {
+          funcName()
+        }
+      }
+    }
+  },
   created () {
-    EventBus.$on('CHANGE_TABS', (params) => {
-      console.log(params)
-    })
   }
 }
 </script>

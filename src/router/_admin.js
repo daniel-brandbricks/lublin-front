@@ -7,9 +7,16 @@ import TestContent from '@/views/TestContent'
 // official
 import Www from '@/views/www/Www'
 import SchoolAndClubList from '@/views/schools-and-clubs/SchoolAndClubList'
-import SportObjects from '@/views/sport-objects/SportObjects'
+import SportObjectsList from '@/views/sport-objects/SportObjectsList'
 import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
+import SportObjectForm from '@/views/sport-objects/SportObjectForm'
+import Dashboard from '@/views/dashboard/Dashboard'
+import Leaders from '@/views/leaders/Leaders'
+import Participants from '@/views/participants/Participants'
+import Lessons from '@/views/lessons/Lessons'
+import Calendar from '@/views/calendar/Calendar'
+import Frequency from '@/views/fregucncy/Frequency'
 
 const adminRouter = {
   path: '/admin',
@@ -34,28 +41,51 @@ const adminRouter = {
 
     // official
     {
-      path: 'www',
+      path: 'dashboard',
+      name: 'dashboard',
+      component: Dashboard
+    },
+    {
+      path: 'www/:tab?',
       name: 'www',
       component: Www
     },
 
     // Schools And Clubs
     {
-      path: 'schools-and-clubs',
+      path: 'schools-and-clubs/:tab?',
       name: 'schools.and.clubs',
       component: SchoolAndClubList
     },
     {
-      path: 'school-or-club',
+      path: 'school-or-club/:tab?/:id?',
       name: 'school.or.club',
       component: SchoolAndClubForm
     },
 
     // Sport Objects
     {
-      path: 'sport-objects',
+      path: 'sport-objects/:tab?',
       name: 'sport.objects',
-      component: SportObjects
+      component: SportObjectsList
+    },
+    {
+      path: 'sport-object/:tab?/:id?',
+      name: 'sport.object',
+      component: SportObjectForm
+    },
+
+    // Leaders
+    {
+      path: 'leaders/:tab?',
+      name: 'leaders',
+      component: Leaders
+    },
+    {
+      path: 'leader/:id?',
+      name: 'leader',
+      // todo
+      component: Leaders
     },
 
     // Participant Groups
@@ -64,6 +94,52 @@ const adminRouter = {
       name: 'participant.groups',
       component: ParticipantGroups
     },
+    {
+      path: 'participant-group/:id?',
+      name: 'participant.group',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Participants
+    {
+      path: 'participants',
+      name: 'participants',
+      component: Participants
+    },
+    {
+      path: 'participant/:id?',
+      name: 'participant',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Lessons list
+    {
+      path: 'lessons',
+      name: 'lessons',
+      component: Lessons
+    },
+    {
+      path: 'lesson/:id?',
+      name: 'lesson',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Calendar
+    {
+      path: 'calendar/:tab?',
+      name: 'calendar',
+      component: Calendar
+    },
+
+    // Frequency
+    {
+      path: 'frequency',
+      name: 'frequency',
+      component: Frequency
+    }
   ]
 }
 

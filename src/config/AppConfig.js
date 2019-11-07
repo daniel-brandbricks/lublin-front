@@ -1,1 +1,31 @@
 export const BASE_API_URL = process.env.BASE_API_URL
+
+export const DISTRICTS = [
+  { id: 0, label: 'Abramowice' },
+  { id: 1, label: 'Bronowice' },
+  { id: 2, label: 'Czechów Południowy' },
+  { id: 3, label: 'Czechów Północny' },
+  { id: 4, label: 'Czuby Południowe' },
+  { id: 5, label: 'Czuby Północne' },
+  { id: 6, label: 'Dziesiąta' },
+  { id: 7, label: 'Felin' },
+  { id: 8, label: 'Głusk' },
+  { id: 9, label: 'Hajdów-Zadębie' },
+  { id: 10, label: 'Kalinowszczyzna' },
+  { id: 11, label: 'Konstantynów' },
+  { id: 12, label: 'Kośminek' },
+  { id: 13, label: 'Ponikwoda' },
+  { id: 14, label: 'Rury' },
+  { id: 15, label: 'Sławin' },
+  { id: 16, label: 'Sławinek' },
+  { id: 17, label: 'Stare Miasto' },
+  { id: 18, label: 'Szerokie' },
+  { id: 19, label: 'Śródmieście' },
+  { id: 20, label: 'Tatary' },
+  { id: 21, label: 'Węglin Południowy' },
+  { id: 22, label: 'Węglin Północny' },
+  { id: 23, label: 'Wieniawa' },
+  { id: 24, label: 'Wrotków' },
+  { id: 25, label: 'Za Cukrownią' },
+  { id: 26, label: 'Zemborzyce' }
+]

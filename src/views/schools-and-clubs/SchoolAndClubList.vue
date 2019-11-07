@@ -1,15 +1,13 @@
 <template>
-  <div>
+  <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks></TabLinks>
+        <TabLinks :links="tabLinks"></TabLinks>
       </b-col>
-
     </b-row>
 
     <b-row class="justify-content-center">
       <b-col cols="8">
-
         <b-row class="align-items-center mb-3">
           <b-col>
             <b-form-group class="custom">
@@ -26,203 +24,95 @@
                         v-model="districtValue"
                         :multiple="true"
                         placeholder="Dzielnica"
-                        :options="optionsTS"/>
+                        :options="districts"/>
           </b-col>
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="districtValue"
-                        :multiple="true"
-                        placeholder="Szukaj"
-                        :options="optionsTS"/>
-          </b-col>
-        </b-row>
-
-      </b-col>
-    </b-row>
-    <b-row class="justify-content-center">
-      <b-col cols="8">
-        <b-table
-          :items="items"
-          :fields="fields"
-          striped
-          sort-icon-left
-          responsive="md"
-          class="custom table-responsive"
-        >
-          <template slot="type" slot-scope="scope">
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="wrap-img-type-table mr-3">
-                <img src="https://placeimg.com/50/50/any" alt="">
-              </div>
-              <span>club/szkola</span>
-            </div>
-
-          </template>
-          <template slot="status" slot-scope="scope">
-            <span class="status active">aktywny</span>
-          </template>
-          <template slot="edit" slot-scope="scope">
-            <b-link class="icon-link">
-              <span class="icon icon-iconm_search"></span>
-            </b-link>
-          </template>
-
-        </b-table>
-      </b-col>
-    </b-row>
-    <!--page 2-->
-    <b-row class="justify-content-center">
-      <b-col cols="8">
-
-        <b-row class="align-items-center mb-3">
-          <b-col>
-            <b-form-group class="custom">
-              <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="selectedType"
-                :options="typeOptions"
-                name="flavour-1"
-              ></b-form-checkbox-group>
+            <b-form-group
+              class="custom">
+              <b-form-input id="input-1" class="custom m-0"
+                            placeholder="Szukaj"
+                            v-model="search"></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="districtValue"
-                        :multiple="true"
-                        placeholder="Dzielnica"
-                        :options="optionsTS"/>
-          </b-col>
-          <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="districtValue"
-                        :multiple="true"
-                        placeholder="Szukaj"
-                        :options="optionsTS"/>
-          </b-col>
         </b-row>
-
       </b-col>
     </b-row>
-    <b-row class="justify-content-center">
-      <b-col cols="8">
-        <b-table
-          :items="itemsTwo"
-          :fields="fieldsTwo"
-          striped
-          sort-icon-left
-          responsive="md"
-          class="custom table-responsive"
-        >
-          <template slot="type" slot-scope="scope">
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="wrap-img-type-table mr-3">
-                <img src="https://placeimg.com/50/50/any" alt="">
-              </div>
-              <span>club/szkola</span>
-            </div>
 
-          </template>
-          <template slot="btnTable" slot-scope="scope">
-            <b-btn variant="primary" class="custom mb-0">
-              Zatwierdź
-            </b-btn>
-          </template>
-          <template slot="edit" slot-scope="scope">
-            <b-link class="icon-link">
-              <span class="icon icon-iconm_search"></span>
-            </b-link>
-          </template>
-
-        </b-table>
-      </b-col>
-    </b-row>
+    <list-confirmed :filters="{selectedType: selectedType, districtValue: districtValue, search: search}"
+                    :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
+    <list-to-confirm :filters="{selectedType: selectedType, districtValue: districtValue, search: search}"
+                     :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
 
   </div>
 </template>
 
 <script>
-  // import the component
-  import Treeselect from '@riophae/vue-treeselect'
-  // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+// node_modules
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import EventBusEmit from '@/mixins/event-bus-emit'
+import { DISTRICTS } from '@/config/AppConfig'
 
-  import TabLinks from '../../components/TabLinks'
-  import EventBus from '@/event-bus'
+import ListMixin from '@/mixins/list-mixin'
+import EventBusEmit from '@/mixins/event-bus-emit'
+import TabLinks from '../../components/TabLinks'
+import EventBus from '@/event-bus'
 
-  export default {
-    components: {TabLinks, Treeselect},
-    mixins: [EventBusEmit],
-    data () {
-      return {
-        // checkboxes
-        selectedType: [],
-        typeOptions: [
-          {text: 'klub', value: 'club'},
-          {text: 'szkola', value: 'school'}
-        ],
+import ListConfirmed from '@/views/schools-and-clubs/components/ListConfirmed'
+import ListToConfirm from '@/views/schools-and-clubs/components/ListToConfirm'
 
-        // treeselect
-        districtValue: null,
-        optionsTS: [{
-          id: 'a',
-          label: 'first',
-          children: [{
-            id: 'aa',
-            label: 'aa',
-          }, {
-            id: 'ab',
-            label: 'ab',
-          }],
-        }, {
-          id: 'b',
-          label: 'second',
-        }, {
-          id: 'c',
-          label: 'third',
-        }],
+export default {
+  components: {TabLinks, Treeselect, ListConfirmed, ListToConfirm},
+  mixins: [EventBusEmit, ListMixin],
+  data () {
+    return {
+      tabLinks: [
+        {
+          title: 'Zatwierdzone',
+          link: 'schools.and.clubs',
+          tab: 'confirmed'
+        },
+        {
+          title: 'Do zatwierdzenia',
+          link: 'schools.and.clubs',
+          tab: 'to-confirm'
+        }
+      ],
 
-        // table
-        fields: [
-          {key: 'type', label: 'Typ', sortable: true},
-          {key: 'name', label: 'Nazwa', sortable: true},
-          {key: 'object', label: 'Obiekty sportowe', sortable: true},
-          {key: 'email', label: 'E-mail', sortable: true},
-          {key: 'status', label: 'status w systemie', sortable: true},
-          {key: 'edit', label: ''}
-        ],
-        items: [
-          {type: 'type', name: 'name', object: 'object', email: 'email@email.com', status: 'status', edit: '2'},
-          {type: 'type', name: 'name', object: 'object', email: 'email@email.com', status: 'status', edit: '2'},
-          {type: 'type', name: 'name', object: 'object', email: 'email@email.com', status: 'status', edit: '2'}
-        ],
-        // table
-        fieldsTwo: [
-          {key: 'type', label: 'Typ', sortable: true},
-          {key: 'name', label: 'Nazwa', sortable: true},
-          {key: 'object', label: 'Obiekty sportowe', sortable: true},
-          {key: 'data', label: 'Data dodania', sortable: true},
-          {key: 'btnTable', label: '', sortable: true},
-          {key: 'edit', label: ''}
-        ],
-        itemsTwo: [
-          {type: 'type', name: 'name', object: 'object', data: 'Data dodania', status: 'status', edit: '2'},
-          {type: 'type', name: 'name', object: 'object', data: 'Data dodania', status: 'status', edit: '2'},
-          {type: 'type', name: 'name', object: 'object', data: 'Data dodania', status: 'status', edit: '2'}
-        ]
-      }
-    },
-    computed: {},
-    methods: {},
-    created () {
-      /**
-       * @buttonLink route name
-       */
-      this.changeAdminNavbarButton({buttonLink: 'school.or.club'})
-      this.changeAdminNavbarBreadcrumbs()
+      // checkboxes
+      selectedType: [],
+      typeOptions: [
+        {text: 'klub', value: 0},
+        {text: 'szkola', value: 1}
+      ],
+
+      // search
+      search: '',
+
+      // treeselect
+      districtValue: null,
+      districts: DISTRICTS
     }
+  },
+  computed: {},
+  methods: {
+    rowRedirect (id, isConfirmed) {
+      this.$router.push({
+        name: 'school.or.club',
+        params: {'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed}
+      })
+    }
+  },
+  created () {
+    if (this.$route.params.tab === undefined) {
+      this.$router.push({name: 'schools.and.clubs', params: {'tab': 'confirmed'}})
+    }
+
+    /** @buttonLink route name || false if button must be hidden */
+    this.changeAdminNavbarButton({buttonLink: 'school.or.club', params: {tab: 'main-data'}})
+    this.changeAdminNavbarBreadcrumbs([{text: 'Kłuby i szkoły', active: true}])
   }
+}
 </script>
 
 <style scoped>
