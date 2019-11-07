@@ -46,7 +46,12 @@
 .form-group.custom .form-control.custom,
 .form-group.custom .form-control-plaintext,
 .form-group.custom .custom-select,
-.form-group.custom .custom-file, .card.custom .card-body p, .info-box, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr,
+.form-group.custom .custom-file,
+.form-group.custom textarea.custom, .form-group.custom .form-control.custom::placeholder,
+.form-group.custom .form-control-plaintext::placeholder,
+.form-group.custom .custom-select::placeholder,
+.form-group.custom .custom-file::placeholder,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .card.custom .card-body p, .info-box, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -174,12 +179,13 @@
 /*Colors  */
 .btn {
   padding: 12px 20px;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.3px;
   line-height: 14px;
   text-align: center;
   border-radius: unset;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  color: #b3b3b3; }
   .btn:hover, .btn:focus, .btn.focus {
     box-shadow: unset; }
   .btn.disabled, .btn:disabled {
@@ -207,8 +213,8 @@
 
 .btn.btn-secondary {
   color: #fff;
-  border: 1px solid #D0D2D3;
-  background-color: #D0D2D3; }
+  border: 1px solid #b3b3b3;
+  background-color: #b3b3b3; }
   .btn.btn-secondary:hover {
     box-shadow: unset;
     background-color: gray;
@@ -225,12 +231,20 @@
   .btn.btn-secondary .show > .btn-primary.dropdown-toggle:focus {
     box-shadow: unset; }
 
+.btn-delete {
+  color: #fc8989;
+  padding-left: 0;
+  padding-right: 0; }
+  .btn-delete:hover {
+    color: #FA1414; }
+
 .form-group.custom {
   margin-bottom: 2px; }
   .form-group.custom .form-control.custom,
   .form-group.custom .form-control-plaintext,
   .form-group.custom .custom-select,
-  .form-group.custom .custom-file {
+  .form-group.custom .custom-file,
+  .form-group.custom textarea.custom {
     border: 1px solid #b3b3b3;
     border-radius: unset;
     padding: 0 20px;
@@ -243,14 +257,24 @@
     .form-group.custom .custom-select:focus,
     .form-group.custom .custom-select:active,
     .form-group.custom .custom-file:focus,
-    .form-group.custom .custom-file:active {
+    .form-group.custom .custom-file:active,
+    .form-group.custom textarea.custom:focus,
+    .form-group.custom textarea.custom:active {
       box-shadow: unset; }
     .form-group.custom .form-control.custom::placeholder,
     .form-group.custom .form-control-plaintext::placeholder,
     .form-group.custom .custom-select::placeholder,
-    .form-group.custom .custom-file::placeholder {
+    .form-group.custom .custom-file::placeholder,
+    .form-group.custom textarea.custom::placeholder {
       color: gray;
       font-size: 13px; }
+
+textarea.custom {
+  border: 1px solid #b3b3b3;
+  padding: 5px 20px; }
+  textarea.custom::placeholder {
+    color: #000000;
+    font-size: 13px; }
 
 /*card custom +++++++++++++++++++++*/
 .card.custom {
@@ -342,10 +366,11 @@
   border-radius: 10px;
   padding-left: 15px;
   padding-right: 15px;
-  color: #000000;
+  color: #fff;
   font-size: 12px;
   line-height: 20px;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  background: #fc8989; }
   .status.inactive {
     background: #fc8989; }
   .status.active {
@@ -698,7 +723,10 @@ html body .custom-radio .custom-control-label::after {
       right: 0; }
 
 .custom.table-responsive {
-  border: 1px solid #b3b3b3; }
+  border: unset; }
+  .custom.table-responsive table th, .custom.table-responsive table td {
+    padding: 5px;
+    border-top: unset; }
   .custom.table-responsive table thead {
     font-size: 13px; }
     .custom.table-responsive table thead tr {
@@ -710,9 +738,12 @@ html body .custom-radio .custom-control-label::after {
         text-align: left;
         white-space: nowrap;
         padding: 15px 0;
-        border-bottom: unset; }
+        border-bottom: unset;
+        border-top: unset; }
   .custom.table-responsive table tbody {
-    border-top: 2px solid #b3b3b3; }
+    border-top: 1px solid #d9d9d9; }
+    .custom.table-responsive table tbody tr:nth-of-type(2n+1) {
+      background-color: #ededed; }
     .custom.table-responsive table tbody tr td {
       vertical-align: middle;
       text-align: center; }

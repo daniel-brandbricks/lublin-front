@@ -127,17 +127,16 @@
 
       <!--buttons-->
       <b-row class="mt-4">
-        <b-col>
-          <b-btn variant="outline-primary" class="custom"
+        <div class="col">
+          <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteSchool', school.id, undefined, 'schools.and.clubs', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
-        </b-col>
-        <b-col>
           <b-link block class="custom btn" :to="{ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } }">
             Anuluj
           </b-link>
-        </b-col>
+        </div>
+
         <b-col>
           <b-btn block class="custom" @click="submit(true)">
             Zapisz

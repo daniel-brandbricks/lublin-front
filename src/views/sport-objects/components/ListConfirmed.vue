@@ -27,7 +27,7 @@
         </template>
 
         <template slot="status" slot-scope="scope">
-          <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          <span class="status inactive" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
         <template slot="edit" slot-scope="scope">
