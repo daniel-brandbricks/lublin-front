@@ -17,6 +17,9 @@ import Participants from '@/views/participants/Participants'
 import Lessons from '@/views/lessons/Lessons'
 import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
+import CoAdministrators from '@/views/co-administrators/CoAdministrators'
+import Messages from '@/views/messages/Messages'
+import Dictionary from '@/views/dictionary/Dictionary'
 
 const adminRouter = {
   path: '/admin',
@@ -139,6 +142,27 @@ const adminRouter = {
       path: 'frequency',
       name: 'frequency',
       component: Frequency
+    },
+
+    // CO-ADMINISTRATOR
+    {
+      path: 'co-administrators',
+      name: 'co.administrators',
+      component: CoAdministrators
+    },
+
+    // Messages
+    {
+      path: 'messages',
+      name: 'messages',
+      component: Messages
+    },
+
+    // Dictionary
+    {
+      path: 'dictionary',
+      name: 'dictionary',
+      component: Dictionary
     }
   ]
 }

@@ -14,10 +14,6 @@
           <span>{{scope.item.title}}</span>
         </template>
 
-        <template slot="type" slot-scope="scope">
-            <span>{{scope.item.type == 0 ? 'Klub' : 'Szkoła'}}</span>
-        </template>
-
         <template slot="object" slot-scope="scope">
           <span>{{scope.item.places.length}}</span>
         </template>
