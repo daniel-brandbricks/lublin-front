@@ -67,14 +67,19 @@
             Frekwencja
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
+          <b-link :to="{name:'mtsf'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista MTSF
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          </b-link>
+
+
+          <b-link :to="{name:'events'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista imprez
-          </a>
+          </b-link>
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-iconm_search"></span>
             Raporty

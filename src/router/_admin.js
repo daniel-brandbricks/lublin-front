@@ -17,6 +17,8 @@ import Participants from '@/views/participants/Participants'
 import Lessons from '@/views/lessons/Lessons'
 import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
+import MTSF from '@/views/MTSF/MTSF'
+import Events from '@/views/events/Events'
 
 const adminRouter = {
   path: '/admin',
@@ -139,6 +141,26 @@ const adminRouter = {
       path: 'frequency',
       name: 'frequency',
       component: Frequency
+    },
+
+    // MTSF List
+    {
+      path: 'mtsf',
+      name: 'mtsf',
+      component: MTSF
+    },
+
+    // Event List
+    {
+      path: 'events/:tab?',
+      name: 'events',
+      component: Events
+    },
+    {
+      path: 'event/:id?',
+      name: 'event',
+      // todo
+      component: ParticipantGroups
     }
   ]
 }
