@@ -23,6 +23,7 @@ import Dictionary from '@/views/dictionary/Dictionary'
 import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
 import Reports from '@/views/reports/Reports'
+import History from '@/views/history/History'
 
 const adminRouter = {
   path: '/admin',
@@ -179,6 +180,13 @@ const adminRouter = {
       path: 'dictionary/:tab?',
       name: 'dictionary',
       component: Dictionary
+    },
+
+    // History
+    {
+      path: 'history/:tab?',
+      name: 'history',
+      component: History
     },
 
     // CO-ADMINISTRATOR

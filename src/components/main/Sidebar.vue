@@ -91,10 +91,11 @@
             Słownik
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_www"></span>
+          <b-link :to="{name:'history'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
             Historia
-          </a>
+          </b-link>
 
           <b-link :to="{name:'co.administrators'}"
                   class="list-group-item">
