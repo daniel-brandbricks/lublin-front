@@ -85,10 +85,12 @@
             Raporty
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_arrow_24"></span>
+          <b-link :to="{name:'dictionary'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
             Słownik
-          </a>
+          </b-link>
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_www"></span>
             Historia

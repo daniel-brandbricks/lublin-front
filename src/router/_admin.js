@@ -20,6 +20,7 @@ import Frequency from '@/views/fregucncy/Frequency'
 import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
 import Reports from '@/views/reports/Reports'
+import Dictionary from '@/views/dictionary/Dictionary'
 
 const adminRouter = {
   path: '/admin',
@@ -169,6 +170,13 @@ const adminRouter = {
       path: 'reports/:tab?',
       name: 'reports',
       component: Reports
+    },
+
+    // Dictionary
+    {
+      path: 'dictionary/:tab?',
+      name: 'dictionary',
+      component: Dictionary
     }
   ]
 }
