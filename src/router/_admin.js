@@ -17,10 +17,12 @@ import Participants from '@/views/participants/Participants'
 import Lessons from '@/views/lessons/Lessons'
 import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
+import CoAdministrators from '@/views/co-administrators/CoAdministrators'
+import Messages from '@/views/messages/Messages'
+import Dictionary from '@/views/dictionary/Dictionary'
 import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
 import Reports from '@/views/reports/Reports'
-import Dictionary from '@/views/dictionary/Dictionary'
 
 const adminRouter = {
   path: '/admin',
@@ -177,7 +179,21 @@ const adminRouter = {
       path: 'dictionary/:tab?',
       name: 'dictionary',
       component: Dictionary
-    }
+    },
+
+    // CO-ADMINISTRATOR
+    {
+      path: 'co-administrators',
+      name: 'co.administrators',
+      component: CoAdministrators
+    },
+
+    // Messages
+    {
+      path: 'messages',
+      name: 'messages',
+      component: Messages
+    },
   ]
 }
 

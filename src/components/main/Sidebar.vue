@@ -95,15 +95,18 @@
             <span class="icon icon-icon_www"></span>
             Historia
           </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_play"></span>
-            współadministratorzy
-          </a>
 
-          <a href="#" class="list-group-item list-group-item-action">
+          <b-link :to="{name:'co.administrators'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Komunikaty
-          </a>
+            Współadministratorzy<span class="pl-4"></span>
+          </b-link>
+
+          <b-link :to="{name:'messages'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
+            Komunikaty<span class="pl-4"></span>
+          </b-link>
         </perfect-scrollbar>
 
       </div>
