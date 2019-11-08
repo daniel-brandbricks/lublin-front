@@ -1,8 +1,12 @@
 .custom.table-responsive {
-  border: 1px solid $c-black-30;
+  border:unset;
 
   table {
 
+    th,td{
+      padding: 5px;
+      border-top: unset;
+    }
     thead {
       font-size: 13px;
 
@@ -19,6 +23,7 @@
           white-space: nowrap;
           padding: 15px 0;
           border-bottom: unset;
+          border-top: unset;
           &:before {
           }
         }
@@ -26,10 +31,13 @@
     }
 
     tbody {
-      border-top: 2px solid $c-black-30;
+      border-top: 1px solid $c-black-15;
 
       tr {
         @extend %font-regular;
+        &:nth-of-type(2n+1){
+          background-color: $c-black-7;
+        }
         td {
           vertical-align: middle;
           text-align: center;

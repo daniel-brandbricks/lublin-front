@@ -56,7 +56,6 @@ import { DISTRICTS } from '@/config/AppConfig'
 import ListMixin from '@/mixins/list-mixin'
 import EventBusEmit from '@/mixins/event-bus-emit'
 import TabLinks from '../../components/TabLinks'
-import EventBus from '@/event-bus'
 
 import ListConfirmed from '@/views/schools-and-clubs/components/ListConfirmed'
 import ListToConfirm from '@/views/schools-and-clubs/components/ListToConfirm'

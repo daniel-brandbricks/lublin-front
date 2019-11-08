@@ -17,9 +17,15 @@ import Participants from '@/views/participants/Participants'
 import Lessons from '@/views/lessons/Lessons'
 import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
+<<<<<<< HEAD
 import CoAdministrators from '@/views/co-administrators/CoAdministrators'
 import Messages from '@/views/messages/Messages'
 import Dictionary from '@/views/dictionary/Dictionary'
+=======
+import MTSF from '@/views/MTSF/MTSF'
+import Events from '@/views/events/Events'
+import Reports from '@/views/reports/Reports'
+>>>>>>> 223f2dc8c475ee3a88fca58a3258b305a98426ab
 
 const adminRouter = {
   path: '/admin',
@@ -144,6 +150,7 @@ const adminRouter = {
       component: Frequency
     },
 
+<<<<<<< HEAD
     // CO-ADMINISTRATOR
     {
       path: 'co-administrators',
@@ -163,6 +170,33 @@ const adminRouter = {
       path: 'dictionary',
       name: 'dictionary',
       component: Dictionary
+=======
+    // MTSF List
+    {
+      path: 'mtsf',
+      name: 'mtsf',
+      component: MTSF
+    },
+
+    // Event List
+    {
+      path: 'events/:tab?',
+      name: 'events',
+      component: Events
+    },
+    {
+      path: 'event/:id?',
+      name: 'event',
+      // todo
+      component: ParticipantGroups
+    },
+
+    // Reports
+    {
+      path: 'reports/:tab?',
+      name: 'reports',
+      component: Reports
+>>>>>>> 223f2dc8c475ee3a88fca58a3258b305a98426ab
     }
   ]
 }

@@ -72,7 +72,7 @@
       <!--buttons-->
       <b-row class="mt-4">
         <b-col>
-          <b-btn variant="outline-primary" class="custom"
+          <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteSportObject', sportObject.id, undefined, 'sport.objects', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>

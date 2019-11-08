@@ -72,7 +72,7 @@ import EventBusEmit from '@/mixins/event-bus-emit'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-// todo in common component (useing in Calendar.vue)
+// todo in common component (using in Calendar.vue)
 import Lessons from '@/views/calendar/components/Lessons'
 
 import { DISTRICTS } from '@/config/AppConfig'

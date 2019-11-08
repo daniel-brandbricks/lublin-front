@@ -11,6 +11,16 @@
             Dodaj...
           </b-link>
         </b-col>
+        <b-col cols="2" v-if="generateExcel">
+          <b-link class="nowrap btn btn-primary btn-block">
+            Wygeneruj EXCEL
+          </b-link>
+        </b-col>
+        <b-col cols="2" v-if="generatePdf">
+          <b-link class="nowrap btn btn-primary btn-block">
+            Wygeneruj PDF
+          </b-link>
+        </b-col>
       </b-row>
     </b-col>
   </div>
@@ -23,6 +33,8 @@ export default {
   name: 'AdminNavbar',
   data () {
     return {
+      generateExcel: false,
+      generatePdf: false,
       buttonLink: '#',
       buttonLinkParams: {},
 
@@ -47,6 +59,8 @@ export default {
   methods: {},
   created () {
     EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
+      this.generateExcel = params.generateExcel
+      this.generatePdf = params.generatePdf
       this.buttonLink = params.buttonLink
       this.buttonLinkParams = params.params
     })

@@ -2,13 +2,13 @@
 .btn{
   @extend %font-bold;
   padding: 12px 20px;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.3px;
   line-height: 14px;
   text-align: center;
   border-radius: unset;
   margin-bottom: 1rem;
-
+  color: $c-black-30;
   &:hover, &:focus, &.focus {
     box-shadow: unset;
   }
@@ -52,13 +52,13 @@
 
 .btn.btn-secondary {
   color: $c-white;
-  border: 1px solid $c-gray;
-  background-color: $c-gray;
+  border: 1px solid $c-black-30;
+  background-color: $c-black-30;
 
   &:hover {
     box-shadow: unset;
-    background-color: gray;
-    border: 1px solid gray;
+    background-color: $c-black-50;
+    border: 1px solid $c-black-50;
   }
 
   &:active {
@@ -81,6 +81,15 @@
   }
 }
 
+.btn-delete{
+  color: $c-red-dark;
+  padding-left: 0;
+  padding-right: 0;
+  &:hover{
+    color: $c-red;
+  }
+}
+
 
 
 //input+++++++++++++++++++
@@ -90,7 +99,8 @@
   .form-control.custom,
   .form-control-plaintext,
   .custom-select,
-  .custom-file {
+  .custom-file,
+  textarea.custom{
     @extend  %font-regular;
     border: 1px solid $c-black-30;
     border-radius: unset;
@@ -102,11 +112,24 @@
   box-shadow: unset;
 }
     &::placeholder {
+      @extend  %font-regular;
       color: $c-black-50;
       font-size: 13px;
     }
   }
 }
+
+textarea.custom{
+  border: 1px solid $c-black-30;
+  padding: 5px 20px;
+  &::placeholder {
+    @extend  %font-regular;
+    color: $c-black;
+    font-size: 13px;
+  }
+}
+
+
 
 
 /*card custom +++++++++++++++++++++*/
@@ -227,10 +250,12 @@ $padding-card:16px;
   padding-left: 15px;
   padding-right: 15px;
   @extend %font-medium;
-  color: $c-black;
+  color: $c-white;
   font-size: 12px;
   line-height: 20px;
   text-transform: uppercase;
+  background: $c-red-dark;
+
   &.inactive{
     background: $c-red-dark;
   }

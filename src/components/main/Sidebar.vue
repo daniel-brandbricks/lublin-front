@@ -67,23 +67,36 @@
             Frekwencja
           </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
+          <b-link :to="{name:'mtsf'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista MTSF
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          </b-link>
+
+          <b-link :to="{name:'events'}"
+                  class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista imprez
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-iconm_search"></span>
+          </b-link>
+
+          <b-link :to="{name:'reports'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
             Raporty
-          </a>
+
           <b-link :to="{name:'dictionary'}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Słownik <br><span class="pl-4"></span>
           </b-link>
+
+          </b-link>
+
+          <a href="#" class="list-group-item list-group-item-action">
+            <span class="icon icon-icon_arrow_24"></span>
+            Słownik
+          </a>
+
           <a href="#" class="list-group-item list-group-item-action">
             <span class="icon icon-icon_www"></span>
             Historia

@@ -96,8 +96,8 @@ import TabLinks from '../../components/TabLinks'
 import { DISTRICTS } from '@/config/AppConfig'
 
 import Lessons from '@/views/calendar/components/Lessons'
-import Events from '@/views/calendar/components/Events'
-import Calendar from '@/views/calendar/components/Calendar'
+import Events from '@/components/common-views/Events'
+import Calendar from '@/components/common-views/Calendar'
 
 export default {
   components: {TabLinks, Treeselect, Lessons, Events, Calendar},
