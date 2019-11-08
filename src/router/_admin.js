@@ -24,6 +24,7 @@ import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
 import Reports from '@/views/reports/Reports'
 import History from '@/views/history/History'
+import LeaderForm from '@/views/leaders/LeaderForm'
 
 const adminRouter = {
   path: '/admin',
@@ -89,10 +90,9 @@ const adminRouter = {
       component: Leaders
     },
     {
-      path: 'leader/:id?',
+      path: 'leader/:tab/:id?',
       name: 'leader',
-      // todo
-      component: Leaders
+      component: LeaderForm
     },
 
     // Participant Groups
