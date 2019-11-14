@@ -23,6 +23,7 @@ import Dictionary from '@/views/dictionary/Dictionary'
 import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
 import Reports from '@/views/reports/Reports'
+import ParticipantGroupsForm from '@/views/participant-groups/ParticipantGroupsForm'
 import History from '@/views/history/History'
 import LeaderForm from '@/views/leaders/LeaderForm'
 
@@ -102,10 +103,10 @@ const adminRouter = {
       component: ParticipantGroups
     },
     {
-      path: 'participant-group/:id?',
+      path: 'participant-group/:tab?/:id?',
       name: 'participant.group',
       // todo
-      component: ParticipantGroups
+      component: ParticipantGroupsForm
     },
 
     // Participants
@@ -147,7 +148,6 @@ const adminRouter = {
       name: 'frequency',
       component: Frequency
     },
-
     // MTSF List
     {
       path: 'mtsf',
@@ -201,7 +201,7 @@ const adminRouter = {
       path: 'messages',
       name: 'messages',
       component: Messages
-    },
+    }
   ]
 }
 

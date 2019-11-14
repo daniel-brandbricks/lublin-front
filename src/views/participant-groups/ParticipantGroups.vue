@@ -66,18 +66,18 @@
           sort-icon-left
           responsive="md"
           class="custom table-responsive"
+          @row-clicked="rowRedirect"
         >
-<!--          @row-clicked="rowRedirect"-->
-
+<!--           rowRedirect-->
           <template slot="status" slot-scope="scope">
             <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
 
-          <template slot="btnTable" slot-scope="scope">
-            <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
-              Zatwierdź
-            </b-btn>
-          </template>
+<!--          <template slot="btnTable" slot-scope="scope">-->
+<!--            <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">-->
+<!--              Zatwierdź-->
+<!--            </b-btn>-->
+<!--          </template>-->
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
@@ -98,6 +98,7 @@ import EventBusEmit from '@/mixins/event-bus-emit'
 
 export default {
   components: {Treeselect},
+  props: ['participantGroup'],
   mixins: [EventBusEmit],
   data () {
     return {
@@ -113,12 +114,13 @@ export default {
 
       search: '',
 
-      selectedGender: [],
       selectedType: [],
       typeOptions: [
         {text: 'klub', value: 0},
         {text: 'szkola', value: 1}
       ],
+
+      selectedGender: [],
       genderOptions: [
         {text: 'kobieta', value: 0},
         {text: 'mężczyzna', value: 1}
@@ -142,17 +144,25 @@ export default {
         {id: 1, label: '2b'},
         {id: 2, label: '6a'},
         {id: 3, label: '8c'}
-      ],
+      ]
     }
   },
   computed: {
     participantList () {
       return [
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
+        {id: 1, name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
         {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
         {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1},
         {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1}
       ]
+    }
+  },
+  methods: {
+    rowRedirect (row) {
+      this.$router.push({
+        name: 'participant.group',
+        params: {'tab': 'main-data', 'id': row.id}
+      })
     }
   },
   created () {
