@@ -24,6 +24,8 @@ import MTSF from '@/views/MTSF/MTSF'
 import Events from '@/views/events/Events'
 import Reports from '@/views/reports/Reports'
 import ParticipantGroupsForm from '@/views/participant-groups/ParticipantGroupsForm'
+import History from '@/views/history/History'
+import LeaderForm from '@/views/leaders/LeaderForm'
 
 const adminRouter = {
   path: '/admin',
@@ -89,10 +91,9 @@ const adminRouter = {
       component: Leaders
     },
     {
-      path: 'leader/:id?',
+      path: 'leader/:tab/:id?',
       name: 'leader',
-      // todo
-      component: Leaders
+      component: LeaderForm
     },
 
     // Participant Groups
@@ -147,14 +148,6 @@ const adminRouter = {
       name: 'frequency',
       component: Frequency
     },
-
-    // Dictionary
-    {
-      path: 'dictionary',
-      name: 'dictionary',
-      component: Dictionary
-    },
-
     // MTSF List
     {
       path: 'mtsf',
@@ -180,6 +173,20 @@ const adminRouter = {
       path: 'reports/:tab?',
       name: 'reports',
       component: Reports
+    },
+
+    // Dictionary
+    {
+      path: 'dictionary/:tab?',
+      name: 'dictionary',
+      component: Dictionary
+    },
+
+    // History
+    {
+      path: 'history/:tab?',
+      name: 'history',
+      component: History
     },
 
     // CO-ADMINISTRATOR

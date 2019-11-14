@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <TabLinks :links="tabLinks"></TabLinks>
     <template>
       <!--   Component for SchoolEntity   -->

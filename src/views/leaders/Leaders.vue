@@ -10,6 +10,7 @@
       <b-col cols="8">
         <b-row class="align-items-center mb-3">
           <b-col cols="4">
+            {{selectedDiscipline}}
             <treeselect class="custom"
                         v-model="selectedDiscipline"
                         :multiple="true"
@@ -97,7 +98,7 @@ export default {
     }
 
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'leader'})
+    this.changeAdminNavbarButton({buttonLink: 'leader', params: {tab: 'main-data'}})
     this.changeAdminNavbarBreadcrumbs([{text: 'Prowadzący', active: true}])
   }
 }

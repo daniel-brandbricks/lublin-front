@@ -83,34 +83,30 @@
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Raporty
+          </b-link>
 
           <b-link :to="{name:'dictionary'}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Słownik <br><span class="pl-4"></span>
-          </b-link>
-
-          </b-link>
-
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_arrow_24"></span>
             Słownik
-          </a>
+          </b-link>
 
-          <a href="#" class="list-group-item list-group-item-action">
-            <span class="icon icon-icon_www"></span>
+          <b-link :to="{name:'history'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
             Historia
-          </a>
+          </b-link>
+
           <b-link :to="{name:'co.administrators'}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Współadministratorzy <br><span class="pl-4"></span>
+            Współadministratorzy<span class="pl-4"></span>
           </b-link>
 
           <b-link :to="{name:'messages'}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Komunikaty <br><span class="pl-4"></span>
+            Komunikaty<span class="pl-4"></span>
           </b-link>
         </perfect-scrollbar>
 

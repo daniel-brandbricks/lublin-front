@@ -1,61 +1,70 @@
 <template>
-  <div>
+  <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
-        <Tablinks :links="tabLinks"></Tablinks>
+        <TabLinks :links="tabLinks"></TabLinks>
       </b-col>
-    </b-row>
 
+      <b-col cols="12">
+        <sport-object-type :key="$route.params.tab" v-if="$route.params.tab === 'sport-object-type'"/>
+        <disciplines :key="$route.params.tab" v-if="$route.params.tab === 'disciplines'"/>
+        <lesson-category :key="$route.params.tab" v-if="$route.params.tab === 'lesson-category'"/>
+        <classes :key="$route.params.tab" v-if="$route.params.tab === 'classes'"/>
+        <seasons :key="$route.params.tab" v-if="$route.params.tab === 'seasons'"/>
+      </b-col>
+
+    </b-row>
   </div>
 </template>
 
 <script>
-
 import EventBusEmit from '@/mixins/event-bus-emit'
 import TabLinks from '../../components/TabLinks'
+import SportObjectType from '@/views/dictionary/components/SportObjectType'
+import Disciplines from '@/views/dictionary/components/Disciplines'
+import LessonCategory from '@/views/dictionary/components/LessonCategory'
+import Classes from '@/views/dictionary/components/Classes'
+import Seasons from '@/views/dictionary/components/Seasons'
 
 export default {
-  name: 'Dictionary',
-  components: {TabLinks},
+  components: {TabLinks, SportObjectType, Disciplines, LessonCategory, Classes, Seasons},
   mixins: [EventBusEmit],
   data () {
     return {
-      objects: [],
       tabLinks: [
         {
           title: 'Typy obiektów sportowych',
           link: 'dictionary',
-          tab: 'typy obiektów sportowych'
+          tab: 'sport-object-type'
         },
         {
           title: 'Dyscypliny',
           link: 'dictionary',
-          tab: 'dyscypliny'
+          tab: 'disciplines'
         },
         {
-          title: 'Kategorie Zajęć',
+          title: 'Kategorie zajęć',
           link: 'dictionary',
-          tab: 'kategorie zajęć'
+          tab: 'lesson-category'
         },
         {
           title: 'Klasy',
           link: 'dictionary',
-          tab: 'klasy'
+          tab: 'classes'
         },
         {
           title: 'Sezony',
           link: 'dictionary',
-          tab: 'typy obiektów sportowych'
+          tab: 'seasons'
         }
       ]
     }
   },
   created () {
     if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'dictionary', params: {'tab': 'dictionary'}})
+      this.$router.push({name: 'dictionary', params: {'tab': 'sport-object-type'}})
     }
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'sport.object', params: {tab: 'main-data'}})
+
     this.changeAdminNavbarBreadcrumbs([{text: 'Słownik', active: true}])
   }
 }
