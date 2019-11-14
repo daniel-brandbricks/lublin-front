@@ -1,11 +1,11 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6">
-      <div class="row align-items-center mt-2" v-if="sportObjectTypes"
-           v-for="(type,index) in sportObjectTypes" :key="index">
+      <div class="row align-items-center mt-2" v-if="computedList"
+           v-for="(type,index) in computedList" :key="index">
         <div class="col-2">
-          <p @click="deleteSportObject(type)"
-             v-if="sportObjectTypes.length > 0">usuń <span class="pl-1">{{index + 1}}</span></p>
+          <p @click="deleteData(type)"
+             v-if="computedList.length > 0">usuń <span class="pl-1">{{index + 1}}</span></p>
         </div>
         <div class="pl-2" :class="checkSelected(index) ? 'col-8' : 'col-10'">
           <b-form-group class="custom">
@@ -21,7 +21,7 @@
       </div>
       <b-row class=" mt-3">
         <b-col cols="10" class="offset-2 pl-2">
-          <b-btn @click="addSportObject" v-if="checkDataToAddNew" variant="primary" block>+ Dodaj Kolejne</b-btn>
+          <b-btn @click="addDefaultData" v-if="checkDataToAddNew" variant="primary" block>+ Dodaj Kolejne</b-btn>
         </b-col>
       </b-row>
     </b-col>
@@ -31,68 +31,17 @@
 <script>
 import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
+import DictionaryMixin from '@/mixins/dictionary-mixin'
 
 export default {
   name: 'SportObjectType',
-  mixins: [EventBusEmit, FormMixin],
+  mixins: [EventBusEmit, FormMixin, DictionaryMixin],
   data () {
     return {
-      sportObjectTypesDefault: [],
-      sportObjectTypeDefault: {
-        title: ''
-      },
-
-      editedInput: {
-        index: null
-      }
-    }
-  },
-  computed: {
-    sportObjectTypes () {
-      return [...this.$store.getters.sportObjectTypes, ...this.sportObjectTypesDefault]
-    },
-    checkDataToAddNew () {
-      return this.sportObjectTypes.length < 1 || undefined === this.sportObjectTypes.find(item => {
-        return item.id === undefined
-      })
-    }
-  },
-  methods: {
-    submitSportObject (type) {
-      this.preSubmit()
-        .then((result) => {
-          if (!result) {
-            this.loading = false
-            return
-          }
-          this.loading = false
-          if (type.id) {
-            this.$store.dispatch('putSportObjectType', type)
-          } else {
-            this.$store.dispatch('postSportObjectType', type)
-              .then((result) => {
-                this.sportObjectTypesDefault.splice(this.sportObjectTypesDefault
-                  .findIndex(item => {
-                    return item.id === undefined && item.title === result.title
-                  }), 1)
-              })
-          }
-          this.editedInput.index = null
-        })
-    },
-    checkSelected (index) {
-      return !!(this.editedInput && this.editedInput.index === index)
-    },
-    editInput (index) {
-      this.editedInput.index = index
-    },
-    deleteSportObject (type) {
-      if (type.id) {
-        this.deleteFromForm('deleteSportObjectType', type.id, type.title)
-      }
-    },
-    addSportObject () {
-      this.sportObjectTypesDefault.push({...this.sportObjectTypeDefault})
+      getter: 'sportObjectTypes',
+      dispatchDelete: 'deleteSportObjectType',
+      dispatchPost: 'postSportObjectType',
+      dispatchPut: 'putSportObjectType'
     }
   },
   created () {

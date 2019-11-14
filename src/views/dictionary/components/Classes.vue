@@ -90,7 +90,8 @@ export default {
             'Klasa 1',
             'Klasa 2',
             'Klasa 3',
-            'Klasa 4'
+            'Klasa 4',
+            'Klasa 5'
           ]
         }
       ],

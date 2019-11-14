@@ -11,6 +11,8 @@ import sportObjectModule from './_sport-object'
 import sportObjectTypeModule from './_sport-object-type'
 import skillModule from './_skill'
 import disciplineModule from './_disciplines'
+import lessonCategoryModule from './_lesson-category'
+import classModule from './_class'
 
 Vue.use(Vuex)
 
@@ -25,6 +27,8 @@ export default new Vuex.Store({
     sportObjectModule,
     sportObjectTypeModule,
     disciplineModule,
+    lessonCategoryModule,
+    classModule,
     skillModule
   }
 })

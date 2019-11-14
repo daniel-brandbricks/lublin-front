@@ -1,22 +1,27 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6">
-      <div class="row align-items-center" v-if="disciplines"
-           v-for="(type,index) in disciplines" :key="index">
+      <div class="row align-items-center mt-2" v-if="computedList"
+           v-for="(discipline,index) in computedList" :key="index">
         <div class="col-2">
-          <p @click="" v-if="disciplines.length > 0">usuń <span>{{index + 1}}</span></p>
+          <p @click="deleteData(discipline)"
+             v-if="computedList.length > 0">usuń <span class="pl-1">{{index + 1}}</span></p>
         </div>
-        <div class="col-10 pl-2">
+        <div class="pl-2" :class="checkSelected(index) ? 'col-8' : 'col-10'">
           <b-form-group class="custom">
-            <b-form-input id="input-1" class="custom m-0"
-                          placeholder="Dysciplina"
-                          v-model="disciplines[index]"></b-form-input>
+            <b-form-input id="input-1" class="custom m-0" v-model="discipline.title"
+                          :class="{'error-input-custom': veeErrors.has('discipline.title'+index)}"
+                          :name="'discipline.title'+index" :key="'discipline.title'+index" v-validate="'required'"
+                          @focus="editInput(index)" :placeholder="discipline.title"/>
           </b-form-group>
+        </div>
+        <div class="col-2 p-0" v-show="checkSelected(index)">
+          <b-btn @click="submitSportObject(discipline)" class="m-0" block variant="primary">Zapisz</b-btn>
         </div>
       </div>
       <b-row class=" mt-3">
         <b-col cols="10" class="offset-2 pl-2">
-          <b-btn variant="primary" block>+ Dodaj Kolejne</b-btn>
+          <b-btn @click="addDefaultData" v-if="checkDataToAddNew" variant="primary" block>+ Dodaj Kolejne</b-btn>
         </b-col>
       </b-row>
     </b-col>
@@ -26,32 +31,24 @@
 <script>
 import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
+import DictionaryMixin from '@/mixins/dictionary-mixin'
 
 export default {
   name: 'Disciplines',
-  mixins: [EventBusEmit, FormMixin],
+  mixins: [EventBusEmit, FormMixin, DictionaryMixin],
   data () {
     return {
-      disciplines: [
-        'Bieg 50m',
-        'Bieg 100m',
-        'Bieg 500m',
-        'Bieg 1000m',
-        'Bieg 2000m'
-      ],
-
-      disciplineDefault: {
-        title: ''
-      },
-
-      editedInput: {
-        index: null
-      }
+      getter: 'disciplines',
+      dispatchDelete: 'deleteDiscipline',
+      dispatchPost: 'postDiscipline',
+      dispatchPut: 'putDiscipline'
     }
   },
   created () {
+    this.$store.dispatch('getDisciplines')
+
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'dashboard'})
+    this.changeAdminNavbarButton({buttonLink: false})
   }
 }
 </script>
