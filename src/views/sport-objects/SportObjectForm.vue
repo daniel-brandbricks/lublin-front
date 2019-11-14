@@ -10,14 +10,14 @@
 </template>
 
 <script>
-  import TabLinks from '@/components/TabLinks'
-  import EventBusEmit from '@/mixins/event-bus-emit'
-  import FormMixin from '@/mixins/form-mixin'
+import TabLinks from '@/components/TabLinks'
+import EventBusEmit from '@/mixins/event-bus-emit'
+import FormMixin from '@/mixins/form-mixin'
 
-  import FormMainData from '@/views/sport-objects/components/FormMainData'
-  import {DISTRICTS} from '@/config/AppConfig'
+import FormMainData from '@/views/sport-objects/components/FormMainData'
+import {DISTRICTS} from '@/config/AppConfig'
 
-  export default {
+export default {
   name: 'SportObjectForm',
   components: {
     TabLinks,
@@ -75,7 +75,7 @@
     // todo look at this
     prepareSportObject (response) {
       response.schools = response.schools.map(school => school.id)
-      if (undefined === response.type || null === response.type) {
+      if (undefined === response.type || response.type === null) {
         response.type = {
           id: null
         }
