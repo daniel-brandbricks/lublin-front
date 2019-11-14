@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{isValidForm}}
+    isValidForm: {{isValidForm}}
 
     <b-row class="justify-content-center">
       <b-col cols="12" lg="6" class="">
@@ -154,10 +154,9 @@ export default {
       this.$parent.addPlace(this.placeDefault)
     },
     removePlace (index) {
-      let oldItem = {
-        id: this.school.places[index].id,
-        collectionType: 'remove'
-      }
+      //   id: this.school.places[index].id,
+      //   collectionType: 'remove'
+      // }
       // this.placesToDelete.push(oldItem)
       this.$parent.removePlace(index)
     },

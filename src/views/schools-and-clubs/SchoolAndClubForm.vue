@@ -132,9 +132,9 @@ export default {
   methods: {
     // FormPlaces
     addPlace (placeDefault) {
-      let copy = {...placeDefault}
-      copy.collectionType = 'add'
-      this.school.places.push(copy)
+      // let copy = {...placeDefault}
+      // copy.collectionType = 'add'
+      this.school.places.push(placeDefault)
     },
     removePlace (index) {
       this.school.places.splice(index, 1)
@@ -142,7 +142,6 @@ export default {
     concatPlaces (placesToDelete) {
       // this.school.places = [...this.school.places, ...placesToDelete]
     },
-
     checkValidMainForm () {
       this.$refs.FormMainData.checkValidForm()
         .then((result) => {
@@ -158,7 +157,7 @@ export default {
     // submit full school and school sport-objects without form validation
     submit () {
       let school = this.school
-        console.log(this.school)
+      console.log(this.school)
       // school.image = this.mixinImage
 
       const method = this.id === undefined ? 'postSchool' : 'putSchool'

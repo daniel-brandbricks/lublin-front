@@ -39,8 +39,10 @@
     </b-row>
 
     <list-confirmed :filters="{selectedType: selectedType, districtValue: districtValue, search: search}"
+                    :sportObjectTypes="sportObjectTypes"
                     :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
     <list-to-confirm :filters="{selectedType: selectedType, districtValue: districtValue, search: search}"
+                     :sportObjectTypes="sportObjectTypes"
                      :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
 
   </div>
@@ -94,7 +96,11 @@ export default {
       districts: DISTRICTS
     }
   },
-  computed: {},
+  computed: {
+    sportObjectTypes () {
+      return this.$store.getters.sportObjectTypes
+    }
+  },
   methods: {
     rowRedirect (id, isConfirmed) {
       this.$router.push({
@@ -107,6 +113,8 @@ export default {
     if (this.$route.params.tab === undefined) {
       this.$router.push({name: 'sport.objects', params: {'tab': 'confirmed'}})
     }
+
+    this.$store.dispatch('getSportObjectTypes')
 
     /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: 'sport.object', params: {tab: 'main-data'}})

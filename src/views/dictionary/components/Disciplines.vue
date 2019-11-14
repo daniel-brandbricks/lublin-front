@@ -25,10 +25,11 @@
 
 <script>
 import EventBusEmit from '@/mixins/event-bus-emit'
+import FormMixin from '@/mixins/form-mixin'
 
 export default {
   name: 'Disciplines',
-  mixins: [EventBusEmit],
+  mixins: [EventBusEmit, FormMixin],
   data () {
     return {
       disciplines: [
@@ -37,7 +38,15 @@ export default {
         'Bieg 500m',
         'Bieg 1000m',
         'Bieg 2000m'
-      ]
+      ],
+
+      disciplineDefault: {
+        title: ''
+      },
+
+      editedInput: {
+        index: null
+      }
     }
   },
   created () {

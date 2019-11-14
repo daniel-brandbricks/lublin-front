@@ -2,75 +2,74 @@ import * as apiService from '@/services/apiService'
 
 export default {
   state: {
-    sportObjectTypes: [],
-    sportObjectType: null
+    disciplines: []
   },
   getters: {
-    sportObjectTypes (state) {
-      return state.sportObjectTypes
+    disciplines (state) {
+      return state.disciplines
     },
-    sportObjectType: (state) => (id) => {
-      for (let i = 0; i < state.sportObjectTypes.length; i++) {
-        const sportObjectType = state.sportObjectTypes[i]
-        if (undefined === sportObjectType || sportObjectType === null || sportObjectType.length < 1) {
+    discipline: (state) => (id) => {
+      for (let i = 0; i < state.disciplines.length; i++) {
+        const discipline = state.disciplines[i]
+        if (undefined === discipline || discipline === null || discipline.length < 1) {
           continue
         }
-        if (sportObjectType.id == id) {
-          return sportObjectType
+        if (discipline.id == id) {
+          return discipline
         }
       }
     }
   },
   mutations: {
-    setSportObjectTypes (state, data) {
-      state.sportObjectTypes = data
+    setDisciplines (state, data) {
+      state.disciplines = data
     },
-    setSportObjectType (state, data) {
+    setDiscipline (state, data) {
       const id = data.id
-      let sportObjectTypes = [...state.sportObjectTypes]
+      let disciplines = [...state.disciplines]
 
       if (undefined === id || id === null) {
         return
       }
 
-      for (let i = 0; i < sportObjectTypes.length; i++) {
-        const storeSportObjectType = sportObjectTypes[i]
-        if (storeSportObjectType.id !== id) {
+      for (let i = 0; i < disciplines.length; i++) {
+        const storeDiscipline = disciplines[i]
+        if (storeDiscipline.id !== id) {
           continue
         }
-        sportObjectTypes.splice(i, 1, data)
+        disciplines.splice(i, 1, data)
 
-        state.sportObjectTypes = sportObjectTypes
+        state.disciplines = disciplines
         return
       }
 
-      state.sportObjectTypes.push(data)
+      state.disciplines.push(data)
     },
-    deleteSportObjectType (state, id) {
-      let sportObjectTypes = [...state.sportObjectTypes]
-      for (let i = 0; i < sportObjectTypes.length; i++) {
-        const storeSportObjectType = sportObjectTypes[i]
-        if (storeSportObjectType.id !== id) {
+    deleteDiscipline (state, id) {
+      let disciplines = [...state.disciplines]
+      for (let i = 0; i < disciplines.length; i++) {
+        const storeDiscipline = disciplines[i]
+        if (storeDiscipline.id !== id) {
           continue
         }
-        sportObjectTypes.splice(i, 1)
-        state.sportObjectTypes = sportObjectTypes
+        disciplines.splice(i, 1)
+        state.disciplines = disciplines
         return
       }
     }
   },
   actions: {
-    getSportObjectType (context, data) {
+    getDiscipline (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/placeType/' + id, 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/discipline/' + id, 'get', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSportObjectType', response)
+            context.commit('setDiscipline', response)
             resolve()
           })
           .catch(error => {
@@ -79,16 +78,16 @@ export default {
           })
       })
     },
-    getSportObjectTypes (context, data) {
+    getDisciplines (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/placeType', 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/discipline', 'get', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSportObjectTypes', response)
+            context.commit('setDisciplines', response)
             resolve()
           })
           .catch(error => {
@@ -97,16 +96,16 @@ export default {
           })
       })
     },
-    postSportObjectType (context, data) {
+    postDiscipline (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/placeType', 'post', true, data, null, 200)
+        apiService.makeApiCall('resource/discipline', 'post', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSportObjectType', response)
+            context.commit('setDiscipline', response)
             resolve(response)
           })
           .catch(error => {
@@ -115,17 +114,17 @@ export default {
           })
       })
     },
-    putSportObjectType (context, data) {
+    putDiscipline (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/placeType/' + id, 'put', true, data, null, 200)
+        apiService.makeApiCall('resource/discipline/' + id, 'put', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setSportObjectType', response)
+            context.commit('setDiscipline', response)
             resolve()
           })
           .catch(error => {
@@ -134,17 +133,17 @@ export default {
           })
       })
     },
-    deleteSportObjectType (context, data) {
+    deleteDiscipline (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/placeType/' + id, 'delete', true, data, null, 200)
+        apiService.makeApiCall('resource/discipline/' + id, 'delete', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('deleteSportObjectType', id)
+            context.commit('deleteDiscipline', id)
             resolve()
           })
           .catch(error => {

@@ -12,7 +12,7 @@ import ParticipantGroups from '@/views/participant-groups/ParticipantGroups'
 import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
 import SportObjectForm from '@/views/sport-objects/SportObjectForm'
 import Dashboard from '@/views/dashboard/Dashboard'
-import Leaders from '@/views/leaders/Leaders'
+import LeadersList from '@/views/leaders/LeadersList'
 import Participants from '@/views/participants/Participants'
 import Lessons from '@/views/lessons/Lessons'
 import Calendar from '@/views/calendar/Calendar'
@@ -87,7 +87,7 @@ const adminRouter = {
     {
       path: 'leaders/:tab?',
       name: 'leaders',
-      component: Leaders
+      component: LeadersList
     },
     {
       path: 'leader/:tab/:id?',

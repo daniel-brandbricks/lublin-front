@@ -10,6 +10,7 @@ import participantModule from './_participant'
 import sportObjectModule from './_sport-object'
 import sportObjectTypeModule from './_sport-object-type'
 import skillModule from './_skill'
+import disciplineModule from './_disciplines'
 
 Vue.use(Vuex)
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     participantModule,
     sportObjectModule,
     sportObjectTypeModule,
+    disciplineModule,
     skillModule
   }
 })

@@ -31,7 +31,7 @@
             Obiekty sportowe (2,048)
           </b-link>
 
-          <b-link :to="{name:'leaders'}"
+          <b-link :to="{name:'leaders', params: {'tab': 'confirmed'} }"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
             Prowadzący (568)

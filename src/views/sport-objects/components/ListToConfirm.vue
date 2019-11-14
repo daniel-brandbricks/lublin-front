@@ -10,8 +10,12 @@
         class="custom table-responsive"
         @row-clicked="rowRedirect"
       >
-        <template slot="type" slot-scope="scope">
+        <template slot="name" slot-scope="scope">
           <span>{{scope.item.title}}</span>
+        </template>
+
+        <template slot="type" slot-scope="scope">
+          <span v-if="scope.item.type">{{getSportObjectTypeNameById(scope.item.type.id)}}</span>
         </template>
 
         <template slot="object" slot-scope="scope">
@@ -43,13 +47,13 @@ import SportObjectsMixin from '@/mixins/sport-objects-mixin'
 
 export default {
   name: 'ListToConfirm',
-  props: ['filters'],
+  props: ['filters', 'sportObjectTypes'],
   mixins: [SportObjectsMixin],
   data () {
     return {
       fields: [
-        {key: 'type', label: 'Nazwa obiektu', sortable: true},
-        {key: 'name', label: 'Typ obiektu', sortable: true},
+        {key: 'name', label: 'Nazwa obiektu', sortable: true},
+        {key: 'type', label: 'Typ obiektu', sortable: true},
         {key: 'data', label: 'Data dodania', sortable: true},
         {key: 'btnTable', label: '', sortable: true},
         {key: 'edit', label: ''}

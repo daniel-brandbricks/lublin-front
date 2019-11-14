@@ -14,7 +14,11 @@
           <span>{{scope.item.title}}</span>
         </template>
 
-        <template slot="object" slot-scope="scope">
+        <template slot="type" slot-scope="scope">
+          <span>{{getSportObjectTypeNameById(scope.item.type.id)}}</span>
+        </template>
+
+       <template slot="object" slot-scope="scope">
           <span>{{scope.item.places.length}}</span>
         </template>
 
@@ -42,7 +46,7 @@ import SportObjectsMixin from '@/mixins/sport-objects-mixin'
 
 export default {
   name: 'ListConfirmed',
-  props: ['filters'],
+  props: ['filters', 'sportObjectTypes'],
   mixins: [SportObjectsMixin],
   data () {
     return {

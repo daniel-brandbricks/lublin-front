@@ -4,6 +4,12 @@ export default {
     return {}
   },
   methods: {
+    getSportObjectTypeNameById (id) {
+      if (undefined === this.sportObjectTypes || this.sportObjectTypes === null) return ''
+      return this.sportObjectTypes.find((obj) => {
+        return obj.id === id
+      }).title
+    }
   },
   computed: {
     sportObjectsListFiltered () {
