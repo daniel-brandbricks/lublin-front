@@ -4,7 +4,7 @@
       <div class="row align-items-center mt-2" v-if="computedList"
            v-for="(type,index) in computedList" :key="index">
         <div class="col-2">
-          <p @click="deleteData(type)"
+          <p @click="deleteData(type, index)"
              v-if="computedList.length > 0">usuń <span class="pl-1">{{index + 1}}</span></p>
         </div>
         <div class="pl-2" :class="checkSelected(index) ? 'col-8' : 'col-10'">
@@ -16,7 +16,7 @@
           </b-form-group>
         </div>
         <div class="col-2 p-0" v-show="checkSelected(index)">
-          <b-btn @click="submitSportObject(type)" class="m-0" block variant="primary">Zapisz</b-btn>
+          <b-btn @click="submitObject(type)" class="m-0" block variant="primary">Zapisz</b-btn>
         </div>
       </div>
       <b-row class=" mt-3">
