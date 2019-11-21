@@ -41,7 +41,8 @@ export default {
       method: null,
       id: null,
       routeToPush: false,
-      routeParams: {}
+      routeParams: {},
+      urlParams: {}
     }
   },
   methods: {
@@ -70,7 +71,7 @@ export default {
       Object.assign(this.$data, this.$options.data.call(this))
     },
     submitForm () {
-      this.$store.dispatch(this.method, { id: this.id })
+      this.$store.dispatch(this.method, { id: this.id, urlParams: this.urlParams })
         .then((response) => {
           this.hideModal()
           console.log(response)
@@ -104,9 +105,10 @@ export default {
     }
   },
   created () {
-    EventBus.$on('SHOW_CONFIRM_DELETE_MODAL', (method = '', id = null, toDeleteWord, routeToPush, routeParams) => {
+    EventBus.$on('SHOW_CONFIRM_DELETE_MODAL', (method = '', id = null, toDeleteWord, routeToPush, routeParams, urlParams) => {
       this.reset()
 
+      this.urlParams = urlParams
       this.routeToPush = routeToPush
       this.routeParams = routeParams
       this.toDeleteWord = toDeleteWord

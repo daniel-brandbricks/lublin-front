@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    submitSportObject (type) {
+    submitObject (obj) {
       this.preSubmit()
         .then((result) => {
           if (!result) {
@@ -32,10 +32,10 @@ export default {
             return
           }
           this.loading = false
-          if (type.id) {
-            this.$store.dispatch(this.dispatchPut, type)
+          if (obj.id) {
+            this.$store.dispatch(this.dispatchPut, obj)
           } else {
-            this.$store.dispatch(this.dispatchPost, type)
+            this.$store.dispatch(this.dispatchPost, obj)
               .then((result) => {
                 this.dataAsArray.splice(this.dataAsArray
                   .findIndex(item => {
@@ -55,6 +55,8 @@ export default {
     deleteData (data) {
       if (data.id) {
         this.deleteFromForm(this.dispatchDelete, data.id, data.title)
+      } else {
+        this.dataAsArray = []
       }
     },
     addDefaultData () {

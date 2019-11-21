@@ -17,7 +17,7 @@
           </b-form-group>
         </div>
         <div class="col-2 p-0" v-show="checkSelected(index)">
-          <b-btn @click="submitSportObject(lessonCategory)" class="m-0" block variant="primary">Zapisz</b-btn>
+          <b-btn @click="submitObject(lessonCategory)" class="m-0" block variant="primary">Zapisz</b-btn>
         </div>
       </div>
       <b-row class=" mt-3">

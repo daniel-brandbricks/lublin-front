@@ -45,8 +45,8 @@ export default {
         this.showToast(error.data.validationErrors[key], 'Uwaga', 'danger')
       }
     },
-    deleteFromForm (method, id, toDeleteWord = 'daną pozycję', routeToPush = false, routeParams = null) {
-      EventBus.$emit(`SHOW_CONFIRM_DELETE_MODAL`, method, id, toDeleteWord, routeToPush, routeParams)
+    deleteFromForm (method, id, toDeleteWord = 'daną pozycję', routeToPush = false, routeParams = null, urlParams = {}) {
+      EventBus.$emit(`SHOW_CONFIRM_DELETE_MODAL`, method, id, toDeleteWord, routeToPush, routeParams, urlParams)
     }
   }
 }
