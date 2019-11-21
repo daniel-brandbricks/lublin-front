@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h2 class="col-11 pl-4" >Zawodnicy</h2>
+
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6" class="">
       <div class="row" v-if="participantGroup.participants"
@@ -12,21 +12,27 @@
           </div>
           <p @click="removeParticipant(index)" v-if="participantGroup.participants.length > 0">usuń</p>
         </div>
-        <b-form-group class="col-11 pl-4">
+        <div class="custom col-11 pl-4">
+        <h2 class="mb-4" >Zawodnicy</h2>
+        <b-form-group
+          class="custom">
           <treeselect class="mb-4 custom"
-                      v-model="participantGroup.selectedDiscipline"
+                      v-model="participant.selectedYear"
                       :multiple="false"
                       placeholder="Rocznik"
-                      :options="participantGroup.disciplines"/>
+                      :options="participant.years"/>
           <treeselect class="mb-4 custom"
-                      v-model="participantGroup.selectedCategory"
+                      v-model="participant.selectedName"
                       :multiple="true"
                       placeholder="Imię i Nazwisko"
-                      :options="participantGroup.categories"/>
+                      :options="participant.names"/>
         </b-form-group>
+        </div>
       </div>
+    </b-col>
+  </b-row>
 
-      <b-row class="row">
+  <b-row class="row">
         <b-col cols="12" lg="6" class="">
           <div class="row">
             <div class="col-1">
@@ -37,12 +43,8 @@
               </div>
             </div>
 
-            <div class="mb-6">
-              <b-row class="justify-content-center">
-                <b-col cols="1">
-                  <b-btn variant="primary" class="custom" @click="addParticipant">Dodaj</b-btn>
-                </b-col>
-              </b-row>
+            <div class="col-11 pl-4">
+                  <b-btn variant="primary" class="w-50" @click="addParticipant">Dodaj</b-btn>
             </div>
           </div>
         </b-col>
@@ -55,7 +57,7 @@
 
             <b-row class="mt-4">
               <b-col>
-                <b-btn block-class="custom" :to="{ name: 'participant.groups', params: { 'tab': 'confirmed' } }">
+                <b-btn block-class="custom" :to="{ name: 'participant.groups' }">
                   Anuluj
                 </b-btn>
               </b-col>
@@ -69,8 +71,6 @@
           </b-col>
         </b-row>
 <!--      </div>-->
-    </b-col>
-  </b-row>
 </div>
 </template>
 
@@ -88,13 +88,30 @@ export default {
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
-      // participantToDelete: [],
+      // participants: [],
+      class: [],
+      lessonCategory: [],
+      discipline: [],
+      participantToDelete: [],
       participantDefault: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: ''
-      }
+        sex: '',
+        years: [],
+
+        // years: [
+        //   {id: 1, label: '1999'},
+        //   {id: 2, label: '2000'},
+        //   {id: 3, label: '1900'}
+        // ],
+
+        names: [
+          {id: 1, label: 'Piotr Ivanov'},
+          {id: 2, label: 'Greg Vol'},
+          {id: 3, label: 'Zywiec Zdroj'}
+        ]
+      },
+
+      selectedYear: null,
+      selectedName: null
     }
   },
   methods: {
@@ -102,13 +119,9 @@ export default {
       this.$parent.addParticipant(this.participantDefault)
     },
     removeParticipant (index) {
-      let oldItem = {
-        id: this.participantGroup.participants[index].id,
-        collectionType: 'remove'
-      }
-      // this.participantToDelete.push(oldItem)
-      this.$parent.remove(index)
+      this.$parent.removeParticipant(index)
     },
+
     submit (validRequired = false) {
       if (validRequired) {
         this.preSubmit()

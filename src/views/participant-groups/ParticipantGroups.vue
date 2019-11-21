@@ -47,6 +47,7 @@
                         placeholder="Kategoria"
                         :options="categories"/>
           </b-col>
+<!--           todo classes-->
           <b-col cols="4">
             <treeselect class="custom"
                         v-model="selectedClass"
@@ -69,15 +70,20 @@
           @row-clicked="rowRedirect"
         >
 <!--           rowRedirect-->
-          <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+
+          <template slot="discipline" slot-scope="scope">
+            <span>{{scope.item.discipline.title}}</span>
+          </template>
+          <template slot="lessonCategory" slot-scope="scope">
+            <span>{{scope.item.lessonCategory.title}}</span>
+          </template>
+          <template slot="class" slot-scope="scope">
+            <span>{{scope.item.class.title}}</span>
           </template>
 
-<!--          <template slot="btnTable" slot-scope="scope">-->
-<!--            <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">-->
-<!--              Zatwierdź-->
-<!--            </b-btn>-->
-<!--          </template>-->
+          <template slot="status" slot-scope="scope">
+            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          </template>
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
@@ -94,6 +100,7 @@
 // node_modules
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
 import EventBusEmit from '@/mixins/event-bus-emit'
 
 export default {
@@ -103,10 +110,10 @@ export default {
   data () {
     return {
       fields: [
-        {key: 'name', label: 'Nazwa listy', sortable: true},
+        {key: 'title', label: 'Nazwa listy', sortable: true},
         {key: 'discipline', label: 'Dyscyplina', sortable: true},
-        {key: 'gender', label: 'Płeć', sortable: true},
-        {key: 'category', label: 'Kategoria', sortable: true},
+        {key: 'sex', label: 'Płeć', sortable: true},
+        {key: 'lessonCategory', label: 'Kategoria', sortable: true},
         {key: 'class', label: 'Klasa', sortable: true},
         {key: 'status', label: 'Status w systemie', sortable: true},
         {key: 'edit', label: ''}
@@ -149,12 +156,7 @@ export default {
   },
   computed: {
     participantList () {
-      return [
-        {id: 1, name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1}
-      ]
+      return this.$store.getters.participantGroups
     }
   },
   methods: {
@@ -166,8 +168,10 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('getParticipantGroups')
+
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'participant.group'})
+    this.changeAdminNavbarButton({buttonLink: 'participant.group', params: {tab: 'main-data'}})
     this.changeAdminNavbarBreadcrumbs([{text: 'Lista zawodników', active: true}])
   }
 }

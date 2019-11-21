@@ -5,11 +5,11 @@
       <!--      RADIO-->
       <h2 class="mb-4">Aktywuj</h2>
       <b-row class="justify-content-start align-items-center">
-        <b-col cols="6">
+        <b-col cols="12">
           <b-form-group>
             <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block mr-3 mb-3"
-                          :class="{'error-input-custom': veeErrors.has('participant.active')}"
-                          name="participantGroup.active" :key="'participant.active'+index" v-validate="'required'"
+                          :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"
+                          name="participantGroup.active" :key="'participantGroup.active'+index" v-validate="'required'"
                           v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
               {{ element.title }}
             </b-form-radio>
@@ -28,35 +28,37 @@
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom"
                           placeholder="Nazwa listy"
-                          :class="{'error-input-custom': veeErrors.has('participant.title')}"
-                          name="participant.title" key="participant.title" v-validate="'required'"
+                          :class="{'error-input-custom': veeErrors.has('participantGroup.title')}"
+                          name="participantGroup.title" key="participantGroup.title" v-validate="'required'"
                           v-model="participantGroup.title"></b-form-input>
           </b-form-group>
           <!--          TREESELECT  -->
-          <treeselect class="custom"
-                      v-model="participantGroup.selectedDiscipline"
-                      :multiple="true"
-                      placeholder="Dyscyplina"
-                      :options="participantGroup.disciplines"></treeselect>
-          <treeselect class="custom"
-                      v-model="participantGroup.selectedCategory"
-                      :multiple="true"
-                      placeholder="Kategoria"
-                      :options="participantGroup.categories"></treeselect>
-          <treeselect class="custom"
-                      v-model="participantGroup.selectedClass"
-                      :multiple="true"
-                      placeholder="Klasa sportowa"
-                      :options="participantGroup.classes"></treeselect>
+            <treeselect v-model="participantGroup.discipline.id" v-if="participantGroup.discipline"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Dyscyplina" :options="participantGroupDiscipline"
+                        :class="{'error-input-custom': veeErrors.has('participantGroup.discipline')}"
+                        name="participantGroup.discipline" key="participantGroup.discipline" v-validate="'required'"
+                        />
+          <treeselect v-model="participantGroup.lessonCategory.id" v-if="participantGroup.lessonCategory"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Kategoria" :options="participantGroupLessonCategory"
+                        :class="{'error-input-custom': veeErrors.has('participantGroup.lessonCategory')}"
+                        name="participantGroup.lessonCategory" key="participantGroup.lessonCategory" v-validate="'required'"
+                        />
+          <treeselect v-model="participantGroup.class.id" v-if="participantGroup.class"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Klasa" :options="participantGroupClass"
+                        :class="{'error-input-custom': veeErrors.has('participantGroup.class')}"
+                        name="participantGroup.class" key="participantGroup.class" v-validate="'required'"
+                        />
+
           <!--          BUTTONS -->
           <b-row class="justify-content-center">
-              <b-btn variant="delete" class="custom">
-                <b-link block class="custom" :to="{ name: 'participant.groups', params: { 'tab': 'confirmed' } }">
+                <b-link block class="custom btn" :to="{ name: 'participant.groups' }">
                   Anuluj
                 </b-link>
-              </b-btn>
             <b-col>
-              <b-btn block class="custom" @click="goToFormTab('participants')">
+              <b-btn variant="primary" block class="custom" @click="goToFormTab('participants')">
                 Dalej
               </b-btn>
             </b-col>
@@ -81,6 +83,40 @@ export default {
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {}
+  },
+  computed: {
+    participantGroupDiscipline () {
+      // eslint-disable-next-line one-var
+      let data = this.$store.getters.disciplines,
+        preparedDisciplines = []
+      for (let disciplineIndex in data) {
+        preparedDisciplines.push({id: data[disciplineIndex].id, label: data[disciplineIndex].title})
+      }
+
+      return preparedDisciplines
+    },
+    participantGroupLessonCategory () {
+      // eslint-disable-next-line one-var
+      let data = this.$store.getters.lessonCategories,
+        preparedLessonCategories = []
+
+      for (let lessonCategoryIndex in data) {
+        preparedLessonCategories.push({id: data[lessonCategoryIndex].id, label: data[lessonCategoryIndex].title})
+      }
+
+      return preparedLessonCategories
+    },
+    participantGroupClass () {
+      // eslint-disable-next-line one-var
+      let data = this.$store.getters.classes,
+        preparedClasses = []
+
+      for (let classIndex in data) {
+        preparedClasses.push({id: data[classIndex].id, label: data[classIndex].title})
+      }
+
+      return preparedClasses
+    }
   },
   methods: {
     submit (validRequired) {
@@ -107,6 +143,12 @@ export default {
         this.checkValidForm()
       }
     }
+  },
+  created () {
+    this.$store.dispatch('getDisciplines')
+    this.$store.dispatch('getLessonCategories')
+    // todo
+    // this.$store.dispatch('getClasses')
   }
 }
 </script>

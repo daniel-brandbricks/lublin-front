@@ -119,7 +119,7 @@ const adminRouter = {
       path: 'participant/:id?',
       name: 'participant',
       // todo
-      component: ParticipantGroups
+      component: Participants
     },
 
     // Lessons list
