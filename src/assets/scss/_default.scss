@@ -1,3 +1,54 @@
+@import "font";
+.Vv {
+  outline: 1px solid navy;
+}
+
+.Cc {
+  border: 1px solid red;
+}
+
+
+h1,%h1 {
+  @extend %font-medium;
+  font-size: 40px;
+  letter-spacing: 1px;
+  line-height: 48px;
+}
+
+h2,%h2 {
+  @extend %font-medium;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  &.main{
+    font-size: 40px;
+    letter-spacing: 1px;
+    line-height: 48px;
+    font-weight: 500!important;
+  }
+}
+
+.c-green {
+  color: $c-green;
+}
+
+.bgc-green {
+  background-color: $c-green;
+}
+
+a {
+  text-decoration: none;
+  &:hover{
+    text-decoration: none;
+  }
+}
+p{
+  margin-bottom: 0.5rem;
+
+}
+
+
+
 .wrap-img-type-table {
   width: 50px;
 }

@@ -1,19 +1,21 @@
 <template>
   <div class="container">
-    <b-navbar toggleable="lg" type="white" class="custom p-0">
+    <b-navbar toggleable="xl" type="white" class="custom p-0">
       <b-navbar-brand :to="{name:'reception.dashboard'}">
         <img src="/static/img/logo.svg" alt="LOGO">
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse">
+        A
+      </b-navbar-toggle>
 
-      <b-collapse id="nav-collapse "  class="justify-content-end" is-nav>
-        <b-navbar-nav class="text-center">
-          <b-nav-item :to="{name:'reception.dashboard'}">
+      <b-collapse id="nav-collapse"  class="justify-content-xl-end" is-nav>
+        <b-navbar-nav class="text-center ">
+          <b-nav-item :to="{name:'home'}">
             Zajęcia  <br>
             sportowe
           </b-nav-item>
-          <b-nav-item>
+          <b-nav-item :to="{name:'test'}">
             Imprezy  <br>
             sportowe
           </b-nav-item>
