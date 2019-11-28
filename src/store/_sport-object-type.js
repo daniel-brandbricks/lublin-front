@@ -15,7 +15,7 @@ export default {
         if (undefined === sportObjectType || sportObjectType === null || sportObjectType.length < 1) {
           continue
         }
-        if (sportObjectType.id == id) {
+        if (parseInt(sportObjectType.id) === parseInt(id)) {
           return sportObjectType
         }
       }
@@ -27,7 +27,7 @@ export default {
     },
     setSportObjectType (state, data) {
       const id = data.id
-      let sportObjectTypes = [...state.sportObjectTypes]
+      let sportObjectTypes = [ ...state.sportObjectTypes ]
 
       if (undefined === id || id === null) {
         return
@@ -47,7 +47,7 @@ export default {
       state.sportObjectTypes.push(data)
     },
     deleteSportObjectType (state, id) {
-      let sportObjectTypes = [...state.sportObjectTypes]
+      let sportObjectTypes = [ ...state.sportObjectTypes ]
       for (let i = 0; i < sportObjectTypes.length; i++) {
         const storeSportObjectType = sportObjectTypes[i]
         if (storeSportObjectType.id !== id) {

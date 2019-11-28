@@ -3,7 +3,7 @@
     <!--   image   -->
     <b-col cols="12" lg="3" class="">
       <h2>Zdjęcie</h2>
-<!--      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">-->
+      <!--      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">-->
       <ImageInputAdvanced :imgPath="school.image" @afterCropImage="afterCropImage"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
                           :min-width="100" :max-height="1000" :max-width="1000"></ImageInputAdvanced>
@@ -100,7 +100,7 @@
                       name="school.openHours" key="school.openHours" v-validate="{'required':true}"
                       v-model="school.openHours"></b-form-input>
       </b-form-group>
-<!--      todo or not todo v-validate="{'required':true}" -->
+      <!--      todo or not todo v-validate="{'required':true}" -->
       <textarea class="custom w-100" v-model="school.comments" placeholder="Uwagi"
                 :class="{'error-input-custom': veeErrors.has('school.comments')}"
                 name="school.comments" :key="'school.comments'" :v-validate="'required'"></textarea>
@@ -120,11 +120,12 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Telefon"
                       :class="{'error-input-custom': veeErrors.has('school.personToContactPhone')}"
-                      name="school.personToContactPhone" key="school.personToContactPhone" v-validate="{'required':true}"
+                      name="school.personToContactPhone" key="school.personToContactPhone"
+                      v-validate="{'required':true}"
                       v-model="school.personToContactPhone"></b-form-input>
       </b-form-group>
 
-<!--      <h1>{{this.loading}}</h1>-->
+      <!--      <h1>{{this.loading}}</h1>-->
 
       <!--buttons-->
       <b-row class="mt-4">
@@ -154,58 +155,57 @@
 </template>
 
 <script>
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
-export default {
-  name: 'FormMainData',
-  props: ['school', 'districts'],
-  components: {Treeselect, ImageInputAdvanced},
-  mixins: [EventBusEmit, FormMixin],
-  data () {
-    return {
-    }
-  },
-  methods: {
-    submit (validRequired) {
-      if (validRequired) {
-        this.preSubmit()
-          .then((result) => {
-            if (!result) {
+  export default {
+    name: 'FormMainData',
+    props: [ 'school', 'districts' ],
+    components: { Treeselect, ImageInputAdvanced },
+    mixins: [ EventBusEmit, FormMixin ],
+    data () {
+      return {}
+    },
+    methods: {
+      submit (validRequired) {
+        if (validRequired) {
+          this.preSubmit()
+            .then((result) => {
+              if (!result) {
+                this.loading = false
+                return
+              }
+
               this.loading = false
-              return
-            }
-
-            this.loading = false
-            this.$parent.submit()
-          })
-      } else {
-        this.$parent.submit()
+              this.$parent.submit()
+            })
+        } else {
+          this.$parent.submit()
+        }
+      },
+      // todo this method in form mixin
+      afterCropImage (base64) {
+        console.log(base64)
+        this.school.image = base64
+      },
+      goToFormTab (tabName) {
+        this.$parent.goToFormTab(tabName)
       }
     },
-    // todo this method in form mixin
-    afterCropImage (base64) {
-      console.log(base64)
-      this.school.image = base64
+    mounted () {
+      // validate form after redirect from another tab (component)
+      if (this.$route.params.validateForm) {
+        this.checkValidForm()
+      }
     },
-    goToFormTab (tabName) {
-      this.$parent.goToFormTab(tabName)
-    }
-  },
-  mounted () {
-    // validate form after redirect from another tab (component)
-    if (this.$route.params.validateForm) {
-      this.checkValidForm()
-    }
-  },
-  created () {
+    created () {
 
+    }
   }
-}
 </script>
 
 <style scoped>

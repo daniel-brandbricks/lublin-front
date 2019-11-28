@@ -24,7 +24,7 @@ export default {
         if (undefined === participant || participant === null || participant.length < 1) {
           continue
         }
-        if (participant.id == id) {
+        if (parseInt(participant.id) === parseInt(id)) {
           return participant
         }
       }

@@ -45,44 +45,44 @@
 </template>
 
 <script>
-import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
+  import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
 
-export default {
-  name: 'ListToConfirm',
-  props: ['filters'],
-  mixins: [SchoolsAndClubsMixin],
-  data () {
-    return {
-      fields: [
-        {key: 'type', label: 'Typ', sortable: true},
-        {key: 'name', label: 'Nazwa', sortable: true},
-        {key: 'object', label: 'Obiekty sportowe', sortable: true},
-        {key: 'data', label: 'Data dodania', sortable: true},
-        {key: 'btnTable', label: '', sortable: true},
-        {key: 'edit', label: ''}
-      ]
-    }
-  },
-  computed: {
-    schoolsToConfirm () {
-      return this.$store.getters.schoolsToConfirm
-    }
-  },
-  methods: {
-    rowRedirect (row) {
-      this.$parent.rowRedirect(row.id, false)
+  export default {
+    name: 'ListToConfirm',
+    props: [ 'filters' ],
+    mixins: [ SchoolsAndClubsMixin ],
+    data () {
+      return {
+        fields: [
+          { key: 'type', label: 'Typ', sortable: true },
+          { key: 'name', label: 'Nazwa', sortable: true },
+          { key: 'object', label: 'Obiekty sportowe', sortable: true },
+          { key: 'data', label: 'Data dodania', sortable: true },
+          { key: 'btnTable', label: '', sortable: true },
+          { key: 'edit', label: '' }
+        ]
+      }
     },
-    confirmItem (id) {
-      this.$store.dispatch('putSchool', {id: id, confirmed: 1})
-        .then((response) => {
-          this.$store.dispatch('getSchools', {confirmed: 0})
-        })
+    computed: {
+      schoolsToConfirm () {
+        return this.$store.getters.schoolsToConfirm
+      }
+    },
+    methods: {
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id, false)
+      },
+      confirmItem (id) {
+        this.$store.dispatch('putSchool', { id: id, confirmed: 1 })
+          .then((response) => {
+            this.$store.dispatch('getSchools', { confirmed: 0 })
+          })
+      }
+    },
+    created () {
+      this.$store.dispatch('getSchools', { confirmed: 0 })
     }
-  },
-  created () {
-    this.$store.dispatch('getSchools', {confirmed: 0})
   }
-}
 </script>
 
 <style scoped>

@@ -28,7 +28,7 @@
             i profilowane
           </b-nav-item>
           <b-nav-item href="#">
-            Współzawodnictwo Sportowe  <br>
+            Współzawodnictwo Sportowe <br>
             Szkół Miasta Lublin
           </b-nav-item>
           <b-nav-item href="#">
@@ -62,9 +62,13 @@
         this.password = ''
       },
       validateEmail (email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        return re.test(String(email)
-          .toLowerCase())
+        // @todos
+        console.log('@todo')
+        console.log('fix that')
+        return email
+        // var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        // return re.test(String(email)
+        //   .toLowerCase())
       },
       login () {
         if (this.email === '') {
@@ -87,7 +91,7 @@
           return false
         }
 
-        let data = {email: this.email, password: this.password}
+        let data = { email: this.email, password: this.password }
         this.$store.dispatch('login', data)
           .then((response) => {
             console.log(response)

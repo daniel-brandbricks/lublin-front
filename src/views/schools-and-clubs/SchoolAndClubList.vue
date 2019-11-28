@@ -47,71 +47,71 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import { DISTRICTS } from '@/config/AppConfig'
+  import { DISTRICTS } from '@/config/AppConfig'
 
-import ListMixin from '@/mixins/list-mixin'
-import EventBusEmit from '@/mixins/event-bus-emit'
-import TabLinks from '../../components/TabLinks'
+  import ListMixin from '@/mixins/list-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
 
-import ListConfirmed from '@/views/schools-and-clubs/components/ListConfirmed'
-import ListToConfirm from '@/views/schools-and-clubs/components/ListToConfirm'
+  import ListConfirmed from '@/views/schools-and-clubs/components/ListConfirmed'
+  import ListToConfirm from '@/views/schools-and-clubs/components/ListToConfirm'
 
-export default {
-  components: {TabLinks, Treeselect, ListConfirmed, ListToConfirm},
-  mixins: [EventBusEmit, ListMixin],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Zatwierdzone',
-          link: 'schools.and.clubs',
-          tab: 'confirmed'
-        },
-        {
-          title: 'Do zatwierdzenia',
-          link: 'schools.and.clubs',
-          tab: 'to-confirm'
-        }
-      ],
+  export default {
+    components: { TabLinks, Treeselect, ListConfirmed, ListToConfirm },
+    mixins: [ EventBusEmit, ListMixin ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Zatwierdzone',
+            link: 'schools.and.clubs',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia',
+            link: 'schools.and.clubs',
+            tab: 'to-confirm'
+          }
+        ],
 
-      // checkboxes
-      selectedType: [],
-      typeOptions: [
-        {text: 'klub', value: 0},
-        {text: 'szkola', value: 1}
-      ],
+        // checkboxes
+        selectedType: [],
+        typeOptions: [
+          { text: 'klub', value: 0 },
+          { text: 'szkola', value: 1 }
+        ],
 
-      // search
-      search: '',
+        // search
+        search: '',
 
-      // treeselect
-      districtValue: null,
-      districts: DISTRICTS
+        // treeselect
+        districtValue: null,
+        districts: DISTRICTS
+      }
+    },
+    computed: {},
+    methods: {
+      rowRedirect (id, isConfirmed) {
+        this.$router.push({
+          name: 'school.or.club',
+          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+        })
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
+      }
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'school.or.club', params: { tab: 'main-data' } })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Kłuby i szkoły', active: true } ])
     }
-  },
-  computed: {},
-  methods: {
-    rowRedirect (id, isConfirmed) {
-      this.$router.push({
-        name: 'school.or.club',
-        params: {'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed}
-      })
-    }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'schools.and.clubs', params: {'tab': 'confirmed'}})
-    }
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'school.or.club', params: {tab: 'main-data'}})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Kłuby i szkoły', active: true}])
   }
-}
 </script>
 
 <style scoped>

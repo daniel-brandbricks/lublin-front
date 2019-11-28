@@ -72,7 +72,8 @@
           </template>
 
           <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+            <span class="status"
+                  :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
 
           <template slot="btnTable" slot-scope="scope">
@@ -93,71 +94,71 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import EventBusEmit from '@/mixins/event-bus-emit'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
-export default {
-  components: {Treeselect},
-  mixins: [EventBusEmit],
-  data () {
-    return {
-      fields: [
-        {key: 'name', label: 'Nazwa zajęcia', sortable: true},
-        {key: 'discipline', label: 'Dyscyplina', sortable: true},
-        {key: 'category', label: 'Kategoria', sortable: true},
-        {key: 'class', label: 'Klasa', sortable: true},
-        {key: 'leader', label: 'Prowadzący', sortable: true},
-        {key: 'status', label: 'Status w systemie', sortable: true},
-        {key: 'edit', label: ''}
-      ],
+  export default {
+    components: { Treeselect },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        fields: [
+          { key: 'name', label: 'Nazwa zajęcia', sortable: true },
+          { key: 'discipline', label: 'Dyscyplina', sortable: true },
+          { key: 'category', label: 'Kategoria', sortable: true },
+          { key: 'class', label: 'Klasa', sortable: true },
+          { key: 'leader', label: 'Prowadzący', sortable: true },
+          { key: 'status', label: 'Status w systemie', sortable: true },
+          { key: 'edit', label: '' }
+        ],
 
-      search: '',
+        search: '',
 
-      selectedType: [],
-      typeOptions: [
-        {text: 'klub', value: 0},
-        {text: 'szkola', value: 1}
-      ],
+        selectedType: [],
+        typeOptions: [
+          { text: 'klub', value: 0 },
+          { text: 'szkola', value: 1 }
+        ],
 
-      selectedDiscipline: null,
-      selectedCategory: null,
-      selectedClass: null,
-      // temp
-      disciplines: [
-        {id: 1, label: 'Basen'},
-        {id: 2, label: 'Siłownia'},
-        {id: 3, label: 'Bieg'}
-      ],
-      categories: [
-        {id: 1, label: 'pierwsza'},
-        {id: 2, label: 'druga'},
-        {id: 3, label: 'cos cos'}
-      ],
-      classes: [
-        {id: 1, label: '2b'},
-        {id: 2, label: '6a'},
-        {id: 3, label: '8c'}
-      ]
+        selectedDiscipline: null,
+        selectedCategory: null,
+        selectedClass: null,
+        // temp
+        disciplines: [
+          { id: 1, label: 'Basen' },
+          { id: 2, label: 'Siłownia' },
+          { id: 3, label: 'Bieg' }
+        ],
+        categories: [
+          { id: 1, label: 'pierwsza' },
+          { id: 2, label: 'druga' },
+          { id: 3, label: 'cos cos' }
+        ],
+        classes: [
+          { id: 1, label: '2b' },
+          { id: 2, label: '6a' },
+          { id: 3, label: '8c' }
+        ]
+      }
+    },
+    computed: {
+      participants () {
+        return [
+          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0 },
+          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0 },
+          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1 },
+          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1 }
+        ]
+      }
+    },
+    created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'lesson' })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zajęć', active: true } ])
     }
-  },
-  computed: {
-    participants () {
-      return [
-        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0},
-        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0},
-        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1},
-        {name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1}
-      ]
-    }
-  },
-  created () {
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'lesson'})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
   }
-}
 </script>
 
 <style scoped>

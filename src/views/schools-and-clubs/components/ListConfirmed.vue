@@ -25,7 +25,8 @@
         </template>
 
         <template slot="status" slot-scope="scope">
-          <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          <span class="status"
+                :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
         <template slot="edit" slot-scope="scope">
           <b-link class="icon-link">
@@ -39,39 +40,39 @@
 </template>
 
 <script>
-import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
+  import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
 
-export default {
-  name: 'ListConfirmed',
-  props: ['filters'],
-  mixins: [SchoolsAndClubsMixin],
-  data () {
-    return {
-      // table
-      fields: [
-        {key: 'type', label: 'Typ', sortable: true},
-        {key: 'name', label: 'Nazwa', sortable: true},
-        {key: 'object', label: 'Obiekty sportowe', sortable: true},
-        {key: 'email', label: 'E-mail', sortable: true},
-        {key: 'status', label: 'status w systemie', sortable: true},
-        {key: 'edit', label: ''}
-      ]
+  export default {
+    name: 'ListConfirmed',
+    props: [ 'filters' ],
+    mixins: [ SchoolsAndClubsMixin ],
+    data () {
+      return {
+        // table
+        fields: [
+          { key: 'type', label: 'Typ', sortable: true },
+          { key: 'name', label: 'Nazwa', sortable: true },
+          { key: 'object', label: 'Obiekty sportowe', sortable: true },
+          { key: 'email', label: 'E-mail', sortable: true },
+          { key: 'status', label: 'status w systemie', sortable: true },
+          { key: 'edit', label: '' }
+        ]
+      }
+    },
+    computed: {
+      schoolsConfirmed () {
+        return this.$store.getters.schoolsConfirmed
+      }
+    },
+    methods: {
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id, true)
+      }
+    },
+    created () {
+      this.$store.dispatch('getSchools', { confirmed: 1 })
     }
-  },
-  computed: {
-    schoolsConfirmed () {
-      return this.$store.getters.schoolsConfirmed
-    }
-  },
-  methods: {
-    rowRedirect (row) {
-      this.$parent.rowRedirect(row.id, true)
-    }
-  },
-  created () {
-    this.$store.dispatch('getSchools', {confirmed: 1})
   }
-}
 </script>
 
 <style scoped>

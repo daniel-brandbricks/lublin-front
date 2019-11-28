@@ -125,27 +125,27 @@
 
 <script>
 
-export default {
-  name: 'Sidebar',
-  data () {
-    return {}
-  },
-  methods: {
-    logout () {
-      this.$store.dispatch('logout')
-        .then((response) => {
-          this.$router.push({name: 'login'})
-        })
-        .catch((error) => {
-          console.log(error)
-          // todo error handle
-        })
+  export default {
+    name: 'Sidebar',
+    data () {
+      return {}
+    },
+    methods: {
+      logout () {
+        this.$store.dispatch('logout')
+          .then((response) => {
+            this.$router.push({ name: 'login' })
+          })
+          .catch((error) => {
+            console.log(error)
+            // todo error handle
+          })
+      }
+    },
+    watch: {},
+    created () {
     }
-  },
-  watch: {},
-  created () {
   }
-}
 </script>
 
 <style>
