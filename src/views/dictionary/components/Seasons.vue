@@ -1,7 +1,6 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6">
-      {{selectedIndex}}
       <div class="row align-items-start" v-if="computedList"
            v-for="(season,index) in computedList" :key="index">
         <div class="col-2">
@@ -12,19 +11,19 @@
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom m-0"
                           placeholder="Nazwa sezonu"
-                          @focus="selectedIndex = index" @blur="submitSeason(computedList[index])"
+                          @focus="editInput(index)"
                           :class="{'error-input-custom': veeErrors.has('season.title'+index)}"
                           :name="'season.title'+index" :key="'season.title'+index"
-                          v-validate="{'required':(index === selectedIndex ? true: false)}"
+                          v-validate="{'required': true}"
                           v-model="computedList[index].title"></b-form-input>
           </b-form-group>
           <b-row class="mt-3">
             <b-col cols="5">
               <date-picker v-model="computedList[index].from" :lang="lang"
-                           @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
+                           @focus="editInput(index)"
                            :class="{'error-input-custom': veeErrors.has('season.from'+index)}"
                            :name="'season.from'+index" :key="'season.from'+index"
-                           v-validate="{'required':(index === selectedIndex ? true: false)}"
+                           v-validate="{'required': true}"
                            id="inputDatapicFrom" placeholder="" class="w-100 custom mb-3">
               </date-picker>
             </b-col>
@@ -33,17 +32,17 @@
             </b-col>
             <b-col cols="5">
               <date-picker v-model="computedList[index].to" :lang="lang"
-                           @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
+                           @focus="editInput(index)"
                            :class="{'error-input-custom': veeErrors.has('season.to'+index)}"
                            :name="'season.to'+index" :key="'season.to'+index"
-                           v-validate="{'required':(index === selectedIndex ? true: false)}"
+                           v-validate="{'required': true}"
                            id="inputDatapicTo" placeholder="" class="w-100 custom mb-3">
               </date-picker>
             </b-col>
           </b-row>
-          <b-row class="justify-content-end mb-3">
+          <b-row class="justify-content-end mb-3" v-show="checkSelected(index)">
             <b-col cols="4">
-              <b-btn variant="primary" block>Zapisz</b-btn>
+              <b-btn @click="submitObject(season)" variant="primary" block>Zapisz</b-btn>
             </b-col>
           </b-row>
 
@@ -89,8 +88,6 @@
             dateRange: 'Select Date Range'
           }
         },
-
-        selectedIndex: null,
 
         // temp
         years: [
