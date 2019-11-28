@@ -41,7 +41,7 @@ export default {
       getter: 'classesAll',
       dispatchDelete: 'deleteClass',
       dispatchPost: 'postClass',
-      dispatchPut: 'puttClass',
+      dispatchPut: 'puttClass'
     }
   },
   methods: {},

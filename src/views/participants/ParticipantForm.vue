@@ -94,6 +94,45 @@ export default {
     }
   },
   created () {
+    if (this.id) {
+      this.$store.dispatch('getParticipants', {id: this.id})
+        .then((response) => {
+          this.participant = response
+
+          this.tabLinks = [
+            {
+              title: 'Dane ogólne',
+              link: 'participant',
+              tab: 'main-data'
+            },
+            {
+              title: 'ListaZawodników',
+              link: 'participant',
+              tab: 'participants-list'
+            },
+            {
+              title: 'Zajęcia',
+              link: 'participant',
+              tab: 'activities'
+            },
+            {
+              title: 'Kalendarz',
+              link: 'participant',
+              tab: 'calendar'
+            },
+            {
+              title: 'Frekwencja',
+              link: 'participant',
+              tab: 'frequency'
+            },
+            {
+              title: 'MTSF',
+              link: 'participant',
+              tab: 'mtsf'
+            }
+          ]
+        })
+    }
     /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: false})
 

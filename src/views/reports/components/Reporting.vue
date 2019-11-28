@@ -188,7 +188,7 @@ export default {
         {id: 1, district: 'Centrum', klubOrSchool: 'Kłub', object: 'Park', discipline: 'Bieg 50m', category: '2', class: '4A', leader: 'Marek', participantList: 'PL', gender: 'M', participant: '13', year: '2003', date: '23/11/19', status: '1'},
         {id: 1, district: 'Centrum', klubOrSchool: 'Kłub', object: 'Park', discipline: 'Bieg 50m', category: '2', class: '4A', leader: 'Marek', participantList: 'PL', gender: 'M', participant: '13', year: '2003', date: '23/11/19', status: '1'},
         {id: 1, district: 'Centrum', klubOrSchool: 'Kłub', object: 'Park', discipline: 'Bieg 50m', category: '2', class: '4A', leader: 'Marek', participantList: 'PL', gender: 'M', participant: '13', year: '2003', date: '23/11/19', status: '1'},
-        {id: 1, district: 'Centrum', klubOrSchool: 'Kłub', object: 'Park', discipline: 'Bieg 50m', category: '2', class: '4A', leader: 'Marek', participantList: 'PL', gender: 'M', participant: '13', year: '2003', date: '23/11/19', status: '1'},
+        {id: 1, district: 'Centrum', klubOrSchool: 'Kłub', object: 'Park', discipline: 'Bieg 50m', category: '2', class: '4A', leader: 'Marek', participantList: 'PL', gender: 'M', participant: '13', year: '2003', date: '23/11/19', status: '1'}
       ]
     }
   },

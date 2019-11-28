@@ -1,7 +1,7 @@
 import * as apiService from '@/services/apiService'
 import { BASE_API_URL } from '@/config/AppConfig'
 
-import router from '@/router'
+// import router from '@/router'
 
 let generateToken = function () {
   let authToken = localStorage.getItem('authToken')

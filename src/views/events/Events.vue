@@ -34,7 +34,7 @@ export default {
           link: 'events',
           tab: 'to-confirm'
         }
-      ],
+      ]
     }
   },
   created () {

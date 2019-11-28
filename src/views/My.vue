@@ -36,68 +36,67 @@
 </template>
 
 <script>
-  import Datepicker from 'vuejs-datepicker';
-  // import the component
-  import Treeselect from '@riophae/vue-treeselect'
-  // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import Datepicker from 'vuejs-datepicker'
+// import the component
+import Treeselect from '@riophae/vue-treeselect'
+// import the styles
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import DatePick from 'vue-date-pick';
-  import 'vue-date-pick/dist/vueDatePick.css';
-  import EventBus from '../event-bus'
-  import AdminNavbar from '@/components/main/AdminNavbar'
+import DatePick from 'vue-date-pick'
+import 'vue-date-pick/dist/vueDatePick.css'
+import EventBus from '../event-bus'
+import AdminNavbar from '@/components/main/AdminNavbar'
 
+export default {
+  components: { Datepicker,
+    Treeselect,
+    DatePick,
+    AdminNavbar},
+  data () {
+    return {
+      showSidebar: false,
 
-  export default {
-    components: { Datepicker,
-      Treeselect,
-      DatePick ,
-      AdminNavbar},
-    data () {
-      return {
-        showSidebar: false,
-
-        date: '2019-09-01',
-        selected: [],
-        selectedRadio: 'A',
-        options: [
-          {text: 'first', value: '1'},
-          {text: 'secondary', value: '2'},
-          {text: 'third', value: '3'},
-        ],
-        // define the default value
-        value: null,
-        // define options
-        optionsTS: [ {
-          id: 'a',
-          label: 'first',
-          children: [ {
-            id: 'aa',
-            label: 'aa',
-          }, {
-            id: 'ab',
-            label: 'ab',
-          } ],
+      date: '2019-09-01',
+      selected: [],
+      selectedRadio: 'A',
+      options: [
+        {text: 'first', value: '1'},
+        {text: 'secondary', value: '2'},
+        {text: 'third', value: '3'}
+      ],
+      // define the default value
+      value: null,
+      // define options
+      optionsTS: [ {
+        id: 'a',
+        label: 'first',
+        children: [ {
+          id: 'aa',
+          label: 'aa'
         }, {
-          id: 'b',
-          label: 'second',
-        }, {
-          id: 'c',
-          label: 'third',
-        } ],
-      }
-    },
-    methods:{
-      toggleSidebar () {
-        EventBus.$emit('TOGGLE_SIDEBAR')
-      }
-    },
-    created () {
-      EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
-        this.showSidebar = !this.showSidebar
-      })
+          id: 'ab',
+          label: 'ab'
+        } ]
+      }, {
+        id: 'b',
+        label: 'second'
+      }, {
+        id: 'c',
+        label: 'third'
+      } ]
     }
+  },
+  methods: {
+    toggleSidebar () {
+      EventBus.$emit('TOGGLE_SIDEBAR')
+    }
+  },
+  created () {
+    EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
+      this.showSidebar = !this.showSidebar
+    })
   }
+}
 </script>
 
 <style scoped>
