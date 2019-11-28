@@ -11,30 +11,30 @@
 </template>
 
 <script>
-export default {
-  name: 'TabLinks',
-  props: ['links'],
-  data () {
-    return {
-      // if we need to save id in different ulr tabs
-      id: this.$route.params.id
-    }
-  },
-  computed: {},
-  methods: {
-    // call method on click tab (needs param 'method' in 'links' prop)
-    callParentMethod (index) {
-      if (this.links[index].method) {
-        let funcName = this.$parent[this.links[index].method]
-        if (typeof funcName === 'function') {
-          funcName()
+  export default {
+    name: 'TabLinks',
+    props: [ 'links' ],
+    data () {
+      return {
+        // if we need to save id in different ulr tabs
+        id: this.$route.params.id
+      }
+    },
+    computed: {},
+    methods: {
+      // call method on click tab (needs param 'method' in 'links' prop)
+      callParentMethod (index) {
+        if (this.links[index].method) {
+          let funcName = this.$parent[this.links[index].method]
+          if (typeof funcName === 'function') {
+            funcName()
+          }
         }
       }
+    },
+    created () {
     }
-  },
-  created () {
   }
-}
 </script>
 
 <style scoped>

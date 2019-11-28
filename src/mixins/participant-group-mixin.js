@@ -6,33 +6,30 @@ export default {
   methods: {},
   computed: {
     participantGroupDiscipline () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.disciplines,
-        preparedDisciplines = []
+      let data = this.$store.getters.disciplines
+      let preparedDisciplines = []
       for (let disciplineIndex in data) {
-        preparedDisciplines.push({id: data[disciplineIndex].id, label: data[disciplineIndex].title})
+        preparedDisciplines.push({ id: data[disciplineIndex].id, label: data[disciplineIndex].title })
       }
 
       return preparedDisciplines
     },
     participantGroupLessonCategory () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.lessonCategories,
-        preparedLessonCategories = []
+      let data = this.$store.getters.lessonCategories
+      let preparedLessonCategories = []
 
       for (let lessonCategoryIndex in data) {
-        preparedLessonCategories.push({id: data[lessonCategoryIndex].id, label: data[lessonCategoryIndex].title})
+        preparedLessonCategories.push({ id: data[lessonCategoryIndex].id, label: data[lessonCategoryIndex].title })
       }
 
       return preparedLessonCategories
     },
     participantGroupClass () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.classes,
-        preparedClasses = []
+      let data = this.$store.getters.classes
+      let preparedClasses = []
 
       for (let classIndex in data) {
-        preparedClasses.push({id: data[classIndex].id, label: data[classIndex].title})
+        preparedClasses.push({ id: data[classIndex].id, label: data[classIndex].title })
       }
 
       return preparedClasses
@@ -41,14 +38,13 @@ export default {
     participantGroupFiltered () {
       if (!this.filters) this.filters = {}
 
-      // eslint-disable-next-line one-var
-      let participantGroups = [],
-        filteredParticipantGroups = [],
-        search = this.filters.search || '',
-        selectedType = this.filters.selectedType || []
-        // disciplines = this.filters.disciplines || [],
-        // categories = this.filters.categories || [],
-        // classes = this.filters.classes || []
+      let participantGroups = []
+      let filteredParticipantGroups = []
+      let search = this.filters.search || ''
+      let selectedType = this.filters.selectedType || []
+      // disciplines = this.filters.disciplines || [],
+      // categories = this.filters.categories || [],
+      // classes = this.filters.classes || []
 
       for (let participantGroupIndex in participantGroups) {
         if (search.length > 0 && participantGroups[participantGroupIndex].name.toLowerCase().indexOf(search.toLowerCase()) === -1) continue

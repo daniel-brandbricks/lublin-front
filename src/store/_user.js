@@ -1,17 +1,17 @@
 import * as apiService from '@/services/apiService'
-import { BASE_API_URL } from '@/config/AppConfig'
+// import { BASE_API_URL } from '@/config/AppConfig'
 
 // import router from '@/router'
 
-let generateToken = function () {
-  let authToken = localStorage.getItem('authToken')
-  if (authToken !== null && authToken !== '') {
-    return authToken
-  }
-  return null
-}
-
-let prefix = BASE_API_URL
+// let generateToken = function () {
+//   let authToken = localStorage.getItem('authToken')
+//   if (authToken !== null && authToken !== '') {
+//     return authToken
+//   }
+//   return null
+// }
+//
+// let prefix = BASE_API_URL
 
 export default {
   state: {

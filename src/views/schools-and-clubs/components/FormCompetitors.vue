@@ -1,11 +1,11 @@
 <template>
- <div class="wrap"></div>
+  <div class="wrap">FormCompetitors</div>
 </template>
 
 <script>
-export default {
-  name: 'FormCompetitors'
-}
+  export default {
+    name: 'FormCompetitors'
+  }
 </script>
 
 <style scoped>

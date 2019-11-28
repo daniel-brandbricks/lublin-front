@@ -62,26 +62,28 @@
         selected: [],
         selectedRadio: 'A',
         options: [
-          {text: 'first', value: '1'},
-          {text: 'secondary', value: '2'},
-          {text: 'third', value: '3'}
+          { text: 'first', value: '1' },
+          { text: 'secondary', value: '2' },
+          { text: 'third', value: '3' }
         ],
         // define the default value
         value: null,
-        optionsTS: [{
-          id: 'a',
-          label: 'first',
-          children: [
-            {
-              id: 'aa',
-              label: 'aa'
-            },
-            {
-              id: 'ab',
-              label: 'ab'
-            }
-          ]
-        },
+        // define options
+        optionsTS: [
+          {
+            id: 'a',
+            label: 'first',
+            children: [
+              {
+                id: 'aa',
+                label: 'aa'
+              },
+              {
+                id: 'ab',
+                label: 'ab'
+              }
+            ]
+          },
           {
             id: 'b',
             label: 'second'

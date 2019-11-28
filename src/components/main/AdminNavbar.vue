@@ -27,49 +27,49 @@
 </template>
 
 <script>
-import EventBus from '@/event-bus'
+  import EventBus from '@/event-bus'
 
-export default {
-  name: 'AdminNavbar',
-  data () {
-    return {
-      generateExcel: false,
-      generatePdf: false,
-      buttonLink: '#',
-      buttonLinkParams: {},
+  export default {
+    name: 'AdminNavbar',
+    data () {
+      return {
+        generateExcel: false,
+        generatePdf: false,
+        buttonLink: '#',
+        buttonLinkParams: {},
 
-      // breadcrumb
-      items: [
-        {
-          text: 'Admin',
-          href: '#'
-        },
-        {
-          text: 'Manage',
-          href: '#'
-        },
-        {
-          text: 'Library',
-          active: true
-        }
-      ]
+        // breadcrumb
+        items: [
+          {
+            text: 'Admin',
+            href: '#'
+          },
+          {
+            text: 'Manage',
+            href: '#'
+          },
+          {
+            text: 'Library',
+            active: true
+          }
+        ]
+      }
+    },
+    computed: {},
+    methods: {},
+    created () {
+      EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
+        this.generateExcel = params.generateExcel
+        this.generatePdf = params.generatePdf
+        this.buttonLink = params.buttonLink
+        this.buttonLinkParams = params.params
+      })
+      EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
+        this.items = params
+        // todo
+      })
     }
-  },
-  computed: {},
-  methods: {},
-  created () {
-    EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
-      this.generateExcel = params.generateExcel
-      this.generatePdf = params.generatePdf
-      this.buttonLink = params.buttonLink
-      this.buttonLinkParams = params.params
-    })
-    EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
-      this.items = params
-      // todo
-    })
   }
-}
 </script>
 
 <style scoped>

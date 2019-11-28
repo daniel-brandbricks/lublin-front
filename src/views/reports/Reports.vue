@@ -13,38 +13,38 @@
 </template>
 
 <script>
-import EventBusEmit from '@/mixins/event-bus-emit'
-import TabLinks from '../../components/TabLinks'
-import Reporting from '@/views/reports/components/Reporting'
-import Visit from '@/views/reports/components/Visit'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
+  import Reporting from '@/views/reports/components/Reporting'
+  import Visit from '@/views/reports/components/Visit'
 
-export default {
-  components: {TabLinks, Reporting, Visit},
-  mixins: [EventBusEmit],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Raportowanie',
-          link: 'reports',
-          tab: 'reporting'
-        },
-        {
-          title: 'Wizytacja',
-          link: 'reports',
-          tab: 'visit'
-        }
-      ]
-    }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'reports', params: {'tab': 'reporting'}})
-    }
+  export default {
+    components: { TabLinks, Reporting, Visit },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Raportowanie',
+            link: 'reports',
+            tab: 'reporting'
+          },
+          {
+            title: 'Wizytacja',
+            link: 'reports',
+            tab: 'visit'
+          }
+        ]
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'reports', params: { 'tab': 'reporting' } })
+      }
 
-    this.changeAdminNavbarBreadcrumbs([{text: 'Raporty', active: true}])
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Raporty', active: true } ])
+    }
   }
-}
 </script>
 
 <style scoped>

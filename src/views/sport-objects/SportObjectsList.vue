@@ -49,78 +49,78 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import { DISTRICTS } from '@/config/AppConfig'
+  import { DISTRICTS } from '@/config/AppConfig'
 
-import ListMixin from '@/mixins/list-mixin'
-import EventBusEmit from '@/mixins/event-bus-emit'
-import TabLinks from '../../components/TabLinks'
-import EventBus from '@/event-bus'
+  import ListMixin from '@/mixins/list-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
+  // import EventBus from '@/event-bus'
 
-import ListConfirmed from '@/views/sport-objects/components/ListConfirmed'
-import ListToConfirm from '@/views/sport-objects/components/ListToConfirm'
+  import ListConfirmed from '@/views/sport-objects/components/ListConfirmed'
+  import ListToConfirm from '@/views/sport-objects/components/ListToConfirm'
 
-export default {
-  components: {TabLinks, Treeselect, ListConfirmed, ListToConfirm},
-  mixins: [EventBusEmit, ListMixin],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Zatwierdzone',
-          link: 'sport.objects',
-          tab: 'confirmed'
-        },
-        {
-          title: 'Do zatwierdzenia',
-          link: 'sport.objects',
-          tab: 'to-confirm'
-        }
-      ],
+  export default {
+    components: { TabLinks, Treeselect, ListConfirmed, ListToConfirm },
+    mixins: [ EventBusEmit, ListMixin ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Zatwierdzone',
+            link: 'sport.objects',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia',
+            link: 'sport.objects',
+            tab: 'to-confirm'
+          }
+        ],
 
-      // checkboxes
-      selectedType: [],
-      typeOptions: [
-        {text: 'klub', value: 0},
-        {text: 'szkola', value: 1}
-      ],
+        // checkboxes
+        selectedType: [],
+        typeOptions: [
+          { text: 'klub', value: 0 },
+          { text: 'szkola', value: 1 }
+        ],
 
-      // search
-      search: '',
+        // search
+        search: '',
 
-      // treeselect
-      districtValue: null,
-      districts: DISTRICTS
+        // treeselect
+        districtValue: null,
+        districts: DISTRICTS
+      }
+    },
+    computed: {
+      sportObjectTypes () {
+        return this.$store.getters.sportObjectTypes
+      }
+    },
+    methods: {
+      rowRedirect (id, isConfirmed) {
+        this.$router.push({
+          name: 'sport.object',
+          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+        })
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'sport.objects', params: { 'tab': 'confirmed' } })
+      }
+
+      this.$store.dispatch('getSportObjectTypes')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'sport.object', params: { tab: 'main-data' } })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Obiekty sportowe', active: true } ])
     }
-  },
-  computed: {
-    sportObjectTypes () {
-      return this.$store.getters.sportObjectTypes
-    }
-  },
-  methods: {
-    rowRedirect (id, isConfirmed) {
-      this.$router.push({
-        name: 'sport.object',
-        params: {'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed}
-      })
-    }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'sport.objects', params: {'tab': 'confirmed'}})
-    }
-
-    this.$store.dispatch('getSportObjectTypes')
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'sport.object', params: {tab: 'main-data'}})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Obiekty sportowe', active: true}])
   }
-}
 </script>
 
 <style scoped>

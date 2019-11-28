@@ -58,11 +58,12 @@
           <template slot="class" slot-scope="scope">
             <span>{{scope.item.class.title}}</span>
           </template>
-<!--          <template slot="year" slot-scope="scope">-->
-<!--            <span>{{scope.item.years}}</span>-->
-<!--          </template>-->
+          <!--          <template slot="year" slot-scope="scope">-->
+          <!--            <span>{{scope.item.years}}</span>-->
+          <!--          </template>-->
           <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+            <span class="status"
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
@@ -77,66 +78,66 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import EventBusEmit from '@/mixins/event-bus-emit'
-import ParticipantMixin from '@/mixins/participant-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import ParticipantMixin from '@/mixins/participant-mixin'
 
-export default {
-  components: {Treeselect},
-  props: ['participant'],
-  mixins: [EventBusEmit, ParticipantMixin],
-  data () {
-    return {
-      fields: [
-        {key: 'firstName', label: 'Imię', sortable: true},
-        {key: 'lastName', label: 'Nazwisko', sortable: true},
-        {key: 'sex', label: 'Płeć', sortable: true},
-        {key: 'year', label: 'Rocznik', sortable: true},
-        {key: 'class', label: 'Klasa', sortable: true},
-        {key: 'status', label: 'Status w systemie', sortable: true},
-        {key: 'edit', label: ''}
-      ],
+  export default {
+    components: { Treeselect },
+    props: [ 'participant' ],
+    mixins: [ EventBusEmit, ParticipantMixin ],
+    data () {
+      return {
+        fields: [
+          { key: 'firstName', label: 'Imię', sortable: true },
+          { key: 'lastName', label: 'Nazwisko', sortable: true },
+          { key: 'sex', label: 'Płeć', sortable: true },
+          { key: 'year', label: 'Rocznik', sortable: true },
+          { key: 'class', label: 'Klasa', sortable: true },
+          { key: 'status', label: 'Status w systemie', sortable: true },
+          { key: 'edit', label: '' }
+        ],
 
-      search: '',
+        search: '',
 
-      selectedGender: [],
-      genderOptions: [
-        {text: 'kobieta', value: 0},
-        {text: 'mężczyzna', value: 1}
-      ],
+        selectedGender: [],
+        genderOptions: [
+          { text: 'kobieta', value: 0 },
+          { text: 'mężczyzna', value: 1 }
+        ],
 
-      selectedClass: null,
-      selectedYear: null,
-      // temp
-      years: [],
-      classes: []
+        selectedClass: null,
+        selectedYear: null,
+        // temp
+        years: [],
+        classes: []
+      }
+    },
+    computed: {
+      participantList () {
+        return this.$store.getters.participants
+      }
+    },
+    methods: {
+      rowRedirect (id) {
+        this.$router.push({
+          name: 'participant',
+          params: { 'tab': 'main-data', 'id': id }
+        })
+      }
+    },
+    created () {
+      this.$store.dispatch('getParticipants')
+      this.$store.dispatch('getClasses')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'participant', params: { tab: 'main-data' } })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Zawodnicy', active: true } ])
     }
-  },
-  computed: {
-    participantList () {
-      return this.$store.getters.participants
-    }
-  },
-  methods: {
-    rowRedirect (id) {
-      this.$router.push({
-        name: 'participant',
-        params: {'tab': 'main-data', 'id': id}
-      })
-    }
-  },
-  created () {
-    this.$store.dispatch('getParticipants')
-    this.$store.dispatch('getClasses')
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'participant', params: {tab: 'main-data'}})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])
   }
-}
 </script>
 
 <style scoped>

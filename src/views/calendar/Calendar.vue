@@ -68,7 +68,7 @@
               responsive="md"
               class="custom table-responsive"
             >
-<!--              @row-clicked="rowRedirect"-->
+              <!--              @row-clicked="rowRedirect"-->
 
               <template slot="name" slot-scope="scope">
                 <div class="d-flex align-items-center justify-content-between">
@@ -87,164 +87,163 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import EventBusEmit from '@/mixins/event-bus-emit'
-import TabLinks from '../../components/TabLinks'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
 
-import { DISTRICTS } from '@/config/AppConfig'
+  import { DISTRICTS } from '@/config/AppConfig'
 
-import Lessons from '@/views/calendar/components/Lessons'
-import Events from '@/components/common-views/Events'
-import Calendar from '@/components/common-views/Calendar'
+  import Lessons from '@/views/calendar/components/Lessons'
+  import Events from '@/components/common-views/Events'
+  import Calendar from '@/components/common-views/Calendar'
 
-export default {
-  components: {TabLinks, Treeselect, Lessons, Events, Calendar},
-  mixins: [EventBusEmit],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Kalendarz',
-          link: 'calendar',
-          tab: 'calendar'
+  export default {
+    components: { TabLinks, Treeselect, Lessons, Events, Calendar },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Kalendarz',
+            link: 'calendar',
+            tab: 'calendar'
+          },
+          {
+            title: 'Lista',
+            link: 'calendar',
+            tab: 'list'
+          }
+        ],
+
+        selectedYearFrom: null,
+        selectedYearTo: null,
+        // temp
+        years: [
+          { id: 1, label: '2000' },
+          { id: 2, label: '2001' },
+          { id: 3, label: '2002' }
+        ],
+
+        lessons: {
+          districtValue: null,
+          districts: DISTRICTS,
+
+          selectedType: [],
+          typeOptions: [
+            { text: 'klub', value: 0 },
+            { text: 'szkola', value: 1 }
+          ],
+          selectedGender: [],
+          genderOptions: [
+            { text: 'kobieta', value: 0 },
+            { text: 'mężczyzna', value: 1 }
+          ],
+
+          schoolsAndClubs: null,
+          selectedDiscipline: null,
+          selectedCategory: null,
+          selectedClass: null,
+          selectedYear: null,
+          selectedSportObject: null,
+          selectedLeader: null,
+          selectedParticipant: null,
+          selectedLesson: null,
+          // temp
+          disciplines: [
+            { id: 1, label: 'Basen' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Bieg' }
+          ],
+          categories: [
+            { id: 1, label: 'pierwsza' },
+            { id: 2, label: 'druga' },
+            { id: 3, label: 'cos cos' }
+          ],
+          classes: [
+            { id: 1, label: '2b' },
+            { id: 2, label: '6a' },
+            { id: 3, label: '8c' }
+          ],
+          sportObjects: [
+            { id: 1, label: 'Park' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Basen' }
+          ],
+          leaders: [
+            { id: 1, label: 'Mark White' },
+            { id: 2, label: 'Ben Stiffler' },
+            { id: 3, label: 'Thomas Shelby' }
+          ]
         },
-        {
-          title: 'Lista',
-          link: 'calendar',
-          tab: 'list'
+
+        events: {
+          districtValue: null,
+          districts: DISTRICTS,
+          selectedDiscipline: null,
+          // temp
+          disciplines: [
+            { id: 1, label: 'Basen' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Bieg' }
+          ],
+          selectedSportObject: null,
+          sportObjects: [
+            { id: 1, label: 'Park' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Basen' }
+          ],
+          selectedSchoolOrCLub: null,
+          schoolsOrClubs: [
+            { id: 1, label: 'Park' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Basen' }
+          ]
+        },
+
+        showLessons: [ 1 ],
+        showEvents: [ 1 ],
+
+        eventsAndLessonsFields: [
+          { key: 'name', label: 'Nazwa', sortable: true },
+          { key: 'leader', label: 'Prowadzący/Organizator', sortable: true },
+          { key: 'location', label: 'Lokalizacja', sortable: true },
+          { key: 'time', label: 'Czas trwania', sortable: true }
+        ],
+        eventsAndLessonsFiltered: [
+          { id: 1, name: 'test', leader: 'Mark Twen', location: 'Al. Jana Pawła II', time: '2g.' },
+          { id: 2, name: 'dwa', leader: 'Lew Tolstoj', location: 'Dw. Centralny', time: '1,5g.' },
+          { id: 3, name: 'trzy', leader: 'Jack London', location: 'Koło', time: '3g.' }
+        ]
+      }
+    },
+    computed: {
+      // copied in FormMainData.vue -> sports-objects
+      schoolsAndClubsPrepared () {
+        let data = this.$store.getters.schools
+        let preparedSchools = []
+
+        for (let schoolIndex in data) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
         }
-      ],
 
-      selectedYearFrom: null,
-      selectedYearTo: null,
-      // temp
-      years: [
-        {id: 1, label: '2000'},
-        {id: 2, label: '2001'},
-        {id: 3, label: '2002'}
-      ],
-
-      lessons: {
-        districtValue: null,
-        districts: DISTRICTS,
-
-        selectedType: [],
-        typeOptions: [
-          {text: 'klub', value: 0},
-          {text: 'szkola', value: 1}
-        ],
-        selectedGender: [],
-        genderOptions: [
-          {text: 'kobieta', value: 0},
-          {text: 'mężczyzna', value: 1}
-        ],
-
-        schoolsAndClubs: null,
-        selectedDiscipline: null,
-        selectedCategory: null,
-        selectedClass: null,
-        selectedYear: null,
-        selectedSportObject: null,
-        selectedLeader: null,
-        selectedParticipant: null,
-        selectedLesson: null,
-        // temp
-        disciplines: [
-          {id: 1, label: 'Basen'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Bieg'}
-        ],
-        categories: [
-          {id: 1, label: 'pierwsza'},
-          {id: 2, label: 'druga'},
-          {id: 3, label: 'cos cos'}
-        ],
-        classes: [
-          {id: 1, label: '2b'},
-          {id: 2, label: '6a'},
-          {id: 3, label: '8c'}
-        ],
-        sportObjects: [
-          {id: 1, label: 'Park'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Basen'}
-        ],
-        leaders: [
-          {id: 1, label: 'Mark White'},
-          {id: 2, label: 'Ben Stiffler'},
-          {id: 3, label: 'Thomas Shelby'}
-        ]
-      },
-
-      events: {
-        districtValue: null,
-        districts: DISTRICTS,
-        selectedDiscipline: null,
-        // temp
-        disciplines: [
-          {id: 1, label: 'Basen'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Bieg'}
-        ],
-        selectedSportObject: null,
-        sportObjects: [
-          {id: 1, label: 'Park'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Basen'}
-        ],
-        selectedSchoolOrCLub: null,
-        schoolsOrClubs: [
-          {id: 1, label: 'Park'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Basen'}
-        ]
-      },
-
-      showLessons: [1],
-      showEvents: [1],
-
-      eventsAndLessonsFields: [
-        {key: 'name', label: 'Nazwa', sortable: true},
-        {key: 'leader', label: 'Prowadzący/Organizator', sortable: true},
-        {key: 'location', label: 'Lokalizacja', sortable: true},
-        {key: 'time', label: 'Czas trwania', sortable: true}
-      ],
-      eventsAndLessonsFiltered: [
-        {id: 1, name: 'test', leader: 'Mark Twen', location: 'Al. Jana Pawła II', time: '2g.'},
-        {id: 2, name: 'dwa', leader: 'Lew Tolstoj', location: 'Dw. Centralny', time: '1,5g.'},
-        {id: 3, name: 'trzy', leader: 'Jack London', location: 'Koło', time: '3g.'}
-      ]
-    }
-  },
-  computed: {
-    // copied in FormMainData.vue -> sports-objects
-    schoolsAndClubsPrepared () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.schools,
-        preparedSchools = []
-
-      for (let schoolIndex in data) {
-        preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        console.log(preparedSchools)
+        return preparedSchools
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'calendar', params: { 'tab': 'calendar' } })
       }
 
-      console.log(preparedSchools)
-      return preparedSchools
-    }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'calendar', params: {'tab': 'calendar'}})
-    }
+      this.$store.dispatch('getSchools', {})
 
-    this.$store.dispatch('getSchools', {})
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Kalendarz zajęć i wydarzeń', active: true}])
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Kalendarz zajęć i wydarzeń', active: true } ])
+    }
   }
-}
 </script>
 
 <style scoped>

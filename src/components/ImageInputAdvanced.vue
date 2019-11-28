@@ -15,10 +15,7 @@
                :minWidth="minWidth"
                :maxWidth="maxWidth"
                :maxHeight="maxHeight"
-               :stencil-props="{
-		              minAspectRatio: minAspectRatio,
-            		  maxAspectRatio: maxAspectRatio
-	             }"
+               :stencil-props="{minAspectRatio: minAspectRatio,maxAspectRatio: maxAspectRatio}"
       ></cropper>
 
       <div class="modal-footer">
@@ -36,71 +33,71 @@
 </template>
 
 <script>
-// import imageIcon from '../icons/image';
-import {Cropper} from 'vue-advanced-cropper'
-import ToastMixin from '@/mixins/toast-mixin'
+  // import imageIcon from '../icons/image';
+  import { Cropper } from 'vue-advanced-cropper'
+  import ToastMixin from '@/mixins/toast-mixin'
 
-export default {
-  name: 'ImageInputAdvanced',
-  mixins: [ToastMixin],
-  props: [
-    'minAspectRatio', 'maxAspectRatio', 'hideImage',
-    'minHeight', 'minWidth', 'maxWidth', 'maxHeight', 'imgPath'
-  ],
-  components: {Cropper},
-  data () {
-    return {
-      image: ''
-    }
-  },
-  methods: {
-    showModal () {
-      this.$refs.advancedCropperModal.show()
-    },
-    pixelsRestriction (minWidth, minHeight, maxWidth, maxHeight, imageWidth, imageHeight) {
+  export default {
+    name: 'ImageInputAdvanced',
+    mixins: [ ToastMixin ],
+    props: [
+      'minAspectRatio', 'maxAspectRatio', 'hideImage',
+      'minHeight', 'minWidth', 'maxWidth', 'maxHeight', 'imgPath'
+    ],
+    components: { Cropper },
+    data () {
       return {
-        minWidth: minWidth,
-        minHeight: minHeight,
-        maxWidth: maxWidth,
-        maxHeight: maxHeight
+        image: ''
       }
     },
-    uploadImage (event) {
-      // Reference to the DOM input element
-      var input = event.target
-      // Ensure that you have a file before attempting to read it
-      if (input.files && input.files[0]) {
-        // create a new FileReader to read this image and convert to base64 format
-        var reader = new FileReader()
-        // Define a callback function to run, when FileReader finishes its job
-        reader.onload = (e) => {
-          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
-          // Read image as base64 and set to imageData
-          this.image = e.target.result
+    methods: {
+      showModal () {
+        this.$refs.advancedCropperModal.show()
+      },
+      pixelsRestriction (minWidth, minHeight, maxWidth, maxHeight, imageWidth, imageHeight) {
+        return {
+          minWidth: minWidth,
+          minHeight: minHeight,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight
         }
-        // Start the reader job - read file as a data url (base64 format)
-        reader.readAsDataURL(input.files[0])
+      },
+      uploadImage (event) {
+        // Reference to the DOM input element
+        var input = event.target
+        // Ensure that you have a file before attempting to read it
+        if (input.files && input.files[0]) {
+          // create a new FileReader to read this image and convert to base64 format
+          var reader = new FileReader()
+          // Define a callback function to run, when FileReader finishes its job
+          reader.onload = (e) => {
+            // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+            // Read image as base64 and set to imageData
+            this.image = e.target.result
+          }
+          // Start the reader job - read file as a data url (base64 format)
+          reader.readAsDataURL(input.files[0])
+        }
+      },
+      crop () {
+        const { coordinates, canvas } = this.$refs.cropper.getResult()
+        this.coordinates = coordinates
+        // You able to do different manipulations at a canvas
+        // but there we just get a cropped image
+        this.image = canvas.toDataURL()
+
+        this.$emit('afterCropImage', this.image)
+        this.$refs.advancedCropperModal.hide()
       }
     },
-    crop () {
-      const {coordinates, canvas} = this.$refs.cropper.getResult()
-      this.coordinates = coordinates
-      // You able to do different manipulations at a canvas
-      // but there we just get a cropped image
-      this.image = canvas.toDataURL()
-
-      this.$emit('afterCropImage', this.image)
-      this.$refs.advancedCropperModal.hide()
-    }
-  },
-  created () {
-    if (this.imgPath) {
-      this.image = this.imgPath
-    } else {
-      this.image = 'https://placeimg.com/200/200/any'
+    created () {
+      if (this.imgPath) {
+        this.image = this.imgPath
+      } else {
+        this.image = 'https://placeimg.com/200/200/any'
+      }
     }
   }
-}
 </script>
 
 <style scoped>

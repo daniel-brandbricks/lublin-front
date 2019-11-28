@@ -6,34 +6,31 @@ export default {
   methods: {},
   computed: {
     participantClass () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.classes,
-        preparedClasses = []
+      let data = this.$store.getters.classes
+      let preparedClasses = []
 
       for (let classIndex in data) {
-        preparedClasses.push({id: data[classIndex].id, label: data[classIndex].title})
+        preparedClasses.push({ id: data[classIndex].id, label: data[classIndex].title })
       }
 
       return preparedClasses
     },
     participantYears () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.participants,
-        preparedParticipants = []
+      let data = this.$store.getters.participants
+      let preparedParticipants = []
 
       for (let participantIndex in data) {
-        preparedParticipants.push({id: data[participantIndex].id, label: data[participantIndex].year})
+        preparedParticipants.push({ id: data[participantIndex].id, label: data[participantIndex].year })
       }
 
       return preparedParticipants
     },
     participantDiscipline () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.disciplines,
-        preparedDisciplines = []
+      let data = this.$store.getters.disciplines
+      let preparedDisciplines = []
 
       for (let disciplineIndex in data) {
-        preparedDisciplines.push({id: data[disciplineIndex].id, label: data[disciplineIndex].title})
+        preparedDisciplines.push({ id: data[disciplineIndex].id, label: data[disciplineIndex].title })
       }
 
       return preparedDisciplines

@@ -2,12 +2,13 @@
   <b-row class="justify-content-center">
     <b-col cols="12" lg="5" class="">
 
-<!--      RADIO 104.7 kiss fm-->
+      <!--      RADIO 104.7 kiss fm-->
       <h2 class="mb-4">Aktywuj</h2>
       <b-row class="justify-content-start align-items-center">
         <b-col cols="12">
           <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>
+            <span class="status"
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>
           </template>
           <b-form-group>
             <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block mr-3 mb-3"
@@ -17,7 +18,7 @@
               {{element.title}}
             </b-form-radio>
 
-<!--            CHECKBOX -->
+            <!--            CHECKBOX -->
             <h2 class="mb-4">Płeć</h2>
             <b-form-checkbox-group
               id="checkbox-group-1"
@@ -26,7 +27,7 @@
               name="flavour-1"
             ></b-form-checkbox-group>
           </b-form-group>
-<!--          INPUT-->
+          <!--          INPUT-->
           <h2 class="mb-4">Dane ogólne</h2>
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom"
@@ -42,7 +43,7 @@
                           name="participant.lastName" key="participant.lastName" v-validate="{'required':true}"
                           v-model="participant.lastName"/>
           </b-form-group>
-<!--          todo computed in mixin-->
+          <!--          todo computed in mixin-->
           <treeselect v-model="participant.years.id" v-if="participant.years"
                       :multiple="false" class="custom mb-3"
                       placeholder="Rocznik" :options="participantYears"
@@ -50,7 +51,7 @@
                       name="participant.years" key="participant.years" v-validate="{'required':true}"
           />
 
-<!--          DISCIPLINES     -->
+          <!--          DISCIPLINES     -->
           <b-row>
             <b-col cols="12">
               <h2 class="mb-4">Dyscypliny</h2>
@@ -59,8 +60,7 @@
           <div class="row" v-if="participant.discipline"
                v-for="(discipline, index) in participant.discipline" :key="index">
             <div class="col-1">
-              <div class="text-center"
-                   style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+              <div class="text-center custom-class">
                 <p class="m-auto">{{ index + 1 }}</p>
               </div>
               <p @click="removeDiscipline(index)" v-if="participant.discipline.length > 0">usuń</p>
@@ -92,18 +92,17 @@
             <div class="col-1">
               <!--   todo Веталь, перепиши в класс как будет время   -->
               <b-col>
-                <div class="text-center"
-                     style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+                <div class="text-center custom-class">
                   <p class="m-auto" v-if="participant.discipline">{{participant.discipline.length + 1}}</p>
                 </div>
               </b-col>
             </div>
 
-                <b-col>
-                  <div class="col-11 pl-4">
-                    <b-btn variant="primary" class="custom" @click="addDiscipline">Dodaj</b-btn>
-                  </div>
-                </b-col>
+            <b-col>
+              <div class="col-11 pl-4">
+                <b-btn variant="primary" class="custom" @click="addDiscipline">Dodaj</b-btn>
+              </div>
+            </b-col>
           </div>
         </b-col>
 
@@ -141,9 +140,9 @@
 
   export default {
     name: 'FormMainData',
-    props: ['participant'],
-    components: {Treeselect},
-    mixins: [EventBusEmit, FormMixin, ParticipantMixin],
+    props: [ 'participant' ],
+    components: { Treeselect },
+    mixins: [ EventBusEmit, FormMixin, ParticipantMixin ],
     data () {
       return {
         participants: [],
@@ -204,5 +203,11 @@
 </script>
 
 <style scoped>
-
+  .custom-class {
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 36px;
+    width: 36px;
+    border: 2px solid #D8D8D8;
+  }
 </style>

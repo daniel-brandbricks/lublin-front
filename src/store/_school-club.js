@@ -33,7 +33,7 @@ export default {
         if (undefined === school || school === null || school.length < 1) {
           continue
         }
-        if (school.id == id) {
+        if (parseInt(school.id) === parseInt(id)) {
           return school
         }
       }

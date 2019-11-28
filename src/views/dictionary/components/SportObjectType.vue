@@ -29,28 +29,28 @@
 </template>
 
 <script>
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import DictionaryMixin from '@/mixins/dictionary-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import DictionaryMixin from '@/mixins/dictionary-mixin'
 
-export default {
-  name: 'SportObjectType',
-  mixins: [EventBusEmit, FormMixin, DictionaryMixin],
-  data () {
-    return {
-      getter: 'sportObjectTypes',
-      dispatchDelete: 'deleteSportObjectType',
-      dispatchPost: 'postSportObjectType',
-      dispatchPut: 'putSportObjectType'
+  export default {
+    name: 'SportObjectType',
+    mixins: [ EventBusEmit, FormMixin, DictionaryMixin ],
+    data () {
+      return {
+        getter: 'sportObjectTypes',
+        dispatchDelete: 'deleteSportObjectType',
+        dispatchPost: 'postSportObjectType',
+        dispatchPut: 'putSportObjectType'
+      }
+    },
+    created () {
+      this.$store.dispatch('getSportObjectTypes')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
     }
-  },
-  created () {
-    this.$store.dispatch('getSportObjectTypes')
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false})
   }
-}
 </script>
 
 <style scoped>

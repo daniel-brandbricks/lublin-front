@@ -33,7 +33,7 @@ export default {
         if (undefined === sportObject || sportObject === null || sportObject.length < 1) {
           continue
         }
-        if (sportObject.id == id) {
+        if (parseInt(sportObject.id) === parseInt(id)) {
           return sportObject
         }
       }
@@ -103,7 +103,8 @@ export default {
               return
             }
 
-            data.confirmed === 1 ? context.commit('setConfirmedSportObjects', response)
+            data.confirmed === 1
+              ? context.commit('setConfirmedSportObjects', response)
               : context.commit('setSportObjectsToConfirm', response)
             resolve()
           })

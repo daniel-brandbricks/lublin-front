@@ -1,4 +1,4 @@
-import EventBus from '@/event-bus'
+// import EventBus from '@/event-bus';
 
 export default {
   name: 'DictionaryMixin',
@@ -38,10 +38,11 @@ export default {
           } else {
             this.$store.dispatch(this.dispatchPost, obj)
               .then((result) => {
-                this.dataAsArray.splice(this.dataAsArray
+                let index = this.dataAsArray
                   .findIndex(item => {
                     return item.id === undefined && item.title === result.title
-                  }), 1)
+                  })
+                this.dataAsArray.splice(index, 1)
               })
           }
           this.editedInput.index = null
@@ -61,7 +62,7 @@ export default {
       }
     },
     addDefaultData () {
-      this.dataAsArray.push({...this.dataDefault})
+      this.dataAsArray.push({ ...this.dataDefault })
     }
   }
 }

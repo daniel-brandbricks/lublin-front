@@ -3,6 +3,7 @@
 
 
 .navbar.custom {
+  margin-bottom: 32px;
   .navbar-brand.router-link-active {
   }
 
@@ -16,7 +17,7 @@
       .nav-item {
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: center;
         margin: 0 6px;
 
         .nav-link {
@@ -28,6 +29,7 @@
           text-align: center;
           text-transform: uppercase;
           padding: 0 6px;
+          white-space: nowrap;
 
           &.router-link-active,&:hover {
             color: $c-black;

@@ -1,19 +1,21 @@
 <template>
   <div class="container">
-    <b-navbar toggleable="lg" type="white" class="custom p-0">
+    <b-navbar toggleable="xl" type="white" class="custom p-0">
       <b-navbar-brand :to="{name:'reception.dashboard'}">
         <img src="/static/img/logo.svg" alt="LOGO">
       </b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse">
+        A
+      </b-navbar-toggle>
 
-      <b-collapse id="nav-collapse "  class="justify-content-end" is-nav>
-        <b-navbar-nav class="text-center">
-          <b-nav-item :to="{name:'reception.dashboard'}">
+      <b-collapse id="nav-collapse"  class="justify-content-xl-end" is-nav>
+        <b-navbar-nav class="text-center ">
+          <b-nav-item :to="{name:'home'}">
             Zajęcia  <br>
             sportowe
           </b-nav-item>
-          <b-nav-item>
+          <b-nav-item :to="{name:'test'}">
             Imprezy  <br>
             sportowe
           </b-nav-item>
@@ -26,7 +28,7 @@
             i profilowane
           </b-nav-item>
           <b-nav-item href="#">
-            Współzawodnictwo Sportowe  <br>
+            Współzawodnictwo Sportowe <br>
             Szkół Miasta Lublin
           </b-nav-item>
           <b-nav-item href="#">
@@ -60,9 +62,13 @@
         this.password = ''
       },
       validateEmail (email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        return re.test(String(email)
-          .toLowerCase())
+        // @todos
+        console.log('@todo')
+        console.log('fix that')
+        return email
+        // var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        // return re.test(String(email)
+        //   .toLowerCase())
       },
       login () {
         if (this.email === '') {
@@ -85,7 +91,7 @@
           return false
         }
 
-        let data = {email: this.email, password: this.password}
+        let data = { email: this.email, password: this.password }
         this.$store.dispatch('login', data)
           .then((response) => {
             console.log(response)

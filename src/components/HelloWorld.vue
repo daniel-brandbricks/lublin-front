@@ -41,74 +41,78 @@
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      email: '',
-      password: '',
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
-  methods: {
-    resetModal () {
-      this.email = ''
-      this.password = ''
+  export default {
+    name: 'HelloWorld',
+    data () {
+      return {
+        email: '',
+        password: '',
+        msg: 'Welcome to Your Vue.js App'
+      }
     },
-    validateEmail (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(email)
-        .toLowerCase())
-    },
-    login () {
-      if (this.email === '') {
-        this.emptyEmail = false
-        return false
-      }
-      if (this.password.length < 6) {
-        this.passwordSimilarity = false
-        return false
-      }
+    methods: {
+      resetModal () {
+        this.email = ''
+        this.password = ''
+      },
+      validateEmail (email) {
+        return email
+        // var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        // return re.test(String(email)
+        //   .toLowerCase())
+      },
+      login () {
+        if (this.email === '') {
+          this.emptyEmail = false
+          return false
+        }
+        if (this.password.length < 6) {
+          this.passwordSimilarity = false
+          return false
+        }
 
-      if (!this.validateEmail(this.email)) {
-        this.$bvToast.toast('Niepoprawny format adresu e-mail', {
-          title: 'Uwaga!',
-          toaster: 'b-toaster-bottom-full',
-          solid: true,
-          variant: 'danger'
-        })
+        if (!this.validateEmail(this.email)) {
+          this.$bvToast.toast('Niepoprawny format adresu e-mail', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-full',
+            solid: true,
+            variant: 'danger'
+          })
 
-        return false
+          return false
+        }
+
+        let data = { email: this.email, password: this.password }
+        this.$store.dispatch('login', data)
+          .then((response) => {
+            console.log(response)
+            this.$router.push({ name: 'test.content' })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
-
-      let data = {email: this.email, password: this.password}
-      this.$store.dispatch('login', data)
-        .then((response) => {
-          console.log(response)
-          this.$router.push({ name: 'test.content' })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  h1, h2 {
+    font-weight: normal;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  a {
+    color: #42b983;
+  }
 </style>

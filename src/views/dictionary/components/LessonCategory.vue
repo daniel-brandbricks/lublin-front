@@ -30,28 +30,28 @@
 </template>
 
 <script>
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import DictionaryMixin from '@/mixins/dictionary-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import DictionaryMixin from '@/mixins/dictionary-mixin'
 
-export default {
-  name: 'Disciplines',
-  mixins: [EventBusEmit, FormMixin, DictionaryMixin],
-  data () {
-    return {
-      getter: 'lessonCategories',
-      dispatchDelete: 'deleteLessonCategory',
-      dispatchPost: 'postLessonCategory',
-      dispatchPut: 'putLessonCategory'
+  export default {
+    name: 'Disciplines',
+    mixins: [ EventBusEmit, FormMixin, DictionaryMixin ],
+    data () {
+      return {
+        getter: 'lessonCategories',
+        dispatchDelete: 'deleteLessonCategory',
+        dispatchPost: 'postLessonCategory',
+        dispatchPut: 'putLessonCategory'
+      }
+    },
+    created () {
+      this.$store.dispatch('getLessonCategories')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
     }
-  },
-  created () {
-    this.$store.dispatch('getLessonCategories')
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false})
   }
-}
 </script>
 
 <style scoped>

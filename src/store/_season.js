@@ -14,7 +14,7 @@ export default {
         if (undefined === season || season === null || season.length < 1) {
           continue
         }
-        if (season.id == id) {
+        if (parseInt(season.id) === parseInt(id)) {
           return season
         }
       }
@@ -28,7 +28,7 @@ export default {
       const id = data.id
       const oldId = data.oldId
 
-      let seasons = [...state.seasons]
+      let seasons = [ ...state.seasons ]
       if (undefined === id || id === null) {
         return
       }
@@ -48,7 +48,7 @@ export default {
       state.seasons.push(data)
     },
     deleteSeason (state, data) {
-      let seasons = [...state.seasons]
+      let seasons = [ ...state.seasons ]
       for (let i = 0; i < seasons.length; i++) {
         const storeSeason = seasons[i]
         if (storeSeason.id !== data.urlParams) {
@@ -73,7 +73,7 @@ export default {
         from: null,
         to: null
       })
-    },
+    }
   },
   actions: {
     addEmptySeason (context, seasonId) {

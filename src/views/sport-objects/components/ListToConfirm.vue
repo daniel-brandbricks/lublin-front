@@ -43,44 +43,44 @@
 </template>
 
 <script>
-import SportObjectsMixin from '@/mixins/sport-objects-mixin'
+  import SportObjectsMixin from '@/mixins/sport-objects-mixin'
 
-export default {
-  name: 'ListToConfirm',
-  props: ['filters', 'sportObjectTypes'],
-  mixins: [SportObjectsMixin],
-  data () {
-    return {
-      fields: [
-        {key: 'name', label: 'Nazwa obiektu', sortable: true},
-        {key: 'type', label: 'Typ obiektu', sortable: true},
-        {key: 'data', label: 'Data dodania', sortable: true},
-        {key: 'btnTable', label: '', sortable: true},
-        {key: 'edit', label: ''}
-      ]
-    }
-  },
-  computed: {
-    sportObjectsToConfirm () {
-      return this.$store.getters.sportObjectsToConfirm
-    }
-  },
-  methods: {
-    rowRedirect (row) {
-      this.$parent.rowRedirect(row.id, false)
+  export default {
+    name: 'ListToConfirm',
+    props: [ 'filters', 'sportObjectTypes' ],
+    mixins: [ SportObjectsMixin ],
+    data () {
+      return {
+        fields: [
+          { key: 'name', label: 'Nazwa obiektu', sortable: true },
+          { key: 'type', label: 'Typ obiektu', sortable: true },
+          { key: 'data', label: 'Data dodania', sortable: true },
+          { key: 'btnTable', label: '', sortable: true },
+          { key: 'edit', label: '' }
+        ]
+      }
     },
-    confirmItem (id) {
-      this.$store.dispatch('putSportObject', {id: id, confirmed: 1})
-        .then((response) => {
-          // todo remake + in school
-          this.$store.dispatch('getSportObjects', {confirmed: 0})
-        })
+    computed: {
+      sportObjectsToConfirm () {
+        return this.$store.getters.sportObjectsToConfirm
+      }
+    },
+    methods: {
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id, false)
+      },
+      confirmItem (id) {
+        this.$store.dispatch('putSportObject', { id: id, confirmed: 1 })
+          .then((response) => {
+            // todo remake + in school
+            this.$store.dispatch('getSportObjects', { confirmed: 0 })
+          })
+      }
+    },
+    created () {
+      this.$store.dispatch('getSportObjects', { confirmed: 0 })
     }
-  },
-  created () {
-    this.$store.dispatch('getSportObjects', {confirmed: 0})
   }
-}
 </script>
 
 <style scoped>

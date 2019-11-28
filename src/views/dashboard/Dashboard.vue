@@ -15,7 +15,7 @@
             responsive="md"
             class="custom table-responsive"
           >
-<!--            @row-clicked="rowRedirect"-->
+            <!--            @row-clicked="rowRedirect"-->
             <template slot="type" slot-scope="scope">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="wrap-img-type-table mr-3">
@@ -59,7 +59,7 @@
             responsive="md"
             class="custom table-responsive"
           >
-<!--            @row-clicked="rowRedirect"-->
+            <!--            @row-clicked="rowRedirect"-->
 
             <template slot="type" slot-scope="scope">
               <span>{{scope.item.title}}</span>
@@ -111,60 +111,60 @@
 </template>
 
 <script>
-import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
-import SportObjectsMixin from '@/mixins/sport-objects-mixin'
-import EventBusEmit from '@/mixins/event-bus-emit'
+  import SchoolsAndClubsMixin from '@/mixins/schools-and-clubs-mixin'
+  import SportObjectsMixin from '@/mixins/sport-objects-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
-export default {
-  components: {},
-  mixins: [SchoolsAndClubsMixin, SportObjectsMixin, EventBusEmit],
-  data () {
-    return {
-      fieldsSchools: [
-        {key: 'type', label: 'Typ', sortable: true},
-        {key: 'name', label: 'Nazwa', sortable: true},
-        {key: 'object', label: 'Obiekty sportowe', sortable: true},
-        {key: 'data', label: 'Data dodania', sortable: true},
-        {key: 'btnTable', label: '', sortable: true},
-        {key: 'edit', label: ''}
-      ],
-      fieldsSportObjects: [
-        {key: 'type', label: 'Nazwa obiektu', sortable: true},
-        {key: 'name', label: 'Typ obiektu', sortable: true},
-        {key: 'data', label: 'Data dodania', sortable: true},
-        {key: 'btnTable', label: '', sortable: true},
-        {key: 'edit', label: ''}
-      ],
-      fieldsHistory: [
-        {key: 'person', label: 'Kto', sortable: true},
-        {key: 'date', label: 'Data', sortable: true},
-        {key: 'changes', label: 'Zmiana', sortable: true}
-      ],
-      historyTempData: [
-        {person: 'Marek', date: '23-11-2019', changes: 'Dodal klub "Fire"'},
-        {person: 'Kasia', date: '13-10-2019', changes: 'Edytowala zajecia "Poker"'},
-        {person: 'Ola', date: '11-10-2019', changes: 'Usunela trenera "Adam"'},
-        {person: 'Rafal', date: '03-10-2019', changes: 'Dodal obiekt sportowy "KKK"'}
-      ]
-    }
-  },
-  computed: {
-    schoolsToConfirm () {
-      return this.$store.getters.schoolsToConfirm
+  export default {
+    components: {},
+    mixins: [ SchoolsAndClubsMixin, SportObjectsMixin, EventBusEmit ],
+    data () {
+      return {
+        fieldsSchools: [
+          { key: 'type', label: 'Typ', sortable: true },
+          { key: 'name', label: 'Nazwa', sortable: true },
+          { key: 'object', label: 'Obiekty sportowe', sortable: true },
+          { key: 'data', label: 'Data dodania', sortable: true },
+          { key: 'btnTable', label: '', sortable: true },
+          { key: 'edit', label: '' }
+        ],
+        fieldsSportObjects: [
+          { key: 'type', label: 'Nazwa obiektu', sortable: true },
+          { key: 'name', label: 'Typ obiektu', sortable: true },
+          { key: 'data', label: 'Data dodania', sortable: true },
+          { key: 'btnTable', label: '', sortable: true },
+          { key: 'edit', label: '' }
+        ],
+        fieldsHistory: [
+          { key: 'person', label: 'Kto', sortable: true },
+          { key: 'date', label: 'Data', sortable: true },
+          { key: 'changes', label: 'Zmiana', sortable: true }
+        ],
+        historyTempData: [
+          { person: 'Marek', date: '23-11-2019', changes: 'Dodal klub "Fire"' },
+          { person: 'Kasia', date: '13-10-2019', changes: 'Edytowala zajecia "Poker"' },
+          { person: 'Ola', date: '11-10-2019', changes: 'Usunela trenera "Adam"' },
+          { person: 'Rafal', date: '03-10-2019', changes: 'Dodal obiekt sportowy "KKK"' }
+        ]
+      }
     },
-    sportObjectsToConfirm () {
-      return this.$store.getters.sportObjectsToConfirm
-    }
-  },
-  created () {
-    this.$store.dispatch('getSchools', {confirmed: 0})
-    this.$store.dispatch('getSportObjects', {confirmed: 0})
+    computed: {
+      schoolsToConfirm () {
+        return this.$store.getters.schoolsToConfirm
+      },
+      sportObjectsToConfirm () {
+        return this.$store.getters.sportObjectsToConfirm
+      }
+    },
+    created () {
+      this.$store.dispatch('getSchools', { confirmed: 0 })
+      this.$store.dispatch('getSportObjects', { confirmed: 0 })
 
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Dashboard', active: true}])
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Dashboard', active: true } ])
+    }
   }
-}
 </script>
 
 <style scoped>

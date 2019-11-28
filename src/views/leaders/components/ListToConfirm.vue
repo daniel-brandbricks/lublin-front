@@ -11,7 +11,8 @@
         @row-clicked="rowRedirect"
       >
         <template slot="status" slot-scope="scope">
-          <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          <span class="status"
+                :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
         <template slot="btnTable" slot-scope="scope">
@@ -32,48 +33,48 @@
 
 <script>
 
-export default {
-  name: 'ListToConfirm',
-  props: ['filters'],
-  mixins: [],
-  data () {
-    return {
-      fields: [
-        {key: 'fullName', label: 'Imię i Nazwisko', sortable: true},
-        {key: 'discipline', label: 'Dyscyplina', sortable: true},
-        {key: 'sportObject', label: 'Obiekt', sortable: true},
-        {key: 'lessons', label: 'Zajęcia', sortable: true},
-        {key: 'status', label: 'Status w systemie', sortable: true},
-        {key: 'edit', label: ''}
-      ]
-    }
-  },
-  computed: {
-    leadersConfirmed () {
-      return [
-        {fullName: 'Mark Brown', discipline: 'Biegun', sportObject: 'Park', lessons: 13, status: 0},
-        {fullName: 'Tom Green', discipline: 'Biegun', sportObject: 'Park', lessons: 42, status: 0},
-        {fullName: 'Ben Red', discipline: 'Biegun', sportObject: 'Park', lessons: 32, status: 1},
-        {fullName: 'Bill White', discipline: 'Biegun', sportObject: 'Park', lessons: 21, status: 1}
-      ]
-    }
-  },
-  methods: {
-    rowRedirect (row) {
-      this.$parent.rowRedirect(row.id, false)
+  export default {
+    name: 'ListToConfirm',
+    props: [ 'filters' ],
+    mixins: [],
+    data () {
+      return {
+        fields: [
+          { key: 'fullName', label: 'Imię i Nazwisko', sortable: true },
+          { key: 'discipline', label: 'Dyscyplina', sortable: true },
+          { key: 'sportObject', label: 'Obiekt', sortable: true },
+          { key: 'lessons', label: 'Zajęcia', sortable: true },
+          { key: 'status', label: 'Status w systemie', sortable: true },
+          { key: 'edit', label: '' }
+        ]
+      }
     },
-    confirmItem (id) {
-      this.$store.dispatch('putSportObject', {id: id, confirmed: 1})
-        .then((response) => {
-          // todo remake + in school
-          this.$store.dispatch('getSportObjects', {confirmed: 0})
-        })
+    computed: {
+      leadersConfirmed () {
+        return [
+          { fullName: 'Mark Brown', discipline: 'Biegun', sportObject: 'Park', lessons: 13, status: 0 },
+          { fullName: 'Tom Green', discipline: 'Biegun', sportObject: 'Park', lessons: 42, status: 0 },
+          { fullName: 'Ben Red', discipline: 'Biegun', sportObject: 'Park', lessons: 32, status: 1 },
+          { fullName: 'Bill White', discipline: 'Biegun', sportObject: 'Park', lessons: 21, status: 1 }
+        ]
+      }
+    },
+    methods: {
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id, false)
+      },
+      confirmItem (id) {
+        this.$store.dispatch('putSportObject', { id: id, confirmed: 1 })
+          .then((response) => {
+            // todo remake + in school
+            this.$store.dispatch('getSportObjects', { confirmed: 0 })
+          })
+      }
+    },
+    created () {
+      this.$store.dispatch('getSportObjects', { confirmed: 0 })
     }
-  },
-  created () {
-    this.$store.dispatch('getSportObjects', {confirmed: 0})
   }
-}
 </script>
 
 <style scoped>

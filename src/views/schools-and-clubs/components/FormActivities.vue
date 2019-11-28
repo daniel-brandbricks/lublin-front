@@ -3,9 +3,9 @@
 </template>
 
 <script>
-export default {
-  name: 'FormActivities'
-}
+  export default {
+    name: 'FormActivities'
+  }
 </script>
 
 <style scoped>

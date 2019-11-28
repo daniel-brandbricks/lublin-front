@@ -44,16 +44,16 @@
                     name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"
                     class="custom mb-2"/>
 
-<!--        <treeselect class="custom mb-2"-->
-<!--                    v-model="lessons.selectedCategory"-->
-<!--                    :multiple="true"-->
-<!--                    placeholder="Kategoria"-->
-<!--                    :options="lessons.categories"/>-->
-<!--        <treeselect class="custom mb-2"-->
-<!--                    v-model="lessons.selectedClass"-->
-<!--                    :multiple="true"-->
-<!--                    placeholder="Klasa"-->
-<!--                    :options="lessons.classes"/>-->
+        <!--        <treeselect class="custom mb-2"-->
+        <!--                    v-model="lessons.selectedCategory"-->
+        <!--                    :multiple="true"-->
+        <!--                    placeholder="Kategoria"-->
+        <!--                    :options="lessons.categories"/>-->
+        <!--        <treeselect class="custom mb-2"-->
+        <!--                    v-model="lessons.selectedClass"-->
+        <!--                    :multiple="true"-->
+        <!--                    placeholder="Klasa"-->
+        <!--                    :options="lessons.classes"/>-->
 
         <b-row class="my-3">
           <b-col cols="5">
@@ -143,116 +143,115 @@
 </template>
 
 <script>
-import EventBusEmit from '@/mixins/event-bus-emit'
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import {DISTRICTS} from '@/config/AppConfig'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import { DISTRICTS } from '@/config/AppConfig'
 
-export default {
-  components: {Treeselect},
-  mixins: [EventBusEmit],
-  data () {
-    return {
-      dateFrom: null,
-      dateTo: null,
-      selectedYearFrom: null,
-      selectedYearTo: null,
-      // temp
-      years: [
-        {id: 1, label: '2000'},
-        {id: 2, label: '2001'},
-        {id: 3, label: '2002'}
-      ],
-
-      lessons: {
-        districtValue: null,
-        districts: DISTRICTS,
-
-        selectedType: [],
-        typeOptions: [
-          {text: 'klub', value: 0},
-          {text: 'szkola', value: 1}
-        ],
-        selectedGender: [],
-        genderOptions: [
-          {text: 'kobieta', value: 0},
-          {text: 'mężczyzna', value: 1}
-        ],
-
-        schoolsAndClubs: null,
-        selectedDiscipline: null,
-        selectedCategory: null,
-        selectedClass: null,
-        selectedYear: null,
-        selectedSportObject: null,
-        selectedLeader: null,
-        selectedParticipant: null,
-        selectedLesson: null,
+  export default {
+    components: { Treeselect },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        dateFrom: null,
+        dateTo: null,
+        selectedYearFrom: null,
+        selectedYearTo: null,
         // temp
-        disciplines: [
-          {id: 1, label: 'Basen'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Bieg'}
+        years: [
+          { id: 1, label: '2000' },
+          { id: 2, label: '2001' },
+          { id: 3, label: '2002' }
         ],
-        categories: [
-          {id: 1, label: 'pierwsza'},
-          {id: 2, label: 'druga'},
-          {id: 3, label: 'cos cos'}
+
+        lessons: {
+          districtValue: null,
+          districts: DISTRICTS,
+
+          selectedType: [],
+          typeOptions: [
+            { text: 'klub', value: 0 },
+            { text: 'szkola', value: 1 }
+          ],
+          selectedGender: [],
+          genderOptions: [
+            { text: 'kobieta', value: 0 },
+            { text: 'mężczyzna', value: 1 }
+          ],
+
+          schoolsAndClubs: null,
+          selectedDiscipline: null,
+          selectedCategory: null,
+          selectedClass: null,
+          selectedYear: null,
+          selectedSportObject: null,
+          selectedLeader: null,
+          selectedParticipant: null,
+          selectedLesson: null,
+          // temp
+          disciplines: [
+            { id: 1, label: 'Basen' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Bieg' }
+          ],
+          categories: [
+            { id: 1, label: 'pierwsza' },
+            { id: 2, label: 'druga' },
+            { id: 3, label: 'cos cos' }
+          ],
+          classes: [
+            { id: 1, label: '2b' },
+            { id: 2, label: '6a' },
+            { id: 3, label: '8c' }
+          ],
+          sportObjects: [
+            { id: 1, label: 'Park' },
+            { id: 2, label: 'Siłownia' },
+            { id: 3, label: 'Basen' }
+          ],
+          leaders: [
+            { id: 1, label: 'Mark White' },
+            { id: 2, label: 'Ben Stiffler' },
+            { id: 3, label: 'Thomas Shelby' }
+          ]
+        },
+
+        fields: [
+          { key: 'name', label: 'Nazwa listy', sortable: true },
+          { key: 'gender', label: 'Płeć', sortable: true },
+          { key: 'date', label: 'Data ostatniego obliczenia', sortable: true },
+          { key: 'points', label: 'Punkty sumeryczne', sortable: true },
+          { key: 'edit', label: '' }
         ],
-        classes: [
-          {id: 1, label: '2b'},
-          {id: 2, label: '6a'},
-          {id: 3, label: '8c'}
-        ],
-        sportObjects: [
-          {id: 1, label: 'Park'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Basen'}
-        ],
-        leaders: [
-          {id: 1, label: 'Mark White'},
-          {id: 2, label: 'Ben Stiffler'},
-          {id: 3, label: 'Thomas Shelby'}
+        listItems: [
+          { id: 1, name: 'Lista 1', gender: 'M', date: '04/11/19', points: '3623' },
+          { id: 2, name: 'Lista 2', gender: 'K', date: '01/11/19', points: '4234' },
+          { id: 3, name: 'Lista 3', gender: 'K', date: '21/12/19', points: '1242' }
         ]
-      },
-
-      fields: [
-        {key: 'name', label: 'Nazwa listy', sortable: true},
-        {key: 'gender', label: 'Płeć', sortable: true},
-        {key: 'date', label: 'Data ostatniego obliczenia', sortable: true},
-        {key: 'points', label: 'Punkty sumeryczne', sortable: true},
-        {key: 'edit', label: ''}
-      ],
-      listItems: [
-        {id: 1, name: 'Lista 1', gender: 'M', date: '04/11/19', points: '3623'},
-        {id: 2, name: 'Lista 2', gender: 'K', date: '01/11/19', points: '4234'},
-        {id: 3, name: 'Lista 3', gender: 'K', date: '21/12/19', points: '1242'}
-      ]
-    }
-  },
-  computed: {
-    // copied in FormMainData.vue -> sports-objects
-    schoolsAndClubsPrepared () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.schools,
-        preparedSchools = []
-
-      for (let schoolIndex in data) {
-        preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
       }
+    },
+    computed: {
+      // copied in FormMainData.vue -> sports-objects
+      schoolsAndClubsPrepared () {
+        let data = this.$store.getters.schools
+        let preparedSchools = []
 
-      console.log(preparedSchools)
-      return preparedSchools
+        for (let schoolIndex in data) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        }
+
+        // console.log(preparedSchools)
+        return preparedSchools
+      }
+    },
+    created () {
+      this.$store.dispatch('getSchools', {})
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false, generateExcel: true, generatePdf: true })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista MTSF', active: true } ])
     }
-  },
-  created () {
-    this.$store.dispatch('getSchools', {})
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false, generateExcel: true, generatePdf: true})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Lista MTSF', active: true}])
   }
-}
 </script>
 
 <style scoped>

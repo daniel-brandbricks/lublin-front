@@ -14,7 +14,7 @@ export default {
         if (undefined === discipline || discipline === null || discipline.length < 1) {
           continue
         }
-        if (discipline.id == id) {
+        if (parseInt(discipline.id) === parseInt(id)) {
           return discipline
         }
       }

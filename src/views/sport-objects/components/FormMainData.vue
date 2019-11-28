@@ -13,7 +13,7 @@
                   name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"
                   class="custom"/>
 
-<!--      <ImageInputAdvanced :imgPath="sportObject.image" :hideImage="true"></ImageInputAdvanced>-->
+      <!--      <ImageInputAdvanced :imgPath="sportObject.image" :hideImage="true"></ImageInputAdvanced>-->
     </b-col>
 
     <b-col cols="12" lg="5" class="">
@@ -101,84 +101,82 @@
 </template>
 
 <script>
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
-export default {
-  name: 'FormMainData',
-  props: ['sportObject', 'districts'],
-  components: {Treeselect, ImageInputAdvanced},
-  mixins: [EventBusEmit, FormMixin],
-  data () {
-    return {}
-  },
-  computed: {
-    // copied in Calendar.vue -> Lessons.vue
-    schoolsAndClubsPrepared () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.schools,
-        preparedSchools = []
-
-      for (let schoolIndex in data) {
-        preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
-      }
-
-      console.log(preparedSchools)
-      return preparedSchools
+  export default {
+    name: 'FormMainData',
+    props: [ 'sportObject', 'districts' ],
+    components: { Treeselect, ImageInputAdvanced },
+    mixins: [ EventBusEmit, FormMixin ],
+    data () {
+      return {}
     },
-    sportObjectTypesPrepared () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.sportObjectTypes,
-        preparedSchools = []
+    computed: {
+      // copied in Calendar.vue -> Lessons.vue
+      schoolsAndClubsPrepared () {
+        let data = this.$store.getters.schools
+        let preparedSchools = []
 
-      for (let schoolIndex in data) {
-        preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].title })
+        for (let schoolIndex in data) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        }
+
+        console.log(preparedSchools)
+        return preparedSchools
+      },
+      sportObjectTypesPrepared () {
+        let data = this.$store.getters.sportObjectTypes
+        let preparedSchools = []
+
+        for (let schoolIndex in data) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].title })
+        }
+
+        return preparedSchools
       }
+    },
+    methods: {
+      submit (validRequired) {
+        if (validRequired) {
+          this.preSubmit()
+            .then((result) => {
+              if (!result) {
+                this.loading = false
+                return
+              }
 
-      return preparedSchools
-    }
-  },
-  methods: {
-    submit (validRequired) {
-      if (validRequired) {
-        this.preSubmit()
-          .then((result) => {
-            if (!result) {
               this.loading = false
-              return
-            }
-
-            this.loading = false
-            this.$parent.submit()
-          })
-      } else {
-        this.$parent.submit()
-      }
-    },
-    submitSetConfirm (isConfirmed, validRequired = true) {
-      if (validRequired) {
-        if (this.isValidForm) {
+              this.$parent.submit()
+            })
+        } else {
+          this.$parent.submit()
+        }
+      },
+      submitSetConfirm (isConfirmed, validRequired = true) {
+        if (validRequired) {
+          if (this.isValidForm) {
+            this.school.confirmed = isConfirmed
+            this.submit(validRequired)
+          } else {
+            // validate form in next tab (component)
+            this.$parent.goToFormTab('main-data', { 'validateForm': true })
+          }
+        } else {
           this.school.confirmed = isConfirmed
           this.submit(validRequired)
-        } else {
-          // validate form in next tab (component)
-          this.$parent.goToFormTab('main-data', {'validateForm': true})
         }
-      } else {
-        this.school.confirmed = isConfirmed
-        this.submit(validRequired)
       }
+    },
+    created () {
+      this.$store.dispatch('getSchools', {})
+      this.$store.dispatch('getSportObjectTypes')
     }
-  },
-  created () {
-    this.$store.dispatch('getSchools', {})
-    this.$store.dispatch('getSportObjectTypes')
   }
-}
 </script>
 
 <style scoped>

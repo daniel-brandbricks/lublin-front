@@ -106,7 +106,7 @@
         <treeselect v-model="value"
                     :multiple="false"
                     :options="optionsTS"
-                    class="custom" />
+                    class="custom"/>
       </b-col>
 
       <b-col cols="12">
@@ -135,7 +135,7 @@
 
       <!--   admin navbar   -->
       <b-col cols="12">
-        <b-row >
+        <b-row>
           <b-col>
             <h1 class="">Lorem ipsum.</h1>
           </b-col>
@@ -158,11 +158,12 @@
           <b-card-text text-tag="div" class="height-hidden">
             <h2 class="card-title " title="lorem8">Lorem ipsum dolor sit amet,</h2>
 
-            <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequatur eligendi esse iusto minima non officia temporibus veniam! Beatae dolor in inventore minus pariatur, soluta suscipit! Ad aspernatur atque dignissimos eligendi, fugit inventore iure labore nesciunt non temporibus veniam veritatis!</p>
+            <p
+              class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequatur eligendi esse iusto minima non officia temporibus veniam! Beatae dolor in inventore minus pariatur, soluta suscipit! Ad aspernatur atque dignissimos eligendi, fugit inventore iure labore nesciunt non temporibus veniam veritatis!</p>
           </b-card-text>
           <p class="card-signature mb-0"><span class="icon icon-icon_date_16 pl-0"></span>11.07.19</p>
 
-          <a href="#" class="card-arrow" >
+          <a href="#" class="card-arrow">
             <span class=" icon-icon_arrow_24"></span>
           </a>
 
@@ -184,11 +185,11 @@
 
       <b-col cols="4">
         <div class="android-box pt-5 pl-5">
-         <div class="smile">
-           <span class="circle"></span>
-           <span class="circle two"></span>
-           <span class="past"></span>
-         </div>
+          <div class="smile">
+            <span class="circle"></span>
+            <span class="circle two"></span>
+            <span class="past"></span>
+          </div>
         </div>
 
       </b-col>
@@ -199,50 +200,50 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker'
-// import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import Datepicker from 'vuejs-datepicker'
+  // import the component
+  import Treeselect from '@riophae/vue-treeselect'
+  // import the styles
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import DatePick from 'vue-date-pick'
-import 'vue-date-pick/dist/vueDatePick.css'
+  import DatePick from 'vue-date-pick'
+  import 'vue-date-pick/dist/vueDatePick.css'
 
-export default {
-  components: { Datepicker, Treeselect, DatePick },
-  data () {
-    return {
-      date: '2019-09-01',
-      selected: [],
-      selectedRadio: 'A',
-      options: [
-        {text: 'first', value: '1'},
-        {text: 'secondary', value: '2'},
-        {text: 'third', value: '3'}
-      ],
-      // define the default value
-      value: null,
-      // define options
-      optionsTS: [ {
-        id: 'a',
-        label: 'first',
-        children: [ {
-          id: 'aa',
-          label: 'aa'
+  export default {
+    components: { Datepicker, Treeselect, DatePick },
+    data () {
+      return {
+        date: '2019-09-01',
+        selected: [],
+        selectedRadio: 'A',
+        options: [
+          { text: 'first', value: '1' },
+          { text: 'secondary', value: '2' },
+          { text: 'third', value: '3' }
+        ],
+        // define the default value
+        value: null,
+        // define options
+        optionsTS: [ {
+          id: 'a',
+          label: 'first',
+          children: [ {
+            id: 'aa',
+            label: 'aa'
+          }, {
+            id: 'ab',
+            label: 'ab'
+          } ]
         }, {
-          id: 'ab',
-          label: 'ab'
+          id: 'b',
+          label: 'second'
+        }, {
+          id: 'c',
+          label: 'third'
         } ]
-      }, {
-        id: 'b',
-        label: 'second'
-      }, {
-        id: 'c',
-        label: 'third'
-      } ]
+      }
     }
   }
-}
 </script>
 
 <style scoped>
