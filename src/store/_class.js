@@ -1,4 +1,5 @@
 import * as apiService from '@/services/apiService'
+import {empty} from '@/config/methods'
 
 export default {
   state: {
@@ -12,26 +13,9 @@ export default {
     classProfiles (state) {
       return state.classProfiles
     },
-    classesProfile: (state) => (profileId) => {
-      let classes = state.classes,
-        prepared = []
-      for (let i = 0; i < classes.length; i++) {
-        if (classes[i].profile && classes[i].profile.id == profileId) {
-          prepared.push(classes[i])
-        }
-      }
-      return prepared
+    classItemPerId: (state) => (id) => {
+      return state.classes.find(element => parseFloat(element.id) === parseFloat(id))
     },
-    // classesProfile (state) {
-    //   let classes = state.classes,
-    //     prepared = []
-    //   for (let i = 0; i < classes.length; i++) {
-    //     if (classes[i].type == 1) {
-    //       prepared.push(classes[i])
-    //     }
-    //   }
-    //   return prepared
-    // },
     classesAll (state) {
       let classes = state.classes,
         prepared = []
@@ -41,17 +25,6 @@ export default {
         }
       }
       return prepared
-    },
-    classObj: (state) => (id) => {
-      for (let i = 0; i < state.classes.length; i++) {
-        const classObj = state.classes[i]
-        if (undefined === classObj || classObj === null || classObj.length < 1) {
-          continue
-        }
-        if (classObj.id == id) {
-          return classObj
-        }
-      }
     }
   },
   mutations: {
@@ -61,10 +34,9 @@ export default {
     setClassProfiles (state, data) {
       state.classProfiles = data
     },
-    setClass (state, data) {
+    setClassAll (state, data) {
       const id = data.id
       let classes = [...state.classes]
-
       if (undefined === id || id === null) {
         return
       }
@@ -75,35 +47,151 @@ export default {
           continue
         }
         classes.splice(i, 1, data)
-
         state.classes = classes
         return
       }
 
       state.classes.push(data)
     },
+    setClass (state, data) {
+      const id = data.id
+      const oldId = data.oldId
+      const profileId = data.profile.id
+
+      let classes = [...state.classes]
+      if (undefined === id || id === null) {
+        return
+      }
+
+      let spliced = false
+      for (let i = 0; i < classes.length; i++) {
+        const storeClass = classes[i]
+        if (storeClass.id !== id) {
+          continue
+        }
+        classes.splice(i, 1, data)
+        spliced = true
+        state.classes = classes
+        return
+      }
+      if (!spliced) {
+        state.classes.push(data)
+      }
+
+      for (const profileIndex in state.classProfiles) {
+        let profile = state.classProfiles[profileIndex]
+        if (profile.id && parseFloat(profile.id) === parseFloat(profileId)) {
+          for (let classIndex in profile.classes) {
+            let classItem = profile.classes[classIndex]
+            if (classItem.id && parseFloat(classItem.id) !== parseFloat(oldId)) {
+              continue
+            }
+            profile.classes.splice(classIndex, 1, data)
+            return
+          }
+          profile.classes.push(data)
+        }
+      }
+    },
     setClassProfile (state, data) {
       const id = data.id
+      const oldId = data.oldId
+      console.log(oldId)
       let classProfiles = [...state.classProfiles]
-
       if (undefined === id || id === null) {
         return
       }
 
       for (let i = 0; i < classProfiles.length; i++) {
         const storeClassProfile = classProfiles[i]
-        if (storeClassProfile.id !== id) {
+        console.log(storeClassProfile.id)
+        if (storeClassProfile.id !== oldId) {
           continue
         }
+        delete data.oldId
         classProfiles.splice(i, 1, data)
-
+        console.log(data)
         state.classProfiles = classProfiles
         return
       }
 
       state.classProfiles.push(data)
     },
-    deleteClass (state, id) {
+    deleteClassProfile (state, data) {
+      console.log(data)
+      let classProfiles = [...state.classProfiles]
+      for (let i = 0; i < classProfiles.length; i++) {
+        const storeClassProfile = classProfiles[i]
+        if (storeClassProfile.id !== data.urlParams) {
+          continue
+        }
+        classProfiles.splice(i, 1)
+        state.classProfiles = classProfiles
+      }
+    },
+    addEmptyProfile (state) {
+      let newId = -1
+      for (const item of state.classProfiles) {
+        if (parseFloat(item.id) <= newId) {
+          newId = item.id - 1
+        }
+      }
+
+      state.classProfiles.push({
+        title: '',
+        id: newId,
+        classes: []
+      })
+    },
+    addEmptyClassToProfile (state, id) {
+      if (empty(state.classProfiles)) {
+        return
+      }
+      let profile = null
+      let profileIndex = -1
+      for (const index in state.classProfiles) {
+        let stateProfile = state.classProfiles[index]
+        if (parseFloat(stateProfile.id) === parseFloat(id)) {
+          profileIndex = index
+          profile = stateProfile
+        }
+      }
+
+      if (empty(profile)) {
+        return
+      }
+
+      if (empty(profile.classes)) {
+        profile.classes = []
+      }
+
+      let newId = -1
+      for (const item of state.classes) {
+        if (parseFloat(item.id) <= newId) {
+          newId = item.id - 1
+        }
+      }
+
+      profile.classes.push({id: newId})
+      state.classes.push({
+        id: newId,
+        title: '',
+        type: 1,
+        profile: {
+          id: id
+        }
+      })
+      if (profileIndex < 0) {
+        state.classProfiles.push(profile)
+        return
+      }
+
+      state.classProfiles.splice(profileIndex, 1, profile)
+    },
+    deleteClass (state, data) {
+      const id = data.id
+      const profileId = data.profileId
+
       let classes = [...state.classes]
       for (let i = 0; i < classes.length; i++) {
         const storeClass = classes[i]
@@ -112,36 +200,28 @@ export default {
         }
         classes.splice(i, 1)
         state.classes = classes
-        return
       }
-    },
-    setClassNewProfName (state, data) {
-      let classes = [...state.classes]
-      for (let i = 0; i < classes.length; i++) {
-        const storeClass = classes[i]
-        if (storeClass.profileName !== data.profNameOld) {
-          continue
+
+      for (const profileIndex in state.classProfiles) {
+        let profile = state.classProfiles[profileIndex]
+        if (profile.id && parseFloat(profile.id) === parseFloat(profileId)) {
+          for (let classIndex in profile.classes) {
+            let classItem = profile.classes[classIndex]
+            if (classItem.id && parseFloat(classItem.id) === parseFloat(id)) {
+              profile.classes.splice(classIndex, 1)
+            }
+          }
         }
-        storeClass.profileName = data.profNameNew
-        classes.splice(i, 1, storeClass)
       }
-      state.classes = classes
-    },
-    deleteClassesByProfName (state, data) {
-      console.log(data)
-      let classes = [...state.classes]
-      for (let i = 0; i < classes.length; i++) {
-        const storeClass = classes[i]
-        if (storeClass.profileName !== data.profNameOld) {
-          continue
-        }
-        classes.splice(i, 1)
-        i--
-      }
-      state.classes = classes
     }
   },
   actions: {
+    addEmptyClassToProfile (context, profileId) {
+      context.commit('addEmptyClassToProfile', profileId)
+    },
+    addEmptyProfile (context, profileId) {
+      context.commit('addEmptyProfile', profileId)
+    },
     getClass (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
@@ -198,6 +278,7 @@ export default {
       })
     },
     postClass (context, data) {
+      console.log(data)
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/class', 'post', true, data, null, 200)
           .then(response => {
@@ -206,7 +287,11 @@ export default {
               return
             }
 
-            context.commit('setClass', response)
+            if (data.type === 2) {
+              context.commit('setClassAll', response)
+            } else {
+              context.commit('setClass', {...response, oldId: data.id})
+            }
             resolve(response)
           })
           .catch(error => {
@@ -224,7 +309,7 @@ export default {
               return
             }
 
-            context.commit('setClassProfile', response)
+            context.commit('setClassProfile', {...response, oldId: data.id})
             resolve(response)
           })
           .catch(error => {
@@ -243,7 +328,11 @@ export default {
               return
             }
 
-            context.commit('setClass', data)
+            if (data.type === 2) {
+              context.commit('setClassAll', data)
+            } else {
+              context.commit('setClass', data)
+            }
             resolve(data)
           })
           .catch(error => {
@@ -273,6 +362,11 @@ export default {
     },
     deleteClass (context, data) {
       const id = data.id
+      if (id < 0) {
+        context.commit('deleteClass', data)
+        return
+      }
+
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/class/' + id, 'delete', true, data, null, 200)
           .then(response => {
@@ -281,7 +375,7 @@ export default {
               return
             }
 
-            context.commit('deleteClass', id)
+            context.commit('deleteClass', data)
             resolve()
           })
           .catch(error => {
@@ -291,17 +385,24 @@ export default {
       })
     },
     deleteClassProfName (context, data) {
-      const profNameOld = data.urlParams
+      console.log(data)
+      const id = data.urlParams
+
+      if (id < 0) {
+        context.commit('deleteClassProfile', data)
+        return
+      }
+
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/class/', 'delete', true, null,
-          {profNameOld: profNameOld}, 200)
+          {profileId: id}, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('deleteClassesByProfName', {profNameOld: profNameOld})
+            context.commit('deleteClassProfile', data)
             resolve()
           })
           .catch(error => {

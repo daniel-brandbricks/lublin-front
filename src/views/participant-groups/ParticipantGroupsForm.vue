@@ -72,6 +72,7 @@ export default {
         }
       ],
 
+      // todo maybe
       participantGroup: {
         active: 1,
         title: '',
@@ -80,6 +81,7 @@ export default {
         class: [],
         lessonCategory: [],
         participants: [],
+        // years: [],
 
         // checkbox
         selectedGender: [],
@@ -134,6 +136,9 @@ export default {
     }
   },
   created () {
+    // init participantGroup
+    this.participantGroup = Object.assign(this.participantGroup, this.$store.getters.participantGroup(this.id))
+
     if (this.$route.params.tab === undefined) {
       this.$router.push({name: 'participant.group', params: {'tab': 'main-data'}})
     }

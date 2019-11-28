@@ -12,7 +12,7 @@
             <b-form-input id="input-1" class="custom m-0" v-model="lessonCategory.title"
                           :class="{'error-input-custom': veeErrors.has('lessonCategory.title'+index)}"
                           :name="'lessonCategory.title'+index" :key="'lessonCategory.title'+index"
-                          v-validate="'required'"
+                          v-validate="{'required':true}"
                           @focus="editInput(index)" :placeholder="lessonCategory.title"/>
           </b-form-group>
         </div>

@@ -10,7 +10,7 @@
                   placeholder="Klub / Szkoła"
                   :options="schoolsAndClubsPrepared"
                   :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"
-                  name="sportObject.schools" key="sportObject.schools" v-validate="'required'"
+                  name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"
                   class="custom"/>
 
 <!--      <ImageInputAdvanced :imgPath="sportObject.image" :hideImage="true"></ImageInputAdvanced>-->
@@ -22,7 +22,7 @@
       <b-form-group>
         <b-form-radio v-model="sportObject.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('sportObject.active')}"
-                      name="sportObject.active" :key="'sportObject.active'+index" v-validate="'required'"
+                      name="sportObject.active" :key="'sportObject.active'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
           {{ element.title }}
         </b-form-radio>
@@ -33,7 +33,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Nazwa"
                       :class="{'error-input-custom': veeErrors.has('sportObject.title')}"
-                      name="sportObject.title" key="sportObject.title" v-validate="'required'"
+                      name="sportObject.title" key="sportObject.title" v-validate="{'required':true}"
                       v-model="sportObject.title"></b-form-input>
       </b-form-group>
       <!--    treeselect    -->
@@ -41,7 +41,7 @@
                   :multiple="false" class="custom mb-3"
                   placeholder="Typ" :options="sportObjectTypesPrepared"
                   :class="{'error-input-custom': veeErrors.has('sportObject.type')}"
-                  name="sportObject.type" key="sportObject.type" v-validate="'required'"/>
+                  name="sportObject.type" key="sportObject.type" v-validate="{'required':true}"/>
 
       <h2 class="my-4">Lokalizacja</h2>
 
@@ -50,13 +50,13 @@
                   :multiple="false" class="custom mb-3"
                   placeholder="Dzielnica" :options="districts"
                   :class="{'error-input-custom': veeErrors.has('sportObject.district')}"
-                  name="sportObject.district" key="sportObject.district" v-validate="'required'"/>
+                  name="sportObject.district" key="sportObject.district" v-validate="{'required':true}"/>
       <b-form-group
         class="custom">
         <b-form-input id="input-1" class="custom"
                       placeholder="Adres"
                       :class="{'error-input-custom': veeErrors.has('sportObject.address')}"
-                      name="sportObject.address" key="sportObject.address" v-validate="'required'"
+                      name="sportObject.address" key="sportObject.address" v-validate="{'required':true}"
                       v-model="sportObject.address"></b-form-input>
       </b-form-group>
       <b-form-group
@@ -64,7 +64,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Kod pocztowy"
                       :class="{'error-input-custom': veeErrors.has('sportObject.postcode')}"
-                      name="sportObject.postcode" key="sportObject.postcode" v-validate="'required'"
+                      name="sportObject.postcode" key="sportObject.postcode" v-validate="{'required':true}"
                       v-model="sportObject.postcode"></b-form-input>
       </b-form-group>
       <h1>MAP</h1>

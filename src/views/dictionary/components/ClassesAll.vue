@@ -12,7 +12,7 @@
               <b-form-input id="input-1" class="custom m-0" v-model="classAll.title"
                             :class="{'error-input-custom': veeErrors.has('classAll.title'+index)}"
                             :name="'classAll.title'+index" :key="'classAll.title'+index"
-                            v-validate="'required'"
+                            v-validate="{'required':true}"
                             @focus="editInput(index)" :placeholder="classAll.title"/>
             </b-form-group>
           </div>
@@ -41,7 +41,7 @@ export default {
       getter: 'classesAll',
       dispatchDelete: 'deleteClass',
       dispatchPost: 'postClass',
-      dispatchPut: 'puttClass',
+      dispatchPut: 'putClass'
     }
   },
   methods: {},

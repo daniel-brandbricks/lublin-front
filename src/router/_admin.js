@@ -13,7 +13,7 @@ import SchoolAndClubForm from '@/views/schools-and-clubs/SchoolAndClubForm'
 import SportObjectForm from '@/views/sport-objects/SportObjectForm'
 import Dashboard from '@/views/dashboard/Dashboard'
 import LeadersList from '@/views/leaders/LeadersList'
-import Participants from '@/views/participants/Participants'
+import ParticipantList from '@/views/participants/ParticipantList'
 import Lessons from '@/views/lessons/Lessons'
 import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
@@ -26,6 +26,7 @@ import Reports from '@/views/reports/Reports'
 import ParticipantGroupsForm from '@/views/participant-groups/ParticipantGroupsForm'
 import History from '@/views/history/History'
 import LeaderForm from '@/views/leaders/LeaderForm'
+import ParticipantForm from '@/views/participants/ParticipantForm'
 
 const adminRouter = {
   path: '/admin',
@@ -105,7 +106,6 @@ const adminRouter = {
     {
       path: 'participant-group/:tab?/:id?',
       name: 'participant.group',
-      // todo
       component: ParticipantGroupsForm
     },
 
@@ -113,13 +113,12 @@ const adminRouter = {
     {
       path: 'participants',
       name: 'participants',
-      component: Participants
+      component: ParticipantList
     },
     {
-      path: 'participant/:id?',
+      path: 'participant/:tab?/:id?',
       name: 'participant',
-      // todo
-      component: Participants
+      component: ParticipantForm
     },
 
     // Lessons list

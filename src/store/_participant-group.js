@@ -9,16 +9,85 @@ export default {
     participantGroups (state) {
       return state.participantGroups
     },
-    participantGroup (state) {
-      return state.participantGroup
+    // participantGroup (state) {
+    //   return state.participantGroup
+    // },
+    participantGroup: (state) => (id) => {
+      let participantGroups = []
+
+      if (undefined === id) {
+        participantGroups = state.participantGroups.concat(state.participantGroups)
+      }
+
+      for (let i = 0; i < participantGroups.length; i++) {
+        const participantGroup = participantGroups[i]
+        if (undefined === participantGroup || participantGroup === null || participantGroup.length < 1) {
+          continue
+        }
+        if (participantGroup.id == id) {
+          return participantGroup
+        }
+      }
     }
   },
   mutations: {
     setParticipantGroups (state, data) {
       state.participantGroups = data
     },
+    // todo
+    // setParticipantGroup (state, data) {
+    //   state.participantGroup = data
+    // },
+    // setParticipantGroups (state, data) {
+    //   let participantGroups = []
+    //
+    //   for (let participantGroupIndex in data) {
+    //     if (data[participantGroupIndex]) {
+    //       participantGroups.push(data[participantGroupIndex])
+    //     }
+    //   }
+    //
+    //   state.participantGroups = participantGroups
+    // },
+    // setParticipantGroup (state, data) {
+    //   const id = data.id
+    //   let participantGroups = [...state.participantGroups]
+    //
+    //   if (undefined === id || id === null) {
+    //     return
+    //   }
+    //
+    //   for (let i = 0; i < participantGroups.length; i++) {
+    //     const storeParticipantGroup = participantGroups[i]
+    //     if (storeParticipantGroup.id !== id) {
+    //       continue
+    //     }
+    //     participantGroups.splice(i, 1, data)
+    //
+    //     state.participantGroups = participantGroups
+    //     return
+    //   }
+    //
+    //   state.participantGroups.push(data)
+    // },
     setParticipantGroup (state, data) {
-      state.participantGroup = data
+      const id = data.id
+      let participantGroups = []
+
+      if (undefined === id || id === null) {
+        return
+      }
+
+      for (let i = 0; i < participantGroups.length; i++) {
+        const storeParticipantGroup = participantGroups[i]
+        if (storeParticipantGroup.id !== id) {
+          continue
+        }
+        participantGroups.splice(i, 1, data)
+
+        state.participantGroups = participantGroups
+        return
+      }
     },
     deleteParticipantGroup (state, data) {
       // todo

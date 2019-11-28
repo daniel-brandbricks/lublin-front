@@ -11,7 +11,7 @@
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom m-0" v-model="discipline.title"
                           :class="{'error-input-custom': veeErrors.has('discipline.title'+index)}"
-                          :name="'discipline.title'+index" :key="'discipline.title'+index" v-validate="'required'"
+                          :name="'discipline.title'+index" :key="'discipline.title'+index" v-validate="{'required':true}"
                           @focus="editInput(index)" :placeholder="discipline.title"/>
           </b-form-group>
         </div>
