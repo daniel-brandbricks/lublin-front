@@ -1,6 +1,7 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6">
+      {{selectedIndex}}
       <div class="row align-items-start" v-if="computedList"
            v-for="(season,index) in computedList" :key="index">
         <div class="col-2">
@@ -17,7 +18,7 @@
                           v-validate="{'required':(index === selectedIndex ? true: false)}"
                           v-model="computedList[index].title"></b-form-input>
           </b-form-group>
-          <b-row class="my-3">
+          <b-row class="mt-3">
             <b-col cols="5">
               <date-picker v-model="computedList[index].from" :lang="lang"
                            @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
@@ -40,6 +41,11 @@
               </date-picker>
             </b-col>
           </b-row>
+          <b-row class="justify-content-end mb-3">
+            <b-col cols="4">
+              <b-btn variant="primary" block>Zapisz</b-btn>
+            </b-col>
+          </b-row>
 
         </div>
       </div>
@@ -53,7 +59,7 @@
 </template>
 
 <script>
-// import the component
+  // import the component
   import Treeselect from '@riophae/vue-treeselect'
   // import the styles
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -61,12 +67,12 @@
   import FormMixin from '@/mixins/form-mixin'
   import DictionaryMixin from '@/mixins/dictionary-mixin'
   import DatePicker from 'vue2-datepicker'
-  import { mapActions } from 'vuex'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'Seasons',
-    components: { Treeselect, DatePicker },
-    mixins: [ EventBusEmit, FormMixin, DictionaryMixin ],
+    components: {Treeselect, DatePicker},
+    mixins: [EventBusEmit, FormMixin, DictionaryMixin],
     data () {
       return {
         getter: 'seasons',
@@ -75,9 +81,9 @@
         dispatchPut: 'putSeason',
 
         lang: {
-          days: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
-          months: [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-          pickers: [ 'next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days' ],
+          days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
           placeholder: {
             date: 'Select Date',
             dateRange: 'Select Date Range'
@@ -99,7 +105,7 @@
       submitSeason (obj) {
         console.log(111)
         this.submitObject(obj)
-        this.selectedIndex = null
+        // this.selectedIndex = null
       },
       deleteSeason (id) {
         if (id && id > 0) {
@@ -113,7 +119,7 @@
       this.$store.dispatch('getSeasons')
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'dashboard' })
+      this.changeAdminNavbarButton({buttonLink: 'dashboard'})
     }
   }
 </script>
