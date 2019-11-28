@@ -1770,6 +1770,9 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
         .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link.router-link-active, .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link:hover {
           color: #000000; }
 
+.header-slider {
+  background-color: red; }
+
 /*END new Style*/
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)

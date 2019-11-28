@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,cAAc;EACZ,gBAAgB,EAAE,GAAG",
+"sources": ["header-slider.scss"],
+"names": [],
+"file": "header-slider.css"
+}
