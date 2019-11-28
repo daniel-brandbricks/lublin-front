@@ -6,7 +6,6 @@ export default {
   },
   getters: {
     seasons (state) {
-      console.log(111)
       return state.seasons
     },
     season: (state) => (id) => {
@@ -27,17 +26,19 @@ export default {
     },
     setSeason (state, data) {
       const id = data.id
-      let seasons = [...state.seasons]
+      const oldId = data.oldId
 
+      let seasons = [...state.seasons]
       if (undefined === id || id === null) {
         return
       }
 
       for (let i = 0; i < seasons.length; i++) {
         const storeSeason = seasons[i]
-        if (storeSeason.id !== id) {
+        if (storeSeason.id !== oldId) {
           continue
         }
+        delete data.oldId
         seasons.splice(i, 1, data)
 
         state.seasons = seasons
@@ -46,20 +47,38 @@ export default {
 
       state.seasons.push(data)
     },
-    deleteSeason (state, id) {
+    deleteSeason (state, data) {
       let seasons = [...state.seasons]
       for (let i = 0; i < seasons.length; i++) {
         const storeSeason = seasons[i]
-        if (storeSeason.id !== id) {
+        if (storeSeason.id !== data.urlParams) {
           continue
         }
         seasons.splice(i, 1)
         state.seasons = seasons
         return
       }
-    }
+    },
+    addEmptySeason (state) {
+      let newId = -1
+      for (const item of state.seasons) {
+        if (parseFloat(item.id) <= newId) {
+          newId = item.id - 1
+        }
+      }
+
+      state.seasons.push({
+        id: newId,
+        title: '',
+        from: null,
+        to: null
+      })
+    },
   },
   actions: {
+    addEmptySeason (context, seasonId) {
+      context.commit('addEmptySeason', seasonId)
+    },
     getSeason (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
@@ -135,7 +154,13 @@ export default {
       })
     },
     deleteSeason (context, data) {
-      const id = data.id
+      const id = data.urlParams
+
+      if (id < 0) {
+        context.commit('deleteSeason', data)
+        return
+      }
+
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/season/' + id, 'delete', true, data, null, 200)
           .then(response => {
@@ -144,7 +169,7 @@ export default {
               return
             }
 
-            context.commit('deleteSeason', id)
+            context.commit('deleteSeason', data)
             resolve()
           })
           .catch(error => {

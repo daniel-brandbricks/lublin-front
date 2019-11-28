@@ -32,6 +32,7 @@ export default {
             return
           }
           this.loading = false
+          if (obj.id && obj.id < 0) delete obj.id
           if (obj.id) {
             this.$store.dispatch(this.dispatchPut, obj)
           } else {

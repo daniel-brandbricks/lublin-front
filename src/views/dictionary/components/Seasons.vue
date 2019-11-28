@@ -4,24 +4,26 @@
       <div class="row align-items-start" v-if="computedList"
            v-for="(season,index) in computedList" :key="index">
         <div class="col-2">
-          <p @click="deleteData(season)"
+          <p @click="deleteSeason(season.id)"
              v-if="computedList.length > 0">usuń <span class="pl-1">{{index + 1}}</span></p>
         </div>
         <div class="col-10 pl-2">
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom m-0"
                           placeholder="Nazwa sezonu"
+                          @focus="selectedIndex = index" @blur="submitSeason(computedList[index])"
+                          :class="{'error-input-custom': veeErrors.has('season.title'+index)}"
+                          :name="'season.title'+index" :key="'season.title'+index"
+                          v-validate="{'required':(index === selectedIndex ? true: false)}"
                           v-model="computedList[index].title"></b-form-input>
           </b-form-group>
           <b-row class="my-3">
             <b-col cols="5">
-<!--              <treeselect class="custom"-->
-<!--                          v-model="computedList[index].selectedYearFrom"-->
-<!--                          :multiple="true"-->
-<!--                          placeholder="Od"-->
-<!--                          :options="years"/>-->
-              <date-picker v-model="computedList[index].selectedYearFrom" :lang="lang"
-                           name="owner.subscriptionStart" key="owner.subscriptionStart" v-validate="'required'"
+              <date-picker v-model="computedList[index].from" :lang="lang"
+                           @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
+                           :class="{'error-input-custom': veeErrors.has('season.from'+index)}"
+                           :name="'season.from'+index" :key="'season.from'+index"
+                           v-validate="{'required':(index === selectedIndex ? true: false)}"
                            id="inputDatapicFrom" placeholder="" class="w-100 custom mb-3">
               </date-picker>
             </b-col>
@@ -29,13 +31,11 @@
               <hr>
             </b-col>
             <b-col cols="5">
-<!--              <treeselect class="custom"-->
-<!--                          v-model="computedList[index].selectedYearTo"-->
-<!--                          :multiple="true"-->
-<!--                          placeholder="Do"-->
-<!--                          :options="years"/>-->
-              <date-picker v-model="computedList[index].selectedYearTo" :lang="lang"
-                           name="owner.subscriptionStart" key="owner.subscriptionStart" v-validate="'required'"
+              <date-picker v-model="computedList[index].to" :lang="lang"
+                           @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
+                           :class="{'error-input-custom': veeErrors.has('season.to'+index)}"
+                           :name="'season.to'+index" :key="'season.to'+index"
+                           v-validate="{'required':(index === selectedIndex ? true: false)}"
                            id="inputDatapicTo" placeholder="" class="w-100 custom mb-3">
               </date-picker>
             </b-col>
@@ -45,7 +45,7 @@
       </div>
       <b-row class=" mt-3">
         <b-col cols="10" class="offset-2 pl-2">
-          <b-btn variant="primary" block>+ Dodaj Kolejne</b-btn>
+          <b-btn variant="primary" @click="addEmptySeason()" block>+ Dodaj Kolejne</b-btn>
         </b-col>
       </b-row>
     </b-col>
@@ -61,6 +61,8 @@ import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
 import DictionaryMixin from '@/mixins/dictionary-mixin'
 import DatePicker from 'vue2-datepicker'
+import {empty} from '@/config/methods'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'Seasons',
@@ -83,12 +85,29 @@ export default {
         }
       },
 
+      selectedIndex: null,
+
       // temp
       years: [
         {id: 1, label: '2000'},
         {id: 2, label: '2001'},
         {id: 3, label: '2002'}
       ]
+    }
+  },
+  methods: {
+    ...mapActions(['addEmptySeason']),
+    submitSeason (obj) {
+      console.log(111)
+      this.submitObject(obj)
+      this.selectedIndex = null
+    },
+    deleteSeason (id) {
+      if (id && id > 0) {
+        this.deleteFromForm('deleteSeason', null, 'sezon', false, null, {urlParams: id})
+      } else {
+        this.$store.dispatch('deleteSeason', {urlParams: id})
+      }
     }
   },
   created () {

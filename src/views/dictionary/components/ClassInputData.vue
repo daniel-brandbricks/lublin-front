@@ -66,7 +66,6 @@ export default {
   },
   methods: {
     deleteClass (item) {
-      console.log(item)
       if (item.id < 0) {
         this.$store.dispatch('deleteClass', {profileId: this.profileId, id: item.id})
       } else {

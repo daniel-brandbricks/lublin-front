@@ -132,6 +132,7 @@ export default {
       if (id && id > 0) {
         this.deleteFromForm('deleteClassProfName', null, 'profil', false, null, {urlParams: id})
       } else {
+        this.$store.dispatch('deleteClassProfName', {urlParams: id})
       }
     },
     checkEmptyProfName () {
