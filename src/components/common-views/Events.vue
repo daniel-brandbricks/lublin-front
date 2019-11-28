@@ -24,21 +24,22 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import EventBusEmit from '@/mixins/event-bus-emit'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
-export default {
-  components: {Treeselect},
-  mixins: [EventBusEmit],
-  props: ['events'],
-  data () {
-    return {}
-  },
-  computed: {},
-  created () {}
-}
+  export default {
+    components: { Treeselect },
+    mixins: [ EventBusEmit ],
+    props: [ 'events' ],
+    data () {
+      return {}
+    },
+    computed: {},
+    created () {
+    }
+  }
 </script>
 
 <style scoped>

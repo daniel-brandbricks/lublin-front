@@ -14,7 +14,7 @@ export default {
         if (undefined === lessonCategory || lessonCategory === null || lessonCategory.length < 1) {
           continue
         }
-        if (lessonCategory.id == id) {
+        if (parseInt(lessonCategory.id) === parseInt(id)) {
           return lessonCategory
         }
       }
@@ -26,7 +26,7 @@ export default {
     },
     setLessonCategory (state, data) {
       const id = data.id
-      let lessonCategories = [...state.lessonCategories]
+      let lessonCategories = [ ...state.lessonCategories ]
 
       if (undefined === id || id === null) {
         return
@@ -46,7 +46,7 @@ export default {
       state.lessonCategories.push(data)
     },
     deleteLessonCategory (state, id) {
-      let lessonCategories = [...state.lessonCategories]
+      let lessonCategories = [ ...state.lessonCategories ]
       for (let i = 0; i < lessonCategories.length; i++) {
         const storeLessonCategory = lessonCategories[i]
         if (storeLessonCategory.id !== id) {

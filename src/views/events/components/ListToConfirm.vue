@@ -32,30 +32,28 @@
 
 <script>
 
-export default {
-  name: 'ListToConfirm',
-  data () {
-    return {
-      fields: [
-        {key: 'name', label: 'Nazwa', sortable: true},
-        {key: 'organizer', label: 'Organizator', sortable: true},
-        {key: 'location', label: 'Lokalizacja', sortable: true},
-        {key: 'duration', label: 'Czas trwania', sortable: true},
-        {key: 'edit', label: ''}
-      ],
-      tableItems: [
-        {id: 1, name: 'Project X', organizer: 'Szkoła nr.4', location: 'Al. Jana Pawła II', duration: '6g.'},
-        {id: 2, name: 'AP', organizer: 'Kłub Piłek', location: 'Park LK', duration: '5g.'}
-      ]
+  export default {
+    name: 'ListToConfirm',
+    data () {
+      return {
+        fields: [
+          { key: 'name', label: 'Nazwa', sortable: true },
+          { key: 'organizer', label: 'Organizator', sortable: true },
+          { key: 'location', label: 'Lokalizacja', sortable: true },
+          { key: 'duration', label: 'Czas trwania', sortable: true },
+          { key: 'edit', label: '' }
+        ],
+        tableItems: [
+          { id: 1, name: 'Project X', organizer: 'Szkoła nr.4', location: 'Al. Jana Pawła II', duration: '6g.' },
+          { id: 2, name: 'AP', organizer: 'Kłub Piłek', location: 'Park LK', duration: '5g.' }
+        ]
+      }
+    },
+    computed: {},
+    methods: {},
+    created () {
     }
-  },
-  computed: {
-  },
-  methods: {
-  },
-  created () {
   }
-}
 </script>
 
 <style scoped>

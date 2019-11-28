@@ -56,58 +56,59 @@
 </template>
 
 <script>
-export default {
-  name: 'Navbar',
-  data () {
-    return {
-      email: '',
-      password: ''
-    }
-  },
-  methods: {
-    resetModal () {
-      this.email = ''
-      this.password = ''
+  export default {
+    name: 'Navbar',
+    data () {
+      return {
+        email: '',
+        password: ''
+      }
     },
-    validateEmail (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(email)
-        .toLowerCase())
+    methods: {
+      resetModal () {
+        this.email = ''
+        this.password = ''
+      },
+      validateEmail (email) {
+        return email
+        // var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        // return re.test(String(email)
+        //   .toLowerCase())
+      },
+      login () {
+        if (this.email === '') {
+          this.emptyEmail = false
+          return false
+        }
+        if (this.password.length < 6) {
+          this.passwordSimilarity = false
+          return false
+        }
+
+        if (!this.validateEmail(this.email)) {
+          this.$bvToast.toast('Niepoprawny format adresu e-mail', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-full',
+            solid: true,
+            variant: 'danger'
+          })
+
+          return false
+        }
+
+        let data = { email: this.email, password: this.password }
+        this.$store.dispatch('login', data)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
     },
-    login () {
-      if (this.email === '') {
-        this.emptyEmail = false
-        return false
-      }
-      if (this.password.length < 6) {
-        this.passwordSimilarity = false
-        return false
-      }
-
-      if (!this.validateEmail(this.email)) {
-        this.$bvToast.toast('Niepoprawny format adresu e-mail', {
-          title: 'Uwaga!',
-          toaster: 'b-toaster-bottom-full',
-          solid: true,
-          variant: 'danger'
-        })
-
-        return false
-      }
-
-      let data = {email: this.email, password: this.password}
-      this.$store.dispatch('login', data)
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+    created () {
     }
-  },
-  created () {
   }
-}
 </script>
 
 <style scoped>

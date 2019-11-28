@@ -97,37 +97,36 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import EventBusEmit from '@/mixins/event-bus-emit'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
-export default {
-  components: {Treeselect},
-  mixins: [EventBusEmit],
-  props: ['lessons'],
-  data () {
-    return {}
-  },
-  computed: {
-    // copied in FormMainData.vue -> sports-objects
-    schoolsAndClubsPrepared () {
-      // eslint-disable-next-line one-var
-      let data = this.$store.getters.schools,
-        preparedSchools = []
+  export default {
+    components: { Treeselect },
+    mixins: [ EventBusEmit ],
+    props: [ 'lessons' ],
+    data () {
+      return {}
+    },
+    computed: {
+      // copied in FormMainData.vue -> sports-objects
+      schoolsAndClubsPrepared () {
+        let data = this.$store.getters.schools
+        let preparedSchools = []
 
-      for (let schoolIndex in data) {
-        preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
+        for (let schoolIndex in data) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        }
+
+        console.log(preparedSchools)
+        return preparedSchools
       }
-
-      console.log(preparedSchools)
-      return preparedSchools
+    },
+    created () {
+      this.$store.dispatch('getSchools', {})
     }
-  },
-  created () {
-    this.$store.dispatch('getSchools', {})
   }
-}
 </script>
 
 <style scoped>

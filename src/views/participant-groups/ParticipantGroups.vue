@@ -39,7 +39,7 @@
                         placeholder="Dyscyplina" :options="participantGroupDiscipline"
                         :class="{'error-input-custom': veeErrors.has('disciplines.title')}"
                         name="disciplines.title" key="disciplines.title" v-validate="{'required':true}"
-                        />
+            />
           </b-col>
           <b-col cols="4">
             <treeselect v-model="categories.id" v-if="categories"
@@ -83,7 +83,8 @@
           </template>
 
           <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+            <span class="status"
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
@@ -98,78 +99,78 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import EventBusEmit from '@/mixins/event-bus-emit'
-import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
 
-export default {
-  components: {Treeselect},
-  props: ['participantGroup', 'filters'],
-  mixins: [EventBusEmit, ParticipantGroupMixin],
-  data () {
-    return {
-      fields: [
-        {key: 'title', label: 'Nazwa listy', sortable: true},
-        {key: 'discipline', label: 'Dyscyplina', sortable: true},
-        {key: 'sex', label: 'Płeć', sortable: true},
-        {key: 'lessonCategory', label: 'Kategoria', sortable: true},
-        {key: 'class', label: 'Klasa', sortable: true},
-        {key: 'status', label: 'Status w systemie', sortable: true},
-        {key: 'edit', label: ''}
-      ],
+  export default {
+    components: { Treeselect },
+    props: [ 'participantGroup', 'filters' ],
+    mixins: [ EventBusEmit, ParticipantGroupMixin ],
+    data () {
+      return {
+        fields: [
+          { key: 'title', label: 'Nazwa listy', sortable: true },
+          { key: 'discipline', label: 'Dyscyplina', sortable: true },
+          { key: 'sex', label: 'Płeć', sortable: true },
+          { key: 'lessonCategory', label: 'Kategoria', sortable: true },
+          { key: 'class', label: 'Klasa', sortable: true },
+          { key: 'status', label: 'Status w systemie', sortable: true },
+          { key: 'edit', label: '' }
+        ],
 
-      search: '',
+        search: '',
 
-      selectedType: [],
-      typeOptions: [
-        {text: 'klub', value: 0},
-        {text: 'szkola', value: 1}
-      ],
+        selectedType: [],
+        typeOptions: [
+          { text: 'klub', value: 0 },
+          { text: 'szkola', value: 1 }
+        ],
 
-      selectedGender: [],
-      genderOptions: [
-        {text: 'kobieta', value: 0},
-        {text: 'mężczyzna', value: 1}
-      ],
+        selectedGender: [],
+        genderOptions: [
+          { text: 'kobieta', value: 0 },
+          { text: 'mężczyzna', value: 1 }
+        ],
 
-      selectedDiscipline: null,
-      selectedCategory: null,
-      selectedClass: null,
-      // temp
+        selectedDiscipline: null,
+        selectedCategory: null,
+        selectedClass: null,
+        // temp
 
-      // todo maybe like in ParticipantGroupsForm
-      disciplines: [],
-      categories: [],
-      classes: []
+        // todo maybe like in ParticipantGroupsForm
+        disciplines: [],
+        categories: [],
+        classes: []
+      }
+    },
+    computed: {
+      participantList () {
+        return this.$store.getters.participantGroups
+      }
+    },
+    methods: {
+      rowRedirect (id) {
+        this.$router.push({
+          name: 'participant.group',
+          params: { 'tab': 'main-data', 'id': id }
+        })
+      }
+    },
+    created () {
+      this.$store.dispatch('getParticipantGroups')
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getLessonCategories')
+      this.$store.dispatch('getClasses')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'participant.group', params: { tab: 'main-data' } })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zawodników', active: true } ])
     }
-  },
-  computed: {
-    participantList () {
-      return this.$store.getters.participantGroups
-    }
-  },
-  methods: {
-    rowRedirect (id) {
-      this.$router.push({
-        name: 'participant.group',
-        params: {'tab': 'main-data', 'id': id}
-      })
-    }
-  },
-  created () {
-    this.$store.dispatch('getParticipantGroups')
-    this.$store.dispatch('getDisciplines')
-    this.$store.dispatch('getLessonCategories')
-    this.$store.dispatch('getClasses')
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'participant.group', params: {tab: 'main-data'}})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Lista zawodników', active: true}])
   }
-}
 </script>
 
 <style scoped>

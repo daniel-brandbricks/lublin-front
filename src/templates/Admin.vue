@@ -2,7 +2,6 @@
   <div class="d-flex" id="wrapper" :class="{'toggled': showSidebar}">
     <Sidebar></Sidebar>
 
-
     <main class="" id="page-content-wrapper">
       <perfect-scrollbar id="scrollbar" class="custom ps-content">
 

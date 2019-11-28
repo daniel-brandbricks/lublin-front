@@ -27,8 +27,7 @@
       <div class="row" v-if="leader.disciplines"
            v-for="(discipline,index) in leader.disciplines" :key="index">
         <div class="col-2">
-          <div class="text-center"
-               style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+          <div class="text-center _custom-css">
             <p class="m-auto">{{index + 1}}</p>
           </div>
           <p @click="removeDiscipline(index)" v-if="leader.disciplines.length > 0">usuń</p>
@@ -43,8 +42,7 @@
       </div>
       <div class="row mb-3">
         <div class="col-2">
-          <div class="text-center"
-               style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+          <div class="text-center _custom-css">
             <p class="m-auto">{{leader.disciplines.length + 1}}</p>
           </div>
         </div>
@@ -101,39 +99,47 @@
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import FormMixin from '@/mixins/form-mixin'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import FormMixin from '@/mixins/form-mixin'
 
-export default {
-  name: 'FormMainData',
-  props: ['leader'],
-  components: {Treeselect},
-  mixins: [FormMixin],
-  data () {
-    return {
-      disciplinesTreeselect: [
-        { id: 0, label: 'Bieg 50m' },
-        { id: 1, label: 'Bieg 150m' },
-        { id: 2, label: 'Bieg 250m' }
-      ]
+  export default {
+    name: 'FormMainData',
+    props: [ 'leader' ],
+    components: { Treeselect },
+    mixins: [ FormMixin ],
+    data () {
+      return {
+        disciplinesTreeselect: [
+          { id: 0, label: 'Bieg 50m' },
+          { id: 1, label: 'Bieg 150m' },
+          { id: 2, label: 'Bieg 250m' }
+        ]
+      }
+    },
+    computed: {},
+    methods: {
+      addDiscipline () {
+        this.$parent.addDiscipline()
+      },
+      removeDiscipline (index) {
+        this.$parent.removeDiscipline(index)
+      },
+      submit () {
+      },
+      submitSetConfirm () {
+      }
     }
-  },
-  computed: {},
-  methods: {
-    addDiscipline () {
-      this.$parent.addDiscipline()
-    },
-    removeDiscipline (index) {
-      this.$parent.removeDiscipline(index)
-    },
-    submit () {},
-    submitSetConfirm () {}
   }
-}
 </script>
 
 <style scoped>
-
+  ._custom-css {
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 36px;
+    width: 36px;
+    border: 2px solid #D8D8D8;
+  }
 </style>

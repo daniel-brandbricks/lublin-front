@@ -11,7 +11,8 @@
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom m-0" v-model="discipline.title"
                           :class="{'error-input-custom': veeErrors.has('discipline.title'+index)}"
-                          :name="'discipline.title'+index" :key="'discipline.title'+index" v-validate="{'required':true}"
+                          :name="'discipline.title'+index" :key="'discipline.title'+index"
+                          v-validate="{'required':true}"
                           @focus="editInput(index)" :placeholder="discipline.title"/>
           </b-form-group>
         </div>
@@ -29,28 +30,28 @@
 </template>
 
 <script>
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import DictionaryMixin from '@/mixins/dictionary-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import DictionaryMixin from '@/mixins/dictionary-mixin'
 
-export default {
-  name: 'Disciplines',
-  mixins: [EventBusEmit, FormMixin, DictionaryMixin],
-  data () {
-    return {
-      getter: 'disciplines',
-      dispatchDelete: 'deleteDiscipline',
-      dispatchPost: 'postDiscipline',
-      dispatchPut: 'putDiscipline'
+  export default {
+    name: 'Disciplines',
+    mixins: [ EventBusEmit, FormMixin, DictionaryMixin ],
+    data () {
+      return {
+        getter: 'disciplines',
+        dispatchDelete: 'deleteDiscipline',
+        dispatchPost: 'postDiscipline',
+        dispatchPut: 'putDiscipline'
+      }
+    },
+    created () {
+      this.$store.dispatch('getDisciplines')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
     }
-  },
-  created () {
-    this.$store.dispatch('getDisciplines')
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false})
   }
-}
 </script>
 
 <style scoped>

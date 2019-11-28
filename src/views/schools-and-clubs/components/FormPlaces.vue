@@ -7,9 +7,7 @@
         <div class="row" v-if="school.places"
              v-for="(place,index) in school.places" :key="index">
           <div class="col-1">
-            <!--   todo Веталь, перепиши в класс как будет время   -->
-            <div class="text-center"
-                 style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+            <div class="text-center custom-class">
               <p class="m-auto">{{index + 1}}</p>
             </div>
             <p @click="removePlace(index)" v-if="school.places.length > 0">usuń</p>
@@ -65,8 +63,7 @@
         <div class="row">
           <div class="col-1">
             <!--   todo Веталь, перепиши в класс как будет время   -->
-            <div class="text-center"
-                 style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+            <div class="text-center custom-class">
               <p class="m-auto" v-if="school.places">{{school.places.length + 1}}</p>
             </div>
           </div>
@@ -115,91 +112,99 @@
 </template>
 
 <script>
-// import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  // import the component
+  import Treeselect from '@riophae/vue-treeselect'
+  // import the styles
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
-export default {
-  name: 'FormPlaces',
-  props: ['school', 'isValidForm', 'districts'],
-  components: {Treeselect, ImageInputAdvanced},
-  mixins: [EventBusEmit, FormMixin],
-  data () {
-    return {
-      // for school
-      places: [],
-      placesToDelete: [], // ???
-      placeDefault: {
-        active: 1,
-        confirmed: null,
-        type: null,
-        name: '',
+  export default {
+    name: 'FormPlaces',
+    props: [ 'school', 'isValidForm', 'districts' ],
+    components: { Treeselect, ImageInputAdvanced },
+    mixins: [ EventBusEmit, FormMixin ],
+    data () {
+      return {
+        // for school
+        places: [],
+        placesToDelete: [], // ???
+        placeDefault: {
+          active: 1,
+          confirmed: null,
+          type: null,
+          name: '',
 
-        // location
-        district: null,
-        address: '',
-        postcode: '',
-        // todo
-        mapImg: ''
-      },
-    }
-  },
-  methods: {
-    addPlace () {
-      this.$parent.addPlace(this.placeDefault)
-    },
-    removePlace (index) {
-      //   id: this.school.places[index].id,
-      //   collectionType: 'remove'
-      // }
-      // this.placesToDelete.push(oldItem)
-      this.$parent.removePlace(index)
-    },
-
-    submit (validRequired = false) {
-      if (validRequired) {
-        this.preSubmit()
-          .then((result) => {
-            if (!result) {
-              this.loading = false
-              return
-            }
-
-            // this.$parent.concatPlaces(this.placesToDelete)
-            this.loading = false
-            this.$parent.submit()
-          })
-      } else {
-        this.$parent.submit()
+          // location
+          district: null,
+          address: '',
+          postcode: '',
+          // todo
+          mapImg: ''
+        }
       }
     },
-    submitSetConfirm (isConfirmed, validRequired = true) {
-      if (validRequired) {
-        if (this.isValidForm) {
+    methods: {
+      addPlace () {
+        this.$parent.addPlace(this.placeDefault)
+      },
+      removePlace (index) {
+        //   id: this.school.places[index].id,
+        //   collectionType: 'remove'
+        // }
+        // this.placesToDelete.push(oldItem)
+        this.$parent.removePlace(index)
+      },
+
+      submit (validRequired = false) {
+        if (validRequired) {
+          this.preSubmit()
+            .then((result) => {
+              if (!result) {
+                this.loading = false
+                return
+              }
+
+              // this.$parent.concatPlaces(this.placesToDelete)
+              this.loading = false
+              this.$parent.submit()
+            })
+        } else {
+          this.$parent.submit()
+        }
+      },
+      submitSetConfirm (isConfirmed, validRequired = true) {
+        if (validRequired) {
+          if (this.isValidForm) {
+            this.school.confirmed = isConfirmed
+            this.submit(validRequired)
+          } else {
+            // validate form in next tab (component)
+            this.$parent.goToFormTab('main-data', { 'validateForm': true })
+          }
+        } else {
           this.school.confirmed = isConfirmed
           this.submit(validRequired)
-        } else {
-          // validate form in next tab (component)
-          this.$parent.goToFormTab('main-data', {'validateForm': true})
         }
-      } else {
-        this.school.confirmed = isConfirmed
-        this.submit(validRequired)
       }
+    },
+    created () {
     }
-  },
-  created () {
   }
-}
 </script>
 
 <style scoped>
   .error-input-custom {
     border: 1px solid red !important;
+  }
+
+  .custom-class {
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 36px;
+    width: 36px;
+    border: 2px solid #D8D8D8;
   }
 </style>

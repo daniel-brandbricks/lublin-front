@@ -13,48 +13,48 @@
 </template>
 
 <script>
-import TabLinks from '../../components/TabLinks'
-import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
-import Menu from '@/views/www/components/Menu'
-import Home from '@/views/www/components/Home'
-import Footer from '@/views/www/components/Footer'
+  import Menu from '@/views/www/components/Menu'
+  import Home from '@/views/www/components/Home'
+  import Footer from '@/views/www/components/Footer'
 
-export default {
-  // eslint-disable-next-line standard/object-curly-even-spacing
-  components: {TabLinks, Menu, Home, Footer},
-  mixins: [EventBusEmit],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Menu',
-          link: 'www',
-          tab: 'menu'
-        },
-        {
-          title: 'Home',
-          link: 'www',
-          tab: 'home'
-        },
-        {
-          title: 'Footer',
-          link: 'www',
-          tab: 'footer'
-        }
-      ]
+  export default {
+    // eslint-disable-next-line standard/object-curly-even-spacing
+    components: { TabLinks, Menu, Home, Footer },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Menu',
+            link: 'www',
+            tab: 'menu'
+          },
+          {
+            title: 'Home',
+            link: 'www',
+            tab: 'home'
+          },
+          {
+            title: 'Footer',
+            link: 'www',
+            tab: 'footer'
+          }
+        ]
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'www', params: { 'tab': 'menu' } })
+      }
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Strona www', active: true } ])
     }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'www', params: {'tab': 'menu'}})
-    }
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: false})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Strona www', active: true}])
   }
-}
 </script>
 
 <style scoped>

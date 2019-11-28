@@ -15,7 +15,7 @@ export default {
         if (undefined === season || season === null || season.length < 1) {
           continue
         }
-        if (season.id == id) {
+        if (parseInt(season.id) === parseInt(id)) {
           return season
         }
       }

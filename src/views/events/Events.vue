@@ -13,40 +13,40 @@
 </template>
 
 <script>
-import EventBusEmit from '@/mixins/event-bus-emit'
-import TabLinks from '../../components/TabLinks'
-import ListConfirmed from '@/views/events/components/ListConfirmed'
-import ListToConfirm from '@/views/events/components/ListToConfirm'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
+  import ListConfirmed from '@/views/events/components/ListConfirmed'
+  import ListToConfirm from '@/views/events/components/ListToConfirm'
 
-export default {
-  components: {TabLinks, ListConfirmed, ListToConfirm},
-  mixins: [EventBusEmit],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Zatwierdzone',
-          link: 'events',
-          tab: 'confirmed'
-        },
-        {
-          title: 'Do zatwierdzenia',
-          link: 'events',
-          tab: 'to-confirm'
-        }
-      ],
-    }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'events', params: {'tab': 'confirmed'}})
-    }
+  export default {
+    components: { TabLinks, ListConfirmed, ListToConfirm },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Zatwierdzone',
+            link: 'events',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia',
+            link: 'events',
+            tab: 'to-confirm'
+          }
+        ]
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'events', params: { 'tab': 'confirmed' } })
+      }
 
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'event'})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Lista imprez', active: true}])
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'event' })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista imprez', active: true } ])
+    }
   }
-}
 </script>
 
 <style scoped>

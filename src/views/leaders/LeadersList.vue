@@ -36,72 +36,74 @@
       </b-col>
     </b-row>
 
-    <list-confirmed :filters="{selectedDiscipline: selectedDiscipline, selectedSportObject: selectedSportObject, search: search}"
-                    :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
-    <list-to-confirm :filters="{selectedDiscipline: selectedDiscipline, selectedSportObject: selectedSportObject, search: search}"
-                     :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
+    <list-confirmed
+      :filters="{selectedDiscipline: selectedDiscipline, selectedSportObject: selectedSportObject, search: search}"
+      :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
+    <list-to-confirm
+      :filters="{selectedDiscipline: selectedDiscipline, selectedSportObject: selectedSportObject, search: search}"
+      :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
 
   </div>
 </template>
 
 <script>
-// node_modules
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import ListMixin from '@/mixins/list-mixin'
-import EventBusEmit from '@/mixins/event-bus-emit'
-import TabLinks from '../../components/TabLinks'
+  import ListMixin from '@/mixins/list-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import TabLinks from '../../components/TabLinks'
 
-import ListConfirmed from '@/views/leaders/components/ListConfirmed'
-import ListToConfirm from '@/views/leaders/components/ListToConfirm'
+  import ListConfirmed from '@/views/leaders/components/ListConfirmed'
+  import ListToConfirm from '@/views/leaders/components/ListToConfirm'
 
-export default {
-  name: 'Leaders',
-  components: {TabLinks, ListConfirmed, ListToConfirm, Treeselect},
-  mixins: [EventBusEmit, ListMixin],
-  data () {
-    return {
-      tabLinks: [
-        {
-          title: 'Zatwierdzone',
-          link: 'leaders',
-          tab: 'confirmed'
-        },
-        {
-          title: 'Do zatwierdzenia',
-          link: 'leaders',
-          tab: 'to-confirm'
-        }
-      ],
+  export default {
+    name: 'Leaders',
+    components: { TabLinks, ListConfirmed, ListToConfirm, Treeselect },
+    mixins: [ EventBusEmit, ListMixin ],
+    data () {
+      return {
+        tabLinks: [
+          {
+            title: 'Zatwierdzone',
+            link: 'leaders',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia',
+            link: 'leaders',
+            tab: 'to-confirm'
+          }
+        ],
 
-      selectedDiscipline: null,
-      selectedSportObject: null,
-      search: '',
+        selectedDiscipline: null,
+        selectedSportObject: null,
+        search: '',
 
-      // temp
-      disciplines: [
-        {id: 1, label: 'Basen'},
-        {id: 2, label: 'Siłownia'},
-        {id: 3, label: 'Bieg'}
-      ],
-      sportObjects: [
-        {id: 1, label: 'Park'},
-        {id: 2, label: 'Siłownia'},
-        {id: 3, label: 'Basen'}
-      ]
+        // temp
+        disciplines: [
+          { id: 1, label: 'Basen' },
+          { id: 2, label: 'Siłownia' },
+          { id: 3, label: 'Bieg' }
+        ],
+        sportObjects: [
+          { id: 1, label: 'Park' },
+          { id: 2, label: 'Siłownia' },
+          { id: 3, label: 'Basen' }
+        ]
+      }
+    },
+    created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'leaders', params: { 'tab': 'confirmed' } })
+      }
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'leader', params: { tab: 'main-data' } })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Prowadzący', active: true } ])
     }
-  },
-  created () {
-    if (this.$route.params.tab === undefined) {
-      this.$router.push({name: 'leaders', params: {'tab': 'confirmed'}})
-    }
-
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'leader', params: {tab: 'main-data'}})
-    this.changeAdminNavbarBreadcrumbs([{text: 'Prowadzący', active: true}])
   }
-}
 </script>
 
 <style scoped>

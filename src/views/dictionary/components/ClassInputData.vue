@@ -1,14 +1,14 @@
 <template>
   <div class="w-100">
     <!--    {{classId}}-->
-<!--        {{ classItem }}-->
+    <!--        {{ classItem }}-->
     <form @submit.prevent="submit">
       <div class="row">
         <div class="col-2">
           <!--            @click="deleteClass(item)"-->
           <!--            v-if="profileClasses[profile.id].length > 0"-->
           <p @click="deleteClass(classItem)">usuń
-                          <span>{{index + 1}}</span>
+            <span>{{index + 1}}</span>
           </p>
         </div>
         <div class="pl-2" :class="isFocused ? 'col-7' : 'col-10'">
@@ -33,63 +33,63 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {empty} from '@/config/methods'
-import FormMixin from '@/mixins/form-mixin'
+  import { mapGetters } from 'vuex'
+  import { empty } from '@/config/methods'
+  import FormMixin from '@/mixins/form-mixin'
 
-export default {
-  name: 'ClassInputData',
-  props: [
-    'classId', 'index', 'profileId'
-  ],
-  mixins: [FormMixin],
-  data () {
-    return {
-      isFocused: false
-    }
-  },
-  computed: {
-    ...mapGetters(['classItemPerId']),
-    classItem () {
-      let id = this.classId
-      if (empty(id)) {
-        return {}
-      }
-
-      let item = this.classItemPerId(id)
-      if (empty(item)) {
-        return {}
-      }
-
-      return Object.assign({}, item)
-    }
-  },
-  methods: {
-    deleteClass (item) {
-      console.log(item)
-      if (item.id < 0) {
-        this.$store.dispatch('deleteClass', {profileId: this.profileId, id: item.id})
-      } else {
-        this.deleteFromForm('deleteClass', item.id, 'klasę', false, null, {profileId: this.profileId})
+  export default {
+    name: 'ClassInputData',
+    props: [
+      'classId', 'index', 'profileId'
+    ],
+    mixins: [ FormMixin ],
+    data () {
+      return {
+        isFocused: false
       }
     },
-    focusOut () {
-      let self = this
-      setTimeout(function () {
-        self.isFocused = false
-      }, 300)
-    },
-    submit () {
-      let method = 'postClass'
-      if (this.classItem.id > 0) {
-        method = 'putClass'
+    computed: {
+      ...mapGetters([ 'classItemPerId' ]),
+      classItem () {
+        let id = this.classId
+        if (empty(id)) {
+          return {}
+        }
+
+        let item = this.classItemPerId(id)
+        if (empty(item)) {
+          return {}
+        }
+
+        return Object.assign({}, item)
       }
-      this.isFocused = false
-      this.$store.dispatch(method, this.classItem)
+    },
+    methods: {
+      deleteClass (item) {
+        console.log(item)
+        if (item.id < 0) {
+          this.$store.dispatch('deleteClass', { profileId: this.profileId, id: item.id })
+        } else {
+          this.deleteFromForm('deleteClass', item.id, 'klasę', false, null, { profileId: this.profileId })
+        }
+      },
+      focusOut () {
+        let self = this
+        setTimeout(function () {
+          self.isFocused = false
+        }, 300)
+      },
+      submit () {
+        let method = 'postClass'
+        if (this.classItem.id > 0) {
+          method = 'putClass'
+        }
+        this.isFocused = false
+        this.$store.dispatch(method, this.classItem)
+      }
     }
+
   }
-
-}
 </script>
 
 <style scoped>

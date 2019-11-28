@@ -1,4 +1,4 @@
-import EventBus from '@/event-bus';
+// import EventBus from '@/event-bus'
 
 export default {
   name: 'DictionaryMixin',
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     computedList () {
-      return [...this.$store.getters[this.getter], ...this.dataAsArray]
+      return [ ...this.$store.getters[this.getter], ...this.dataAsArray ]
     },
     checkDataToAddNew () {
       return this.computedList.length < 1 || undefined === this.computedList.find(item => {
@@ -37,10 +37,11 @@ export default {
           } else {
             this.$store.dispatch(this.dispatchPost, obj)
               .then((result) => {
-                this.dataAsArray.splice(this.dataAsArray
+                let index = this.dataAsArray
                   .findIndex(item => {
                     return item.id === undefined && item.title === result.title
-                  }), 1)
+                  })
+                this.dataAsArray.splice(index, 1)
               })
           }
           this.editedInput.index = null
@@ -60,7 +61,7 @@ export default {
       }
     },
     addDefaultData () {
-      this.dataAsArray.push({...this.dataDefault})
+      this.dataAsArray.push({ ...this.dataDefault })
     }
   }
 }

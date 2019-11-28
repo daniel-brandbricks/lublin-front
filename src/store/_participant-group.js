@@ -24,7 +24,7 @@ export default {
         if (undefined === participantGroup || participantGroup === null || participantGroup.length < 1) {
           continue
         }
-        if (participantGroup.id == id) {
+        if (parseInt(participantGroup.id) === parseInt(id)) {
           return participantGroup
         }
       }

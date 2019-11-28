@@ -50,24 +50,24 @@
 </template>
 
 <script>
-import EventBus from '../event-bus'
+  import EventBus from '../event-bus'
 
-export default {
-  name: 'TestContent',
-  data () {
-    return {}
-  },
-  methods: {
-    toggleSidebar () {
-      EventBus.$emit('TOGGLE_SIDEBAR')
+  export default {
+    name: 'TestContent',
+    data () {
+      return {}
     },
-    showDeleteModal () {
-      EventBus.$emit('SHOW_CONFIRM_DELETE_MODAL')
+    methods: {
+      toggleSidebar () {
+        EventBus.$emit('TOGGLE_SIDEBAR')
+      },
+      showDeleteModal () {
+        EventBus.$emit('SHOW_CONFIRM_DELETE_MODAL')
+      }
+    },
+    created () {
     }
-  },
-  created () {
   }
-}
 </script>
 
 <style scoped>

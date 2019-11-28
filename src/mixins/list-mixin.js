@@ -6,13 +6,13 @@ export default {
   data () {
     return {
       toastText: this.$route.params.toastText || null,
-      toastVariant: this.$route.params.toastVariant || null,
+      toastVariant: this.$route.params.toastVariant || null
     }
   },
   methods: {},
   created () {
     if (this.toastText && this.toastVariant) {
-      this.showToast(this.toastText, 'Uwaga!', this.toastVariant);
+      this.showToast(this.toastText, 'Uwaga!', this.toastVariant)
     }
   }
 }

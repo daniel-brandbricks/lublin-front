@@ -1,5 +1,5 @@
 import * as apiService from '@/services/apiService'
-import {empty} from '@/config/methods'
+import { empty } from '@/config/methods'
 
 export default {
   state: {
@@ -17,10 +17,10 @@ export default {
       return state.classes.find(element => parseFloat(element.id) === parseFloat(id))
     },
     classesAll (state) {
-      let classes = state.classes,
-        prepared = []
+      let classes = state.classes
+      let prepared = []
       for (let i = 0; i < classes.length; i++) {
-        if (classes[i].type == 2) {
+        if (parseInt(classes[i].type) === parseInt(2)) {
           prepared.push(classes[i])
         }
       }
@@ -36,7 +36,7 @@ export default {
     },
     setClassAll (state, data) {
       const id = data.id
-      let classes = [...state.classes]
+      let classes = [ ...state.classes ]
       if (undefined === id || id === null) {
         return
       }
@@ -58,7 +58,7 @@ export default {
       const oldId = data.oldId
       const profileId = data.profile.id
 
-      let classes = [...state.classes]
+      let classes = [ ...state.classes ]
       if (undefined === id || id === null) {
         return
       }
@@ -97,7 +97,7 @@ export default {
       const id = data.id
       const oldId = data.oldId
       console.log(oldId)
-      let classProfiles = [...state.classProfiles]
+      let classProfiles = [ ...state.classProfiles ]
       if (undefined === id || id === null) {
         return
       }
@@ -119,7 +119,7 @@ export default {
     },
     deleteClassProfile (state, data) {
       console.log(data)
-      let classProfiles = [...state.classProfiles]
+      let classProfiles = [ ...state.classProfiles ]
       for (let i = 0; i < classProfiles.length; i++) {
         const storeClassProfile = classProfiles[i]
         if (storeClassProfile.id !== data.urlParams) {
@@ -172,7 +172,7 @@ export default {
         }
       }
 
-      profile.classes.push({id: newId})
+      profile.classes.push({ id: newId })
       state.classes.push({
         id: newId,
         title: '',
@@ -192,7 +192,7 @@ export default {
       const id = data.id
       const profileId = data.profileId
 
-      let classes = [...state.classes]
+      let classes = [ ...state.classes ]
       for (let i = 0; i < classes.length; i++) {
         const storeClass = classes[i]
         if (storeClass.id !== id) {
@@ -261,7 +261,7 @@ export default {
     },
     getClassProfiles (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class', 'get', true, data, {profiles: true}, 200)
+        apiService.makeApiCall('resource/class', 'get', true, data, { profiles: true }, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
@@ -290,7 +290,7 @@ export default {
             if (data.type === 2) {
               context.commit('setClassAll', response)
             } else {
-              context.commit('setClass', {...response, oldId: data.id})
+              context.commit('setClass', { ...response, oldId: data.id })
             }
             resolve(response)
           })
@@ -302,14 +302,14 @@ export default {
     },
     postClassProfile (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class', 'post', true, data, {profiles: true}, 200)
+        apiService.makeApiCall('resource/class', 'post', true, data, { profiles: true }, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setClassProfile', {...response, oldId: data.id})
+            context.commit('setClassProfile', { ...response, oldId: data.id })
             resolve(response)
           })
           .catch(error => {
@@ -344,7 +344,7 @@ export default {
     putClassProfile (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class/' + id, 'put', true, data, {profiles: true}, 200)
+        apiService.makeApiCall('resource/class/' + id, 'put', true, data, { profiles: true }, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
@@ -394,8 +394,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class/', 'delete', true, null,
-          {profileId: id}, 200)
+        apiService.makeApiCall('resource/class/', 'delete', true, null, { profileId: id }, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
