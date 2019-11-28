@@ -45,7 +45,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="E-mail"
                       :class="{'error-input-custom': veeErrors.has('school.email')}"
-                      name="school.email" key="school.email" v-validate="{'required':true}"
+                      name="school.email" key="school.email" v-validate="{'required':true, 'email':true}"
                       v-model="school.email"></b-form-input>
       </b-form-group>
       <b-form-group

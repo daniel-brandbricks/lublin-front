@@ -71,7 +71,7 @@ export default {
       Object.assign(this.$data, this.$options.data.call(this))
     },
     submitForm () {
-      this.$store.dispatch(this.method, { id: this.id, urlParams: this.urlParams })
+      this.$store.dispatch(this.method, { id: this.id, ...this.urlParams })
         .then((response) => {
           this.hideModal()
           console.log(response)
