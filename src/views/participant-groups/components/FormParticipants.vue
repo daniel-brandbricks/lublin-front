@@ -3,6 +3,11 @@
 
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6" class="">
+      <b-row>
+        <b-col cols="12">
+          <h2 class="mb-4">Zawodnicy</h2>
+        </b-col>
+      </b-row>
       <div class="row" v-if="participantGroup.participants"
            v-for="(participant, index) in participantGroup.participants" :key="index">
         <div class="col-1">
@@ -12,16 +17,22 @@
           </div>
           <p @click="removeParticipant(index)" v-if="participantGroup.participants.length > 0">usuń</p>
         </div>
-        <div class="custom col-11 pl-4">
-        <h2 class="mb-4" >Zawodnicy</h2>
+        <div class="col-11 pl-4">
         <b-form-group
           class="custom">
-          <treeselect class="mb-4 custom"
-                      v-model="participant.selectedYear"
-                      :multiple="false"
-                      placeholder="Rocznik"
-                      :options="participant.years"/>
-          <treeselect class="mb-4 custom"
+<!--          todo -->
+          <treeselect v-model="participant.years.id" v-if="participant.years"
+                      :multiple="false" class="custom mb-3"
+                      placeholder="Rocznik" :options="participantYears"
+                      :class="{'error-input-custom': veeErrors.has('participant.year')}"
+                      name="participant.year" key="participant.year" v-validate="{'required':true}"
+          />
+<!--          <treeselect class="custom mb-3"-->
+<!--                      v-model="participant.selectedYear"-->
+<!--                      :multiple="false"-->
+<!--                      placeholder="Rocznik"-->
+<!--                      :options="participant.years"/>-->
+          <treeselect class="custom mb-3"
                       v-model="participant.selectedName"
                       :multiple="true"
                       placeholder="Imię i Nazwisko"
@@ -32,37 +43,35 @@
     </b-col>
   </b-row>
 
-  <b-row class="row">
-        <b-col cols="12" lg="6" class="">
-          <div class="row">
-            <div class="col-1">
-              <!--   todo Веталь, перепиши в класс как будет время   -->
-              <div class="text-center"
-                   style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
-                <p class="m-auto" v-if="participantGroup.participants">{{participantGroup.participants.length + 1}}</p>
-              </div>
-            </div>
-
-            <div class="col-11 pl-4">
-                  <b-btn variant="primary" class="w-50" @click="addParticipant">Dodaj</b-btn>
-            </div>
+  <b-row class="justify-content-center">
+    <b-col cols="12" lg="6" class="">
+      <!--buttons-->
+      <div class="row">
+        <div class="col-1">
+          <!--   todo Веталь, перепиши в класс как будет время   -->
+          <div class="text-center"
+               style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+            <p class="m-auto" v-if="participantGroup.participants">{{participantGroup.participants.length + 1}}</p>
           </div>
-        </b-col>
+        </div>
 
-      </b-row>
-<!--      -->
-        <!--            buttons   -->
+        <div class="col-11 pl-4">
+          <b-btn variant="primary" class="w-50" @click="addParticipant">Dodaj</b-btn>
+        </div>
+      </div>
+    </b-col>
+  </b-row>
+  <!--      -->
         <b-row class="justify-content-center">
-          <b-col cols="12" lg="8" class="">
-
+          <b-col cols="12" lg="6">
+            <!--buttons-->
             <b-row class="mt-4">
               <b-col>
-                <b-btn block-class="custom" :to="{ name: 'participant.groups' }">
+                <b-btn block class="custom btn" :to="{ name: 'participant.groups' }">
                   Anuluj
                 </b-btn>
               </b-col>
               <b-col>
-<!--                 maybe todo Zapisz-->
                 <b-btn block variant="primary" class="custom" @click="submit(1, true)">
                   Dodaj
                 </b-btn>
@@ -88,12 +97,13 @@ export default {
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
-      // participants: [],
+      participants: [],
       class: [],
       lessonCategory: [],
       discipline: [],
       participantToDelete: [],
       participantDefault: {
+        active: 1,
         sex: '',
         years: [],
 
@@ -110,8 +120,23 @@ export default {
         ]
       },
 
+      years: [],
       selectedYear: null,
       selectedName: null
+    }
+  },
+  // todo for treeselect years
+  computed: {
+    participantYears () {
+      // eslint-disable-next-line one-var
+      let data = this.$store.getters.participants,
+        preparedParticipants = []
+
+      for (let participantIndex in data) {
+        preparedParticipants.push({id: data[participantIndex].id, label: data[participantIndex].year})
+      }
+
+      return preparedParticipants
     }
   },
   methods: {
@@ -139,6 +164,9 @@ export default {
         this.$parent.submit()
       }
     }
+  },
+  created () {
+    this.$store.dispatch('getParticipants')
   }
 }
 </script>

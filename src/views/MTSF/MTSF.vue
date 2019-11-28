@@ -41,7 +41,7 @@
                     placeholder="Nazwa klubu/Szkoły"
                     :options="schoolsAndClubsPrepared"
                     :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"
-                    name="sportObject.schools" key="sportObject.schools" v-validate="'required'"
+                    name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"
                     class="custom mb-2"/>
 
 <!--        <treeselect class="custom mb-2"-->
@@ -104,7 +104,7 @@
                         placeholder="Lista"
                         :options="schoolsAndClubsPrepared"
                         :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"
-                        name="sportObject.schools" key="sportObject.schools" v-validate="'required'"
+                        name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"
                         class="custom"/>
           </b-col>
         </b-row>
