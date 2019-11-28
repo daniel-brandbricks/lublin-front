@@ -13,6 +13,7 @@ import skillModule from './_skill'
 import disciplineModule from './_disciplines'
 import lessonCategoryModule from './_lesson-category'
 import classModule from './_class'
+import seasonModule from './_season'
 
 Vue.use(Vuex)
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     disciplineModule,
     lessonCategoryModule,
     classModule,
+    seasonModule,
     skillModule
   }
 })

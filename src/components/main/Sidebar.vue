@@ -15,7 +15,7 @@
             <span class="icon icon-icon_discipline"></span>
             dashboard
           </b-link>
-          <b-link :to="{name:'www'}"
+          <b-link :to="{name:'www', params: {'tab': 'menu'}}"
                   class="list-group-item">
             <span class="icon icon-iconm_search"></span>
             Strona www
@@ -55,7 +55,7 @@
             Lista zajęć (4,000)
           </b-link>
 
-          <b-link :to="{name:'calendar'}"
+          <b-link :to="{name:'calendar', params: {'tab': 'calendar'}}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Kalendarz <br><span class="pl-4">Zajęć i wydarzeń</span>
@@ -73,19 +73,19 @@
             Lista MTSF
           </b-link>
 
-          <b-link :to="{name:'events'}"
+          <b-link :to="{name:'events', params: {'tab': 'confirmed'}}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista imprez
           </b-link>
 
-          <b-link :to="{name:'reports'}"
+          <b-link :to="{name:'reports', params: {'tab': 'reporting'}}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Raporty
           </b-link>
 
-          <b-link :to="{name:'dictionary'}"
+          <b-link :to="{name:'dictionary', params: {'tab': 'sport-object-type'}}"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Słownik
