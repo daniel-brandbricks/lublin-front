@@ -132,75 +132,75 @@
 </template>
 
 <script>
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import ParticipantMixin from '@/mixins/participant-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import ParticipantMixin from '@/mixins/participant-mixin'
 
-export default {
-  name: 'FormMainData',
-  props: ['participant'],
-  components: {Treeselect},
-  mixins: [EventBusEmit, FormMixin, ParticipantMixin],
-  data () {
-    return {
-      participants: [],
-      // participantDefault: {
-      //   active: 1,
-      //   firstName: '',
-      //   lastName: '',
-      //   sex: '',
-      //
-      //   years: []
-      // },
-      disciplineDefault: {
-        discipline: [],
-        class: []
+  export default {
+    name: 'FormMainData',
+    props: ['participant'],
+    components: {Treeselect},
+    mixins: [EventBusEmit, FormMixin, ParticipantMixin],
+    data () {
+      return {
+        participants: [],
+        // participantDefault: {
+        //   active: 1,
+        //   firstName: '',
+        //   lastName: '',
+        //   sex: '',
+        //
+        //   years: []
+        // },
+        disciplineDefault: {
+          discipline: [],
+          class: []
+        },
+
+        isValidForm: false
+      }
+    },
+    methods: {
+      addDiscipline () {
+        this.$parent.addDiscipline(this.disciplineDefault)
       },
+      removeDiscipline (index) {
+        this.$parent.removeDiscipline(index)
+      },
+      submit (validRequired = false) {
+        if (validRequired) {
+          this.preSubmit()
+            .then((result) => {
+              if (!result) {
+                this.loading = false
+                return
+              }
 
-      isValidForm: false
-    }
-  },
-  methods: {
-    addDiscipline () {
-      this.$parent.addDiscipline(this.disciplineDefault)
-    },
-    removeDiscipline (index) {
-      this.$parent.removeDiscipline(index)
-    },
-    submit (validRequired = false) {
-      if (validRequired) {
-        this.preSubmit()
-          .then((result) => {
-            if (!result) {
               this.loading = false
-              return
-            }
-
-            this.loading = false
-            this.$parent.submit()
-          })
-      } else {
-        this.$parent.submit()
+              this.$parent.submit()
+            })
+        } else {
+          this.$parent.submit()
+        }
+      },
+      mounted () {
+        if (this.$route.params.validateForm) {
+          this.checkValidForm()
+        }
+      },
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id)
       }
     },
-    mounted () {
-      if (this.$route.params.validateForm) {
-        this.checkValidForm()
-      }
-    },
-    rowRedirect (row) {
-      this.$parent.rowRedirect(row.id)
+    created () {
+      this.$store.dispatch('getParticipants')
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getClasses')
     }
-  },
-  created () {
-    this.$store.dispatch('getParticipants')
-    this.$store.dispatch('getDisciplines')
-    this.$store.dispatch('getClasses')
   }
-}
 </script>
 
 <style scoped>

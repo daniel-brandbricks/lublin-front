@@ -133,7 +133,7 @@ export default {
       ],
       tableItems: [
         {id: 1, name: 'Project X', organizer: 'Szkoła nr.4', location: 'Al. Jana Pawła II', duration: '6g.'},
-        {id: 2, name: 'AP', organizer: 'Kłub Piłek', location: 'Park LK', duration: '5g.'},
+        {id: 2, name: 'AP', organizer: 'Kłub Piłek', location: 'Park LK', duration: '5g.'}
       ]
     }
   },

@@ -7,6 +7,6 @@ const locale = {
   name: 'pl',
   messages,
   attributes: {}
-};
+}
 
 export default locale
