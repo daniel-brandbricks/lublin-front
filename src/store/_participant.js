@@ -9,17 +9,53 @@ export default {
     participants (state) {
       return state.participants
     },
-    participant (state) {
-      return state.participant
+    // participant (state) {
+    //   return state.participant
+    // },
+    participant: (state) => (id) => {
+      let participants = []
+
+      if (undefined === id) {
+        participants = state.participants.concat(state.participants)
+      }
+
+      for (let i = 0; i < participants.length; i++) {
+        const participant = participants[i]
+        if (undefined === participant || participant === null || participant.length < 1) {
+          continue
+        }
+        if (participant.id == id) {
+          return participant
+        }
+      }
     }
   },
   mutations: {
     setParticipants (state, data) {
-      state.participants = data.participants
+      state.participants = data
     },
     setParticipant (state, data) {
       state.participant = data
     },
+    // setParticipant (state, data) {
+    //   const id = data.id
+    //   let participants = []
+    //
+    //   if (undefined === id || id === null) {
+    //     return
+    //   }
+    //
+    //   for (let i = 0; i < participants.length; i++) {
+    //     const storeParticipant = participants[i]
+    //     if (storeParticipant.id !== id) {
+    //       continue
+    //     }
+    //     participants.splice(i, 1, data)
+    //
+    //     state.participants = participants
+    //     return
+    //   }
+    // },
     deleteParticipant (state, data) {
       // todo
     }
@@ -46,7 +82,7 @@ export default {
     },
     getParticipants (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/participant', 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/participant', 'get', true, data, data, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')

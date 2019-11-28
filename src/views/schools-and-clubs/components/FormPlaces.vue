@@ -21,7 +21,7 @@
               <b-form-input id="input-1" class="custom"
                             placeholder="Nazwa"
                             :class="{'error-input-custom': veeErrors.has('place.title'+index)}"
-                            :name="'place.title'+index" :key="'place.title'+index" v-validate="'required'"
+                            :name="'place.title'+index" :key="'place.title'+index" v-validate="{'required':true}"
                             v-model="place.title"></b-form-input>
             </b-form-group>
 
@@ -32,7 +32,7 @@
                         :options="districts"
                         :class="{'error-input-custom': veeErrors.has('place.district'+index.toString())}"
                         :name="'place.district'+index.toString()" :key="'place.district'+index.toString()"
-                        v-validate="'required'"
+                        v-validate="{'required':true}"
                         class="custom mb-3"/>
 
             <h2 class="my-4">Lokalizacja</h2>
@@ -42,7 +42,7 @@
                             placeholder="Adres"
                             :class="{'error-input-custom': veeErrors.has('place.address'+index)}"
                             :name="'place.address'+index" :key="'place.address'+index"
-                            v-validate="'required'"
+                            v-validate="{'required':true}"
                             v-model="place.address"></b-form-input>
             </b-form-group>
             <b-form-group
@@ -51,7 +51,7 @@
                             placeholder="Kod pocztowy"
                             :class="{'error-input-custom': veeErrors.has('place.postcode'+index)}"
                             :name="'place.postcode'+index" :key="'place.postcode'+index"
-                            v-validate="'required'"
+                            v-validate="{'required':true}"
                             v-model="place.postcode"></b-form-input>
             </b-form-group>
             <h1>MAP</h1>
