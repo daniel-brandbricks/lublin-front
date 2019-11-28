@@ -1,7 +1,7 @@
 // import store from '@/store';
 
 import HelloWorld from '@/components/HelloWorld'
-import Test from '@/views/Test'
+import Test from '@/views/dev/Test'
 import TestContent from '@/views/TestContent'
 
 // official

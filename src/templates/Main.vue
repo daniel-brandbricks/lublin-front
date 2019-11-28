@@ -23,7 +23,7 @@ import Navbar from '@/components/main/Navbar'
 import Footer from '../components/main/Footer'
 
 export default {
-  name: 'Admin',
+  name: 'page',
   components: {
     Footer,
     Navbar

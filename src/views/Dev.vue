@@ -1,9 +1,12 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-12">
-        <b-btn variant="primary">Primary</b-btn>
-        <b-btn>Primary</b-btn>
+      <div class="col-12 pt-5">
+        <b-btn variant="primary" class="custom">Primary</b-btn>
+        <b-btn class="custom">Primary</b-btn>
+        <b-btn variant="outline-primary" class="custom">
+          <span class="icon-icon_login"></span> Primary
+        </b-btn>
         <p>
           <span class="icon-icon_login"></span>Primary
         </p>

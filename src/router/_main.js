@@ -1,7 +1,7 @@
 // import store from '@/store';
 
-import HelloWorld from '@/components/HelloWorld'
-import Test from '@/views/Test'
+import Home from '@/views/dev/Home'
+import Test from '@/views/dev/Test'
 
 const mainRouter = {
   path: '/',
@@ -11,7 +11,7 @@ const mainRouter = {
     {
       path: 'home',
       name: 'home',
-      component: HelloWorld
+      component: Home
     },
     {
       path: 'test',
