@@ -4,7 +4,7 @@
       <div class="row align-items-start" v-if="seasons"
            v-for="(type,index) in seasons" :key="index">
         <div class="col-2">
-          <p @click="" class="mt-2" v-if="seasons.length > 0">usuń <span>{{index + 1}}</span></p>
+          <p  class="mt-2" v-if="seasons.length > 0">usuń <span>{{index + 1}}</span></p>
         </div>
         <div class="col-10 pl-2">
           <b-form-group class="custom">

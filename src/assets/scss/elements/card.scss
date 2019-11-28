@@ -1,0 +1,287 @@
+@import "../color";
+@import "../font";
+
+/*
+.card.custom {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgba(224, 227, 237, 0.64);
+  background-color: $c-white;
+  border: unset;
+  margin-bottom: 20px;
+
+  .card-header,
+  .card-footer,
+  .card-body {
+    border: unset;
+    background-color: unset;
+  }
+
+  .card-header {
+    position: relative;
+    padding: 25px 30px 0;
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .card-header + .card-body {
+    padding: 20px 30px;
+  }
+
+  .card-body {
+    padding: 25px 30px 20px;
+    font-size: 14px;
+    line-height: 18px;
+
+    .card-title {
+      padding-top: 5px;
+      @extend %font-bold;
+      color: $c-blue;
+      font-size: 16px;
+      letter-spacing: 1.5px;
+      line-height: 20px;
+      text-transform: capitalize;
+    }
+  }
+
+  .card-footer {
+    padding: 0 30px 25px;
+  }
+
+  .signature {
+    @extend %font-bold;
+    color: $c-blue;
+    font-size: 14px;
+    line-height: 18px;
+    padding-bottom: 10px;
+  }
+
+  .card-img {
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .card-body table {
+    margin-bottom: 0;
+  }
+
+  &.sm {
+    .card-header {
+      padding: 20px 30px 0;
+    }
+
+    .card-body {
+      padding: 20px 30px;
+    }
+
+    .card-footer {
+      padding: 0 30px 20px;
+    }
+
+  }
+}
+
+.card-header:hover {
+  .link-img {
+    display: flex;
+  }
+}
+
+.link-img {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(39, 145, 196, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.card-text {
+  @extend %font-semibold;
+  color: $c-gray;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.by-line {
+  @extend %font-bold;
+  color: $c-gray;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.card-integration {
+  border: 1px solid $c-border;
+
+  .card-header {
+    border-bottom: 1px solid $c-border !important;
+  }
+}
+
+.box-listener{
+  position: relative;
+  padding-left: 20px;
+  .signature{
+    &:before{
+      content: "";
+      width: 10px;
+      height: 10px;
+      background-color: $c-green;
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      top: 3px;
+    }
+  }
+}
+.card-list {
+  padding-left: 0;
+  .card-list-items {
+    color: $c-gray;
+    padding-left: 0;
+    list-style: '-';
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+*/
+
+$padding-card:16px;
+.card.custom{
+  border-radius: unset;
+  border: unset;
+  background-color: $c-black-15;
+  padding: 8px;
+  .card-body{
+    padding: $padding-card;
+    background-color: #fff;
+    position: relative;
+
+    .card-title.nowrap{
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      &:before{
+        content: "";
+        position: absolute;
+        display: block;
+        background: white;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 61%, rgba(255,255,255,1) 100%);
+        right: 0;
+        width: 2em;
+        height: 1.5em;
+
+      }
+
+    }
+    .card-signature{
+      @extend %font-medium;
+      color: $c-black-30;
+      font-size: 12px;
+      line-height: 13px;
+    }
+    p{
+      @extend %font-regular;
+      line-height: 20px;
+      font-size: 13px;
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+    .card-arrow{
+      &.b8{
+        bottom: 8px;
+      }
+      color: $c-red;
+      position: absolute;
+      bottom: $padding-card;
+      right: $padding-card;
+    }
+    .card-text.height-hidden{
+      position: relative;
+      margin-bottom: .5rem;
+      max-height: 140px;
+      overflow: hidden;
+      &:after{
+        position: absolute;
+        height: 60px;
+        width: 100%;
+        bottom: 0;
+        content:'';
+        background: rgb(255,255,255);
+        background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.5) 70%, rgba(255,255,255,.1) 100%);
+      }
+    }
+  }
+  .card-footer{
+    border-top:unset ;
+    background: $c-black-15;
+    .type-card{
+      @extend %font-medium;
+      background: $c-white;
+      color: $c-green;
+      position: relative;
+      font-size: 12px;
+      line-height: 1.5em;
+      min-width: 76px;
+      padding-right: 10px;
+      padding-left: 10px;
+      text-align: center;
+      text-transform: uppercase;
+      &:before{
+        content: "";
+        position: absolute;
+        left: -1.5em;
+        border-top: 1.5em solid $c-white;
+        border-left: 1.5em solid transparent;
+      }
+    }
+  }
+}
+
+.info-box{
+  @extend %font-regular;
+  font-size: 13px;
+  line-height: 20px;
+  &.border-r{
+    border-right:2px solid $c-black-7;
+  }
+  .signature{
+    @extend %font-medium;
+    color: $c-black-30;
+    font-size: 12px;
+    line-height: 13px;
+  }
+}
+
+.status{
+  display: inline-block;
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  @extend %font-medium;
+  color: $c-white;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+  background: $c-red-dark;
+
+  &.inactive{
+    background: $c-red-dark;
+  }
+  &.active{
+    background: $c-green;
+  }
+
+}

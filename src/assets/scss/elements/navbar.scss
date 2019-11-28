@@ -1,0 +1,39 @@
+@import "../color";
+@import "../font";
+
+
+.navbar.custom {
+  .navbar-brand.router-link-active {
+  }
+
+  .navbar-collapse {
+    &.collapse {
+    }
+
+    .navbar-nav {
+      margin: 0 -6px;
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        margin: 0 6px;
+
+        .nav-link {
+          @extend %font-bold;
+          color: $c-black-05;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.35px;
+          text-align: center;
+          text-transform: uppercase;
+          padding: 0 6px;
+
+          &.router-link-active,&:hover {
+            color: $c-black;
+          }
+        }
+      }
+    }
+  }
+}

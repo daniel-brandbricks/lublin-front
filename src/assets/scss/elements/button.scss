@@ -1,0 +1,172 @@
+@import "../color";
+@import "../font";
+
+$color-btn: $c-black-30;
+$border-color: $c-gray;
+a.custom.btn {
+  line-height: 25px;
+}
+
+.custom.btn {
+  @extend %font-bold;
+  color: $color-btn;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40px;
+  border-radius: unset;
+
+
+  &:focus,
+  &:active,
+  &:active:focus {
+    box-shadow: unset !important;
+  }
+
+  &.disabled, &:disabled {
+    opacity: 0.5;
+  }
+
+  &.btn-primary {
+    color: $c-white;
+    border: 1px solid $c-red-dark2;
+    background-color: $c-red-dark;
+
+    &:hover {
+      box-shadow: unset;
+      background-color: $c-red;
+      border: 1px solid $c-red;
+    }
+
+    &:active {
+      background-color: inherit;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
+      color: #fff;
+      background-color: $c-red-dark;
+      border-color: $c-red-dark2;
+      box-shadow: unset;
+    }
+
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-primary.dropdown-toggle:focus {
+      box-shadow: unset;
+    }
+
+  }
+
+  &.btn-outline-primary {
+    border: unset;
+    color: $c-red-dark2;
+    font-size: 13px;
+    line-height: 13px;
+    text-transform: uppercase;
+
+    &:hover, &.active {
+      background-color: inherit;
+    }
+
+    &:focus {
+      color: $c-red-dark2;
+      border: unset;
+    }
+
+    &.btn-sm, &.sm {
+      letter-spacing: normal;
+    }
+  }
+
+  &.btn-secondary {
+    color: $c-white;
+    border: 1px solid $c-black-30;
+    background-color: $c-black-30;
+
+    &:hover {
+      box-shadow: unset;
+      background-color: $c-black-50;
+      border: 1px solid $c-black-50;
+    }
+
+    &:active {
+      background-color: inherit;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
+      color: #fff;
+      background-color: $c-gray;
+      border-color: $c-gray;
+      box-shadow: unset;
+    }
+
+    &:not(:disabled):not(.disabled):active:focus,
+    &:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-primary.dropdown-toggle:focus {
+      box-shadow: unset;
+    }
+  }
+
+  &.btn-icon {
+    padding: 0;
+    height: unset;
+  }
+
+
+  /*&.btn-primary {
+    color: $c-white-09;
+    background-color: $c-blue;
+    border: 1px solid $c-blue;
+
+    &:hover {
+      color: $c-white-09;
+    }
+
+    &:focus {
+      background-color: $c-blue;
+      border: 1px solid $c-blue;
+      color: $c-white-09;
+    }
+  }*/
+
+}
+
+.btn-delete {
+  color: $c-red-dark;
+  padding-left: 0;
+  padding-right: 0;
+
+  &:hover {
+    color: $c-red;
+  }
+}
+
+
+[type=button]:not(:disabled),
+[type=reset]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
+  appearance: unset;
+  -webkit-appearance: unset;
+}
+
+a.link {
+  color: $color-btn;
+  text-decoration: underline;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: unset;
+}
+

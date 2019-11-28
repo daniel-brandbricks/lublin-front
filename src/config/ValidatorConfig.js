@@ -1,7 +1,7 @@
 const messages = {
   required: (field) => `qqq`,
-  email: (field) => `Niepoprawny format adresu e-mail`,
-};
+  email: (field) => `Niepoprawny format adresu e-mail`
+}
 
 const locale = {
   name: 'pl',
