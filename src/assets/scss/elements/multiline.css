@@ -1,0 +1,38 @@
+/*multiline*/
+.multiline-1 {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  overflow: hidden; }
+
+.multiline-2 {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal; }
+
+.multiline-3 {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal; }
+
+.multiline-4 {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal; }
+
+.multiline-5 {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal; }
+
+/*end multiline*/
+
+/*# sourceMappingURL=multiline.css.map */

@@ -51,7 +51,7 @@
 .form-group.custom .form-control-plaintext::placeholder,
 .form-group.custom .custom-select::placeholder,
 .form-group.custom .custom-file::placeholder,
-.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .card.custom .card-body p, .info-box, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -67,7 +67,7 @@
   font-style: normal;
   font-weight: 600; }
 
-.card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .custom.table-responsive table thead tr, .tab-link-list .tab-link-item, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcrumb-item,
+.vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .custom.table-responsive table thead tr, .tab-link-list .tab-link-item, .card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcrumb-item,
 .font-medium {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -78,7 +78,7 @@
   font-style: normal;
   font-weight: 300; }
 
-.btn,
+.custom.btn, .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link,
 .font-bold {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -177,67 +177,6 @@
   padding-right: 10px; }
 
 /*Colors  */
-.btn {
-  padding: 12px 20px;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-  line-height: 14px;
-  text-align: center;
-  border-radius: unset;
-  margin-bottom: 1rem;
-  color: #b3b3b3; }
-  .btn:hover, .btn:focus, .btn.focus {
-    box-shadow: unset; }
-  .btn.disabled, .btn:disabled {
-    opacity: 0.5; }
-
-.btn.btn-primary {
-  color: #fff;
-  border: 1px solid #fc8989;
-  background-color: #fc8989; }
-  .btn.btn-primary:hover {
-    box-shadow: unset;
-    background-color: #FA1414;
-    border: 1px solid #FA1414; }
-  .btn.btn-primary:active {
-    background-color: inherit; }
-  .btn.btn-primary:not(:disabled):not(.disabled):active, .btn.btn-primary:not(:disabled):not(.disabled).active,
-  .btn.btn-primary .show > .btn-primary.dropdown-toggle {
-    color: #fff;
-    background-color: #fc8989;
-    border-color: #fc8989;
-    box-shadow: unset; }
-  .btn.btn-primary:not(:disabled):not(.disabled):active:focus, .btn.btn-primary:not(:disabled):not(.disabled).active:focus,
-  .btn.btn-primary .show > .btn-primary.dropdown-toggle:focus {
-    box-shadow: unset; }
-
-.btn.btn-secondary {
-  color: #fff;
-  border: 1px solid #b3b3b3;
-  background-color: #b3b3b3; }
-  .btn.btn-secondary:hover {
-    box-shadow: unset;
-    background-color: gray;
-    border: 1px solid gray; }
-  .btn.btn-secondary:active {
-    background-color: inherit; }
-  .btn.btn-secondary:not(:disabled):not(.disabled):active, .btn.btn-secondary:not(:disabled):not(.disabled).active,
-  .btn.btn-secondary .show > .btn-primary.dropdown-toggle {
-    color: #fff;
-    background-color: #D0D2D3;
-    border-color: #D0D2D3;
-    box-shadow: unset; }
-  .btn.btn-secondary:not(:disabled):not(.disabled):active:focus, .btn.btn-secondary:not(:disabled):not(.disabled).active:focus,
-  .btn.btn-secondary .show > .btn-primary.dropdown-toggle:focus {
-    box-shadow: unset; }
-
-.btn-delete {
-  color: #fc8989;
-  padding-left: 0;
-  padding-right: 0; }
-  .btn-delete:hover {
-    color: #FA1414; }
-
 .form-group.custom {
   margin-bottom: 2px; }
   .form-group.custom .form-control.custom,
@@ -277,105 +216,6 @@ textarea.custom {
     font-size: 13px; }
 
 /*card custom +++++++++++++++++++++*/
-.card.custom {
-  border-radius: unset;
-  border: unset;
-  background-color: #d9d9d9;
-  padding: 8px; }
-  .card.custom .card-body {
-    padding: 16px;
-    background-color: #fff;
-    position: relative; }
-    .card.custom .card-body .card-title.nowrap {
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      cursor: pointer;
-      margin-bottom: 0.5rem; }
-      .card.custom .card-body .card-title.nowrap:before {
-        content: "";
-        position: absolute;
-        display: block;
-        background: white;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 61%, white 100%);
-        right: 0;
-        width: 2em;
-        height: 1.5em; }
-    .card.custom .card-body .card-signature {
-      color: #b3b3b3;
-      font-size: 12px;
-      line-height: 13px; }
-    .card.custom .card-body p {
-      line-height: 20px;
-      font-size: 13px; }
-      .card.custom .card-body p:last-child {
-        margin-bottom: 0; }
-    .card.custom .card-body .card-arrow {
-      color: #FA1414;
-      position: absolute;
-      bottom: 16px;
-      right: 16px; }
-      .card.custom .card-body .card-arrow.b8 {
-        bottom: 8px; }
-    .card.custom .card-body .card-text.height-hidden {
-      position: relative;
-      margin-bottom: .5rem;
-      max-height: 140px;
-      overflow: hidden; }
-      .card.custom .card-body .card-text.height-hidden:after {
-        position: absolute;
-        height: 60px;
-        width: 100%;
-        bottom: 0;
-        content: '';
-        background: white;
-        background: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 0.1) 100%); }
-  .card.custom .card-footer {
-    border-top: unset;
-    background: #d9d9d9; }
-    .card.custom .card-footer .type-card {
-      background: #fff;
-      color: #73BE46;
-      position: relative;
-      font-size: 12px;
-      line-height: 1.5em;
-      min-width: 76px;
-      padding-right: 10px;
-      padding-left: 10px;
-      text-align: center;
-      text-transform: uppercase; }
-      .card.custom .card-footer .type-card:before {
-        content: "";
-        position: absolute;
-        left: -1.5em;
-        border-top: 1.5em solid #fff;
-        border-left: 1.5em solid transparent; }
-
-.info-box {
-  font-size: 13px;
-  line-height: 20px; }
-  .info-box.border-r {
-    border-right: 2px solid #ededed; }
-  .info-box .signature {
-    color: #b3b3b3;
-    font-size: 12px;
-    line-height: 13px; }
-
-.status {
-  display: inline-block;
-  border-radius: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  color: #fff;
-  font-size: 12px;
-  line-height: 20px;
-  text-transform: uppercase;
-  background: #fc8989; }
-  .status.inactive {
-    background: #fc8989; }
-  .status.active {
-    background: #73BE46; }
-
 /*wrap-img-input ++++++++++++++++++*/
 .wrap-img-input img {
   width: 100%;
@@ -444,7 +284,7 @@ html body .custom-radio .custom-control-input:not(:disabled):active ~
 .custom-control-label::before {
   color: #fff;
   background-color: unset;
-  border-color: #fc8989; }
+  border-color: rgba(250, 20, 20, 0.5); }
 
 html body .custom-checkbox {
   padding-left: 0; }
@@ -454,8 +294,8 @@ html body .custom-checkbox {
       color: gray; }
     html body .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
       color: #fff;
-      border-color: #fc8989;
-      background-color: #fc8989;
+      border-color: rgba(250, 20, 20, 0.5);
+      background-color: rgba(250, 20, 20, 0.5);
       outline: none;
       box-shadow: none; }
     html body .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
@@ -483,8 +323,8 @@ html body .custom-radio .custom-control-label::before {
   border-radius: 50%; }
 html body .custom-radio .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
-  border-color: #fc8989;
-  background-color: #fc8989;
+  border-color: rgba(250, 20, 20, 0.5);
+  background-color: rgba(250, 20, 20, 0.5);
   outline: none;
   box-shadow: none; }
 html body .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
@@ -550,7 +390,7 @@ html body .custom-radio .custom-control-label::after {
         padding: 10px; } }
     .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.selected .vdpCellContent, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell:hover .vdpCellContent {
       background-color: #FA1414;
-      box-shadow: 5px 5px 0px 0px #fc8989;
+      box-shadow: 5px 5px 0px 0px rgba(250, 20, 20, 0.5);
       color: #fff;
       border: unset; }
     .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell.disabled .vdpCellContent {
@@ -783,6 +623,927 @@ html body .custom-radio .custom-control-label::after {
     .breadcrumb.custom .breadcrumb-item.active {
       color: #000000; }
 
+/*new Style*/
+/*Colors  */
+/*! Generated by Font Squirrel (https://www.fontsquirrel.com) on September 19, 2019 */
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_bold_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_bold_italic-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_bold-webfont.woff2") format("woff2"), url("/static/fonts/klavika_bold-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_light_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_light_italic-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_light-webfont.woff2") format("woff2"), url("/static/fonts/klavika_light-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_medium_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_medium_italic-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_medium-webfont.woff2") format("woff2"), url("/static/fonts/klavika_medium-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_regular_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_regular_italic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_regular-webfont.woff2") format("woff2"), url("/static/fonts/klavika_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+.form-group.custom .form-control.custom,
+.form-group.custom .form-control-plaintext,
+.form-group.custom .custom-select,
+.form-group.custom .custom-file,
+.form-group.custom textarea.custom, .form-group.custom .form-control.custom::placeholder,
+.form-group.custom .form-control-plaintext::placeholder,
+.form-group.custom .custom-select::placeholder,
+.form-group.custom .custom-file::placeholder,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.font-regular {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 400; }
+
+.font-extraBold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 800; }
+
+.font-semiBold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 600; }
+
+.vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .custom.table-responsive table thead tr, .tab-link-list .tab-link-item, .card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcrumb-item,
+.font-medium {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 500; }
+
+.font-light {
+  font-family: 'Barlow',sans-serif;
+  font-style: normal;
+  font-weight: 300; }
+
+.custom.btn, .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link,
+.font-bold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 700; }
+
+@font-face {
+  font-family: 'font-icon-lublin';
+  src: url("/static/fonts/font-icon-lublin.eot?qvztzc");
+  src: url("/static/fonts/font-icon-lublin.eot?qvztzc#iefix") format("embedded-opentype"), url("/static/fonts/font-icon-lublin.ttf?qvztzc") format("truetype"), url("/static/fonts/font-icon-lublin.woff?qvztzc") format("woff"), url("/static/fonts/font-icon-lublin.svg?qvztzc#font-icon-lublin") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block; }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'font-icon-lublin' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-icon_arrow_2_left:before {
+  content: "\e900"; }
+
+.icon-icon_arrow_2_right:before {
+  content: "\e901"; }
+
+.icon-icon_file:before {
+  content: "\e902"; }
+
+.icon-icon_login:before {
+  content: "\e903"; }
+
+.icon-icon_mail:before {
+  content: "\e904"; }
+
+.icon-icon_sent:before {
+  content: "\e905"; }
+
+.icon-icon_date_16:before {
+  content: "\e906"; }
+
+.icon-icon_facebook:before {
+  content: "\e907"; }
+
+.icon-icon_youtube:before {
+  content: "\e908"; }
+
+.icon-icon_pin_2:before {
+  content: "\e909"; }
+
+.icon-icon_phone:before {
+  content: "\e90a"; }
+
+.icon-icon_discipline:before {
+  content: "\e90c"; }
+
+.icon-iconm_search:before {
+  content: "\e90d"; }
+
+.icon-icon_check:before {
+  content: "\e90e"; }
+
+.icon-icon_arrow_24:before {
+  content: "\e90f"; }
+
+.icon-icon_www:before {
+  content: "\e910"; }
+
+.icon-icon_play:before {
+  content: "\e911"; }
+
+.icon-illustration_1:before {
+  content: "\e912"; }
+
+.icon-illustration_2:before {
+  content: "\e913"; }
+
+.icon-illustration_3:before {
+  content: "\e914"; }
+
+.icon-icon_arrow_3_down:before {
+  content: "\e915"; }
+
+.icon-discipline:before {
+  content: "\e90b"; }
+
+.icon-illustration_11:before {
+  content: "\e916"; }
+
+.icon {
+  padding-right: 10px; }
+
+a.custom.btn {
+  line-height: 25px; }
+
+.custom.btn {
+  color: #b3b3b3;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40px;
+  border-radius: unset;
+  /*&.btn-primary {
+    color: $c-white-09;
+    background-color: $c-blue;
+    border: 1px solid $c-blue;
+
+    &:hover {
+      color: $c-white-09;
+    }
+
+    &:focus {
+      background-color: $c-blue;
+      border: 1px solid $c-blue;
+      color: $c-white-09;
+    }
+  }*/ }
+  .custom.btn:focus, .custom.btn:active, .custom.btn:active:focus {
+    box-shadow: unset !important; }
+  .custom.btn.disabled, .custom.btn:disabled {
+    opacity: 0.5; }
+  .custom.btn.btn-primary {
+    color: #fff;
+    border: 1px solid #fc8989;
+    background-color: rgba(250, 20, 20, 0.5); }
+    .custom.btn.btn-primary:hover {
+      box-shadow: unset;
+      background-color: #FA1414;
+      border: 1px solid #FA1414; }
+    .custom.btn.btn-primary:active {
+      background-color: inherit; }
+    .custom.btn.btn-primary:not(:disabled):not(.disabled):active, .custom.btn.btn-primary:not(:disabled):not(.disabled).active,
+    .custom.btn.btn-primary .show > .btn-primary.dropdown-toggle {
+      color: #fff;
+      background-color: rgba(250, 20, 20, 0.5);
+      border-color: #fc8989;
+      box-shadow: unset; }
+    .custom.btn.btn-primary:not(:disabled):not(.disabled):active:focus, .custom.btn.btn-primary:not(:disabled):not(.disabled).active:focus,
+    .custom.btn.btn-primary .show > .btn-primary.dropdown-toggle:focus {
+      box-shadow: unset; }
+  .custom.btn.btn-outline-primary {
+    border: unset;
+    color: #fc8989;
+    font-size: 13px;
+    line-height: 13px;
+    text-transform: uppercase; }
+    .custom.btn.btn-outline-primary:hover, .custom.btn.btn-outline-primary.active {
+      background-color: inherit; }
+    .custom.btn.btn-outline-primary:focus {
+      color: #fc8989;
+      border: unset; }
+    .custom.btn.btn-outline-primary.btn-sm, .custom.btn.btn-outline-primary.sm {
+      letter-spacing: normal; }
+  .custom.btn.btn-secondary {
+    color: #fff;
+    border: 1px solid #b3b3b3;
+    background-color: #b3b3b3; }
+    .custom.btn.btn-secondary:hover {
+      box-shadow: unset;
+      background-color: gray;
+      border: 1px solid gray; }
+    .custom.btn.btn-secondary:active {
+      background-color: inherit; }
+    .custom.btn.btn-secondary:not(:disabled):not(.disabled):active, .custom.btn.btn-secondary:not(:disabled):not(.disabled).active,
+    .custom.btn.btn-secondary .show > .btn-primary.dropdown-toggle {
+      color: #fff;
+      background-color: #D0D2D3;
+      border-color: #D0D2D3;
+      box-shadow: unset; }
+    .custom.btn.btn-secondary:not(:disabled):not(.disabled):active:focus, .custom.btn.btn-secondary:not(:disabled):not(.disabled).active:focus,
+    .custom.btn.btn-secondary .show > .btn-primary.dropdown-toggle:focus {
+      box-shadow: unset; }
+  .custom.btn.btn-icon {
+    padding: 0;
+    height: unset; }
+
+.btn-delete {
+  color: rgba(250, 20, 20, 0.5);
+  padding-left: 0;
+  padding-right: 0; }
+  .btn-delete:hover {
+    color: #FA1414; }
+
+[type=button]:not(:disabled),
+[type=reset]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
+  appearance: unset;
+  -webkit-appearance: unset; }
+
+a.link {
+  color: #b3b3b3;
+  text-decoration: underline;
+  font-size: 12px;
+  line-height: 15px; }
+
+.btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: unset; }
+
+/*Colors  */
+/*! Generated by Font Squirrel (https://www.fontsquirrel.com) on September 19, 2019 */
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_bold_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_bold_italic-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_bold-webfont.woff2") format("woff2"), url("/static/fonts/klavika_bold-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_light_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_light_italic-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_light-webfont.woff2") format("woff2"), url("/static/fonts/klavika_light-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_medium_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_medium_italic-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_medium-webfont.woff2") format("woff2"), url("/static/fonts/klavika_medium-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_regular_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_regular_italic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_regular-webfont.woff2") format("woff2"), url("/static/fonts/klavika_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+.form-group.custom .form-control.custom,
+.form-group.custom .form-control-plaintext,
+.form-group.custom .custom-select,
+.form-group.custom .custom-file,
+.form-group.custom textarea.custom, .form-group.custom .form-control.custom::placeholder,
+.form-group.custom .form-control-plaintext::placeholder,
+.form-group.custom .custom-select::placeholder,
+.form-group.custom .custom-file::placeholder,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.font-regular {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 400; }
+
+.font-extraBold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 800; }
+
+.font-semiBold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 600; }
+
+.vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .custom.table-responsive table thead tr, .tab-link-list .tab-link-item, .card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcrumb-item,
+.font-medium {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 500; }
+
+.font-light {
+  font-family: 'Barlow',sans-serif;
+  font-style: normal;
+  font-weight: 300; }
+
+.custom.btn, .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link,
+.font-bold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 700; }
+
+@font-face {
+  font-family: 'font-icon-lublin';
+  src: url("/static/fonts/font-icon-lublin.eot?qvztzc");
+  src: url("/static/fonts/font-icon-lublin.eot?qvztzc#iefix") format("embedded-opentype"), url("/static/fonts/font-icon-lublin.ttf?qvztzc") format("truetype"), url("/static/fonts/font-icon-lublin.woff?qvztzc") format("woff"), url("/static/fonts/font-icon-lublin.svg?qvztzc#font-icon-lublin") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block; }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'font-icon-lublin' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-icon_arrow_2_left:before {
+  content: "\e900"; }
+
+.icon-icon_arrow_2_right:before {
+  content: "\e901"; }
+
+.icon-icon_file:before {
+  content: "\e902"; }
+
+.icon-icon_login:before {
+  content: "\e903"; }
+
+.icon-icon_mail:before {
+  content: "\e904"; }
+
+.icon-icon_sent:before {
+  content: "\e905"; }
+
+.icon-icon_date_16:before {
+  content: "\e906"; }
+
+.icon-icon_facebook:before {
+  content: "\e907"; }
+
+.icon-icon_youtube:before {
+  content: "\e908"; }
+
+.icon-icon_pin_2:before {
+  content: "\e909"; }
+
+.icon-icon_phone:before {
+  content: "\e90a"; }
+
+.icon-icon_discipline:before {
+  content: "\e90c"; }
+
+.icon-iconm_search:before {
+  content: "\e90d"; }
+
+.icon-icon_check:before {
+  content: "\e90e"; }
+
+.icon-icon_arrow_24:before {
+  content: "\e90f"; }
+
+.icon-icon_www:before {
+  content: "\e910"; }
+
+.icon-icon_play:before {
+  content: "\e911"; }
+
+.icon-illustration_1:before {
+  content: "\e912"; }
+
+.icon-illustration_2:before {
+  content: "\e913"; }
+
+.icon-illustration_3:before {
+  content: "\e914"; }
+
+.icon-icon_arrow_3_down:before {
+  content: "\e915"; }
+
+.icon-discipline:before {
+  content: "\e90b"; }
+
+.icon-illustration_11:before {
+  content: "\e916"; }
+
+.icon {
+  padding-right: 10px; }
+
+/*
+.card.custom {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgba(224, 227, 237, 0.64);
+  background-color: $c-white;
+  border: unset;
+  margin-bottom: 20px;
+
+  .card-header,
+  .card-footer,
+  .card-body {
+    border: unset;
+    background-color: unset;
+  }
+
+  .card-header {
+    position: relative;
+    padding: 25px 30px 0;
+    overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .card-header + .card-body {
+    padding: 20px 30px;
+  }
+
+  .card-body {
+    padding: 25px 30px 20px;
+    font-size: 14px;
+    line-height: 18px;
+
+    .card-title {
+      padding-top: 5px;
+      @extend %font-bold;
+      color: $c-blue;
+      font-size: 16px;
+      letter-spacing: 1.5px;
+      line-height: 20px;
+      text-transform: capitalize;
+    }
+  }
+
+  .card-footer {
+    padding: 0 30px 25px;
+  }
+
+  .signature {
+    @extend %font-bold;
+    color: $c-blue;
+    font-size: 14px;
+    line-height: 18px;
+    padding-bottom: 10px;
+  }
+
+  .card-img {
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .card-body table {
+    margin-bottom: 0;
+  }
+
+  &.sm {
+    .card-header {
+      padding: 20px 30px 0;
+    }
+
+    .card-body {
+      padding: 20px 30px;
+    }
+
+    .card-footer {
+      padding: 0 30px 20px;
+    }
+
+  }
+}
+
+.card-header:hover {
+  .link-img {
+    display: flex;
+  }
+}
+
+.link-img {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(39, 145, 196, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.card-text {
+  @extend %font-semibold;
+  color: $c-gray;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.by-line {
+  @extend %font-bold;
+  color: $c-gray;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.card-integration {
+  border: 1px solid $c-border;
+
+  .card-header {
+    border-bottom: 1px solid $c-border !important;
+  }
+}
+
+.box-listener{
+  position: relative;
+  padding-left: 20px;
+  .signature{
+    &:before{
+      content: "";
+      width: 10px;
+      height: 10px;
+      background-color: $c-green;
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      top: 3px;
+    }
+  }
+}
+.card-list {
+  padding-left: 0;
+  .card-list-items {
+    color: $c-gray;
+    padding-left: 0;
+    list-style: '-';
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+*/
+.card.custom {
+  border-radius: unset;
+  border: unset;
+  background-color: #d9d9d9;
+  padding: 8px; }
+  .card.custom .card-body {
+    padding: 16px;
+    background-color: #fff;
+    position: relative; }
+    .card.custom .card-body .card-title.nowrap {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      cursor: pointer;
+      margin-bottom: 0.5rem; }
+      .card.custom .card-body .card-title.nowrap:before {
+        content: "";
+        position: absolute;
+        display: block;
+        background: white;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 61%, white 100%);
+        right: 0;
+        width: 2em;
+        height: 1.5em; }
+    .card.custom .card-body .card-signature {
+      color: #b3b3b3;
+      font-size: 12px;
+      line-height: 13px; }
+    .card.custom .card-body p {
+      line-height: 20px;
+      font-size: 13px; }
+      .card.custom .card-body p:last-child {
+        margin-bottom: 0; }
+    .card.custom .card-body .card-arrow {
+      color: #FA1414;
+      position: absolute;
+      bottom: 16px;
+      right: 16px; }
+      .card.custom .card-body .card-arrow.b8 {
+        bottom: 8px; }
+    .card.custom .card-body .card-text.height-hidden {
+      position: relative;
+      margin-bottom: .5rem;
+      max-height: 140px;
+      overflow: hidden; }
+      .card.custom .card-body .card-text.height-hidden:after {
+        position: absolute;
+        height: 60px;
+        width: 100%;
+        bottom: 0;
+        content: '';
+        background: white;
+        background: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 0.1) 100%); }
+  .card.custom .card-footer {
+    border-top: unset;
+    background: #d9d9d9; }
+    .card.custom .card-footer .type-card {
+      background: #fff;
+      color: #73BE46;
+      position: relative;
+      font-size: 12px;
+      line-height: 1.5em;
+      min-width: 76px;
+      padding-right: 10px;
+      padding-left: 10px;
+      text-align: center;
+      text-transform: uppercase; }
+      .card.custom .card-footer .type-card:before {
+        content: "";
+        position: absolute;
+        left: -1.5em;
+        border-top: 1.5em solid #fff;
+        border-left: 1.5em solid transparent; }
+
+.info-box {
+  font-size: 13px;
+  line-height: 20px; }
+  .info-box.border-r {
+    border-right: 2px solid #ededed; }
+  .info-box .signature {
+    color: #b3b3b3;
+    font-size: 12px;
+    line-height: 13px; }
+
+.status {
+  display: inline-block;
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+  text-transform: uppercase;
+  background: rgba(250, 20, 20, 0.5); }
+  .status.inactive {
+    background: rgba(250, 20, 20, 0.5); }
+  .status.active {
+    background: #73BE46; }
+
+/*Colors  */
+/*! Generated by Font Squirrel (https://www.fontsquirrel.com) on September 19, 2019 */
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_bold_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_bold_italic-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_bold-webfont.woff2") format("woff2"), url("/static/fonts/klavika_bold-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_light_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_light_italic-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_light-webfont.woff2") format("woff2"), url("/static/fonts/klavika_light-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_medium_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_medium_italic-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_medium-webfont.woff2") format("woff2"), url("/static/fonts/klavika_medium-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: normal; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_regular_italic-webfont.woff2") format("woff2"), url("/static/fonts/klavika_regular_italic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+@font-face {
+  font-family: 'Klavika';
+  src: url("/static/fonts/klavika_regular-webfont.woff2") format("woff2"), url("/static/fonts/klavika_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++*/
+.form-group.custom .form-control.custom,
+.form-group.custom .form-control-plaintext,
+.form-group.custom .custom-select,
+.form-group.custom .custom-file,
+.form-group.custom textarea.custom, .form-group.custom .form-control.custom::placeholder,
+.form-group.custom .form-control-plaintext::placeholder,
+.form-group.custom .custom-select::placeholder,
+.form-group.custom .custom-file::placeholder,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.font-regular {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 400; }
+
+.font-extraBold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 800; }
+
+.font-semiBold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 600; }
+
+.vdpOuterWrap .vdpInnerWrap .vdpHeader .vdpPeriodControls .vdpPeriodControl, .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell, .custom.table-responsive table thead tr, .tab-link-list .tab-link-item, .card.custom .card-body .card-signature, .card.custom .card-footer .type-card, .info-box .signature, .status, .sidebar .list-group .list-group-item, .sidebar .sidebar-footer .list-group-item, h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcrumb-item,
+.font-medium {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 500; }
+
+.font-light {
+  font-family: 'Barlow',sans-serif;
+  font-style: normal;
+  font-weight: 300; }
+
+.custom.btn, .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link,
+.font-bold {
+  font-family: 'Klavika',sans-serif;
+  font-style: normal;
+  font-weight: 700; }
+
+@font-face {
+  font-family: 'font-icon-lublin';
+  src: url("/static/fonts/font-icon-lublin.eot?qvztzc");
+  src: url("/static/fonts/font-icon-lublin.eot?qvztzc#iefix") format("embedded-opentype"), url("/static/fonts/font-icon-lublin.ttf?qvztzc") format("truetype"), url("/static/fonts/font-icon-lublin.woff?qvztzc") format("woff"), url("/static/fonts/font-icon-lublin.svg?qvztzc#font-icon-lublin") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block; }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'font-icon-lublin' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-icon_arrow_2_left:before {
+  content: "\e900"; }
+
+.icon-icon_arrow_2_right:before {
+  content: "\e901"; }
+
+.icon-icon_file:before {
+  content: "\e902"; }
+
+.icon-icon_login:before {
+  content: "\e903"; }
+
+.icon-icon_mail:before {
+  content: "\e904"; }
+
+.icon-icon_sent:before {
+  content: "\e905"; }
+
+.icon-icon_date_16:before {
+  content: "\e906"; }
+
+.icon-icon_facebook:before {
+  content: "\e907"; }
+
+.icon-icon_youtube:before {
+  content: "\e908"; }
+
+.icon-icon_pin_2:before {
+  content: "\e909"; }
+
+.icon-icon_phone:before {
+  content: "\e90a"; }
+
+.icon-icon_discipline:before {
+  content: "\e90c"; }
+
+.icon-iconm_search:before {
+  content: "\e90d"; }
+
+.icon-icon_check:before {
+  content: "\e90e"; }
+
+.icon-icon_arrow_24:before {
+  content: "\e90f"; }
+
+.icon-icon_www:before {
+  content: "\e910"; }
+
+.icon-icon_play:before {
+  content: "\e911"; }
+
+.icon-illustration_1:before {
+  content: "\e912"; }
+
+.icon-illustration_2:before {
+  content: "\e913"; }
+
+.icon-illustration_3:before {
+  content: "\e914"; }
+
+.icon-icon_arrow_3_down:before {
+  content: "\e915"; }
+
+.icon-discipline:before {
+  content: "\e90b"; }
+
+.icon-illustration_11:before {
+  content: "\e916"; }
+
+.icon {
+  padding-right: 10px; }
+
+.navbar.custom .navbar-collapse .navbar-nav {
+  margin: 0 -6px; }
+  .navbar.custom .navbar-collapse .navbar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin: 0 6px; }
+    .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.35px;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 0 6px; }
+      .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link.router-link-active, .navbar.custom .navbar-collapse .navbar-nav .nav-item .nav-link:hover {
+        color: #000000; }
+
+/*END new Style*/
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
  * Copyright 2013-2019 Start Bootstrap

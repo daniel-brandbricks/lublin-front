@@ -1,4 +1,4 @@
-// import EventBus from '@/event-bus'
+// import EventBus from '@/event-bus';
 
 export default {
   name: 'DictionaryMixin',
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     computedList () {
-      return [ ...this.$store.getters[this.getter], ...this.dataAsArray ]
+      return [...this.$store.getters[this.getter], ...this.dataAsArray]
     },
     checkDataToAddNew () {
       return this.computedList.length < 1 || undefined === this.computedList.find(item => {
@@ -32,6 +32,7 @@ export default {
             return
           }
           this.loading = false
+          if (obj.id && obj.id < 0) delete obj.id
           if (obj.id) {
             this.$store.dispatch(this.dispatchPut, obj)
           } else {

@@ -134,6 +134,9 @@
           .catch((error) => {
             this.postSubmitError(error)
           })
+      },
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id, true)
       }
     },
     created () {

@@ -123,7 +123,6 @@
     created () {
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
-      // todo
       this.$store.dispatch('getClasses')
     }
   }

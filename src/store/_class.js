@@ -96,7 +96,7 @@ export default {
     setClassProfile (state, data) {
       const id = data.id
       const oldId = data.oldId
-      console.log(oldId)
+
       let classProfiles = [ ...state.classProfiles ]
       if (undefined === id || id === null) {
         return
@@ -104,13 +104,11 @@ export default {
 
       for (let i = 0; i < classProfiles.length; i++) {
         const storeClassProfile = classProfiles[i]
-        console.log(storeClassProfile.id)
         if (storeClassProfile.id !== oldId) {
           continue
         }
         delete data.oldId
         classProfiles.splice(i, 1, data)
-        console.log(data)
         state.classProfiles = classProfiles
         return
       }
@@ -118,7 +116,6 @@ export default {
       state.classProfiles.push(data)
     },
     deleteClassProfile (state, data) {
-      console.log(data)
       let classProfiles = [ ...state.classProfiles ]
       for (let i = 0; i < classProfiles.length; i++) {
         const storeClassProfile = classProfiles[i]
@@ -385,7 +382,6 @@ export default {
       })
     },
     deleteClassProfName (context, data) {
-      console.log(data)
       const id = data.urlParams
 
       if (id < 0) {

@@ -112,9 +112,10 @@
         } else {
           this.$store.dispatch('postClassProfile', { title: profileName, id: id })
             .then((response) => {
-              let index = this.dataAsArray.findIndex(arrayItem => {
-                return arrayItem.title !== undefined && arrayItem.title === response.title
-              })
+              let index = this.dataAsArray
+                .findIndex(arrayItem => {
+                  return arrayItem.title !== undefined && arrayItem.title === response.title
+                })
               this.dataAsArray.splice(index, 1)
             })
         }
@@ -131,6 +132,7 @@
         if (id && id > 0) {
           this.deleteFromForm('deleteClassProfName', null, 'profil', false, null, { urlParams: id })
         } else {
+          this.$store.dispatch('deleteClassProfName', { urlParams: id })
         }
       },
       checkEmptyProfName () {

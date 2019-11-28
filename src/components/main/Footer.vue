@@ -1,5 +1,7 @@
 <template>
-  <h1 class="text-center">Footer</h1>
+  <div class="wrap">
+
+  </div>
 </template>
 
 <script>
