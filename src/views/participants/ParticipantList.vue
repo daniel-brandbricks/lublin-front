@@ -16,18 +16,20 @@
           <b-col cols="9">
             <b-row class="align-items-center">
               <b-col cols="4">
-                <treeselect class="custom"
-                            v-model="selectedYear"
-                            :multiple="true"
-                            placeholder="Rocznik"
-                            :options="years"/>
+                <treeselect v-model="years.id" v-if="years"
+                            :multiple="false" class="custom"
+                            placeholder="Rocznik" :options="participantYears"
+                            :class="{'error-input-custom': veeErrors.has('years')}"
+                            name="years" key="years" v-validate="{'required':true}"
+                />
               </b-col>
               <b-col cols="4">
-                <treeselect class="custom"
-                            v-model="selectedClass"
-                            :multiple="true"
-                            placeholder="Klasa"
-                            :options="classes"/>
+                <treeselect v-model="classes.id" v-if="classes"
+                            :multiple="false" class="custom"
+                            placeholder="Klasa" :options="participantClass"
+                            :class="{'error-input-custom': veeErrors.has('title')}"
+                            name="title" key="title" v-validate="{'required':true}"
+                />
               </b-col>
               <b-col cols="4">
                 <b-form-group class="custom">
@@ -44,23 +46,23 @@
       <!--   Table   -->
       <b-col cols="8" class="mt-4">
         <b-table
-          :items="participants"
+          :items="participantList"
           :fields="fields"
           striped
           sort-icon-left
           responsive="md"
           class="custom table-responsive"
+          @row-clicked="rowRedirect"
         >
-          <!--          @row-clicked="rowRedirect"-->
 
-          <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          <template slot="class" slot-scope="scope">
+            <span>{{scope.item.class.title}}</span>
           </template>
-
-          <template slot="btnTable" slot-scope="scope">
-            <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
-              Zatwierdź
-            </b-btn>
+<!--          <template slot="year" slot-scope="scope">-->
+<!--            <span>{{scope.item.years}}</span>-->
+<!--          </template>-->
+          <template slot="status" slot-scope="scope">
+            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
@@ -78,17 +80,20 @@
 // node_modules
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
 import EventBusEmit from '@/mixins/event-bus-emit'
+import ParticipantMixin from '@/mixins/participant-mixin'
 
 export default {
   components: {Treeselect},
-  mixins: [EventBusEmit],
+  props: ['participant'],
+  mixins: [EventBusEmit, ParticipantMixin],
   data () {
     return {
       fields: [
-        {key: 'name', label: 'Imię', sortable: true},
-        {key: 'surname', label: 'Nazwisko', sortable: true},
-        {key: 'gender', label: 'Płeć', sortable: true},
+        {key: 'firstName', label: 'Imię', sortable: true},
+        {key: 'lastName', label: 'Nazwisko', sortable: true},
+        {key: 'sex', label: 'Płeć', sortable: true},
         {key: 'year', label: 'Rocznik', sortable: true},
         {key: 'class', label: 'Klasa', sortable: true},
         {key: 'status', label: 'Status w systemie', sortable: true},
@@ -106,31 +111,29 @@ export default {
       selectedClass: null,
       selectedYear: null,
       // temp
-      years: [
-        {id: 1, label: '2000'},
-        {id: 2, label: '2001'},
-        {id: 3, label: '2002'}
-      ],
-      classes: [
-        {id: 1, label: '2b'},
-        {id: 2, label: '6a'},
-        {id: 3, label: '8c'}
-      ]
+      years: [],
+      classes: []
     }
   },
   computed: {
-    participants () {
-      return [
-        {name: 'Name', surname: 'Surname', gender: 1, year: 1, class: 1, status: 0},
-        {name: 'Name', surname: 'Surname', gender: 1, year: 1, class: 1, status: 0},
-        {name: 'Name', surname: 'Surname', gender: 1, year: 1, class: 1, status: 1},
-        {name: 'Name', surname: 'Surname', gender: 1, year: 1, class: 1, status: 1}
-      ]
+    participantList () {
+      return this.$store.getters.participants
+    }
+  },
+  methods: {
+    rowRedirect (id) {
+      this.$router.push({
+        name: 'participant',
+        params: {'tab': 'main-data', 'id': id}
+      })
     }
   },
   created () {
+    this.$store.dispatch('getParticipants')
+    this.$store.dispatch('getClasses')
+
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'participant'})
+    this.changeAdminNavbarButton({buttonLink: 'participant', params: {tab: 'main-data'}})
     this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])
   }
 }

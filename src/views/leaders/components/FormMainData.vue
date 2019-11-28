@@ -5,7 +5,7 @@
       <b-form-group>
         <b-form-radio v-model="leader.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('leader.active')}"
-                      name="leader.active" :key="'leader.active'+index" v-validate="'required'"
+                      name="leader.active" :key="'leader.active'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
           {{ element.title }}
         </b-form-radio>

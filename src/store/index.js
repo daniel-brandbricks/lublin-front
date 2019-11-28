@@ -7,6 +7,7 @@ import schoolClubModule from './_school-club'
 import eventModule from './_event'
 import groupModule from './_group'
 import participantModule from './_participant'
+import participantGroupModule from './_participant-group'
 import sportObjectModule from './_sport-object'
 import sportObjectTypeModule from './_sport-object-type'
 import skillModule from './_skill'
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     eventModule,
     groupModule,
     participantModule,
+    participantGroupModule,
     sportObjectModule,
     sportObjectTypeModule,
     disciplineModule,

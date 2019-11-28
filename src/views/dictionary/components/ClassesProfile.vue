@@ -16,7 +16,7 @@
           <b-form-input id="input-1" class="custom m-0 mb-3"
                         :class="{'error-input-custom': veeErrors.has('profile.profileName'+index)}"
                         :name="'profile.profileName'+index" :key="'profile.profileName'+index"
-                        v-validate="'required'" @blur="submitProfName(profile.title, profile.id)"
+                        v-validate="{'required':true}" @blur="submitProfName(profile.title, profile.id)"
                         @focus="selectedProfileName = profile.title"
                         v-model="profile.title"></b-form-input>
         </b-form-group>
@@ -25,6 +25,30 @@
         <div v-if="profile.classes"
              v-for="(item,itemIndex) in profile.classes" :key="index+'_'+itemIndex">
           <ClassInputData :classId="item.id" :index="itemIndex" :profileId="profile.id"></ClassInputData>
+<!--     todo test this component     -->
+<!--        {{classes.length}}-->
+<!--        <div :key="classes.length">-->
+<!--        <div class="row" v-if="getClassesByProfileId(profile.id)"-->
+<!--             v-for="(item,itemIndex) in getClassesByProfileId(profile.id)" :key="index+'_'+itemIndex">-->
+<!--          <div class="col-2">-->
+<!--            <p @click="deleteClass(item)" v-if="getClassesByProfileId(profile.id).length > 0">usuń <span>{{itemIndex + 1}}</span></p>-->
+<!--          </div>-->
+<!--          <div class="pl-2" :class="checkSelected(index+'_'+itemIndex) ? 'col-8' : 'col-10'">-->
+<!--            <b-form-group class="custom">-->
+<!--              <b-form-input id="input-1" class="custom m-0"-->
+<!--                            @focus="editInput(index+'_'+itemIndex)"-->
+<!--                            :class="{'error-input-custom': veeErrors.has('profile.classes.title'+index+'_'+itemIndex)}"-->
+<!--                            :name="'profile.classes.title'+index+'_'+itemIndex"-->
+<!--                            :key="'profile.classes.title'+index+'_'+itemIndex"-->
+<!--                            v-validate="{'required':true}"-->
+<!--                            v-model="getClassesByProfileId(profile.id)[itemIndex].title"></b-form-input>-->
+<!--            </b-form-group>-->
+<!--          </div>-->
+<!--          <div class="col-2 p-0" v-show="checkSelected(index+'_'+itemIndex)">-->
+<!--            <b-btn @click="submitClass({...getClassesByProfileId(profile.id)[itemIndex], type: 1, profile: {id: profile.id}})"-->
+<!--                   class="m-0" block variant="primary">Zapisz-->
+<!--            </b-btn>-->
+<!--          </div>-->
         </div>
         <div class="d-flex flex-row align-items-center mt-3" v-if="profile.id && profile.id > 0">
           <span class="pl-4">{{profile.classes.length + 1}}</span>

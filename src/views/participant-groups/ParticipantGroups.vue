@@ -34,25 +34,28 @@
       <b-col cols="8" class="mt-4">
         <b-row class="justify-content-between align-items-center">
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedDiscipline"
-                        :multiple="true"
-                        placeholder="Dyscyplina"
-                        :options="disciplines"/>
+            <treeselect v-model="disciplines.id" v-if="disciplines"
+                        :multiple="false" class="custom"
+                        placeholder="Dyscyplina" :options="participantGroupDiscipline"
+                        :class="{'error-input-custom': veeErrors.has('disciplines.title')}"
+                        name="disciplines.title" key="disciplines.title" v-validate="{'required':true}"
+                        />
           </b-col>
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedCategory"
-                        :multiple="true"
-                        placeholder="Kategoria"
-                        :options="categories"/>
+            <treeselect v-model="categories.id" v-if="categories"
+                        :multiple="false" class="custom"
+                        placeholder="Kategoria" :options="participantGroupLessonCategory"
+                        :class="{'error-input-custom': veeErrors.has('categories.title')}"
+                        name="categories.title" key="categories.title" v-validate="{'required':true}"
+            />
           </b-col>
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedClass"
-                        :multiple="true"
-                        placeholder="Klasa"
-                        :options="classes"/>
+            <treeselect v-model="classes.id" v-if="classes"
+                        :multiple="false" class="custom"
+                        placeholder="Klasa" :options="participantGroupClass"
+                        :class="{'error-input-custom': veeErrors.has('classes.title')}"
+                        name="classes.title" key="classes.title" v-validate="{'required':true}"
+            />
           </b-col>
         </b-row>
       </b-col>
@@ -68,16 +71,20 @@
           class="custom table-responsive"
           @row-clicked="rowRedirect"
         >
-<!--           rowRedirect-->
-          <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+
+          <template slot="discipline" slot-scope="scope">
+            <span>{{scope.item.discipline.title}}</span>
+          </template>
+          <template slot="lessonCategory" slot-scope="scope">
+            <span>{{scope.item.lessonCategory.title}}</span>
+          </template>
+          <template slot="class" slot-scope="scope">
+            <span>{{scope.item.class.title}}</span>
           </template>
 
-<!--          <template slot="btnTable" slot-scope="scope">-->
-<!--            <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">-->
-<!--              Zatwierdź-->
-<!--            </b-btn>-->
-<!--          </template>-->
+          <template slot="status" slot-scope="scope">
+            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          </template>
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
@@ -94,19 +101,21 @@
 // node_modules
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
 import EventBusEmit from '@/mixins/event-bus-emit'
+import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
 
 export default {
   components: {Treeselect},
-  props: ['participantGroup'],
-  mixins: [EventBusEmit],
+  props: ['participantGroup', 'filters'],
+  mixins: [EventBusEmit, ParticipantGroupMixin],
   data () {
     return {
       fields: [
-        {key: 'name', label: 'Nazwa listy', sortable: true},
+        {key: 'title', label: 'Nazwa listy', sortable: true},
         {key: 'discipline', label: 'Dyscyplina', sortable: true},
-        {key: 'gender', label: 'Płeć', sortable: true},
-        {key: 'category', label: 'Kategoria', sortable: true},
+        {key: 'sex', label: 'Płeć', sortable: true},
+        {key: 'lessonCategory', label: 'Kategoria', sortable: true},
         {key: 'class', label: 'Klasa', sortable: true},
         {key: 'status', label: 'Status w systemie', sortable: true},
         {key: 'edit', label: ''}
@@ -130,44 +139,34 @@ export default {
       selectedCategory: null,
       selectedClass: null,
       // temp
-      disciplines: [
-        {id: 1, label: 'Basen'},
-        {id: 2, label: 'Siłownia'},
-        {id: 3, label: 'Bieg'}
-      ],
-      categories: [
-        {id: 1, label: 'pierwsza'},
-        {id: 2, label: 'druga'},
-        {id: 3, label: 'cos cos'}
-      ],
-      classes: [
-        {id: 1, label: '2b'},
-        {id: 2, label: '6a'},
-        {id: 3, label: '8c'}
-      ]
+
+      // todo maybe like in ParticipantGroupsForm
+      disciplines: [],
+      categories: [],
+      classes: []
     }
   },
   computed: {
     participantList () {
-      return [
-        {id: 1, name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 0},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1},
-        {name: 'Test', discipline: 'Biegun', gender: 1, category: 1, class: 1, status: 1}
-      ]
+      return this.$store.getters.participantGroups
     }
   },
   methods: {
-    rowRedirect (row) {
+    rowRedirect (id) {
       this.$router.push({
         name: 'participant.group',
-        params: {'tab': 'main-data', 'id': row.id}
+        params: {'tab': 'main-data', 'id': id}
       })
     }
   },
   created () {
+    this.$store.dispatch('getParticipantGroups')
+    this.$store.dispatch('getDisciplines')
+    this.$store.dispatch('getLessonCategories')
+    this.$store.dispatch('getClasses')
+
     /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'participant.group'})
+    this.changeAdminNavbarButton({buttonLink: 'participant.group', params: {tab: 'main-data'}})
     this.changeAdminNavbarBreadcrumbs([{text: 'Lista zawodników', active: true}])
   }
 }

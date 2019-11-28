@@ -1,8 +1,13 @@
 <template>
 <div>
-  <h2 class="col-11 pl-4" >Zawodnicy</h2>
+
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6" class="">
+      <b-row>
+        <b-col cols="12">
+          <h2 class="mb-4">Zawodnicy</h2>
+        </b-col>
+      </b-row>
       <div class="row" v-if="participantGroup.participants"
            v-for="(participant, index) in participantGroup.participants" :key="index">
         <div class="col-1">
@@ -12,55 +17,61 @@
           </div>
           <p @click="removeParticipant(index)" v-if="participantGroup.participants.length > 0">usuń</p>
         </div>
-        <b-form-group class="col-11 pl-4">
-          <treeselect class="mb-4 custom"
-                      v-model="participantGroup.selectedDiscipline"
-                      :multiple="false"
-                      placeholder="Rocznik"
-                      :options="participantGroup.disciplines"/>
-          <treeselect class="mb-4 custom"
-                      v-model="participantGroup.selectedCategory"
+        <div class="col-11 pl-4">
+        <b-form-group
+          class="custom">
+<!--          todo -->
+          <treeselect v-model="participant.years.id" v-if="participant.years"
+                      :multiple="false" class="custom mb-3"
+                      placeholder="Rocznik" :options="participantYears"
+                      :class="{'error-input-custom': veeErrors.has('participant.year')}"
+                      name="participant.year" key="participant.year" v-validate="{'required':true}"
+          />
+<!--          <treeselect class="custom mb-3"-->
+<!--                      v-model="participant.selectedYear"-->
+<!--                      :multiple="false"-->
+<!--                      placeholder="Rocznik"-->
+<!--                      :options="participant.years"/>-->
+          <treeselect class="custom mb-3"
+                      v-model="participant.selectedName"
                       :multiple="true"
                       placeholder="Imię i Nazwisko"
-                      :options="participantGroup.categories"/>
+                      :options="participant.names"/>
         </b-form-group>
+        </div>
       </div>
+    </b-col>
+  </b-row>
 
-      <b-row class="row">
-        <b-col cols="12" lg="6" class="">
-          <div class="row">
-            <div class="col-1">
-              <!--   todo Веталь, перепиши в класс как будет время   -->
-              <div class="text-center"
-                   style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
-                <p class="m-auto" v-if="participantGroup.participants">{{participantGroup.participants.length + 1}}</p>
-              </div>
-            </div>
-
-            <div class="mb-6">
-              <b-row class="justify-content-center">
-                <b-col cols="1">
-                  <b-btn variant="primary" class="custom" @click="addParticipant">Dodaj</b-btn>
-                </b-col>
-              </b-row>
-            </div>
+  <b-row class="justify-content-center">
+    <b-col cols="12" lg="6" class="">
+      <!--buttons-->
+      <div class="row">
+        <div class="col-1">
+          <!--   todo Веталь, перепиши в класс как будет время   -->
+          <div class="text-center"
+               style="border-radius: 50%; box-sizing: border-box;	height: 36px;	width: 36px;	border: 2px solid #D8D8D8;">
+            <p class="m-auto" v-if="participantGroup.participants">{{participantGroup.participants.length + 1}}</p>
           </div>
-        </b-col>
+        </div>
 
-      </b-row>
-<!--      -->
-        <!--            buttons   -->
+        <div class="col-11 pl-4">
+          <b-btn variant="primary" class="w-50" @click="addParticipant">Dodaj</b-btn>
+        </div>
+      </div>
+    </b-col>
+  </b-row>
+  <!--      -->
         <b-row class="justify-content-center">
-          <b-col cols="12" lg="8" class="">
-
+          <b-col cols="12" lg="6">
+            <!--buttons-->
             <b-row class="mt-4">
               <b-col>
-                <b-btn block-class="custom" :to="{ name: 'participant.groups', params: { 'tab': 'confirmed' } }">
+                <b-btn block class="custom btn" :to="{ name: 'participant.groups' }">
                   Anuluj
                 </b-btn>
               </b-col>
               <b-col>
-<!--                 maybe todo Zapisz-->
                 <b-btn block variant="primary" class="custom" @click="submit(1, true)">
                   Dodaj
                 </b-btn>
@@ -69,8 +80,6 @@
           </b-col>
         </b-row>
 <!--      </div>-->
-    </b-col>
-  </b-row>
 </div>
 </template>
 
@@ -88,13 +97,46 @@ export default {
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
-      // participantToDelete: [],
+      participants: [],
+      class: [],
+      lessonCategory: [],
+      discipline: [],
+      participantToDelete: [],
       participantDefault: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: ''
+        active: 1,
+        sex: '',
+        years: [],
+
+        // years: [
+        //   {id: 1, label: '1999'},
+        //   {id: 2, label: '2000'},
+        //   {id: 3, label: '1900'}
+        // ],
+
+        names: [
+          {id: 1, label: 'Piotr Ivanov'},
+          {id: 2, label: 'Greg Vol'},
+          {id: 3, label: 'Zywiec Zdroj'}
+        ]
+      },
+
+      years: [],
+      selectedYear: null,
+      selectedName: null
+    }
+  },
+  // todo for treeselect years
+  computed: {
+    participantYears () {
+      // eslint-disable-next-line one-var
+      let data = this.$store.getters.participants,
+        preparedParticipants = []
+
+      for (let participantIndex in data) {
+        preparedParticipants.push({id: data[participantIndex].id, label: data[participantIndex].year})
       }
+
+      return preparedParticipants
     }
   },
   methods: {
@@ -102,13 +144,9 @@ export default {
       this.$parent.addParticipant(this.participantDefault)
     },
     removeParticipant (index) {
-      let oldItem = {
-        id: this.participantGroup.participants[index].id,
-        collectionType: 'remove'
-      }
-      // this.participantToDelete.push(oldItem)
-      this.$parent.remove(index)
+      this.$parent.removeParticipant(index)
     },
+
     submit (validRequired = false) {
       if (validRequired) {
         this.preSubmit()
@@ -126,6 +164,9 @@ export default {
         this.$parent.submit()
       }
     }
+  },
+  created () {
+    this.$store.dispatch('getParticipants')
   }
 }
 </script>

@@ -1,15 +1,19 @@
 <template>
+<!--  <b-row class="justify-content-center" v-if="participantGroup">-->
   <b-row class="justify-content-center">
     <b-col cols="12" lg="5" class="">
 
       <!--      RADIO-->
       <h2 class="mb-4">Aktywuj</h2>
       <b-row class="justify-content-start align-items-center">
-        <b-col cols="6">
+        <b-col cols="12">
+          <template slot="status" slot-scope="scope">
+            <span class="status" :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>
+          </template>
           <b-form-group>
             <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block mr-3 mb-3"
-                          :class="{'error-input-custom': veeErrors.has('participant.active')}"
-                          name="participantGroup.active" :key="'participant.active'+index" v-validate="'required'"
+                          :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"
+                          name="participantGroup.active" :key="'participantGroup.active'+index" v-validate="{'required':true}"
                           v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
               {{ element.title }}
             </b-form-radio>
@@ -28,35 +32,37 @@
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom"
                           placeholder="Nazwa listy"
-                          :class="{'error-input-custom': veeErrors.has('participant.title')}"
-                          name="participant.title" key="participant.title" v-validate="'required'"
+                          :class="{'error-input-custom': veeErrors.has('participantGroup.title')}"
+                          name="participantGroup.title" key="participantGroup.title" v-validate="{'required':true}"
                           v-model="participantGroup.title"></b-form-input>
           </b-form-group>
           <!--          TREESELECT  -->
-          <treeselect class="custom"
-                      v-model="participantGroup.selectedDiscipline"
-                      :multiple="true"
-                      placeholder="Dyscyplina"
-                      :options="participantGroup.disciplines"></treeselect>
-          <treeselect class="custom"
-                      v-model="participantGroup.selectedCategory"
-                      :multiple="true"
-                      placeholder="Kategoria"
-                      :options="participantGroup.categories"></treeselect>
-          <treeselect class="custom"
-                      v-model="participantGroup.selectedClass"
-                      :multiple="true"
-                      placeholder="Klasa sportowa"
-                      :options="participantGroup.classes"></treeselect>
+            <treeselect v-model="participantGroup.discipline.id" v-if="participantGroup.discipline"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Dyscyplina" :options="participantGroupDiscipline"
+                        :class="{'error-input-custom': veeErrors.has('participantGroup.discipline')}"
+                        name="participantGroup.discipline" key="participantGroup.discipline" v-validate="{'required':true}"
+                        />
+          <treeselect v-model="participantGroup.lessonCategory.id" v-if="participantGroup.lessonCategory"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Kategoria" :options="participantGroupLessonCategory"
+                        :class="{'error-input-custom': veeErrors.has('participantGroup.lessonCategory')}"
+                        name="participantGroup.lessonCategory" key="participantGroup.lessonCategory" v-validate="{'required':true}"
+                        />
+          <treeselect v-model="participantGroup.class.id" v-if="participantGroup.class"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Klasa" :options="participantGroupClass"
+                        :class="{'error-input-custom': veeErrors.has('participantGroup.class')}"
+                        name="participantGroup.class" key="participantGroup.class" v-validate="{'required':true}"
+                        />
+
           <!--          BUTTONS -->
           <b-row class="justify-content-center">
-              <b-btn variant="delete" class="custom">
-                <b-link block class="custom" :to="{ name: 'participant.groups', params: { 'tab': 'confirmed' } }">
+                <b-link block class="custom btn" :to="{ name: 'participant.groups' }">
                   Anuluj
                 </b-link>
-              </b-btn>
             <b-col>
-              <b-btn block class="custom" @click="goToFormTab('participants')">
+              <b-btn variant="primary" block class="custom" @click="goToFormTab('participants')">
                 Dalej
               </b-btn>
             </b-col>
@@ -73,15 +79,17 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 import EventBusEmit from '@/mixins/event-bus-emit'
 import FormMixin from '@/mixins/form-mixin'
+import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
 
 export default {
   name: 'FormMainData',
   props: ['participantGroup'],
   components: {Treeselect},
-  mixins: [EventBusEmit, FormMixin],
+  mixins: [EventBusEmit, FormMixin, ParticipantGroupMixin],
   data () {
     return {}
   },
+  computed: {},
   methods: {
     submit (validRequired) {
       if (validRequired) {
@@ -107,6 +115,12 @@ export default {
         this.checkValidForm()
       }
     }
+  },
+  created () {
+    this.$store.dispatch('getDisciplines')
+    this.$store.dispatch('getLessonCategories')
+    // todo
+    this.$store.dispatch('getClasses')
   }
 }
 </script>

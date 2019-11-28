@@ -16,7 +16,7 @@
       <b-form-group>
         <b-form-radio v-model="school.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('school.active')}"
-                      name="school.active" :key="'school.active'+index" v-validate="'required'"
+                      name="school.active" :key="'school.active'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
           {{ element.title }}
         </b-form-radio>
@@ -26,7 +26,7 @@
       <b-form-group>
         <b-form-radio v-model="school.type" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('school.type')}"
-                      name="school.type" :key="'school.type'+index" v-validate="'required'"
+                      name="school.type" :key="'school.type'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
           {{ element.title }}
         </b-form-radio>
@@ -37,7 +37,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Nazwa"
                       :class="{'error-input-custom': veeErrors.has('school.name')}"
-                      name="school.name" key="school.name" v-validate="'required'"
+                      name="school.name" key="school.name" v-validate="{'required':true}"
                       v-model="school.name"></b-form-input>
       </b-form-group>
       <b-form-group
@@ -53,7 +53,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Hasło"
                       :class="{'error-input-custom': veeErrors.has('school.password')}"
-                      name="school.password" key="school.password" v-validate="'required'"
+                      name="school.password" key="school.password" v-validate="{'required':true}"
                       v-model="school.password"></b-form-input>
       </b-form-group>
       <b-form-group
@@ -61,7 +61,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Telefon"
                       :class="{'error-input-custom': veeErrors.has('school.phone')}"
-                      name="school.phone" key="school.phone" v-validate="'required'"
+                      name="school.phone" key="school.phone" v-validate="{'required':true}"
                       v-model="school.phone"></b-form-input>
       </b-form-group>
 
@@ -73,14 +73,14 @@
                   placeholder="Dzielnica"
                   :options="districts"
                   :class="{'error-input-custom': veeErrors.has('school.district')}"
-                  name="school.district" key="school.district" v-validate="'required'"
+                  name="school.district" key="school.district" v-validate="{'required':true}"
                   class="custom mb-3"/>
       <b-form-group
         class="custom">
         <b-form-input id="input-1" class="custom"
                       placeholder="Adres"
                       :class="{'error-input-custom': veeErrors.has('school.address')}"
-                      name="school.address" key="school.address" v-validate="'required'"
+                      name="school.address" key="school.address" v-validate="{'required':true}"
                       v-model="school.address"></b-form-input>
       </b-form-group>
       <b-form-group
@@ -88,7 +88,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Kod pocztowy"
                       :class="{'error-input-custom': veeErrors.has('school.postcode')}"
-                      name="school.postcode" key="school.postcode" v-validate="'required'"
+                      name="school.postcode" key="school.postcode" v-validate="{'required':true}"
                       v-model="school.postcode"></b-form-input>
       </b-form-group>
       <h1>MAP</h1>
@@ -97,9 +97,10 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Godziny otwarcia"
                       :class="{'error-input-custom': veeErrors.has('school.openHours')}"
-                      name="school.openHours" key="school.openHours" v-validate="'required'"
+                      name="school.openHours" key="school.openHours" v-validate="{'required':true}"
                       v-model="school.openHours"></b-form-input>
       </b-form-group>
+<!--      todo or not todo v-validate="{'required':true}" -->
       <textarea class="custom w-100" v-model="school.comments" placeholder="Uwagi"
                 :class="{'error-input-custom': veeErrors.has('school.comments')}"
                 name="school.comments" :key="'school.comments'" :v-validate="'required'"></textarea>
@@ -111,7 +112,7 @@
                       placeholder="Imię i Nazwisko"
                       :class="{'error-input-custom': veeErrors.has('school.personToContactFullName')}"
                       name="school.personToContactFullName" key="school.personToContactFullName"
-                      v-validate="'required'"
+                      v-validate="{'required':true}"
                       v-model="school.personToContactFullName"></b-form-input>
       </b-form-group>
       <b-form-group
@@ -119,7 +120,7 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Telefon"
                       :class="{'error-input-custom': veeErrors.has('school.personToContactPhone')}"
-                      name="school.personToContactPhone" key="school.personToContactPhone" v-validate="'required'"
+                      name="school.personToContactPhone" key="school.personToContactPhone" v-validate="{'required':true}"
                       v-model="school.personToContactPhone"></b-form-input>
       </b-form-group>
 

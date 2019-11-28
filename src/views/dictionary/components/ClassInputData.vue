@@ -18,7 +18,7 @@
                           :class="{'error-input-custom': veeErrors.has('profile.classes.title')}"
                           :name="'profile.classes.title'"
                           :key="'profile.classes.title'"
-                          v-validate="'required'"
+                          v-validate="{'required':true}"
                           v-model="classItem.title"></b-form-input>
           </b-form-group>
         </div>

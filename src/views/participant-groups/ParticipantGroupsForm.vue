@@ -58,42 +58,6 @@ export default {
   mixins: [EventBusEmit, FormMixin],
   data () {
     return {
-
-      participantGroup: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        participants: [
-          1
-        ],
-
-        // checkbox
-        selectedGender: [],
-        selectedType: [],
-        genderOptions: [
-          {text: 'kobieta', value: 0},
-          {text: 'mężczyzna', value: 1}
-        ],
-
-        // treeselect
-        disciplines: [
-          {id: 1, label: 'Basen'},
-          {id: 2, label: 'Siłownia'},
-          {id: 3, label: 'Bieg'}
-        ],
-        categories: [
-          {id: 1, label: 'pierwsza'},
-          {id: 2, label: 'druga'},
-          {id: 3, label: 'cos cos'}
-        ],
-        classes: [
-          {id: 1, label: '2b'},
-          {id: 2, label: '6a'},
-          {id: 3, label: '8c'}
-        ]
-      },
-
       tabLinks: [
         {
           title: 'Dane ogólne',
@@ -108,6 +72,27 @@ export default {
         }
       ],
 
+      // todo maybe
+      participantGroup: {
+        active: 1,
+        title: '',
+        sex: '',
+        discipline: [],
+        class: [],
+        lessonCategory: [],
+        participants: [],
+        // years: [],
+
+        // checkbox
+        selectedGender: [],
+        selectedType: [],
+
+        genderOptions: [
+          {text: 'kobieta', value: 0},
+          {text: 'mężczyzna', value: 1}
+        ]
+      },
+
       selectedDiscipline: null,
       selectedCategory: null,
       selectedClass: null,
@@ -116,11 +101,11 @@ export default {
       isValidForm: false
     }
   },
+  computed: {},
   methods: {
-    // todo add, remove
     addParticipant (participantDefault) {
-      let copy = {...participantDefault}
-      this.participantGroup.participants.push(copy)
+      // let copy = {...participantDefault}
+      this.participantGroup.participants.push(participantDefault)
     },
     removeParticipant (index) {
       this.participantGroup.participants.splice(index, 1)
@@ -137,10 +122,10 @@ export default {
       this.$router.push({name: 'participant.group', params: defaultParams})
     },
     submit () {
-      let participant = this.participant
-      console.log(this.participant)
+      let participant = this.participantGroup
+      console.log(this.participantGroup)
 
-      const method = this.id === undefined ? 'postParticipant' : 'putParticipant'
+      const method = this.id === undefined ? 'postParticipantGroup' : 'putParticipantGroup'
       this.$store.dispatch(method, participant)
         .then(() => {
           this.postSubmitRedirect('participant.groups')
@@ -151,11 +136,14 @@ export default {
     }
   },
   created () {
+    // init participantGroup
+    this.participantGroup = Object.assign(this.participantGroup, this.$store.getters.participantGroup(this.id))
+
     if (this.$route.params.tab === undefined) {
       this.$router.push({name: 'participant.group', params: {'tab': 'main-data'}})
     }
     if (this.id) {
-      this.$store.dispatch('getParticipant', {id: this.id})
+      this.$store.dispatch('getParticipantGroup', {id: this.id})
         .then((response) => {
           this.participantGroup = response
 
@@ -168,7 +156,8 @@ export default {
             {
               title: 'Zawodnicy',
               link: 'participant.group',
-              tab: 'checkValidMainForm'
+              tab: 'participants',
+              method: 'checkValidMainForm'
             },
             {
               title: 'Zajęcia',
@@ -196,7 +185,7 @@ export default {
 
     /** @buttonLink route name || false if button must be hidden */
     this.changeAdminNavbarButton({buttonLink: false})
-    let breadcrumbs = [{text: 'Lista zawodników', to: {name: 'participant.groups', params: {'tab': 'confirmed'}}},
+    let breadcrumbs = [{text: 'Lista zawodników', to: {name: 'participant.groups'}},
       {text: this.id ? this.participantGroup.name : 'Nowa', active: true}]
     this.changeAdminNavbarBreadcrumbs(breadcrumbs)
   }
