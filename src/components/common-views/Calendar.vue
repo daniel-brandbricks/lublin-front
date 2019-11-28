@@ -25,7 +25,7 @@ export default {
   props: ['events'],
   data () {
     return {
-      date: '2019-09-01',
+      date: '2019-09-01'
     }
   },
   computed: {},

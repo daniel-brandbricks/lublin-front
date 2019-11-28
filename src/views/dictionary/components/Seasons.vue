@@ -54,69 +54,68 @@
 
 <script>
 // import the component
-import Treeselect from '@riophae/vue-treeselect'
-// import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import EventBusEmit from '@/mixins/event-bus-emit'
-import FormMixin from '@/mixins/form-mixin'
-import DictionaryMixin from '@/mixins/dictionary-mixin'
-import DatePicker from 'vue2-datepicker'
-import {empty} from '@/config/methods'
-import {mapActions, mapGetters} from 'vuex'
+  import Treeselect from '@riophae/vue-treeselect'
+  // import the styles
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import FormMixin from '@/mixins/form-mixin'
+  import DictionaryMixin from '@/mixins/dictionary-mixin'
+  import DatePicker from 'vue2-datepicker'
+  import { mapActions } from 'vuex'
 
-export default {
-  name: 'Seasons',
-  components: {Treeselect, DatePicker},
-  mixins: [EventBusEmit, FormMixin, DictionaryMixin],
-  data () {
-    return {
-      getter: 'seasons',
-      dispatchDelete: 'deleteSeason',
-      dispatchPost: 'postSeason',
-      dispatchPut: 'putSeason',
+  export default {
+    name: 'Seasons',
+    components: { Treeselect, DatePicker },
+    mixins: [ EventBusEmit, FormMixin, DictionaryMixin ],
+    data () {
+      return {
+        getter: 'seasons',
+        dispatchDelete: 'deleteSeason',
+        dispatchPost: 'postSeason',
+        dispatchPut: 'putSeason',
 
-      lang: {
-        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-        placeholder: {
-          date: 'Select Date',
-          dateRange: 'Select Date Range'
-        }
-      },
+        lang: {
+          days: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
+          months: [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+          pickers: [ 'next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days' ],
+          placeholder: {
+            date: 'Select Date',
+            dateRange: 'Select Date Range'
+          }
+        },
 
-      selectedIndex: null,
+        selectedIndex: null,
 
-      // temp
-      years: [
-        {id: 1, label: '2000'},
-        {id: 2, label: '2001'},
-        {id: 3, label: '2002'}
-      ]
-    }
-  },
-  methods: {
-    ...mapActions(['addEmptySeason']),
-    submitSeason (obj) {
-      console.log(111)
-      this.submitObject(obj)
-      this.selectedIndex = null
-    },
-    deleteSeason (id) {
-      if (id && id > 0) {
-        this.deleteFromForm('deleteSeason', null, 'sezon', false, null, {urlParams: id})
-      } else {
-        this.$store.dispatch('deleteSeason', {urlParams: id})
+        // temp
+        years: [
+          {id: 1, label: '2000'},
+          {id: 2, label: '2001'},
+          {id: 3, label: '2002'}
+        ]
       }
-    }
-  },
-  created () {
-    this.$store.dispatch('getSeasons')
+    },
+    methods: {
+      ...mapActions(['addEmptySeason']),
+      submitSeason (obj) {
+        console.log(111)
+        this.submitObject(obj)
+        this.selectedIndex = null
+      },
+      deleteSeason (id) {
+        if (id && id > 0) {
+          this.deleteFromForm('deleteSeason', null, 'sezon', false, null, {urlParams: id})
+        } else {
+          this.$store.dispatch('deleteSeason', {urlParams: id})
+        }
+      }
+    },
+    created () {
+      this.$store.dispatch('getSeasons')
 
-    /** @buttonLink route name || false if button must be hidden */
-    this.changeAdminNavbarButton({buttonLink: 'dashboard'})
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: 'dashboard' })
+    }
   }
-}
 </script>
 
 <style scoped>

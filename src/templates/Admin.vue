@@ -2,7 +2,6 @@
   <div class="d-flex" id="wrapper" :class="{'toggled': showSidebar}">
     <Sidebar></Sidebar>
 
-
     <main class="" id="page-content-wrapper">
       <perfect-scrollbar id="scrollbar" class="custom ps-content">
 
@@ -29,35 +28,35 @@
 </template>
 
 <script>
-  import AdminNavbar from '@/components/main/AdminNavbar'
-  import Sidebar from '../components/main/Sidebar'
-  import Footer from '../components/main/Footer'
+import AdminNavbar from '@/components/main/AdminNavbar'
+import Sidebar from '../components/main/Sidebar'
+import Footer from '../components/main/Footer'
 
-  import EventBus from '../event-bus'
+import EventBus from '../event-bus'
 
-  export default {
-    name: 'Admin',
-    components: {
-      AdminNavbar,
-      Footer,
-      Sidebar
-    },
-    data () {
-      return {
-        showSidebar: false
-      }
-    },
-    methods: {
-      toggleSidebar () {
-        EventBus.$emit('TOGGLE_SIDEBAR')
-      }
-    },
-    created () {
-      EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
-        this.showSidebar = !this.showSidebar
-      })
+export default {
+  name: 'Admin',
+  components: {
+    AdminNavbar,
+    Footer,
+    Sidebar
+  },
+  data () {
+    return {
+      showSidebar: false
     }
+  },
+  methods: {
+    toggleSidebar () {
+      EventBus.$emit('TOGGLE_SIDEBAR')
+    }
+  },
+  created () {
+    EventBus.$on('TOGGLE_SIDEBAR', (payload) => {
+      this.showSidebar = !this.showSidebar
+    })
   }
+}
 </script>
 
 <style>
