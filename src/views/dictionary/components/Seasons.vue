@@ -11,19 +11,19 @@
           <b-form-group class="custom">
             <b-form-input id="input-1" class="custom m-0"
                           placeholder="Nazwa sezonu"
-                          @focus="selectedIndex = index" @blur="submitSeason(computedList[index])"
+                          @focus="editInput(index)"
                           :class="{'error-input-custom': veeErrors.has('season.title'+index)}"
                           :name="'season.title'+index" :key="'season.title'+index"
-                          v-validate="{'required':(index === selectedIndex ? true: false)}"
+                          v-validate="{'required': true}"
                           v-model="computedList[index].title"></b-form-input>
           </b-form-group>
-          <b-row class="my-3">
+          <b-row class="mt-3">
             <b-col cols="5">
               <date-picker v-model="computedList[index].from" :lang="lang"
-                           @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
+                           @focus="editInput(index)"
                            :class="{'error-input-custom': veeErrors.has('season.from'+index)}"
                            :name="'season.from'+index" :key="'season.from'+index"
-                           v-validate="{'required':(index === selectedIndex ? true: false)}"
+                           v-validate="{'required': true}"
                            id="inputDatapicFrom" placeholder="" class="w-100 custom mb-3">
               </date-picker>
             </b-col>
@@ -32,12 +32,17 @@
             </b-col>
             <b-col cols="5">
               <date-picker v-model="computedList[index].to" :lang="lang"
-                           @focus="selectedIndex = index" @change="submitSeason(computedList[index])"
+                           @focus="editInput(index)"
                            :class="{'error-input-custom': veeErrors.has('season.to'+index)}"
                            :name="'season.to'+index" :key="'season.to'+index"
-                           v-validate="{'required':(index === selectedIndex ? true: false)}"
+                           v-validate="{'required': true}"
                            id="inputDatapicTo" placeholder="" class="w-100 custom mb-3">
               </date-picker>
+            </b-col>
+          </b-row>
+          <b-row class="justify-content-end mb-3" v-show="checkSelected(index)">
+            <b-col cols="4">
+              <b-btn @click="submitObject(season)" variant="primary" block>Zapisz</b-btn>
             </b-col>
           </b-row>
 
@@ -53,7 +58,7 @@
 </template>
 
 <script>
-// import the component
+  // import the component
   import Treeselect from '@riophae/vue-treeselect'
   // import the styles
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -61,12 +66,12 @@
   import FormMixin from '@/mixins/form-mixin'
   import DictionaryMixin from '@/mixins/dictionary-mixin'
   import DatePicker from 'vue2-datepicker'
-  import { mapActions } from 'vuex'
+  import {mapActions} from 'vuex'
 
   export default {
     name: 'Seasons',
-    components: { Treeselect, DatePicker },
-    mixins: [ EventBusEmit, FormMixin, DictionaryMixin ],
+    components: {Treeselect, DatePicker},
+    mixins: [EventBusEmit, FormMixin, DictionaryMixin],
     data () {
       return {
         getter: 'seasons',
@@ -75,16 +80,14 @@
         dispatchPut: 'putSeason',
 
         lang: {
-          days: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
-          months: [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-          pickers: [ 'next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days' ],
+          days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
           placeholder: {
             date: 'Select Date',
             dateRange: 'Select Date Range'
           }
         },
-
-        selectedIndex: null,
 
         // temp
         years: [
@@ -99,7 +102,7 @@
       submitSeason (obj) {
         console.log(111)
         this.submitObject(obj)
-        this.selectedIndex = null
+        // this.selectedIndex = null
       },
       deleteSeason (id) {
         if (id && id > 0) {
@@ -113,7 +116,7 @@
       this.$store.dispatch('getSeasons')
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'dashboard' })
+      this.changeAdminNavbarButton({buttonLink: 'dashboard'})
     }
   }
 </script>
