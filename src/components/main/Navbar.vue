@@ -11,7 +11,7 @@
 
       <b-collapse id="nav-collapse"  class="justify-content-xl-end" is-nav>
         <b-navbar-nav class="text-center ">
-          <b-nav-item :to="{name:'home'}">
+          <b-nav-item :to="{name:'sports'}">
             Zajęcia  <br>
             sportowe
           </b-nav-item>
@@ -23,16 +23,16 @@
             projekty <br>
             sportowe
           </b-nav-item>
-          <b-nav-item href="#">
+          <b-nav-item :to="{name:'sks'}">
+            SKSy
+          </b-nav-item>
+          <b-nav-item :to="{name:'sportClasses'}">
             Klasy sportowe <br>
             i profilowane
           </b-nav-item>
           <b-nav-item href="#">
             Współzawodnictwo Sportowe <br>
             Szkół Miasta Lublin
-          </b-nav-item>
-          <b-nav-item href="#">
-            SKSy
           </b-nav-item>
           <b-nav-item href="#">
             <b-btn variant="outline-primary" class="custom text-nowrap">

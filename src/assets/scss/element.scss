@@ -70,7 +70,9 @@ textarea.custom {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: -20px;
+  @media (min-width: 769px) {
+    margin-bottom: -20px;
+  }
 
   .btn {
     color: rgba(0, 0, 0, 0.5);
@@ -94,25 +96,79 @@ textarea.custom {
   }
 }
 
-.wrap-box-btn{
+.wrap-box-btn {
   display: flex;
   margin: 0 -4px;
   justify-content: end;
-  .btn-arrow{
+
+  .btn-arrow {
     @extend %font-bold;
     margin: 0 4px;
     display: block;
     width: 40px;
     height: 40px;
-    background-color: rgba(0,0,0,0.07);
+    background-color: rgba(0, 0, 0, 0.07);
   }
 }
 
 
-.fix-checkbox-home-page{
-  .custom-control{
-    &:last-child{
+.fix-checkbox-home-page {
+  .custom-control {
+    &:last-child {
       margin-right: 0;
     }
+  }
+}
+
+.pagination-box {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: $c-black-30;
+  font-size: 13px;
+
+  .pagination-items {
+    line-height: 40px;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+
+    &.active {
+      border: 1px solid $c-black-50;
+      color: $c-black;
+    }
+  }
+}
+
+.classes-sports-box {
+  min-height: calc(100vh - 295px);
+  display: flex;
+  align-items: center;
+  p {
+    color: $c-black-75;
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+.font-sm{
+  color: $c-black-75;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.file-box {
+  @extend %font-bold;
+  color: $c-black-75;
+  font-size: 13px;
+  line-height: 20px;
+  .icon {
+    font-size: 20px;
+  }
+}
+
+.wrapp-map{
+  img {
+    max-width: 100%;
   }
 }

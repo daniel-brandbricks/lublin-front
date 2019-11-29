@@ -161,7 +161,7 @@ $padding-card: 16px;
   border: unset;
   background-color: $c-black-15;
   padding: 8px;
-
+  //height: 100%;
   .card-body {
     padding: $padding-card;
     background-color: #fff;
@@ -196,6 +196,9 @@ $padding-card: 16px;
       color: $c-black-30;
       font-size: 12px;
       line-height: 13px;
+
+      position: absolute;
+      bottom: 8px;
     }
 
     p {
@@ -209,19 +212,21 @@ $padding-card: 16px;
     }
 
     .card-arrow {
+      &:hover{
+        text-decoration: unset;
+      }
       &.b8 {
         bottom: 8px;
       }
-
       color: $c-red;
       position: absolute;
-      bottom: $padding-card;
+      bottom: 8px;
       right: $padding-card;
     }
 
     .card-text.height-hidden {
       position: relative;
-      margin-bottom: .5rem;
+      margin-bottom: 14px;
       max-height: 140px;
       overflow: hidden;
 
@@ -277,7 +282,7 @@ $padding-card: 16px;
   .signature {
     @extend %font-medium;
     color: $c-black-30;
-    font-size: 12px;
+    font-size: 12px!important;
     line-height: 13px;
   }
 }

@@ -24,7 +24,6 @@
                   <img src="https://picsum.photos/805/424/?image=32" alt="Slide 1">
                 </div>
               </div>
-
             </template>
           </b-carousel-slide>
           <b-carousel-slide>
@@ -73,7 +72,7 @@
       <b-container>
         <div class="box-header -one text-center">
           <h2 class="main c-green mb-0">Imprezy sportowe</h2>
-          <b-btn variant="icon" class="custom">
+          <b-btn variant="icon" class="custom" :to="{name:'sportEvents'}">
             zobacz wszystkie<span class="pl-2 icon-icon_arrow_24"></span>
           </b-btn>
         </div>
@@ -102,7 +101,7 @@
                   mollis libero in, ullamcorper est. Sed bibendum</p>
               </b-card-text>
               <p class="card-signature mb-0"><span class="icon icon-icon_date_16 pl-0"></span>11.07.19</p>
-              <b-btn variant="icon" class="custom card-arrow">
+              <b-btn variant="icon" class="custom card-arrow p-0 mb-n1" :to="{name:'sportEventsInner'}">
                 <span class=" icon-icon_arrow_24"></span>
               </b-btn>
             </b-card>
@@ -198,7 +197,7 @@
       <b-container>
         <div class="box-header -two text-center">
           <h2 class="main c-green mb-0">Zajęcia sportowe</h2>
-          <b-btn variant="icon" class="custom">
+          <b-btn variant="icon" class="custom" :to="{name:'sports'}">
             zobacz wszystkie<span class="pl-2 icon-icon_arrow_24"></span>
           </b-btn>
         </div>
@@ -207,8 +206,8 @@
 
     <section>
       <b-container>
-        <b-row class="mb-3">
-          <b-col cols="12" sm="6" lg="2" class="align-items-center pr-1 d-flex">
+        <b-row class="mb-4">
+          <b-col cols="12" lg="2" class="mb-2 mb-lg-0 align-items-center pr-1 d-flex">
             <b-form-group class="custom">
               <b-form-checkbox-group
                 id="checkbox-group-1"
@@ -219,20 +218,20 @@
               ></b-form-checkbox-group>
             </b-form-group>
           </b-col>
-          <b-col cols="12" sm="6" lg="4">
+          <b-col cols="12" sm="6" lg="4" class="mb-3 mb-lg-0">
             <treeselect v-model="value"
                         :multiple="false"
                         :options="optionsTS"
                         class="custom bg-transparent"/>
           </b-col>
-          <b-col cols="12" sm="6" lg="4">
+          <b-col cols="12" sm="6" lg="4" class="mb-3 mb-lg-0">
             <treeselect v-model="value"
                         :multiple="false"
                         :options="optionsTS"
                         class="custom"/>
           </b-col>
-          <b-col cols="12" sm="6" lg="2">
-            <b-btn variant="primary" class="custom" block>
+          <b-col cols="12" sm="6" lg="2" class="mb-3 mb-lg-0">
+            <b-btn variant="primary" class="custom" block :to="{name:'sports'}">
               <span class="icon icon-iconm_search"></span>szukaj
             </b-btn>
           </b-col>
@@ -247,9 +246,9 @@
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
               <p class="">ul. Krochmalna 29</p>
               <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
+              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
                 <span class=" icon-icon_arrow_24"></span>
-              </a>
+              </b-btn>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -263,9 +262,9 @@
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
               <p class="">ul. Krochmalna 29</p>
               <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
+              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
                 <span class=" icon-icon_arrow_24"></span>
-              </a>
+              </b-btn>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -279,9 +278,9 @@
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
               <p class="">ul. Krochmalna 29</p>
               <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
+              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
                 <span class=" icon-icon_arrow_24"></span>
-              </a>
+              </b-btn>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -295,9 +294,9 @@
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
               <p class="">ul. Krochmalna 29</p>
               <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
+              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
                 <span class=" icon-icon_arrow_24"></span>
-              </a>
+              </b-btn>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -311,9 +310,9 @@
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
               <p class="">ul. Krochmalna 29</p>
               <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
+              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
                 <span class=" icon-icon_arrow_24"></span>
-              </a>
+              </b-btn>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -327,14 +326,15 @@
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
               <p class="">ul. Krochmalna 29</p>
               <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
+              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
                 <span class=" icon-icon_arrow_24"></span>
-              </a>
+              </b-btn>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
             </b-card>
           </b-col>
+
 
           <b-col cols="12">
             <div class="wrap-box-btn">
@@ -353,8 +353,8 @@
     <section>
       <b-container>
         <div class="box-header -three text-center">
-          <h2 class="main c-green mb-0">Zajęcia sportowe</h2>
-          <b-btn variant="icon" class="custom">
+          <h2 class="main c-green mb-0">Projekty sportowe</h2>
+          <b-btn variant="icon" class="custom" :to="{name:'sportProjects'}">
             zobacz wszystkie<span class="pl-2 icon-icon_arrow_24"></span>
           </b-btn>
         </div>

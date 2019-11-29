@@ -2,8 +2,8 @@
   <div class="footer-page">
 <b-container>
   <b-row>
-    <b-col cols="12" lg="6">
-      <a href="#">
+    <b-col cols="12" lg="6" class="text-center">
+      <a href="#" class="">
         <img src="/static/img/logo_2.svg" alt="Logo">
       </a>
     </b-col>
