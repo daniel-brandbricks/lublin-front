@@ -29,4 +29,9 @@
 
     }
   }
+  &.bg-transparent{
+    .vue-treeselect__control{
+      background-color: transparent;
+    }
+  }
 }

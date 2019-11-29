@@ -1,8 +1,6 @@
 // button
 
 
-
-
 //input+++++++++++++++++++
 .form-group.custom {
   margin-bottom: 2px;
@@ -11,53 +9,110 @@
   .form-control-plaintext,
   .custom-select,
   .custom-file,
-  textarea.custom{
-    @extend  %font-regular;
+  textarea.custom {
+    @extend %font-regular;
     border: 1px solid $c-black-30;
     border-radius: unset;
     padding: 0 20px;
     line-height: 40px;
     height: 40px;
     margin-bottom: 1rem;
-&:focus,&:active{
-  box-shadow: unset;
-}
+
+    &:focus, &:active {
+      box-shadow: unset;
+    }
+
     &::placeholder {
-      @extend  %font-regular;
+      @extend %font-regular;
       color: $c-black-50;
       font-size: 13px;
     }
   }
 }
 
-textarea.custom{
+textarea.custom {
   border: 1px solid $c-black-30;
   padding: 5px 20px;
+
   &::placeholder {
-    @extend  %font-regular;
+    @extend %font-regular;
     color: $c-black;
     font-size: 13px;
   }
 }
 
 
-
-
 /*card custom +++++++++++++++++++++*/
 
 
 /*wrap-img-input ++++++++++++++++++*/
-.wrap-img-input{
-  img{
+.wrap-img-input {
+  img {
     width: 100%;
     height: auto;
   }
 
 }
+
 /*icon-link*/
-.icon-link{
+.icon-link {
   color: $c-black-30;
-  &:hover,&:active{
+
+  &:hover, &:active {
     color: $c-black;
+  }
+}
+
+
+.box-header {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: -20px;
+
+  .btn {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    line-height: 13px;
+    text-transform: uppercase;
+  }
+
+  &.-one {
+    background: url('/static/img/illustration_1.svg') no-repeat center;
+  }
+
+  &.-two {
+    background: url('/static/img/illustration_2.svg') no-repeat center;
+  }
+
+  &.-three {
+    background: url('/static/img/illustration_3.svg') no-repeat center;
+  }
+}
+
+.wrap-box-btn{
+  display: flex;
+  margin: 0 -4px;
+  justify-content: end;
+  .btn-arrow{
+    @extend %font-bold;
+    margin: 0 4px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0,0,0,0.07);
+  }
+}
+
+
+.fix-checkbox-home-page{
+  .custom-control{
+    &:last-child{
+      margin-right: 0;
+    }
   }
 }

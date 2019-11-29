@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <b-navbar toggleable="xl" type="white" class="custom p-0">
-      <b-navbar-brand :to="{name:'reception.dashboard'}">
+      <b-navbar-brand :to="{name:'home'}">
         <img src="/static/img/logo.svg" alt="LOGO">
       </b-navbar-brand>
 
@@ -15,11 +15,11 @@
             Zajęcia  <br>
             sportowe
           </b-nav-item>
-          <b-nav-item :to="{name:'test'}">
+          <b-nav-item :to="{name:'sportEvents'}">
             Imprezy  <br>
             sportowe
           </b-nav-item>
-          <b-nav-item href="#">
+          <b-nav-item :to="{name:'sportProjects'}">
             projekty <br>
             sportowe
           </b-nav-item>
@@ -36,7 +36,7 @@
           </b-nav-item>
           <b-nav-item href="#">
             <b-btn variant="outline-primary" class="custom text-nowrap">
-              <span class="icon-icon_login pr-2"></span> Primary
+              <span class="icon-icon_login pr-2"></span> zaloguj się
             </b-btn>
           </b-nav-item>
 

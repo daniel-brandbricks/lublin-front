@@ -2,6 +2,8 @@
 
 import Home from '@/views/dev/Home'
 import Test from '@/views/dev/Test'
+import SportEvents from '@/views/dev/SportEvents'
+import SportProjects from '@/views/dev/SportProjects'
 
 const mainRouter = {
   path: '/',
@@ -17,6 +19,16 @@ const mainRouter = {
       path: 'test',
       name: 'test',
       component: Test
+    },
+    {
+      path: 'sport-projects',
+      name: 'sportProjects',
+      component: SportProjects
+    },
+    {
+      path: 'sport-events',
+      name: 'sportEvents',
+      component: SportEvents
     }
   ]
 }
