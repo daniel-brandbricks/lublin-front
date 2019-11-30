@@ -2,12 +2,7 @@
   <div class="wrap">
     <section>
       <b-container>
-        <div class="box-header -two text-center">
-          <h2 class="main c-green mb-0">Zajęcia sportowe</h2>
-          <b-btn variant="icon" class="custom">
-            zobacz wszystkie<span class="pl-2 icon-icon_arrow_24"></span>
-          </b-btn>
-        </div>
+        <h2 class="main c-green mb-3">Zajęcia sportowe</h2>
       </b-container>
     </section>
 

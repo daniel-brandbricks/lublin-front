@@ -51,7 +51,7 @@
 .form-group.custom .form-control-plaintext::placeholder,
 .form-group.custom .custom-select::placeholder,
 .form-group.custom .custom-file::placeholder,
-.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box, .modal.custom .modal-body p.modal-text,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -114,10 +114,12 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
   content: "\e902"; }
 
 .icon-icon_login:before {
-  content: "\e903"; }
+  content: "\e903";
+  font-size: 16px; }
 
 .icon-icon_mail:before {
-  content: "\e904"; }
+  content: "\e904";
+  font-size: 16px; }
 
 .icon-icon_sent:before {
   content: "\e905"; }
@@ -359,7 +361,7 @@ textarea.custom {
 .form-group.custom .form-control-plaintext::placeholder,
 .form-group.custom .custom-select::placeholder,
 .form-group.custom .custom-file::placeholder,
-.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box, .modal.custom .modal-body p.modal-text,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -422,10 +424,12 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
   content: "\e902"; }
 
 .icon-icon_login:before {
-  content: "\e903"; }
+  content: "\e903";
+  font-size: 16px; }
 
 .icon-icon_mail:before {
-  content: "\e904"; }
+  content: "\e904";
+  font-size: 16px; }
 
 .icon-icon_sent:before {
   content: "\e905"; }
@@ -980,7 +984,7 @@ html body .custom-radio .custom-control-label::after {
 .form-group.custom .form-control-plaintext::placeholder,
 .form-group.custom .custom-select::placeholder,
 .form-group.custom .custom-file::placeholder,
-.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box, .modal.custom .modal-body p.modal-text,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -1043,10 +1047,12 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
   content: "\e902"; }
 
 .icon-icon_login:before {
-  content: "\e903"; }
+  content: "\e903";
+  font-size: 16px; }
 
 .icon-icon_mail:before {
-  content: "\e904"; }
+  content: "\e904";
+  font-size: 16px; }
 
 .icon-icon_sent:before {
   content: "\e905"; }
@@ -1286,7 +1292,7 @@ a.link {
 .form-group.custom .form-control-plaintext::placeholder,
 .form-group.custom .custom-select::placeholder,
 .form-group.custom .custom-file::placeholder,
-.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box, .modal.custom .modal-body p.modal-text,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -1349,10 +1355,12 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
   content: "\e902"; }
 
 .icon-icon_login:before {
-  content: "\e903"; }
+  content: "\e903";
+  font-size: 16px; }
 
 .icon-icon_mail:before {
-  content: "\e904"; }
+  content: "\e904";
+  font-size: 16px; }
 
 .icon-icon_sent:before {
   content: "\e905"; }
@@ -1726,7 +1734,7 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
 .form-group.custom .form-control-plaintext::placeholder,
 .form-group.custom .custom-select::placeholder,
 .form-group.custom .custom-file::placeholder,
-.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box,
+.form-group.custom textarea.custom::placeholder, textarea.custom::placeholder, .custom.vue-treeselect .vue-treeselect__control, .custom.vue-treeselect .vue-treeselect__control .vue-treeselect__value-container .vue-treeselect__placeholder, .custom.table-responsive table tbody tr, .card.custom .card-body p, .info-box, .modal.custom .modal-body p.modal-text,
 .font-regular {
   font-family: 'Klavika',sans-serif;
   font-style: normal;
@@ -1789,10 +1797,12 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
   content: "\e902"; }
 
 .icon-icon_login:before {
-  content: "\e903"; }
+  content: "\e903";
+  font-size: 16px; }
 
 .icon-icon_mail:before {
-  content: "\e904"; }
+  content: "\e904";
+  font-size: 16px; }
 
 .icon-icon_sent:before {
   content: "\e905"; }
@@ -1983,6 +1993,83 @@ h1, .breadcrumb.custom .breadcrumb-item.active, h2, .breadcrumb.custom .breadcru
 
 .border-r {
   border-right: 2px solid rgba(0, 0, 0, 0.07); }
+
+.modal.custom .modal-content {
+  border-radius: 0; }
+.modal.custom .modal-header {
+  padding: 30px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: unset; }
+  .modal.custom .modal-header + .modal-body {
+    padding: 0 30px;
+    border-radius: unset; }
+.modal.custom .modal-body {
+  border-radius: 5px;
+  padding: 32px 16px; }
+  .modal.custom .modal-body p.modal-text {
+    font-size: 14px;
+    line-height: 18px; }
+  .modal.custom .modal-body .wrap-logo {
+    margin: 0 -16px 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #d9d9d9; }
+.modal.custom .modal-footer {
+  border-top: unset;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 30px; }
+  .modal.custom .modal-footer .btn-icon {
+    font-size: 13px; }
+
+.tabs.custom .nav.nav-pills {
+  margin-bottom: 32px;
+  justify-content: space-between;
+  position: relative; }
+  .tabs.custom .nav.nav-pills:before {
+    content: "";
+    width: 2px;
+    height: 70%;
+    display: block;
+    background-color: #d9d9d9;
+    position: absolute;
+    left: 50%;
+    top: 15%; }
+  .tabs.custom .nav.nav-pills .nav-item .nav-link {
+    color: rgba(0, 0, 0, 0.3);
+    font-family: Klavika;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 21px; }
+    .tabs.custom .nav.nav-pills .nav-item .nav-link.active {
+      color: rgba(250, 20, 20, 0.5);
+      font-family: Klavika;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 21px;
+      background: unset; }
+
+.fix-sub {
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  line-height: 24px; }
+  .fix-sub .fsz-22 {
+    font-size: 22px;
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 4px; }
+
+.fsz-13 {
+  font-size: 13px !important; }
+
+.fix-card-text {
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center; }
 
 /*END new Style*/
 /*!
