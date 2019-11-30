@@ -2,15 +2,10 @@
   <!--  <b-row class="justify-content-center" v-if="participantGroup">-->
   <b-row class="justify-content-center">
     <b-col cols="12" lg="5" class="">
-
       <!--      RADIO-->
       <h2 class="mb-4">Aktywuj</h2>
-      <b-row class="justify-content-start align-items-center">
+      <b-row class="justify-content-start align-items-center" v-if="participantGroup">
         <b-col cols="12">
-          <template slot="status" slot-scope="scope">
-            <span class="status"
-                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>
-          </template>
           <b-form-group>
             <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block mr-3 mb-3"
                           :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"
@@ -28,6 +23,13 @@
               :options="participantGroup.genderOptions"
               name="flavour-1"
             ></b-form-checkbox-group>
+<!--            <b-form-radio v-model="participantGroup.sex" :value="element.value" class="d-inline-block mr-3 mb-3"-->
+<!--                          :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"-->
+<!--                          name="participantGroup.sex" :key="'participantGroup.sex'+index"-->
+<!--                          v-validate="{'required':true}"-->
+<!--                          v-for="(element,index) in [{title: 'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">-->
+<!--              {{ element.title }}-->
+<!--            </b-form-radio>-->
           </b-form-group>
           <!--          INPUT FORM-->
           <h2 class="mb-4">Dane ogólne</h2>
