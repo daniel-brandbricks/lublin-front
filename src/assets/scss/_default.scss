@@ -1,4 +1,5 @@
 @import "font";
+
 .Vv {
   outline: 1px solid navy;
 }
@@ -8,23 +9,33 @@
 }
 
 
-h1,%h1 {
+h1, %h1 {
   @extend %font-medium;
   font-size: 40px;
   letter-spacing: 1px;
   line-height: 48px;
 }
 
-h2,%h2 {
+h2, %h2 {
   @extend %font-medium;
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 0.2px;
-  &.main{
+
+  &.main {
     font-size: 40px;
     letter-spacing: 1px;
     line-height: 48px;
-    font-weight: 500!important;
+    font-weight: 500 !important;
+  }
+}
+
+h5 {
+  &.sup {
+    @extend %font-medium;
+    color: $c-black-30;
+    font-size: 12px;
+    line-height: 13px;
   }
 }
 
@@ -38,15 +49,16 @@ h2,%h2 {
 
 a {
   text-decoration: none;
-  &:hover{
+
+  &:hover {
     text-decoration: none;
   }
 }
-p{
+
+p {
   margin-bottom: 0.5rem;
 
 }
-
 
 
 .wrap-img-type-table {

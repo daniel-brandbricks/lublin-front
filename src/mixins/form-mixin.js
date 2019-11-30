@@ -15,6 +15,7 @@ export default {
   methods: {
     preSubmit () {
       this.loading = true
+      console.log(this.$validator)
       return this.$validator.validateScopes()
     },
     checkValidForm () {

@@ -4,11 +4,11 @@ $c-green:#73BE46;
 $c-gray:#D0D2D3;
 $c-black:#000000;
 $c-black-05:rgba(0,0,0,0.5);
-$c-black-75:rgb(64, 64, 64);
+$c-black-75:rgba(0,0,0,0.75);
 $c-black-50:rgb(128, 128, 128);
-$c-black-30:rgb(179, 179, 179);
+$c-black-30:rgba(0,0,0,0.30);
 $c-black-15:rgb(217, 217, 217);
-$c-black-7:rgb(237, 237, 237);
+$c-black-7:rgba(0,0,0,0.07);
 
 
 $c-white:#fff;
@@ -21,3 +21,6 @@ $c-primary:$c-red-dark;
 $c-primary_hover:$c-red-dark;
 
 
+.c-red-dark{
+  color: $c-red-dark;
+}
