@@ -13,14 +13,18 @@
 
       <h5 class="mb-3">Dane ogólne</h5>
       <b-form-group class="custom mb-2">
-        <b-form-input id="input-1" class="custom m-0"
+        <b-form-input id="name-1" class="custom m-0"
                       placeholder="Imię"
-                      v-model="leader.name"></b-form-input>
+                      :class="{'error-input-custom': veeErrors.has('leader.firstName')}"
+                      name="leader.firstName" key="leader.firstName" v-validate="{'required':true}"
+                      v-model="leader.firstName"></b-form-input>
       </b-form-group>
       <b-form-group class="custom">
-        <b-form-input id="input-1" class="custom m-0"
+        <b-form-input id="surname-1" class="custom m-0"
                       placeholder="Nazwisko"
-                      v-model="leader.surname"></b-form-input>
+                      :class="{'error-input-custom': veeErrors.has('leader.lastName')}"
+                      name="leader.lastName" key="leader.lastName" v-validate="{'required':true}"
+                      v-model="leader.lastName"></b-form-input>
       </b-form-group>
 
       <h5 class="my-3">Dyscipliny</h5>
@@ -36,6 +40,8 @@
           <treeselect class="custom" v-if="leader.disciplines[index]"
                       v-model="leader.disciplines[index].id"
                       :multiple="false"
+                      :class="{'error-input-custom': veeErrors.has('leader.discipline'+index)}"
+                      :name="'leader.discipline'+index" :key="'leader.discipline'+index" v-validate="{'required':true}"
                       placeholder="Dyscyplina"
                       :options="disciplinesTreeselect"/>
         </div>
@@ -52,18 +58,24 @@
       </div>
 
       <b-form-group class="custom mb-2">
-        <b-form-input id="input-1" class="custom m-0"
+        <b-form-input id="email-1" class="custom m-0"
                       placeholder="E-mail"
+                      :class="{'error-input-custom': veeErrors.has('leader.email')}"
+                      name="leader.email" key="leader.email" v-validate="{'required':true}"
                       v-model="leader.email"></b-form-input>
       </b-form-group>
       <b-form-group class="custom mb-2">
-        <b-form-input id="input-1" class="custom m-0"
-                      placeholder="Hasło"
+        <b-form-input id="password-1" class="custom m-0"
+                      placeholder="Hasło" type="password"
+                      :class="{'error-input-custom': veeErrors.has('leader.password')}"
+                      name="leader.password" key="leader.password" v-validate="{'required':true}"
                       v-model="leader.password"></b-form-input>
       </b-form-group>
       <b-form-group class="custom">
-        <b-form-input id="input-1" class="custom m-0"
+        <b-form-input id="phone-1" class="custom m-0"
                       placeholder="Telefon"
+                      :class="{'error-input-custom': veeErrors.has('leader.phone')}"
+                      name="leader.phone" key="leader.phone" v-validate="{'required':true}"
                       v-model="leader.phone"></b-form-input>
       </b-form-group>
 
@@ -86,10 +98,10 @@
           </b-btn>
         </b-col>
         <b-col>
-          <b-btn v-if="leader.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
+          <b-btn v-if="leader.confirmed" block variant="primary" class="custom" @click="submit(0)">
             Odtwierdz
           </b-btn>
-          <b-btn block v-else variant="primary" class="custom" @click="submitSetConfirm(1, true)">
+          <b-btn block v-else variant="primary" class="custom" @click="submit(1, true)">
             Zatwierdź
           </b-btn>
         </b-col>
@@ -111,14 +123,28 @@
     mixins: [ FormMixin ],
     data () {
       return {
-        disciplinesTreeselect: [
-          { id: 0, label: 'Bieg 50m' },
-          { id: 1, label: 'Bieg 150m' },
-          { id: 2, label: 'Bieg 250m' }
-        ]
+        // disciplinesTreeselect: [
+        //   { id: 0, label: 'Bieg 50m' },
+        //   { id: 1, label: 'Bieg 150m' },
+        //   { id: 2, label: 'Bieg 250m' }
+        // ]
       }
     },
-    computed: {},
+    computed: {
+      disciplines () {
+        return this.$store.getters.disciplines
+      },
+      disciplinesTreeselect () {
+        let disciplines = this.disciplines
+        let prepared = []
+
+        for (let disciplineIndex in disciplines) {
+          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
+        }
+
+        return prepared
+      }
+    },
     methods: {
       addDiscipline () {
         this.$parent.addDiscipline()
@@ -126,9 +152,23 @@
       removeDiscipline (index) {
         this.$parent.removeDiscipline(index)
       },
-      submit () {
-      },
-      submitSetConfirm () {
+      submit (isConfirmed, validRequired = true) {
+        if (validRequired) {
+          this.preSubmit()
+            .then((result) => {
+              if (!result) {
+                this.loading = false
+                return
+              }
+
+              this.loading = false
+              this.leader.confirmed = isConfirmed
+              this.$parent.submit()
+            })
+        } else {
+          this.leader.confirmed = isConfirmed
+          this.$parent.submit()
+        }
       }
     }
   }

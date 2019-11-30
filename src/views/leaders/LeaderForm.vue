@@ -81,22 +81,45 @@
         leader: {
           id: this.id,
           confirmed: 0,
-          name: '',
-          surname: '',
+          firstName: '',
+          lastName: '',
           email: '',
           password: '',
           phone: '',
           active: 1,
           disciplines: [
-            { id: 1 },
-            { id: 2 }
+            // { id: 1 },
+            // { id: 2 }
           ]
         }
       }
     },
     computed: {},
     methods: {
+      // todo maybe for mixin?
+      prepareToSubmit (leader) {
+        let disciplines = leader.disciplines
+        let disciplinesPrepared = []
+
+        for (let disciplinesIndex in disciplines) {
+          disciplinesPrepared.push(disciplines[disciplinesIndex].id)
+        }
+        leader.disciplines = disciplinesPrepared
+      },
       submit () {
+        let leader = {...this.leader}
+        this.prepareToSubmit(leader)
+        console.log(leader)
+        // school.image = this.mixinImage
+
+        const method = this.id === undefined ? 'postLeader' : 'putLeader'
+        this.$store.dispatch(method, leader)
+          .then(() => {
+            this.postSubmitRedirect('leaders')
+          })
+          .catch((error) => {
+            this.postSubmitError(error)
+          })
       },
       addDiscipline () {
         this.leader.disciplines.push({})
@@ -109,6 +132,8 @@
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'leader', params: { 'tab': 'main-data' } })
       }
+
+      this.$store.dispatch('getDisciplines')
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })

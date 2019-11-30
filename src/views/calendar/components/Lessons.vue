@@ -119,7 +119,6 @@
           preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
         }
 
-        console.log(preparedSchools)
         return preparedSchools
       }
     },

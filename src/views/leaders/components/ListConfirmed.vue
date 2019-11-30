@@ -10,9 +10,21 @@
         class="custom table-responsive"
         @row-clicked="rowRedirect"
       >
+        <template slot="fullName" slot-scope="scope">
+          <span>{{scope.item.firstName + ' ' + scope.item.firstName}}</span>
+        </template>
+
+        <template slot="disciplines" slot-scope="scope">
+          <span></span>
+          <span class="d-inline" v-for="(discipline,index) in scope.item.disciplines" :key="index">
+            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}
+          </span>
+        </template>
+
         <template slot="status" slot-scope="scope">
-          <span class="status"
-                :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+          <span class="status" :class="{'active': scope.item.status}">
+            {{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}
+          </span>
         </template>
 
         <template slot="edit" slot-scope="scope">
@@ -35,35 +47,49 @@
     mixins: [ SportObjectsMixin ],
     data () {
       return {
-        // table
         fields: [
           { key: 'fullName', label: 'Imię i Nazwisko', sortable: true },
-          { key: 'discipline', label: 'Dyscyplina', sortable: true },
+          { key: 'disciplines', label: 'Dyscyplina', sortable: true },
           { key: 'sportObject', label: 'Obiekt', sortable: true },
           { key: 'lessons', label: 'Zajęcia', sortable: true },
           { key: 'status', label: 'Status w systemie', sortable: true },
           { key: 'edit', label: '' }
-        ]
+        ],
+
+        // search
+        search: '',
+
+        // treeselect
+        discipline: null,
+        sportObject: null
       }
     },
     computed: {
       leadersConfirmed () {
-        return [
-          { fullName: 'Mark Brown', discipline: 'Biegun', sportObject: 'Park', lessons: 3, status: 1 },
-          { fullName: 'Tom Green', discipline: 'Biegun', sportObject: 'Park', lessons: 4, status: 0 },
-          { fullName: 'Ben Red', discipline: 'Biegun', sportObject: 'Park', lessons: 2, status: 0 },
-          { fullName: 'Bill White', discipline: 'Biegun', sportObject: 'Park', lessons: 1, status: 1 }
-        ]
+        return this.$store.getters.leadersConfirmed
+      },
+      disciplines () {
+        return this.$store.getters.disciplines
+      },
+      sportObjects () {
+        return this.$store.getters.sportObjects
       }
     },
     methods: {
+      getDisciplineTitleById (id, index = null, arrayLength = null) {
+        if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
+        return this.disciplines.find((obj) => {
+          return obj.id === id
+        }).title + ((index + 1) < arrayLength ? ',' : '')
+      },
       rowRedirect (row) {
         this.$parent.rowRedirect(row.id, true)
       }
     },
     created () {
-      this.$store.dispatch('getSportObjects', { confirmed: 1 })
-      this.$store.dispatch('getSportObjectTypes')
+      this.$store.dispatch('getLeaders', { confirmed: 1 })
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getSportObjects')
     }
   }
 </script>

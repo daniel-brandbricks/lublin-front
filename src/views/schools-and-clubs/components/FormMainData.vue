@@ -189,7 +189,6 @@
       },
       // todo this method in form mixin
       afterCropImage (base64) {
-        console.log(base64)
         this.school.image = base64
       },
       goToFormTab (tabName) {

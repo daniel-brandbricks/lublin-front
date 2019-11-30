@@ -15,8 +15,8 @@ export default {
     sportObjectsToConfirm (state) {
       return state.sportObjects.toConfirm
     },
-    sportObjects: (state) => (isConfirmed) => {
-      console.log(isConfirmed)
+    sportObjects (state) {
+      return state.sportObjects.confirmed.concat(state.sportObjects.toConfirm)
     },
     sportObject: (state) => (isConfirmed, id) => {
       let sportObjects = []
@@ -45,6 +45,21 @@ export default {
     },
     setSportObjectsToConfirm (state, data) {
       state.sportObjects.toConfirm = data
+    },
+    setSportObjects (state, data) {
+      let confirmed = []
+      let toConfirm = []
+
+      for (let index in data) {
+        if (parseInt(data[index].confirmed) === 1) {
+          confirmed.push(data[index])
+        } else {
+          toConfirm.push(data[index])
+        }
+      }
+
+      state.sportObjects.confirmed = confirmed
+      state.sportObjects.toConfirm = toConfirm
     },
     setSportObject (state, data) {
       const id = data.id
@@ -103,9 +118,14 @@ export default {
               return
             }
 
-            data.confirmed === 1
-              ? context.commit('setConfirmedSportObjects', response)
-              : context.commit('setSportObjectsToConfirm', response)
+            if (data) {
+              data.confirmed === 1
+                ? context.commit('setConfirmedSportObjects', response)
+                : context.commit('setSportObjectsToConfirm', response)
+            } else {
+              context.commit('setSportObjects', response)
+            }
+
             resolve()
           })
           .catch(error => {

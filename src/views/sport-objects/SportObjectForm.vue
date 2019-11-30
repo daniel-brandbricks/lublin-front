@@ -60,7 +60,6 @@
       },
       submit () {
         let sportObject = this.sportObject
-        console.log(this.sportObject)
         // school.image = this.mixinImage
 
         const method = this.id === undefined ? 'postSportObject' : 'putSportObject'

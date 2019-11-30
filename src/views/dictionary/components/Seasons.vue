@@ -99,11 +99,6 @@
     },
     methods: {
       ...mapActions(['addEmptySeason']),
-      submitSeason (obj) {
-        console.log(111)
-        this.submitObject(obj)
-        // this.selectedIndex = null
-      },
       deleteSeason (id) {
         if (id && id > 0) {
           this.deleteFromForm('deleteSeason', null, 'sezon', false, null, {urlParams: id})
@@ -116,7 +111,7 @@
       this.$store.dispatch('getSeasons')
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({buttonLink: 'dashboard'})
+      this.changeAdminNavbarButton({buttonLink: false})
     }
   }
 </script>

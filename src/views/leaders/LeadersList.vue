@@ -10,7 +10,6 @@
       <b-col cols="8">
         <b-row class="align-items-center mb-3">
           <b-col cols="4">
-            {{selectedDiscipline}}
             <treeselect class="custom"
                         v-model="selectedDiscipline"
                         :multiple="true"
@@ -92,6 +91,14 @@
           { id: 2, label: 'Siłownia' },
           { id: 3, label: 'Basen' }
         ]
+      }
+    },
+    methods: {
+      rowRedirect (id, isConfirmed) {
+        this.$router.push({
+          name: 'leader',
+          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+        })
       }
     },
     created () {
