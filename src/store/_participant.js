@@ -72,7 +72,7 @@ export default {
             }
 
             context.commit('setParticipant', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

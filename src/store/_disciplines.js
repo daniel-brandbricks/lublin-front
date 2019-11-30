@@ -88,7 +88,7 @@ export default {
             }
 
             context.commit('setDisciplines', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

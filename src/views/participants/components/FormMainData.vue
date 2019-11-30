@@ -4,12 +4,12 @@
 
       <!--      RADIO 104.7 kiss fm-->
       <h2 class="mb-4">Aktywuj</h2>
-      <b-row class="justify-content-start align-items-center">
+      <b-row class="justify-content-start align-items-center" v-if="participant">
         <b-col cols="12">
-          <template slot="status" slot-scope="scope">
-            <span class="status"
-                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>
-          </template>
+<!--          <template slot="status" slot-scope="scope">-->
+<!--            <span class="status"-->
+<!--                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>-->
+<!--          </template>-->
           <b-form-group>
             <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block mr-3 mb-3"
                           :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"
@@ -18,14 +18,20 @@
               {{element.title}}
             </b-form-radio>
 
-            <!--            CHECKBOX -->
+            <!--            todo CHECKBOX  OR RADIO -->
             <h2 class="mb-4">Płeć</h2>
-            <b-form-checkbox-group
-              id="checkbox-group-1"
-              v-model="participant.selectedGender"
-              :options="participant.genderOptions"
-              name="flavour-1"
-            ></b-form-checkbox-group>
+            <b-form-radio v-model="participant.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
+                          :class="{'error-input-custom': veeErrors.has('participant.sex')}"
+                          name="participant.sex" :key="'participant.sex'+index" v-validate="{'required':true}"
+                          v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
+              {{element.title}}
+            </b-form-radio>
+<!--            <b-form-checkbox-group-->
+<!--              id="checkbox-group-1"-->
+<!--              v-model="participant.selectedGender"-->
+<!--              :options="participant.genderOptions"-->
+<!--              name="flavour-1"-->
+<!--            ></b-form-checkbox-group>-->
           </b-form-group>
           <!--          INPUT-->
           <h2 class="mb-4">Dane ogólne</h2>
@@ -146,14 +152,14 @@
     data () {
       return {
         participants: [],
-        // participantDefault: {
-        //   active: 1,
-        //   firstName: '',
-        //   lastName: '',
-        //   sex: '',
-        //
-        //   years: []
-        // },
+        participantDefault: {
+          active: 1,
+          firstName: '',
+          lastName: '',
+          sex: '',
+
+          years: []
+        },
         disciplineDefault: {
           discipline: [],
           class: []
