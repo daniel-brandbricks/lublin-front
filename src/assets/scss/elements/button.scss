@@ -82,6 +82,7 @@ a.custom.btn {
   color: $c-white;
   border: 1px solid $c-red-dark2;
   background-color: $c-red-dark;
+  text-transform: uppercase;
 
   &:hover {
     box-shadow: unset;

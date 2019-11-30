@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <b-row class="justify-content-center">
+    <b-row class="justify-content-center" v-if="participantGroup">
       <b-col cols="12" lg="6" class="">
         <b-row>
           <b-col cols="12">

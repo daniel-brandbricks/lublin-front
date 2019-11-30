@@ -1,0 +1,116 @@
+.modal.custom {
+
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .modal-header {
+    padding: 30px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: unset;
+
+
+    & + .modal-body {
+      padding: 0 30px;
+      border-radius: unset;
+    }
+  }
+
+
+  .modal-body {
+    border-radius: 5px;
+    padding: 32px 16px;
+
+    p.modal-text {
+      @extend %font-regular;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    .wrap-logo {
+      margin: 0 -16px 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid $c-black-15;
+    }
+  }
+
+  .modal-footer {
+    border-top: unset;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 30px;
+
+    .btn-icon {
+      font-size: 13px;
+    }
+  }
+}
+
+.tabs.custom {
+  .nav.nav-pills {
+    margin-bottom: 32px;
+    justify-content: space-between;
+    position: relative;
+
+    &:before {
+      content: "";
+      width: 2px;
+      height: 70%;
+      display: block;
+      background-color: $c-black-15;
+      position: absolute;
+      left: 50%;
+      top: 15%;
+    }
+
+    .nav-item {
+      .nav-link {
+        &.active {
+          color: rgba(250, 20, 20, 0.5);
+          font-family: Klavika;
+          font-size: 20px;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          line-height: 21px;
+          background: unset;
+        }
+
+        color: rgba(0, 0, 0, 0.3);
+        font-family: Klavika;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+        line-height: 21px;
+      }
+    }
+  }
+
+}
+
+.fix-sub {
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  line-height: 24px;
+
+  .fsz-22 {
+    font-size: 22px;
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 4px;
+  }
+}
+
+.fsz-13 {
+  font-size: 13px !important;
+}
+
+.fix-card-text {
+  color: $c-black-75;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+}
+
+

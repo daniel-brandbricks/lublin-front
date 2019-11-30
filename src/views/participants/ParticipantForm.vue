@@ -42,7 +42,7 @@
           active: 1,
           firstName: '',
           lastName: '',
-          sex: '',
+          sex: 1,
           year: '',
           class: [],
 
@@ -82,8 +82,9 @@
       },
       submit () {
         let discipline = this.discipline
+        console.log(discipline)
 
-        const method = this.id === undefined ? 'postDiscipline' : 'putDiscipline'
+        const method = this.id === undefined ? 'postParticipant' : 'putParticipant'
         this.$store.dispatch(method, discipline)
           .then(() => {
             this.postSubmitRedirect('participants')
@@ -106,7 +107,7 @@
                 tab: 'main-data'
               },
               {
-                title: 'ListaZawodników',
+                title: 'Lista Zawodników',
                 link: 'participant',
                 tab: 'participants-list'
               },

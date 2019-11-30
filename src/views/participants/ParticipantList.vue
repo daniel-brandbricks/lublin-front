@@ -122,10 +122,10 @@
       }
     },
     methods: {
-      rowRedirect (id) {
+      rowRedirect (row) {
         this.$router.push({
           name: 'participant',
-          params: { 'tab': 'main-data', 'id': id }
+          params: { 'tab': 'main-data', 'id': row.id }
         })
       }
     },

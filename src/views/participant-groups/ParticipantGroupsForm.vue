@@ -136,6 +136,7 @@
           })
       },
       rowRedirect (row) {
+        console.log(row)
         this.$parent.rowRedirect(row.id, true)
       }
     },
