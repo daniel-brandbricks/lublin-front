@@ -3,9 +3,11 @@
 
     <!-- Sidebar -->
     <div class="border-right sidebar" id="sidebar-wrapper">
+      <b-link :to="{name:'home'}">
       <div class="sidebar-heading">
         <img src="/static/img/logo.svg" alt="">
       </div>
+      </b-link>
       <div class="list-group list-group-flush">
         <perfect-scrollbar id="scrollbar" class="custom ps-sidebar">
 
@@ -134,7 +136,7 @@
       logout () {
         this.$store.dispatch('logout')
           .then((response) => {
-            this.$router.push({ name: 'login' })
+            this.$router.push({name: 'login'})
           })
           .catch((error) => {
             console.log(error)

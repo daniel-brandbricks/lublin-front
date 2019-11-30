@@ -59,7 +59,6 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import TabLinks from '../../components/TabLinks'
   // import EventBus from '@/event-bus'
-
   import ListConfirmed from '@/views/sport-objects/components/ListConfirmed'
   import ListToConfirm from '@/views/sport-objects/components/ListToConfirm'
 
