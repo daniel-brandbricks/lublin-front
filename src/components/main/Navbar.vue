@@ -45,6 +45,7 @@
         </b-collapse>
       </b-navbar>
     </div>
+    <!--  LOGIN  -->
     <b-modal id="modal-login"
              centered hide-header-close
              modal-class="custom"
@@ -64,12 +65,16 @@
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom"
                             placeholder="E-mail"
+                            :class="{'error-input-custom': veeErrors.has('login.email') || loginError}"
+                            name="login.email" key="login.email" v-validate="{'required':true}"
                             v-model="email"></b-form-input>
             </b-form-group>
             <b-form-group
               class="custom">
               <b-form-input type="password" class="custom"
                             placeholder="Haslo"
+                            :class="{'error-input-custom': veeErrors.has('login.password') || loginError}"
+                            name="login.password" key="login.password" v-validate="{'required':true}"
                             v-model="password"></b-form-input>
             </b-form-group>
             <div class="btn-container d-flex flex-column w-100">
@@ -77,13 +82,14 @@
                      class="custom text-nowrap mb-sm-0 w-100">
                 <span class="icon-icon_login pr-2"></span> zaloguj się
               </b-btn>
-              <b-btn variant="icon" class="custom mt-1 fsz-13" v-b-modal.modal-login-newPass>
+              <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-1 fsz-13" v-b-modal.modal-login-newPass>
                 Zapomniałeś hasła?
               </b-btn>
             </div>
           </b-form>
         </b-tab>
 
+        <!--  SING UP  -->
         <b-tab title="Rejstracja">
           <b-form-group class="custom">
             <b-form-group>
@@ -98,13 +104,13 @@
               class="custom">
               <b-form-input type="text" class="custom"
                             placeholder="Imię"
-                            v-model="name"></b-form-input>
+                            v-model="firstName"></b-form-input>
             </b-form-group>
             <b-form-group
               class="custom">
               <b-form-input type="text" class="custom mb-3"
                             placeholder="Nazwisko"
-                            v-model="name"></b-form-input>
+                            v-model="lastName"></b-form-input>
             </b-form-group>
             <treeselect v-model="value"
                         :multiple="false"
@@ -117,13 +123,13 @@
               class="custom">
               <b-form-input id="input-1" class="custom"
                             placeholder="E-mail"
-                            v-model="name"></b-form-input>
+                            v-model="emailSignUp"></b-form-input>
             </b-form-group>
             <b-form-group
               class="custom">
-              <b-form-input type="phone" class="custom"
+              <b-form-input type="number" class="custom"
                             placeholder="Telefon"
-                            v-model="name"></b-form-input>
+                            v-model="phone"></b-form-input>
             </b-form-group>
             <div class="btn-container d-flex flex-column w-100 mt-3">
               <b-btn variant="primary" v-b-modal.modal-login-registration
@@ -132,13 +138,11 @@
               </b-btn>
 
             </div>
-
           </b-form-group>
-
         </b-tab>
       </b-tabs>
-
     </b-modal>
+
     <b-modal id="modal-login-registration"
              centered hide-header-close
              modal-class="custom"
@@ -206,8 +210,19 @@
     name: 'Navbar',
     data () {
       return {
+        selectedRadio: 'A',
+
+        firstName: '',
+        lastName: '',
+        emailSignUp: '',
+        phone: '',
+
         email: '',
         password: '',
+
+        loginError: false,
+
+        value: null,
         optionsTS: [{
           id: 'a',
           label: 'first',
@@ -228,20 +243,25 @@
       }
     },
     methods: {
+      showForgotPassModal () {
+        this.resetModal()
+        this.$bvModal.hide('modal-login')
+        this.$bvModal.show('modal-login-newPass')
+      },
       resetModal () {
+        this.firstName = ''
+        this.lastName = ''
+        this.emailSignUp = ''
+        this.phone = ''
         this.email = ''
         this.password = ''
       },
       validateEmail (email) {
-        // @todos
-        console.log('@todo')
-        console.log('fix that')
-        return email
-        // var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        // return re.test(String(email)
-        //   .toLowerCase())
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return re.test(String(email).toLowerCase())
       },
       login () {
+        console.log(111)
         if (this.email === '') {
           this.emptyEmail = false
           return false
@@ -252,6 +272,7 @@
         }
 
         if (!this.validateEmail(this.email)) {
+          // todo mixin
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
             toaster: 'b-toaster-bottom-full',
@@ -269,6 +290,16 @@
             this.$router.push({ name: 'test.content' })
           })
           .catch((error) => {
+            this.loginError = true
+
+            // todo mixin
+            this.$bvToast.toast('Nieprawidłowy adres e-mail lub hasło', {
+              title: 'Uwaga!',
+              toaster: 'b-toaster-bottom-full',
+              solid: true,
+              variant: 'danger'
+            })
+
             console.log(error)
           })
       }

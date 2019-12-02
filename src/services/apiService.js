@@ -55,7 +55,7 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         if (isAuthorized && error.response && error.response.data.error === 'empty user') {
           console.log('api service TOKEN_EXPIRED')
           store.dispatch('clearAuthToken')
-          router.push({ name: 'login' })
+          router.push({ name: 'home' })
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
