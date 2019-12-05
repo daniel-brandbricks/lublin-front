@@ -1,137 +1,102 @@
 <template>
-  <b-row class="justify-content-center">
-    <b-col cols="12" lg="5" class="">
+  <b-row class="justify-content-center" v-if="participant">
+    <b-col cols="6">
+      <h5>Aktywuj</h5>
+      <b-form-group>
+        <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block my-3 mr-3"
+                      :class="{'error-input-custom': veeErrors.has('participant.active')}"
+                      name="participant.active" :key="'participant.active'+index" v-validate="{'required':true}"
+                      v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
+          {{ element.title }}
+        </b-form-radio>
+      </b-form-group>
 
-      <!--      RADIO 104.7 kiss fm-->
-      <h2 class="mb-4">Aktywuj</h2>
-      <b-row class="justify-content-start align-items-center" v-if="participant">
-        <b-col cols="12">
-<!--          <template slot="status" slot-scope="scope">-->
-<!--            <span class="status"-->
-<!--                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'tak' : 'nie'}}</span>-->
-<!--          </template>-->
-          <b-form-group>
-            <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block mr-3 mb-3"
-                          :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"
-                          name="participant.active" :key="'participant.active'+index" v-validate="{'required':true}"
-                          v-for="(element, index) in [{title:'Tak', value: 1}, {title: 'Nie', value: 0}]">
-              {{element.title}}
-            </b-form-radio>
+      <!--            todo CHECKBOX  OR RADIO -->
+      <h2 class="mb-4">Płeć</h2>
+      <b-form-radio v-model="participant.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
+                    :class="{'error-input-custom': veeErrors.has('participant.sex')}"
+                    name="participant.sex" :key="'participant.sex'+index" v-validate="{'required':true}"
+                    v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
+        {{element.title}}
+      </b-form-radio>
 
-            <!--            todo CHECKBOX  OR RADIO -->
-            <h2 class="mb-4">Płeć</h2>
-            <b-form-radio v-model="participant.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
-                          :class="{'error-input-custom': veeErrors.has('participant.sex')}"
-                          name="participant.sex" :key="'participant.sex'+index" v-validate="{'required':true}"
-                          v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
-              {{element.title}}
-            </b-form-radio>
-<!--            <b-form-checkbox-group-->
-<!--              id="checkbox-group-1"-->
-<!--              v-model="participant.selectedGender"-->
-<!--              :options="participant.genderOptions"-->
-<!--              name="flavour-1"-->
-<!--            ></b-form-checkbox-group>-->
-          </b-form-group>
-          <!--          INPUT-->
-          <h2 class="mb-4">Dane ogólne</h2>
-          <b-form-group class="custom">
-            <b-form-input id="input-1" class="custom"
-                          placeholder="Imię"
-                          :class="{'error-input-custom': veeErrors.has('participant.firstName')}"
-                          name="participant.firstName" key="participant.firstName" v-validate="{'required':true}"
-                          v-model="participant.firstName"/>
-          </b-form-group>
-          <b-form-group class="custom">
-            <b-form-input id="input-1" class="custom"
-                          placeholder="Nazwisko"
-                          :class="{'error-input-custom': veeErrors.has('participant.lastName')}"
-                          name="participant.lastName" key="participant.lastName" v-validate="{'required':true}"
-                          v-model="participant.lastName"/>
-          </b-form-group>
-          <!--          todo computed in mixin-->
-          <treeselect v-model="participant.years.id" v-if="participant.years"
-                      :multiple="false" class="custom mb-3"
-                      placeholder="Rocznik" :options="participantYears"
-                      :class="{'error-input-custom': veeErrors.has('participant.years')}"
-                      name="participant.years" key="participant.years" v-validate="{'required':true}"
+      <h5 class="mb-3">Dane ogólne</h5>
+      <b-form-group class="custom mb-2">
+        <b-form-input id="name-1" class="custom m-0"
+                      placeholder="Imię"
+                      :class="{'error-input-custom': veeErrors.has('participant.firstName')}"
+                      name="participant.firstName" key="participant.firstName" v-validate="{'required':true}"
+                      v-model="participant.firstName"/>
+      </b-form-group>
+      <b-form-group class="custom mb-2">
+        <b-form-input id="surname-1" class="custom m-0"
+                      placeholder="Nazwisko"
+                      :class="{'error-input-custom': veeErrors.has('participant.lastName')}"
+                      name="participant.lastName" key="participant.lastName" v-validate="{'required':true}"
+                      v-model="participant.lastName"/>
+      </b-form-group>
+      <b-form-group class="custom mb-2">
+        <treeselect v-model="participant.year"
+                    :multiple="false"
+                    placeholder="Rocznik"
+                    :options="years"
+                    :class="{'error-input-custom': veeErrors.has('participant.year')}"
+                    name="participant.year" key="participant.year" v-validate="{'required':true}"
+                    class="custom mb-3"/>
+      </b-form-group>
+
+      <h5 class="my-3">Dyscipliny</h5>
+      <div class="row" v-if="participant.disciplines"
+           v-for="(discipline,index) in participant.disciplines" :key="index">
+        <div class="col-2">
+          <div class="text-center _custom-css">
+            <p class="m-auto">{{index + 1}}</p>
+          </div>
+          <p @click="removeDiscipline(index)" v-if="participant.disciplines.length > 0 && participant.class.length > 0">usuń</p>
+        </div>
+        <div class="col-10">
+          <treeselect class="custom mb-2" v-if="participant.disciplines[index]"
+                      v-model="participant.disciplines[index].id"
+                      :multiple="false"
+                      :class="{'error-input-custom': veeErrors.has('participant.discipline'+index)}"
+                      :name="'participant.discipline'+index" :key="'participant.discipline'+index" v-validate="{'required':true}"
+                      placeholder="Dyscyplina"
+                      :options="disciplinesTreeselect"/>
+          <treeselect class="custom mb-2" v-if="participant.class[index]"
+                      v-model="participant.class[index].id"
+                      :multiple="false"
+                      placeholder="Klasa"
+                      :class="{'error-input-custom': veeErrors.has('participant.class')}"
+                      name="'participant.class'+index" :key="'participant.class'+index" v-validate="{'required':true}"
+                      :options="classTreeselect"
           />
 
-          <!--          DISCIPLINES     -->
-          <b-row>
-            <b-col cols="12">
-              <h2 class="mb-4">Dyscypliny</h2>
-            </b-col>
-          </b-row>
-          <div class="row" v-if="participant.discipline"
-               v-for="(discipline, index) in participant.discipline" :key="index">
-            <div class="col-1">
-              <div class="text-center custom-class">
-                <p class="m-auto">{{ index + 1 }}</p>
-              </div>
-              <p @click="removeDiscipline(index)" v-if="participant.discipline.length > 0">usuń</p>
-            </div>
-            <div class="col-11 pl-4">
-              <b-form-group class="custom">
-                <treeselect v-model="discipline.id" v-if="discipline.discipline"
-                            :multiple="false" class="custom mb-3"
-                            placeholder="Dyscyplina" :options="participantDiscipline"
-                            :class="{'error-input-custom': veeErrors.has('discipline.discipline')}"
-                            name="discipline.discipline" key="discipline.discipline" v-validate="{'required':true}"
-                />
-                <treeselect v-model="discipline.class.id" v-if="discipline.class"
-                            :multiple="false" class="custom mb-3"
-                            placeholder="Klasa" :options="participantClass"
-                            :class="{'error-input-custom': veeErrors.has('discipline.class')}"
-                            name="discipline.class" key="discipline.class" v-validate="{'required':true}"
-                />
-              </b-form-group>
-            </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-2">
+          <div class="text-center _custom-css">
+            <p class="m-auto">{{participant.disciplines.length + 1 && participant.class.length + 1}}</p>
           </div>
+        </div>
+        <div class="col-10">
+          <b-btn @click="addDisciplineAndClass" variant="primary" block class="w-50">+ Dodaj</b-btn>
+        </div>
+      </div>
+
+      <!--buttons-->
+      <b-row class="mt-4">
+        <b-col>
+          <b-btn block class="custom btn" :to="{ name: 'participants' }">
+            Anuluj
+          </b-btn>
+        </b-col>
+        <b-col>
+          <b-btn block variant="primary" class="custom" @click="submit(1, true)">
+            Dodaj
+          </b-btn>
         </b-col>
       </b-row>
-
-      <b-row>
-        <b-col cols="12" lg="6" class="">
-          <!--buttons-->
-          <div class="row">
-            <div class="col-1">
-              <!--   todo Веталь, перепиши в класс как будет время   -->
-              <b-col>
-                <div class="text-center custom-class">
-                  <p class="m-auto" v-if="participant.discipline">{{participant.discipline.length + 1}}</p>
-                </div>
-              </b-col>
-            </div>
-
-            <b-col>
-              <div class="col-11 pl-4">
-                <b-btn variant="primary" class="custom" @click="addDiscipline">Dodaj</b-btn>
-              </div>
-            </b-col>
-          </div>
-        </b-col>
-
-      </b-row>
-
-      <b-row class="justify-content-center">
-        <b-col cols="12" lg="6" class="">
-          <!--buttons-->
-          <b-row class="mt-4">
-            <b-col>
-              <b-btn block class="custom btn" :to="{ name: 'participants' }">
-                Anuluj
-              </b-btn>
-            </b-col>
-            <b-col>
-              <b-btn block variant="primary" class="custom" @click="submit(1, true)">
-                Dodaj
-              </b-btn>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-
     </b-col>
   </b-row>
 </template>
@@ -146,7 +111,7 @@
 
   export default {
     name: 'FormMainData',
-    props: [ 'participant' ],
+    props: [ 'participant', 'years' ],
     components: { Treeselect },
     mixins: [ EventBusEmit, FormMixin, ParticipantMixin ],
     data () {
@@ -160,17 +125,41 @@
 
           years: []
         },
-        disciplineDefault: {
-          discipline: [],
-          class: []
-        },
 
         isValidForm: false
       }
     },
+    computed: {
+      disciplines () {
+        return this.$store.getters.disciplines
+      },
+      classes () {
+        return this.$store.getters.classes
+      },
+      classTreeselect () {
+        let classes = this.classes
+        let prepared = []
+
+        for (let classIndex in classes) {
+          prepared.push({id: classes[classIndex].id, label: classes[classIndex].title})
+        }
+
+        return prepared
+      },
+      disciplinesTreeselect () {
+        let disciplines = this.disciplines
+        let prepared = []
+
+        for (let disciplineIndex in disciplines) {
+          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
+        }
+
+        return prepared
+      }
+    },
     methods: {
-      addDiscipline () {
-        this.$parent.addDiscipline(this.disciplineDefault)
+      addDisciplineAndClass () {
+        this.$parent.addDisciplineAndClass()
       },
       removeDiscipline (index) {
         this.$parent.removeDiscipline(index)
@@ -190,14 +179,12 @@
         } else {
           this.$parent.submit()
         }
-      },
-      mounted () {
-        if (this.$route.params.validateForm) {
-          this.checkValidForm()
-        }
-      },
-      rowRedirect (row) {
-        this.$parent.rowRedirect(row.id)
+      }
+    },
+    mounted () {
+      // validate form after redirect from another tab (component)
+      if (this.$route.params.validateForm) {
+        this.checkValidForm()
       }
     },
     created () {
@@ -209,11 +196,11 @@
 </script>
 
 <style scoped>
-  .custom-class {
-    border-radius: 50%;
-    box-sizing: border-box;
-    height: 36px;
-    width: 36px;
-    border: 2px solid #D8D8D8;
-  }
+   ._custom-css {
+     border-radius: 50%;
+     box-sizing: border-box;
+     height: 36px;
+     width: 36px;
+     border: 2px solid #D8D8D8;
+   }
 </style>

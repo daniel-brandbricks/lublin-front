@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-row class="justify-content-center">
+    <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
       <b-col cols="12">
         <TabLinks :links="tabLinks"></TabLinks>
         <template>
@@ -31,6 +31,7 @@
 <script>
 
   import TabLinks from '@/components/TabLinks'
+
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
 
@@ -70,6 +71,26 @@
             link: 'participant.group',
             tab: 'participants',
             method: 'checkValidMainForm'
+          },
+          {
+            title: 'Zajęcia',
+            link: 'participant.group',
+            tab: 'activities'
+          },
+          {
+            title: 'Kalendarz',
+            link: 'participant.group',
+            tab: 'calendar'
+          },
+          {
+            title: 'Frekwencja',
+            link: 'participant.group',
+            tab: 'frequency'
+          },
+          {
+            title: 'MTSF',
+            link: 'participant.group',
+            tab: 'mtsf'
           }
         ],
 
@@ -78,11 +99,18 @@
           active: 1,
           title: '',
           sex: '',
-          discipline: [],
-          class: [],
-          lessonCategory: [],
+          discipline: {
+            id: null
+          },
+          class: {
+            id: null
+          },
+          lessonCategory: {
+            id: null
+          },
           participants: [],
-          // years: [],
+
+          years: [],
 
           // checkbox
           selectedGender: [],
@@ -94,40 +122,33 @@
           ]
         },
 
-        selectedDiscipline: null,
-        selectedCategory: null,
-        selectedClass: null,
-        // temp
-
         isValidForm: false
       }
     },
     computed: {},
     methods: {
-      addParticipant (participantDefault) {
-        // let copy = {...participantDefault}
-        this.participantGroup.participants.push(participantDefault)
-      },
-      removeParticipant (index) {
-        this.participantGroup.participants.splice(index, 1)
-      },
       checkValidMainForm () {
         this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
           })
       },
-      goToFormTab (tabName, params = {}) {
-        this.checkValidMainForm()
-        let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
-        this.$router.push({ name: 'participant.group', params: defaultParams })
+      // addParticipant (participantDefault) {
+      //   // let copy = {...participantDefault}
+      //   this.participantGroup.participants.push(participantDefault)
+      // },
+      addParticipant () {
+        this.participantGroup.participants.push({})
+      },
+      removeParticipant (index) {
+        this.participantGroup.participants.splice(index, 1)
       },
       submit () {
-        let participant = this.participantGroup
+        let participantGroup = {...this.participantGroup}
         console.log(this.participantGroup)
 
         const method = this.id === undefined ? 'postParticipantGroup' : 'putParticipantGroup'
-        this.$store.dispatch(method, participant)
+        this.$store.dispatch(method, participantGroup)
           .then(() => {
             this.postSubmitRedirect('participant.groups')
           })
@@ -135,61 +156,31 @@
             this.postSubmitError(error)
           })
       },
-      rowRedirect (row) {
-        console.log(row)
-        this.$parent.rowRedirect(row.id, true)
+      goToFormTab (tabName, params = {}) {
+        this.checkValidMainForm()
+        let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
+        this.$router.push({ name: 'participant.group', params: defaultParams })
       }
     },
     created () {
       // init participantGroup
-      this.participantGroup = Object.assign(this.participantGroup, this.$store.getters.participantGroup(this.id))
+      // this.participantGroup = Object.assign(this.participantGroup, this.$store.getters.participantGroup(this.id))
 
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'participant.group', params: { 'tab': 'main-data' } })
       }
+
+      // from data todo in participant
       if (this.id) {
         this.$store.dispatch('getParticipantGroup', { id: this.id })
           .then((response) => {
             this.participantGroup = response
-
-            this.tabLinks = [
-              {
-                title: 'Dane ogólne',
-                link: 'participant.group',
-                tab: 'main-data'
-              },
-              {
-                title: 'Zawodnicy',
-                link: 'participant.group',
-                tab: 'participants',
-                method: 'checkValidMainForm'
-              },
-              {
-                title: 'Zajęcia',
-                link: 'participant.group',
-                tab: 'activities'
-              },
-              {
-                title: 'Kalendarz',
-                link: 'participant.group',
-                tab: 'calendar'
-              },
-              {
-                title: 'Frekwencja',
-                link: 'participant.group',
-                tab: 'frequency'
-              },
-              {
-                title: 'MTSF',
-                link: 'participant.group',
-                tab: 'mtsf'
-              }
-            ]
           })
       }
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
+
       let breadcrumbs = [
         { text: 'Lista zawodników', to: { name: 'participant.groups' } },
         { text: this.id ? this.participantGroup.name : 'Nowa', active: true }
