@@ -10,18 +10,17 @@
                 v-model="selectedGender"
                 :options="genderOptions"
                 name="flavour-1"
-              ></b-form-checkbox-group>
+              />
             </b-form-group>
           </b-col>
           <b-col cols="9">
             <b-row class="align-items-center">
               <b-col cols="4">
-                <treeselect v-model="years.id" v-if="years"
-                            :multiple="false" class="custom"
-                            placeholder="Rocznik" :options="participantYears"
-                            :class="{'error-input-custom': veeErrors.has('years')}"
-                            name="years" key="years" v-validate="{'required':true}"
-                />
+                <treeselect class="custom"
+                            v-model="yearValue"
+                            :multiple="true"
+                            placeholder="Rocznik"
+                            :options="years"/>
               </b-col>
               <b-col cols="4">
                 <treeselect v-model="classes.id" v-if="classes"
@@ -35,7 +34,7 @@
                 <b-form-group class="custom">
                   <b-form-input id="input-1" class="custom m-0"
                                 placeholder="Szukaj"
-                                v-model="search"></b-form-input>
+                                v-model="search"/>
                 </b-form-group>
               </b-col>
             </b-row>
@@ -58,13 +57,11 @@
           <template slot="class" slot-scope="scope">
             <span>{{scope.item.class.title}}</span>
           </template>
-          <!--          <template slot="year" slot-scope="scope">-->
-          <!--            <span>{{scope.item.years}}</span>-->
-          <!--          </template>-->
           <template slot="status" slot-scope="scope">
-            <span class="status"
-                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+            <span class="status" :class="{'active': scope.item.active}">
+              {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
+
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
@@ -81,6 +78,8 @@
   // node_modules
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
+  import { YEARS } from '@/config/AppConfig'
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import ParticipantMixin from '@/mixins/participant-mixin'
@@ -109,10 +108,10 @@
           { text: 'mężczyzna', value: 1 }
         ],
 
-        selectedClass: null,
-        selectedYear: null,
-        // temp
-        years: [],
+        yearValue: null,
+        years: YEARS,
+
+        // years: [],
         classes: []
       }
     },

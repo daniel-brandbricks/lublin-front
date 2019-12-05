@@ -1,25 +1,26 @@
 <template>
   <div class="container">
-    <b-row cols="12">
+    <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
+      <b-col cols="12">
       <TabLinks :links="tabLinks"></TabLinks>
-      <template>
-        <FormMainData :participant="participant" @childSubmit="submit" ref="FormMainData"
-                      :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
-      </template>
+      </b-col>
     </b-row>
+
+    <FormMainData :participant="participant" @childSubmit="submit" ref="FormMainData" :years="years"
+                      :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
   </div>
 </template>
 
 <script>
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
   import TabLinks from '@/components/TabLinks'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
 
   // todo components
   import FormMainData from '@/views/participants/components/FormMainData'
+  import { YEARS } from '../../config/AppConfig'
 
   export default {
     name: 'ParticipantForm',
@@ -35,22 +36,50 @@
           {
             link: 'participant',
             tab: 'main-data'
+          },
+          {
+            title: 'Dane ogólne',
+            link: 'participant',
+            tab: 'main-data'
+          },
+          {
+            title: 'Lista Zawodników',
+            link: 'participant',
+            tab: 'participants-list'
+          },
+          {
+            title: 'Zajęcia',
+            link: 'participant',
+            tab: 'activities'
+          },
+          {
+            title: 'Kalendarz',
+            link: 'participant',
+            tab: 'calendar'
+          },
+          {
+            title: 'Frekwencja',
+            link: 'participant',
+            tab: 'frequency'
+          },
+          {
+            title: 'MTSF',
+            link: 'participant',
+            tab: 'mtsf'
           }
         ],
 
+        years: YEARS,
         participant: {
           active: 1,
           firstName: '',
           lastName: '',
           sex: 1,
-          year: '',
+          year: null,
           class: [],
 
           participants: [],
-
-          // for treeselect
-          years: [],
-          discipline: [],
+          disciplines: [],
 
           // checkbox
           selectedGender: [],
@@ -60,80 +89,61 @@
           ]
         },
 
-        selectedClass: null,
-        selectedDiscipline: null,
-
         isValidForm: false
       }
     },
     computed: {},
     methods: {
-      addDiscipline (disciplineDefault) {
-        this.participant.discipline.push(disciplineDefault)
-      },
-      removeDiscipline (index) {
-        this.participant.discipline.splice(index, 1)
-      },
       checkValidMainForm () {
         this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
           })
       },
+      prepareToSubmit (participant) {
+        let disciplines = participant.disciplines
+        let disciplinesPrepared = []
+
+        for (let disciplinesIndex in disciplines) {
+          disciplinesPrepared.push(disciplines[disciplinesIndex].id)
+        }
+        participant.disciplines = disciplinesPrepared
+      },
       submit () {
-        let discipline = this.discipline
-        console.log(discipline)
+        let participant = {...this.participant}
+        this.prepareToSubmit(participant)
+        console.log(participant)
 
         const method = this.id === undefined ? 'postParticipant' : 'putParticipant'
-        this.$store.dispatch(method, discipline)
+        this.$store.dispatch(method, participant)
           .then(() => {
             this.postSubmitRedirect('participants')
           })
           .catch((error) => {
             this.postSubmitError(error)
           })
+      },
+      addDisciplineAndClass () {
+        this.participant.disciplines.push({})
+        this.participant.class.push({})
+      },
+      removeDiscipline (index) {
+        this.participant.disciplines.splice(index, 1)
+        this.participant.class.splice(index, 1)
       }
     },
     created () {
-      if (this.id) {
-        this.$store.dispatch('getParticipants', { id: this.id })
-          .then((response) => {
-            this.participant = response
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'participant', params: {'tab': 'main-data'} })
+      }
 
-            this.tabLinks = [
-              {
-                title: 'Dane ogólne',
-                link: 'participant',
-                tab: 'main-data'
-              },
-              {
-                title: 'Lista Zawodników',
-                link: 'participant',
-                tab: 'participants-list'
-              },
-              {
-                title: 'Zajęcia',
-                link: 'participant',
-                tab: 'activities'
-              },
-              {
-                title: 'Kalendarz',
-                link: 'participant',
-                tab: 'calendar'
-              },
-              {
-                title: 'Frekwencja',
-                link: 'participant',
-                tab: 'frequency'
-              },
-              {
-                title: 'MTSF',
-                link: 'participant',
-                tab: 'mtsf'
-              }
-            ]
+      if (this.id) {
+        this.$store.dispatch('getParticipant', { id: this.id })
+          .then((response) => {
+            this.participantGroup = response
           })
       }
+
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
 
