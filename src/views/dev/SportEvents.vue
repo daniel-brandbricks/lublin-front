@@ -34,23 +34,29 @@
             <b-card
               class="custom"
               footer-class="p-0"
-              img-src="https://picsum.photos/300/300/?image=123"
+              img-src="https://picsum.photos/300/300/?image=122"
               img-alt="Image"
               img-top>
               <b-card-text text-tag="div" class="height-hidden">
-                <h2 class="card-title " title="lorem8">
-                  Vestibulum dignissim
-                  venenatis nibh
-                </h2>
+                <h2 class="card-title " title="lorem8">Quisque finibus sagittis</h2>
                 <p
-                  class="">Ut egestas, augue ut vulputate porta, ante dolor vehicula eros, ut faucibus quam elit in
-                  enim. Fusce nec odio et lacus tincidunt ultricies. Aliquam est nisi, faucibus vitae fringilla nec,
-                  posuere eu erat.</p>
+                  class="">Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat,
+                  elementum velit et, elementum libero.
+                  Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas, mollis libero in, ullamcorper
+                  est. Sed bibendum
+                  Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat, elementum
+                  velit et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas,
+                  mollis libero in, ullamcorper est. Sed bibendum</p>
               </b-card-text>
-              <p class="card-signature mb-0"><span class="icon icon-icon_date_16 pl-0"></span>11.07.19</p>
-              <b-btn variant="icon" class="custom card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </b-btn>
+
+              <div class="box-sub d-flex justify-content-between">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-calendar pr-1 "></span>11.07.19</p>
+
+                <b-btn variant="icon" class="custom card-arrow p-0 mb-n1" :to="{name:'sportEventsInner'}">
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
             </b-card>
           </b-col>
           <b-col cols="12" md="6" lg="3" class="mb-3">
@@ -61,7 +67,7 @@
               img-alt="Image"
               img-top>
               <b-card-text text-tag="div" class="height-hidden">
-                <h2 class="card-title " title="lorem8">
+                <h2 class="card-title" title="lorem8">
                   Vestibulum dignissim
                   venenatis nibh
                 </h2>
@@ -70,10 +76,12 @@
                   enim. Fusce nec odio et lacus tincidunt ultricies. Aliquam est nisi, faucibus vitae fringilla nec,
                   posuere eu erat.</p>
               </b-card-text>
-              <p class="card-signature mb-0"><span class="icon icon-icon_date_16 pl-0"></span>11.07.19</p>
-              <b-btn variant="icon" class="custom card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </b-btn>
+              <div class="box-sub d-flex justify-content-between">
+                <p class="card-signature mb-0"><span class="icon icon-calendar pr-1"></span>11.07.19</p>
+                <b-btn variant="icon" class="custom card-arrow p-0 mb-n1" :to="{name:'sportEventsInner'}">
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
             </b-card>
           </b-col>
         </b-row>

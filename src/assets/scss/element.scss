@@ -100,14 +100,18 @@ textarea.custom {
   display: flex;
   margin: 0 -4px;
   justify-content: end;
-
   .btn-arrow {
     @extend %font-bold;
     margin: 0 4px;
     display: block;
     width: 40px;
-    height: 40px;
     background-color: rgba(0, 0, 0, 0.07);
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 38px;
+    font-size: 12px;
+    .icon.sm{
+    }
   }
 }
 
@@ -170,5 +174,30 @@ textarea.custom {
 .wrapp-map{
   img {
     max-width: 100%;
+  }
+}
+
+
+._plus{
+  position: relative;
+  &:before{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 2px;
+    height: 10px;
+    background-color: $c-black-05;
+    top: -4px;
+    left: 4px;
+  }
+  &:after{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 2px;
+    background-color: $c-black-05;
+    top: 50%;
+    left: 0;
   }
 }

@@ -45,7 +45,7 @@
               mollis libero in, ullamcorper est. Sed bibendum
             </p>
             <div>
-              <span class="icon icon-icon_www"></span>
+              <span class="icon icon-www pr-1 c-black-05"></span>
               www.pozaspo.com
             </div>
           </b-col>

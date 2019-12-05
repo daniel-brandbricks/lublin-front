@@ -37,7 +37,7 @@
             </b-nav-item>
             <b-nav-item href="#">
               <b-btn variant="outline-primary" class="custom text-nowrap" v-b-modal.modal-login>
-                <span class="icon-icon_login pr-2"></span> zaloguj się
+                <span class="icon icon-login pr-2"></span> zaloguj się
               </b-btn>
             </b-nav-item>
 
@@ -80,7 +80,7 @@
             <div class="btn-container d-flex flex-column w-100">
               <b-btn type="submit" variant="primary"
                      class="custom text-nowrap mb-sm-0 w-100">
-                <span class="icon-icon_login pr-2"></span> zaloguj się
+                <span class="icon icon-login pr-2"></span> zaloguj się
               </b-btn>
               <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-1 fsz-13" v-b-modal.modal-login-newPass>
                 Zapomniałeś hasła?
@@ -117,7 +117,7 @@
                         :options="optionsTS"
                         class="custom"/>
             <b-btn variant="icon" class="custom my-2 text-uppercase fix-sub">
-              dodaj kolejną <span class="fsz-22 pl-2">+</span>
+              dodaj kolejną <span class="_plus ml-2"></span>
             </b-btn>
             <b-form-group
               class="custom">
@@ -134,7 +134,7 @@
             <div class="btn-container d-flex flex-column w-100 mt-3">
               <b-btn variant="primary" v-b-modal.modal-login-registration
                      class="custom text-nowrap   mb-sm-0 w-100">
-                <span class="icon-icon_mail pr-2"></span> Wyślij danne
+                <span class="icon icon-mail pr-2"></span> Wyślij danne
               </b-btn>
 
             </div>
@@ -164,7 +164,7 @@
       <div class="btn-container d-flex flex-column w-100 mt-3">
         <b-btn variant="primary" v-b-modal.modal-login-registration
                class="custom text-nowrap   mb-sm-0 w-100">
-          <span class="icon-icon_arrow_2_left pr-2"></span>Wróć do strony
+          <span class="icon icon-arrow_left pr-2"></span>Wróć do strony
         </b-btn>
       </div>
 

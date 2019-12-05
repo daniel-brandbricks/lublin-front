@@ -9,13 +9,16 @@
               Opis
             </h5>
             <p class="mb-3">
-              Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat, elementum velit
-              et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas, mollis libero
+              Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat, elementum
+              velit
+              et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas, mollis
+              libero
               in, ullamcorper est.
             </p>
             <p class="mb-3">
               Sed bibendum. Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat,
-              elementum velit et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas,
+              elementum velit et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi
+              egestas,
               mollis libero in, ullamcorper est. Sed bibendum
             </p>
             <h2 class="mb-3">Do ściągnięcia</h2>
@@ -23,31 +26,31 @@
               <b-row>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
                   <div>
-                    <span class="icon icon-icon_file c-red-dark"></span>
+                    <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
                   </div>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
                   <div>
-                    <span class="icon icon-icon_file c-red-dark"></span>
+                    <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
                   </div>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
                   <div>
-                    <span class="icon icon-icon_file c-red-dark"></span>
+                    <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
                   </div>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
                   <div>
-                    <span class="icon icon-icon_file c-red-dark"></span>
+                    <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
                   </div>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
                   <div>
-                    <span class="icon icon-icon_file c-red-dark"></span>
+                    <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
                   </div>
                 </b-col>

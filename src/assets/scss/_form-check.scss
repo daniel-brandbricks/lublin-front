@@ -75,8 +75,8 @@ html body .custom-checkbox {
 
       &::before {
         color: #fff;
-        border-color: $c-red-dark;
-        background-color: $c-red-dark;
+        border-color: $c-red-dark2;
+        background-color: $c-red-dark2;
         outline: none;
         box-shadow: none;
       }
@@ -127,8 +127,8 @@ html body .custom-radio {
     & ~ .custom-control-label {
       &::before {
         color: #fff;
-        border-color: $c-red-dark;
-        background-color: $c-red-dark;
+        border-color: $c-red-dark2;
+        background-color: $c-red-dark2;
         outline: none;
         box-shadow: none;
       }

@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'font-icon-lublin';
+  src:  url('/static/fonts/font-icon-lublin.eot?qvztzc');
+  src:  url('/static/fonts/font-icon-lublin.eot?qvztzc#iefix') format('embedded-opentype'),
+  url('/static/fonts/font-icon-lublin.ttf?qvztzc') format('truetype'),
+  url('/static/fonts/font-icon-lublin.woff?qvztzc') format('woff'),
+  url('/static/fonts/font-icon-lublin.svg?qvztzc#font-icon-lublin') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'font-icon-lublin' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon_arrow_2_left:before {
+  content: "\e900";
+}
+.icon-icon_arrow_2_right:before {
+  content: "\e901";
+}
+.icon-icon_file:before {
+  content: "\e902";
+}
+.icon-icon_login:before {
+  content: "\e903";
+  font-size: 16px;
+}
+.icon-icon_mail:before {
+  content: "\e904";
+  font-size: 16px;
+}
+.icon-icon_sent:before {
+  content: "\e905";
+}
+.icon-icon_date_16:before {
+  content: "\e906";
+}
+.icon-icon_facebook:before {
+  content: "\e907";
+}
+.icon-icon_youtube:before {
+  content: "\e908";
+}
+.icon-icon_pin_2:before {
+  content: "\e909";
+}
+.icon-icon_phone:before {
+  content: "\e90a";
+}
+.icon-icon_discipline:before {
+  content: "\e90c";
+}
+.icon-iconm_search:before {
+  content: "\e90d";
+}
+.icon-icon_check:before {
+  content: "\e90e";
+}
+.icon-icon_arrow_24:before {
+  content: "\e90f";
+}
+.icon-icon_www:before {
+  content: "\e910";
+}
+.icon-icon_play:before {
+  content: "\e911";
+}
+.icon-illustration_1:before {
+  content: "\e912";
+}
+.icon-illustration_2:before {
+  content: "\e913";
+}
+.icon-illustration_3:before {
+  content: "\e914";
+}
+.icon-icon_arrow_3_down:before {
+  content: "\e915";
+}
+.icon-discipline:before {
+  content: "\e90b";
+}
+.icon-illustration_11:before {
+  content: "\e916";
+}
+
+.icon{
+  padding-right: 10px;
+}

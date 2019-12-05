@@ -32,15 +32,15 @@
           <b-col cols="12" lg="7">
             <h2 class="main mb-2">Mistrzostwa Polski <br> w pływaniu 16 lat</h2>
             <h2 class="sup mb-1">
-              <span class="icon icon-discipline"></span>
+              <span class="icon icon-pin lg ml-n1 c-black-05"></span>
               al. Zygmuntowskie 4
             </h2>
             <p class="mb-1 font-sm">
-              <span class="icon icon-discipline"></span>
+              <span class="icon icon-calendar pr-1 c-black-05"></span>
               12.07.19 <strong> 08:00</strong> - 12.07.19 <strong> 08:00</strong>
             </p>
             <p class="mb-3 font-sm">
-              <span class="icon icon-discipline"></span>
+              <span class="icon icon-facebook pr-1 c-black-05"></span>
               Aktywny Studen
             </p>
             <h5 class="sup mb-0">
