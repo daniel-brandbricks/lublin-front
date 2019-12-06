@@ -7,22 +7,22 @@
             <img src="/static/img/logo.svg" alt="Logo">
           </b-col>
           <b-col cols="12" lg="9">
-            <h1>Akademia Piłkarska Bronowice Lublin</h1>
-            <b-row>
-              <b-col cols="12" lg="4">
-                <div class="info-box border-r">
-                  <h2><span class="icon icon-pin pr-2 ml-n1"></span> ul. Montażowa 16</h2>
-                  <p><span class="icon icon-discipline pr-3"></span>Piłka nożna</p>
-                  <p><span class="icon icon-mail pr-3"></span>testing@test.com</p>
-                  <p><span class="icon icon-phone pr-3"></span>+11 111 111 111</p>
+            <h1 class="mb-4">Akademia Piłkarska Bronowice Lublin</h1>
+            <b-row class="mb-4">
+              <b-col cols="12" lg="4" class="mb-3 mb-lg-0">
+                <div class="info-box border-lg-r">
+                  <h2><span class="icon icon-pin c-black-05 pr-2 ml-n1"></span> ul. Montażowa 16</h2>
+                  <p><span class="icon icon-discipline c-black-05 pr-3"></span>Piłka nożna</p>
+                  <p><span class="icon icon-mail c-black-05 pr-3"></span>testing@test.com</p>
+                  <p><span class="icon icon-phone c-black-05 pr-3"></span>+11 111 111 111</p>
                 </div>
               </b-col>
               <b-col cols="12" lg="4">
                 <div class="info-box">
                   <p class="signature mb-0">Organizatorem jest</p>
                   <p class="">ORLIK</p>
-                  <p><span class="icon icon-pin pr-3"></span>ul. Montażowa 16</p>
-                  <p><span class="icon icon-phone pr-3"></span>+11 111 111 111</p>
+                  <p><span class="icon icon-pin c-black-05 pr-3"></span>ul. Montażowa 16</p>
+                  <p><span class="icon icon-phone c-black-05 pr-3"></span>+11 111 111 111</p>
                 </div>
               </b-col>
             </b-row>

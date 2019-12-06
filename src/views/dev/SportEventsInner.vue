@@ -3,7 +3,7 @@
     <section class="mb-4">
       <b-container>
         <b-row class="justify-content-center">
-          <b-col cols="12" lg="5">
+          <b-col cols="12" lg="5" class="mb-4 mb-lg-0 text-center text-lg-left">
             <section class="header-slider mini-">
               <b-carousel
                 class="custom"

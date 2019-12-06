@@ -163,9 +163,11 @@ textarea.custom {
 
 .file-box {
   @extend %font-bold;
-  color: $c-black-75;
   font-size: 13px;
   line-height: 20px;
+  a{
+    color: $c-black-75!important;
+  }
   .icon {
     font-size: 20px;
   }
@@ -199,5 +201,11 @@ textarea.custom {
     background-color: $c-black-05;
     top: 50%;
     left: 0;
+  }
+}
+
+.border-lg-r{
+  @media(min-width: 992px){
+    border-right: 2px solid rgba(0, 0, 0, 0.07);
   }
 }

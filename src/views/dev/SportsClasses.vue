@@ -25,34 +25,34 @@
             <div class="file-box">
               <b-row>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
-                  <div>
+                  <a href="#">
                     <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
-                  </div>
+                  </a>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
-                  <div>
+                  <a href="#">
                     <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
-                  </div>
+                  </a>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
-                  <div>
+                  <a href="#">
                     <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
-                  </div>
+                  </a>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
-                  <div>
+                  <a href="#">
                     <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
-                  </div>
+                  </a>
                 </b-col>
                 <b-col cols="12" sm="6" md="4" class="mb-3">
-                  <div>
+                  <a href="#">
                     <span class="icon icon-file c-red-dark pr-1"></span>
                     plik1.psd
-                  </div>
+                  </a>
                 </b-col>
 
               </b-row>

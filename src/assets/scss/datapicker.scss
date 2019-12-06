@@ -13,6 +13,10 @@
       background: unset;
       padding-bottom: 2em;
       margin: 0;
+      @media(max-width: 575px){
+        padding-top: 16px;
+        padding-bottom: 10px;
+      }
 
       .vdpPeriodControls {
         height: 40px;

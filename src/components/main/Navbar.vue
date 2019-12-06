@@ -7,32 +7,32 @@
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse">
-          A
+          <img src="/static/img/burger.svg" alt="">
         </b-navbar-toggle>
 
         <b-collapse id="nav-collapse" class="justify-content-xl-end" is-nav>
           <b-navbar-nav class="text-center ">
             <b-nav-item :to="{name:'sports'}">
-              Zajęcia <br>
+              Zajęcia <br class="d-sm-none d-xl-block">
               sportowe
             </b-nav-item>
             <b-nav-item :to="{name:'sportEvents'}">
-              Imprezy <br>
+              Imprezy <br class="d-sm-none d-xl-block">
               sportowe
             </b-nav-item>
             <b-nav-item :to="{name:'sportProjects'}">
-              projekty <br>
+              projekty <br class="d-sm-none d-xl-block">
               sportowe
             </b-nav-item>
             <b-nav-item :to="{name:'sks'}">
               SKSy
             </b-nav-item>
             <b-nav-item :to="{name:'sportClasses'}">
-              Klasy sportowe <br>
+              Klasy sportowe <br class="d-sm-none d-xl-block">
               i profilowane
             </b-nav-item>
             <b-nav-item href="#">
-              Współzawodnictwo Sportowe <br>
+              Współzawodnictwo Sportowe <br class="d-sm-none d-xl-block">
               Szkół Miasta Lublin
             </b-nav-item>
             <b-nav-item href="#">
