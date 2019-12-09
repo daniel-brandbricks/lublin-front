@@ -2,7 +2,7 @@
   <b-row class="justify-content-center">
     <b-col cols="8">
       <b-table
-        :items="leadersConfirmed"
+        :items="leadersFiltered"
         :fields="fields"
         striped
         sort-icon-left
@@ -39,12 +39,12 @@
 </template>
 
 <script>
-  import SportObjectsMixin from '@/mixins/sport-objects-mixin'
+  import LeaderMixin from '@/mixins/leader-mixin'
 
   export default {
     name: 'ListConfirmed',
     props: [ 'filters' ],
-    mixins: [ SportObjectsMixin ],
+    mixins: [ LeaderMixin ],
     data () {
       return {
         fields: [
@@ -54,14 +54,7 @@
           { key: 'lessons', label: 'Zajęcia', sortable: true },
           { key: 'status', label: 'Status w systemie', sortable: true },
           { key: 'edit', label: '' }
-        ],
-
-        // search
-        search: '',
-
-        // treeselect
-        discipline: null,
-        sportObject: null
+        ]
       }
     },
     computed: {
@@ -70,9 +63,6 @@
       },
       disciplines () {
         return this.$store.getters.disciplines
-      },
-      sportObjects () {
-        return this.$store.getters.sportObjects
       }
     },
     methods: {
@@ -89,7 +79,6 @@
     created () {
       this.$store.dispatch('getLeaders', { confirmed: 1 })
       this.$store.dispatch('getDisciplines')
-      this.$store.dispatch('getSportObjects')
     }
   }
 </script>

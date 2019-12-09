@@ -1,12 +1,12 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="6">
+    <b-col cols="6" v-if="leader">
       <h5>Aktywuj</h5>
       <b-form-group>
         <b-form-radio v-model="leader.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('leader.active')}"
                       name="leader.active" :key="'leader.active'+index" v-validate="{'required':true}"
-                      v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
+                      v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>
@@ -61,19 +61,19 @@
         <b-form-input id="email-1" class="custom m-0"
                       placeholder="E-mail"
                       :class="{'error-input-custom': veeErrors.has('leader.email')}"
-                      name="leader.email" key="leader.email" v-validate="{'required':true}"
+                      name="leader.email" key="leader.email" v-validate="{'required':true, 'email': true}"
                       v-model="leader.email"></b-form-input>
       </b-form-group>
       <b-form-group class="custom mb-2">
         <b-form-input id="password-1" class="custom m-0"
                       placeholder="Hasło" type="password"
                       :class="{'error-input-custom': veeErrors.has('leader.password')}"
-                      name="leader.password" key="leader.password" v-validate="{'required':true}"
+                      name="leader.password" key="leader.password" v-validate="{'required': leader.id === undefined}"
                       v-model="leader.password"></b-form-input>
       </b-form-group>
       <b-form-group class="custom">
         <b-form-input id="phone-1" class="custom m-0"
-                      placeholder="Telefon"
+                      placeholder="Telefon" type="number"
                       :class="{'error-input-custom': veeErrors.has('leader.phone')}"
                       name="leader.phone" key="leader.phone" v-validate="{'required':true}"
                       v-model="leader.phone"></b-form-input>
@@ -82,8 +82,8 @@
       <!--buttons-->
       <b-row class="mt-4">
         <b-col>
-          <b-btn variant="delete" class="custom"
-                 @click="deleteFromForm('deleteSportObject', leader.id, undefined, 'sport.objects', {tab: 'confirmed'})"> <!-- todo Vetal' -->
+          <b-btn variant="delete" class="custom" :disabled="leader.id === undefined"
+                 @click="deleteFromForm('deleteLeader', leader.id, undefined, 'sport.objects', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
@@ -93,7 +93,7 @@
           </b-link>
         </b-col>
         <b-col>
-          <b-btn block class="custom" @click="submit(true)">
+          <b-btn block class="custom" @click="submit(leader.confirmed, true)">
             Zapisz
           </b-btn>
         </b-col>
@@ -106,6 +106,7 @@
           </b-btn>
         </b-col>
       </b-row>
+
     </b-col>
   </b-row>
 </template>
@@ -123,11 +124,27 @@
     mixins: [ FormMixin ],
     data () {
       return {
+        selectedDisciplinesIds: []
         // disciplinesTreeselect: [
         //   { id: 0, label: 'Bieg 50m' },
         //   { id: 1, label: 'Bieg 150m' },
         //   { id: 2, label: 'Bieg 250m' }
         // ]
+      }
+    },
+    watch: {
+      // need for making disciplines in select unique
+      'leader.disciplines': {
+        handler: function (newValue) {
+          this.selectedDisciplinesIds = []
+          for (let index in newValue) {
+            if (newValue[index] && newValue[index].id &&
+              this.selectedDisciplinesIds.indexOf(newValue[index].id) === -1) {
+                this.selectedDisciplinesIds.push(newValue[index].id)
+              }
+          }
+        },
+        deep: true
       }
     },
     computed: {
@@ -139,7 +156,12 @@
         let prepared = []
 
         for (let disciplineIndex in disciplines) {
-          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
+          // need for making disciplines in select unique
+          if (this.selectedDisciplinesIds.indexOf(disciplines[disciplineIndex].id) === -1) {
+            prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
+          } else {
+            prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title, isDisabled: true})
+          }
         }
 
         return prepared
@@ -169,6 +191,15 @@
           this.leader.confirmed = isConfirmed
           this.$parent.submit()
         }
+      }
+    },
+    created () {
+      // need for making disciplines in select unique
+      for (let index in this.leader.disciplines) {
+        if (this.leader.disciplines[index] && this.leader.disciplines[index].id &&
+          this.selectedDisciplinesIds.indexOf(this.leader.disciplines[index].id) === -1) {
+            this.selectedDisciplinesIds.push(this.leader.disciplines[index].id)
+          }
       }
     }
   }

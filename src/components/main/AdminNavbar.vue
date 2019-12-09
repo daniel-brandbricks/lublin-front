@@ -21,6 +21,11 @@
             Wygeneruj PDF
           </b-link>
         </b-col>
+        <b-col cols="2" v-if="eventBusMethod">
+          <b-link class="nowrap btn btn-primary btn-block" @click="callEventBusMethod">
+            Dodaj...
+          </b-link>
+        </b-col>
       </b-row>
     </b-col>
   </div>
@@ -33,6 +38,7 @@
     name: 'AdminNavbar',
     data () {
       return {
+        eventBusMethod: false,
         generateExcel: false,
         generatePdf: false,
         buttonLink: '#',
@@ -56,9 +62,14 @@
       }
     },
     computed: {},
-    methods: {},
+    methods: {
+      callEventBusMethod (params = {}) {
+        EventBus.$emit(this.eventBusMethod, (params))
+      }
+    },
     created () {
       EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
+        this.eventBusMethod = params.eventBusMethod
         this.generateExcel = params.generateExcel
         this.generatePdf = params.generatePdf
         this.buttonLink = params.buttonLink

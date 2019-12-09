@@ -11,17 +11,17 @@
         <b-row class="align-items-center mb-3">
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedDiscipline"
+                        v-model="selectedDisciplines"
                         :multiple="true"
                         placeholder="Dyscyplina"
-                        :options="disciplines"/>
+                        :options="disciplinesTreeselect"/>
           </b-col>
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedSportObject"
+                        v-model="selectedSportObjects"
                         :multiple="true"
                         placeholder="Obiekt"
-                        :options="sportObjects"/>
+                        :options="sportObjectsTreeselect"/>
           </b-col>
           <b-col cols="4">
             <b-form-group
@@ -35,11 +35,11 @@
       </b-col>
     </b-row>
 
-    <list-confirmed
-      :filters="{selectedDiscipline: selectedDiscipline, selectedSportObject: selectedSportObject, search: search}"
+    <leader-table :is-confirmed="true"
+      :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"
       :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
-    <list-to-confirm
-      :filters="{selectedDiscipline: selectedDiscipline, selectedSportObject: selectedSportObject, search: search}"
+    <leader-table :is-confirmed="false"
+      :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"
       :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
 
   </div>
@@ -54,12 +54,12 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import TabLinks from '../../components/TabLinks'
 
-  import ListConfirmed from '@/views/leaders/components/ListConfirmed'
-  import ListToConfirm from '@/views/leaders/components/ListToConfirm'
+  import LeaderTable from '@/views/leaders/components/LeaderTable'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Leaders',
-    components: { TabLinks, ListConfirmed, ListToConfirm, Treeselect },
+    components: { TabLinks, Treeselect, LeaderTable },
     mixins: [ EventBusEmit, ListMixin ],
     data () {
       return {
@@ -76,21 +76,32 @@
           }
         ],
 
-        selectedDiscipline: null,
-        selectedSportObject: null,
-        search: '',
-
-        // temp
-        disciplines: [
-          { id: 1, label: 'Basen' },
-          { id: 2, label: 'Siłownia' },
-          { id: 3, label: 'Bieg' }
-        ],
-        sportObjects: [
-          { id: 1, label: 'Park' },
-          { id: 2, label: 'Siłownia' },
-          { id: 3, label: 'Basen' }
-        ]
+        selectedDisciplines: [],
+        selectedSportObjects: [],
+        search: ''
+      }
+    },
+    computed: {
+      ...mapGetters([ 'disciplines', 'sportObjects' ]),
+      disciplinesTreeselect () {
+        let disciplinesPrepared = []
+        for (let index in this.disciplines) {
+          disciplinesPrepared.push({
+            id: this.disciplines[index].id,
+            label: this.disciplines[index].title
+          })
+        }
+        return disciplinesPrepared
+      },
+      sportObjectsTreeselect () {
+        let sportObjectsPrepared = []
+        for (let index in this.sportObjects) {
+          sportObjectsPrepared.push({
+            id: this.sportObjects[index].id,
+            label: this.sportObjects[index].title
+          })
+        }
+        return sportObjectsPrepared
       }
     },
     methods: {
@@ -105,6 +116,9 @@
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'leaders', params: { 'tab': 'confirmed' } })
       }
+
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getSportObjects')
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'leader', params: { tab: 'main-data' } })

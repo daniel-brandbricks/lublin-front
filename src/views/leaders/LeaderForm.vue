@@ -126,11 +126,29 @@
       },
       removeDiscipline (index) {
         this.leader.disciplines.splice(index, 1)
+      },
+      prepareLeader (leader) {
+        this.leader = leader
       }
     },
     created () {
+      // set isConfirmed data from table redirect only
+      if (this.$route.params.isConfirmed) {
+        this.isConfirmed = this.$route.params.isConfirmed
+      }
+
+      // init leader
+      this.leader = Object.assign(this.leader, this.$store.getters.leader(this.isConfirmed, this.id))
+
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'leader', params: { 'tab': 'main-data' } })
+      }
+
+      if (this.id) {
+        this.$store.dispatch('getLeader', { id: this.id })
+          .then((response) => {
+            this.prepareLeader(response)
+          })
       }
 
       this.$store.dispatch('getDisciplines')

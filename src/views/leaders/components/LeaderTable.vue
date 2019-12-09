@@ -22,8 +22,8 @@
         </template>
 
         <template slot="status" slot-scope="scope">
-          <span class="status" :class="{'active': scope.item.status}">
-            {{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}
+          <span class="status" :class="{'active': scope.item.active}">
+            {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
           </span>
         </template>
 
@@ -43,7 +43,7 @@
 
   export default {
     name: 'ListToConfirm',
-    props: ['filters'],
+    props: ['filters', 'isConfirmed', 'idsToPass'],
     mixins: [LeaderMixin],
     data () {
       return {
@@ -58,8 +58,23 @@
       }
     },
     computed: {
-      leadersToConfirm () {
-        return this.$store.getters.leadersToConfirm
+      leaders () {
+        let leadersPassedByIds = []
+        let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
+        : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
+
+        // this block for filtering by passed ids through related entities
+        if (undefined === this.idsToPass) {
+          leadersPassedByIds = storeLeaders
+        } else {
+          for (let index in storeLeaders) {
+            if (this.idsToPass.includes(parseInt(storeLeaders[index].id))) {
+              leadersPassedByIds.push(storeLeaders[index])
+            }
+          }
+        }
+
+        return leadersPassedByIds
       },
       disciplines () {
         return this.$store.getters.disciplines
@@ -68,16 +83,24 @@
     methods: {
       getDisciplineTitleById (id, index = null, arrayLength = null) {
         if (undefined === this.disciplines || this.disciplines === null) return ''
-        return this.disciplines.find((obj) => {
+        // todo error title of undefined
+        let discipline = this.disciplines.find((obj) => {
           return obj.id === id
-        }).title + ((index + 1) < arrayLength ? ',' : '')
+        })
+
+        return undefined === discipline ? '' : discipline.title + ((index + 1) < arrayLength ? ',' : '')
       },
       rowRedirect (row) {
         this.$parent.rowRedirect(row.id, false)
       }
     },
     created () {
-      this.$store.dispatch('getLeaders', {confirmed: 0})
+      if (this.isConfirmed === 'all') {
+        this.$store.dispatch('getLeaders', {confirmed: 0})
+        this.$store.dispatch('getLeaders', {confirmed: 1})
+      } else {
+        this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
+      }
       this.$store.dispatch('getDisciplines')
     }
   }

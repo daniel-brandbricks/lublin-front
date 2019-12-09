@@ -11,7 +11,7 @@
         @row-clicked="rowRedirect"
       >
         <template slot="name" slot-scope="scope">
-          <span>{{scope.item.title}}</span>
+          <span v-if="scope.item">{{scope.item.title}}</span>
         </template>
 
         <template slot="type" slot-scope="scope">

@@ -14,8 +14,8 @@ export default {
     leadersToConfirm (state) {
       return state.leaders.toConfirm
     },
-    leaders: (state) => (isConfirmed) => {
-      console.log(isConfirmed)
+    leaders (state) {
+      return state.leaders.confirmed.concat(state.leaders.toConfirm)
     },
     leader: (state) => (id, isConfirmed) => {
       let leaders = []
@@ -85,7 +85,7 @@ export default {
             }
 
             context.commit('setLeader', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

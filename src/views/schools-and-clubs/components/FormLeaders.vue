@@ -1,10 +1,140 @@
 <template>
-  <div class="wrap"></div>
+  <div class="wrap">
+    <b-row class="justify-content-center">
+      <b-col cols="8">
+        <b-row class="align-items-center mb-3">
+          <b-col cols="4">
+            <treeselect class="custom"
+                        v-model="selectedDisciplines"
+                        :multiple="true"
+                        placeholder="Dyscyplina"
+                        :options="disciplinesTreeselect"/>
+          </b-col>
+          <b-col cols="4">
+            <treeselect class="custom"
+                        v-model="selectedSportObjects"
+                        :multiple="true"
+                        placeholder="Obiekt"
+                        :options="sportObjectsTreeselect"/>
+          </b-col>
+          <b-col cols="4">
+            <b-form-group
+              class="custom">
+              <b-form-input id="input-1" class="custom m-0"
+                            placeholder="Szukaj"
+                            v-model="search"></b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
+
+    <leader-table :is-confirmed="'all'" :ids-to-pass="[2,6,7]"
+                  :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"
+                  :key="$route.params.tab"/>
+
+    <b-modal ref="leaderModal" centered title="Zapiąć/Odpiąć prowadzącego" hide-footer size="xl">
+    {{selectedLeaders}}
+      <treeselect class="custom"
+                  v-model="selectedLeaders"
+                  :multiple="true"
+                  placeholder="Prowadzący"
+                  :options="leadersTreeselect"/>
+      <b-row class="mt-2">
+        <b-col>
+          <b-btn variant="primary" class="w-25 float-right" @click="submit">Zapisz</b-btn>
+        </b-col>
+      </b-row>
+    </b-modal>
+  </div>
 </template>
 
 <script>
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
+  import LeaderTable from '@/views/leaders/components/LeaderTable'
+  import { mapGetters } from 'vuex'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+  import EventBus from '@/event-bus'
+
   export default {
-    name: 'FormLeaders'
+    name: 'FormLeaders',
+    components: { LeaderTable, Treeselect },
+    mixins: [ EventBusEmit ],
+    data () {
+      return {
+        // tmp
+        selectedLeaders: [],
+        existedLeaders: [],
+
+        selectedDisciplines: [],
+        selectedSportObjects: [],
+        search: ''
+      }
+    },
+    computed: {
+      ...mapGetters([ 'leaders', 'disciplines', 'sportObjects' ]),
+      leadersTreeselect () {
+        let leadersPrepared = []
+        for (let index in this.leaders) {
+          leadersPrepared.push({
+            id: this.leaders[index].id,
+            label: this.leaders[index].email
+          })
+        }
+        return leadersPrepared
+      },
+      disciplinesTreeselect () {
+        let disciplinesPrepared = []
+        for (let index in this.disciplines) {
+          disciplinesPrepared.push({
+            id: this.disciplines[index].id,
+            label: this.disciplines[index].title
+          })
+        }
+        return disciplinesPrepared
+      },
+      sportObjectsTreeselect () {
+        let sportObjectsPrepared = []
+        for (let index in this.sportObjects) {
+          sportObjectsPrepared.push({
+            id: this.sportObjects[index].id,
+            label: this.sportObjects[index].title
+          })
+        }
+        return sportObjectsPrepared
+      }
+    },
+    methods: {
+      openLeadersModal () {
+        if (this.$refs.leaderModal) this.$refs.leaderModal.show()
+      },
+      submit () {
+        let school = {
+          id: this.$route.params.id,
+          leaders: this.selectedLeaders
+        }
+
+        console.log(school)
+        this.$store.dispatch('putSchool', school)
+      }
+    },
+    mounted () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ eventBusMethod: 'OPEN_SCHOOLS_LEADERS_MODAL' })
+      console.log(this.$refs)
+    },
+    created () {
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getSportObjects')
+
+      EventBus.$on('OPEN_SCHOOLS_LEADERS_MODAL', (params) => {
+        this.openLeadersModal()
+      })
+      // this.changeAdminNavbarBreadcrumbs([ { text: 'Prowadzący', active: true } ])
+    }
   }
 </script>
 
