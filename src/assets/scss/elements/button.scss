@@ -57,6 +57,8 @@ a.custom.btn {
   &.btn-icon {
     padding: 0;
     height: unset;
+    line-height: 16px!important;
+    font-size: 10px;
   }
 
 
@@ -109,7 +111,7 @@ a.custom.btn {
     box-shadow: unset;
   }
 
-}.btn
+}
 .btn.btn-secondary {
   color: $c-white;
   border: 1px solid $c-black-30;
@@ -171,5 +173,9 @@ a.link {
 .btn:focus, .btn.focus {
   outline: 0;
   box-shadow: unset;
+}
+
+.btn-arrow{
+  line-height: 1em;
 }
 

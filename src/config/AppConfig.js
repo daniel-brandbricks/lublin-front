@@ -29,3 +29,23 @@ export const DISTRICTS = [
   { id: 25, label: 'Za Cukrownią' },
   { id: 26, label: 'Zemborzyce' }
 ]
+
+export const YEARS = [
+  { id: 1999, label: 1999 },
+  { id: 2000, label: 2000 },
+  { id: 2001, label: 2001 },
+  { id: 2002, label: 2002 },
+  { id: 2003, label: 2003 },
+  { id: 2004, label: 2004 },
+  { id: 2005, label: 2005 },
+  { id: 2006, label: 2006 },
+  { id: 2007, label: 2007 },
+  { id: 2008, label: 2008 },
+  { id: 2009, label: 2009 },
+  { id: 2010, label: 2010 },
+  { id: 2011, label: 2011 },
+  { id: 2012, label: 2012 },
+  { id: 2013, label: 2013 },
+  { id: 2014, label: 2014 },
+  { id: 2015, label: 2015 }
+]

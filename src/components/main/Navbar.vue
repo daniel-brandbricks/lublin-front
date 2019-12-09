@@ -7,37 +7,37 @@
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse">
-          A
+          <img src="/static/img/burger.svg" alt="">
         </b-navbar-toggle>
 
         <b-collapse id="nav-collapse" class="justify-content-xl-end" is-nav>
           <b-navbar-nav class="text-center ">
             <b-nav-item :to="{name:'sports'}">
-              Zajęcia <br>
+              Zajęcia <br class="d-sm-none d-xl-block">
               sportowe
             </b-nav-item>
             <b-nav-item :to="{name:'sportEvents'}">
-              Imprezy <br>
+              Imprezy <br class="d-sm-none d-xl-block">
               sportowe
             </b-nav-item>
             <b-nav-item :to="{name:'sportProjects'}">
-              projekty <br>
+              projekty <br class="d-sm-none d-xl-block">
               sportowe
             </b-nav-item>
             <b-nav-item :to="{name:'sks'}">
               SKSy
             </b-nav-item>
             <b-nav-item :to="{name:'sportClasses'}">
-              Klasy sportowe <br>
+              Klasy sportowe <br class="d-sm-none d-xl-block">
               i profilowane
             </b-nav-item>
             <b-nav-item href="#">
-              Współzawodnictwo Sportowe <br>
+              Współzawodnictwo Sportowe <br class="d-sm-none d-xl-block">
               Szkół Miasta Lublin
             </b-nav-item>
             <b-nav-item href="#">
               <b-btn variant="outline-primary" class="custom text-nowrap" v-b-modal.modal-login>
-                <span class="icon-icon_login pr-2"></span> zaloguj się
+                <span class="icon icon-login pr-2"></span> zaloguj się
               </b-btn>
             </b-nav-item>
 
@@ -80,7 +80,7 @@
             <div class="btn-container d-flex flex-column w-100">
               <b-btn type="submit" variant="primary"
                      class="custom text-nowrap mb-sm-0 w-100">
-                <span class="icon-icon_login pr-2"></span> zaloguj się
+                <span class="icon icon-login pr-2"></span> zaloguj się
               </b-btn>
               <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-1 fsz-13" v-b-modal.modal-login-newPass>
                 Zapomniałeś hasła?
@@ -117,7 +117,7 @@
                         :options="optionsTS"
                         class="custom"/>
             <b-btn variant="icon" class="custom my-2 text-uppercase fix-sub">
-              dodaj kolejną <span class="fsz-22 pl-2">+</span>
+              dodaj kolejną <span class="_plus ml-2"></span>
             </b-btn>
             <b-form-group
               class="custom">
@@ -134,7 +134,7 @@
             <div class="btn-container d-flex flex-column w-100 mt-3">
               <b-btn variant="primary" v-b-modal.modal-login-registration
                      class="custom text-nowrap   mb-sm-0 w-100">
-                <span class="icon-icon_mail pr-2"></span> Wyślij danne
+                <span class="icon icon-mail pr-2"></span> Wyślij danne
               </b-btn>
 
             </div>
@@ -164,7 +164,7 @@
       <div class="btn-container d-flex flex-column w-100 mt-3">
         <b-btn variant="primary" v-b-modal.modal-login-registration
                class="custom text-nowrap   mb-sm-0 w-100">
-          <span class="icon-icon_arrow_2_left pr-2"></span>Wróć do strony
+          <span class="icon icon-arrow_left pr-2"></span>Wróć do strony
         </b-btn>
       </div>
 

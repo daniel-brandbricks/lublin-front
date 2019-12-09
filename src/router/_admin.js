@@ -14,7 +14,8 @@ import SportObjectForm from '@/views/sport-objects/SportObjectForm'
 import Dashboard from '@/views/dashboard/Dashboard'
 import LeadersList from '@/views/leaders/LeadersList'
 import ParticipantList from '@/views/participants/ParticipantList'
-import Lessons from '@/views/lessons/Lessons'
+import LessonsList from '@/views/lessons/LessonsList'
+import LessonForm from '@/views/lessons/LessonForm'
 import Calendar from '@/views/calendar/Calendar'
 import Frequency from '@/views/fregucncy/Frequency'
 import CoAdministrators from '@/views/co-administrators/CoAdministrators'
@@ -125,7 +126,7 @@ const adminRouter = {
     {
       path: 'lessons',
       name: 'lessons',
-      component: Lessons
+      component: LessonsList
     },
     {
       path: 'lesson/:id?',

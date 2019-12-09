@@ -10,7 +10,7 @@
                 v-model="selectedGender"
                 :options="genderOptions"
                 name="flavour-1"
-              ></b-form-checkbox-group>
+              />
             </b-form-group>
             <b-form-group class="custom d-inline-block">
               <b-form-checkbox-group
@@ -18,14 +18,14 @@
                 v-model="selectedType"
                 :options="typeOptions"
                 name="flavour-2"
-              ></b-form-checkbox-group>
+              />
             </b-form-group>
           </b-col>
           <b-col cols="6">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
-                            v-model="search"></b-form-input>
+                            v-model="search"/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -42,7 +42,7 @@
             />
           </b-col>
           <b-col cols="4">
-            <treeselect v-model="categories.id" v-if="categories"
+            <treeselect v-model="lessonCategories.id" v-if="lessonCategories"
                         :multiple="false" class="custom"
                         placeholder="Kategoria" :options="participantGroupLessonCategory"
                         :class="{'error-input-custom': veeErrors.has('categories.title')}"
@@ -50,7 +50,7 @@
             />
           </b-col>
           <b-col cols="4">
-            <treeselect v-model="classes.id" v-if="classes"
+           <treeselect v-model="classes.id" v-if="classes"
                         :multiple="false" class="custom"
                         placeholder="Klasa" :options="participantGroupClass"
                         :class="{'error-input-custom': veeErrors.has('classes.title')}"
@@ -108,7 +108,7 @@
 
   export default {
     components: { Treeselect },
-    props: [ 'participantGroup', 'filters' ],
+    props: [ 'participantGroup' ],
     mixins: [ EventBusEmit, ParticipantGroupMixin ],
     data () {
       return {
@@ -136,14 +136,8 @@
           { text: 'mężczyzna', value: 1 }
         ],
 
-        selectedDiscipline: null,
-        selectedCategory: null,
-        selectedClass: null,
-        // temp
-
-        // todo maybe like in ParticipantGroupsForm
         disciplines: [],
-        categories: [],
+        lessonCategories: [],
         classes: []
       }
     },

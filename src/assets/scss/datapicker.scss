@@ -13,37 +13,48 @@
       background: unset;
       padding-bottom: 2em;
       margin: 0;
+      @media(max-width: 575px){
+        padding-top: 16px;
+        padding-bottom: 10px;
+      }
+
       .vdpPeriodControls {
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         .vdpPeriodControl {
-          @media(max-width: 575px){
+          @media(max-width: 575px) {
             font-size: 15px;
           }
-            @extend %font-medium;
-            color: red;
-            font-size: 20px;
-            letter-spacing: 0.2px;
-            line-height: 21px;
-            text-align: center;
-          button{
-            padding: 15px 10px;
+          @extend %font-medium;
+          color: red;
+          font-size: 20px;
+          letter-spacing: 0.2px;
+          line-height: 21px;
+          text-align: center;
+          button {
+            padding: 0 10px;
+
 
           }
         }
       }
 
-      .vdpArrow{
+      .vdpArrow {
         background: $c-black-30;
-        @media (max-width: 575px){
+        @media (max-width: 575px) {
           width: 2.5em;
           top: 15px;
           bottom: 3em;
         }
 
 
-        &.vdpArrowPrev{
+        &.vdpArrowPrev {
           left: 10px;
-          }
-        &.vdpArrowNext{
+        }
+
+        &.vdpArrowNext {
           right: 10px;
         }
       }
@@ -68,7 +79,7 @@
 
         .vdpRow {
           .vdpCell {
-            @media (min-width: 576px){
+            @media (min-width: 576px) {
               padding: 10px;
             }
             padding: 5px;
@@ -78,7 +89,18 @@
             line-height: 21px;
             text-align: center;
 
-            &.selected, &:hover {
+            &.selected {
+              .vdpCellContent {
+                /*background-color: $c-red;
+                box-shadow: 5px 5px 0px 0px $c-red-dark;
+                color: #fff;
+                border: unset;*/
+                background-color: $c-black-50;
+                color: #fff;
+              }
+            }
+
+            &:hover {
               .vdpCellContent {
                 background-color: $c-red;
                 box-shadow: 5px 5px 0px 0px $c-red-dark;
@@ -89,9 +111,8 @@
 
             &.disabled {
               .vdpCellContent {
-                background-color: $c-black-50;
-                color: #fff;
-
+                border: unset;
+                color: $c-black;
               }
             }
 
@@ -109,15 +130,15 @@
             }
 
             .vdpCellContent {
-              @media (min-width: 1200px){
+              @media (min-width: 1200px) {
                 padding: 15px;
               }
 
-              @media (min-width: 768px)and (max-width: 1199px){
+              @media (min-width: 768px) and (max-width: 1199px) {
                 padding: 25px;
 
               }
-              @media (min-width: 576px ) and (max-width: 765px){
+              @media (min-width: 576px) and (max-width: 765px) {
                 padding: 10px;
               }
               border-radius: unset;
@@ -137,3 +158,45 @@
     }
   }
 }
+
+.vdpOuterWrap .vdpInnerWrap .vdpHeader {
+  .vdpArrow {
+    font-size: 0px;
+    width: 40px;
+    height: 40px;
+    text-indent: unset;
+    background-color: $c-black-7;
+  }
+
+  .vdpArrow {
+    &:before, &:after {
+      content: unset;
+      font-family: 'fond-lublin-icon', serif !important;
+      font-size: 12px;
+      width: unset;
+      height: unset;
+      text-align: center;
+      line-height: 40px;
+      margin: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
+
+    &.vdpArrowPrev {
+      &:before {
+        content: "\e900";
+
+      }
+    }
+
+    &.vdpArrowNext {
+      &:before {
+        content: "\e916";
+
+      }
+    }
+  }
+}
+
+

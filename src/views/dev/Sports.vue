@@ -46,11 +46,17 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <b-btn variant="link" :to="{name:'sportsInner'}" class=" p-0 card-arrow" >
-                <span class=" icon-icon_arrow_24"></span>
-              </b-btn>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -62,11 +68,17 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -78,108 +90,17 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
-              <template slot="footer">
-                <div class="d-inline-block type-card float-right">KLUB</div>
-              </template>
-            </b-card>
-          </b-col>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
 
-          <b-col cols="12" md="6" lg="4" class="mb-3">
-            <b-card
-              class="custom"
-              footer-class="p-0">
-
-              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
-              <template slot="footer">
-                <div class="d-inline-block type-card float-right">KLUB</div>
-              </template>
-            </b-card>
-          </b-col>
-          <b-col cols="12" md="6" lg="4" class="mb-3">
-            <b-card
-              class="custom"
-              footer-class="p-0">
-
-              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
-              <template slot="footer">
-                <div class="d-inline-block type-card float-right">KLUB</div>
-              </template>
-            </b-card>
-          </b-col>
-          <b-col cols="12" md="6" lg="4" class="mb-3">
-            <b-card
-              class="custom"
-              footer-class="p-0">
-
-              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
-              <template slot="footer">
-                <div class="d-inline-block type-card float-right">KLUB</div>
-              </template>
-            </b-card>
-          </b-col>
-          <b-col cols="12" md="6" lg="4" class="mb-3">
-            <b-card
-              class="custom"
-              footer-class="p-0">
-
-              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
-              <template slot="footer">
-                <div class="d-inline-block type-card float-right">KLUB</div>
-              </template>
-            </b-card>
-          </b-col>
-          <b-col cols="12" md="6" lg="4" class="mb-3">
-            <b-card
-              class="custom"
-              footer-class="p-0">
-
-              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
-              <template slot="footer">
-                <div class="d-inline-block type-card float-right">KLUB</div>
-              </template>
-            </b-card>
-          </b-col>
-          <b-col cols="12" md="6" lg="4" class="mb-3">
-            <b-card
-              class="custom"
-              footer-class="p-0">
-
-              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -192,11 +113,17 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -208,11 +135,17 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -224,11 +157,40 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
+              <template slot="footer">
+                <div class="d-inline-block type-card float-right">KLUB</div>
+              </template>
+            </b-card>
+          </b-col>
+
+          <b-col cols="12" md="6" lg="4" class="mb-3">
+            <b-card
+              class="custom"
+              footer-class="p-0">
+
+              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -240,11 +202,17 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -256,11 +224,129 @@
               footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
-              <p class="">ul. Krochmalna 29</p>
-              <p class="card-signature mb-0"><span class="icon icon-discipline"></span>Dyscyplina</p>
-              <a href="#" class="card-arrow">
-                <span class=" icon-icon_arrow_24"></span>
-              </a>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
+              <template slot="footer">
+                <div class="d-inline-block type-card float-right">KLUB</div>
+              </template>
+            </b-card>
+          </b-col>
+
+          <b-col cols="12" md="6" lg="4" class="mb-3">
+            <b-card
+              class="custom"
+              footer-class="p-0">
+
+              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
+              <template slot="footer">
+                <div class="d-inline-block type-card float-right">KLUB</div>
+              </template>
+            </b-card>
+          </b-col>
+          <b-col cols="12" md="6" lg="4" class="mb-3">
+            <b-card
+              class="custom"
+              footer-class="p-0">
+
+              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
+              <template slot="footer">
+                <div class="d-inline-block type-card float-right">KLUB</div>
+              </template>
+            </b-card>
+          </b-col>
+          <b-col cols="12" md="6" lg="4" class="mb-3">
+            <b-card
+              class="custom"
+              footer-class="p-0">
+
+              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
+              <template slot="footer">
+                <div class="d-inline-block type-card float-right">KLUB</div>
+              </template>
+            </b-card>
+          </b-col>
+
+          <b-col cols="12" md="6" lg="4" class="mb-3">
+            <b-card
+              class="custom"
+              footer-class="p-0">
+
+              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
+              <template slot="footer">
+                <div class="d-inline-block type-card float-right">KLUB</div>
+              </template>
+            </b-card>
+          </b-col>
+          <b-col cols="12" md="6" lg="4" class="mb-3">
+            <b-card
+              class="custom"
+              footer-class="p-0">
+
+              <h2 class="card-title nowrap" title="lorem8">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
+              <p class="mb-0">ul. Krochmalna 29</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-signature mb-0">
+                  <span class="icon icon-discipline pr-1"></span>
+                  Dyscyplina
+                </p>
+                <b-btn variant="arrow" :to="{name:'sportsInner'}" class="p-0" >
+                  <span class="icon icon-arrow_right c-red"></span>
+                </b-btn>
+              </div>
+
               <template slot="footer">
                 <div class="d-inline-block type-card float-right">KLUB</div>
               </template>
@@ -274,10 +360,10 @@
                 <div class="pagination-items">z 2</div>
               </div>
               <b-btn variant="arrow">
-                &lt;
+                <span class="icon icon-bracket_left sm"></span>
               </b-btn>
               <b-btn variant="arrow">
-                &gt;
+                <span class="icon icon-bracket_right sm"></span>
               </b-btn>
             </div>
           </b-col>
