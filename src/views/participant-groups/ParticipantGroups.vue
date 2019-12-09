@@ -50,7 +50,7 @@
             />
           </b-col>
           <b-col cols="4">
-            <treeselect v-model="classes.id" v-if="classes"
+           <treeselect v-model="classes.id" v-if="classes"
                         :multiple="false" class="custom"
                         placeholder="Klasa" :options="participantGroupClass"
                         :class="{'error-input-custom': veeErrors.has('classes.title')}"

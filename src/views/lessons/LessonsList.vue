@@ -10,14 +10,14 @@
                 v-model="selectedType"
                 :options="typeOptions"
                 name="flavour-1"
-              ></b-form-checkbox-group>
+              />
             </b-form-group>
           </b-col>
           <b-col cols="9">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
-                            v-model="search"></b-form-input>
+                            v-model="search"/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -26,25 +26,28 @@
       <b-col cols="8" class="mt-3">
         <b-row class="align-items-center">
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedDiscipline"
-                        :multiple="true"
-                        placeholder="Dyscyplina"
-                        :options="disciplines"/>
+            <treeselect v-model="disciplines.id" v-if="disciplines"
+                        :multiple="false" class="custom"
+                        placeholder="Dyscyplina" :options="lessonDiscipline"
+                        :class="{'error-input-custom': veeErrors.has('disciplines.title')}"
+                        name="disciplines.title" key="disciplines.title" v-validate="{'required':true}"
+            />
           </b-col>
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedCategory"
-                        :multiple="true"
-                        placeholder="Kategoria"
-                        :options="categories"/>
+            <treeselect v-model="lessonCategories.id" v-if="lessonCategories"
+                        :multiple="false" class="custom"
+                        placeholder="Kategoria" :options="lessonOfLessonCategory"
+                        :class="{'error-input-custom': veeErrors.has('categories.title')}"
+                        name="categories.title" key="categories.title" v-validate="{'required':true}"
+            />
           </b-col>
           <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedClass"
-                        :multiple="true"
-                        placeholder="Klasa"
-                        :options="classes"/>
+            <treeselect v-model="classes.id" v-if="classes"
+                        :multiple="false" class="custom"
+                        placeholder="Klasa" :options="lessonClass"
+                        :class="{'error-input-custom': veeErrors.has('classes.title')}"
+                        name="classes.title" key="classes.title" v-validate="{'required':true}"
+            />
           </b-col>
         </b-row>
       </b-col>
@@ -52,7 +55,7 @@
       <!--   Table   -->
       <b-col cols="8" class="mt-4">
         <b-table
-          :items="participants"
+          :items="lessons"
           :fields="fields"
           striped
           sort-icon-left
@@ -60,6 +63,16 @@
           class="custom table-responsive"
         >
           <!--          @row-clicked="rowRedirect"-->
+
+          <template slot="discipline" slot-scope="scope">
+            <span>{{scope.item.discipline.title}}</span>
+          </template>
+          <template slot="lessonCategory" slot-scope="scope">
+            <span>{{scope.item.lessonCategory.title}}</span>
+          </template>
+          <template slot="class" slot-scope="scope">
+            <span>{{scope.item.class.title}}</span>
+          </template>
 
           <template slot="name" slot-scope="scope">
             <div class="d-flex align-items-center justify-content-between">
@@ -73,7 +86,7 @@
 
           <template slot="status" slot-scope="scope">
             <span class="status"
-                  :class="{'active': scope.item.status}">{{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
 
           <template slot="btnTable" slot-scope="scope">
@@ -97,17 +110,20 @@
   // node_modules
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
   import EventBusEmit from '@/mixins/event-bus-emit'
+  import LessonMixin from '@/mixins/lesson-mixin'
 
   export default {
     components: { Treeselect },
-    mixins: [ EventBusEmit ],
+    props: [ 'lesson' ],
+    mixins: [ EventBusEmit, LessonMixin ],
     data () {
       return {
         fields: [
-          { key: 'name', label: 'Nazwa zajęcia', sortable: true },
+          { key: 'title', label: 'Nazwa zajęcia', sortable: true },
           { key: 'discipline', label: 'Dyscyplina', sortable: true },
-          { key: 'category', label: 'Kategoria', sortable: true },
+          { key: 'lessonCategory', label: 'Kategoria', sortable: true },
           { key: 'class', label: 'Klasa', sortable: true },
           { key: 'leader', label: 'Prowadzący', sortable: true },
           { key: 'status', label: 'Status w systemie', sortable: true },
@@ -122,40 +138,34 @@
           { text: 'szkola', value: 1 }
         ],
 
-        selectedDiscipline: null,
-        selectedCategory: null,
-        selectedClass: null,
+        disciplines: [],
+        lessonCategories: [],
+        classes: []
         // temp
-        disciplines: [
-          { id: 1, label: 'Basen' },
-          { id: 2, label: 'Siłownia' },
-          { id: 3, label: 'Bieg' }
-        ],
-        categories: [
-          { id: 1, label: 'pierwsza' },
-          { id: 2, label: 'druga' },
-          { id: 3, label: 'cos cos' }
-        ],
-        classes: [
-          { id: 1, label: '2b' },
-          { id: 2, label: '6a' },
-          { id: 3, label: '8c' }
-        ]
       }
     },
     computed: {
-      participants () {
-        return [
-          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0 },
-          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 0 },
-          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1 },
-          { name: 'Name', discipline: 'Bieg na 100m', category: 2, class: 1, leader: 'Pan Leszek', status: 1 }
-        ]
+      lessons () {
+        return this.$store.getters.lessons
       }
     },
+    methods: {
+      // rowRedirect (row) {
+      //   this.$router.push({
+      //     name: 'lesson',
+      //     params: { 'tab': 'main-data', 'id': row.id }
+      //   })
+      // }
+    },
     created () {
+      this.$store.dispatch('getLessons')
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getLessonCategories')
+      this.$store.dispatch('getClasses')
+      this.$store.dispatch('getLeaders')
+
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'lesson' })
+      this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })
       this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zajęć', active: true } ])
     }
   }

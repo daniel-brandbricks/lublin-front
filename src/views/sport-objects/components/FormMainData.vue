@@ -117,7 +117,7 @@
       return {}
     },
     computed: {
-      // copied in Calendar.vue -> Lessons.vue
+      // copied in Calendar.vue -> LessonsList.vue
       schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
         let preparedSchools = []
