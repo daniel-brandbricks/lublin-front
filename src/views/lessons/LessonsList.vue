@@ -5,12 +5,12 @@
         <b-row class="justify-content-center align-items-center">
           <b-col cols="3">
             <b-form-group class="custom d-inline-block">
-              <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="selectedType"
-                :options="typeOptions"
-                name="flavour-1"
-              />
+              <b-form-checkbox v-model="sex" :value="element.value"
+                               :class="{'error-input-custom': veeErrors.has('sex')}"
+                               name="sex" :key="'sex'+index" v-validate="{'required':true}"
+                               v-for="(element, index) in [{title:'kobieta', value: 1}, {title: 'mężczyzna', value: 0}]">
+                {{element.title}}
+              </b-form-checkbox>
             </b-form-group>
           </b-col>
           <b-col cols="9">
@@ -55,14 +55,14 @@
       <!--   Table   -->
       <b-col cols="8" class="mt-4">
         <b-table
-          :items="lessons"
+          :items="lessonsList"
           :fields="fields"
           striped
           sort-icon-left
           responsive="md"
           class="custom table-responsive"
+          @row-clicked="rowRedirect"
         >
-          <!--          @row-clicked="rowRedirect"-->
 
           <template slot="discipline" slot-scope="scope">
             <span>{{scope.item.discipline.title}}</span>
@@ -130,39 +130,33 @@
           { key: 'edit', label: '' }
         ],
 
+        sex: '',
         search: '',
-
-        selectedType: [],
-        typeOptions: [
-          { text: 'klub', value: 0 },
-          { text: 'szkola', value: 1 }
-        ],
-
         disciplines: [],
         lessonCategories: [],
         classes: []
-        // temp
       }
     },
     computed: {
-      lessons () {
+      lessonsList () {
         return this.$store.getters.lessons
       }
     },
     methods: {
-      // rowRedirect (row) {
-      //   this.$router.push({
-      //     name: 'lesson',
-      //     params: { 'tab': 'main-data', 'id': row.id }
-      //   })
-      // }
+      rowRedirect (row) {
+        this.$router.push({
+          name: 'lesson',
+          params: { 'tab': 'main-data', 'id': row.id }
+        })
+      }
     },
     created () {
       this.$store.dispatch('getLessons')
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
-      this.$store.dispatch('getLeaders')
+      this.$store.dispatch('getLeaders', {confirmed: 0})
+      this.$store.dispatch('getLeaders', {confirmed: 1})
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })

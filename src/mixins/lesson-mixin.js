@@ -33,6 +33,17 @@ export default {
       }
 
       return preparedClasses
+    },
+
+    // todo firstName+lastName
+    lessonLeader () {
+      let data = this.$store.getters.leaders
+      let preparedLeaders = []
+      for (let leaderIndex in data) {
+        preparedLeaders.push({ id: data[leaderIndex].id, label: data[leaderIndex].name })
+      }
+
+      return preparedLeaders
     }
     //  todo filters
   }

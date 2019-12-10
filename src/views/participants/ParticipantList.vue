@@ -5,12 +5,12 @@
         <b-row class="justify-content-center align-items-center">
           <b-col cols="3">
             <b-form-group class="custom d-inline-block">
-              <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="selectedGender"
-                :options="genderOptions"
-                name="flavour-1"
-              />
+              <b-form-checkbox v-model="sex" :value="element.value"
+                            :class="{'error-input-custom': veeErrors.has('sex')}"
+                            name="sex" :key="'sex'+index" v-validate="{'required':true}"
+                            v-for="(element, index) in [{title:'kobieta', value: 1}, {title: 'mężczyzna', value: 0}]">
+                {{element.title}}
+              </b-form-checkbox>
             </b-form-group>
           </b-col>
           <b-col cols="9">
@@ -57,6 +57,9 @@
           <template slot="class" slot-scope="scope">
             <span>{{scope.item.class.title}}</span>
           </template>
+<!--          <templatee slot="sex" slot-scope="scope">-->
+<!--            <span>{{scope.item.sex}}</span>-->
+<!--          </templatee>-->
           <template slot="status" slot-scope="scope">
             <span class="status" :class="{'active': scope.item.active}">
               {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
@@ -100,19 +103,11 @@
           { key: 'edit', label: '' }
         ],
 
-        search: '',
-
-        selectedGender: [],
-        genderOptions: [
-          { text: 'kobieta', value: 0 },
-          { text: 'mężczyzna', value: 1 }
-        ],
-
+        sex: '',
         yearValue: null,
         years: YEARS,
-
-        // years: [],
-        classes: []
+        classes: [],
+        search: ''
       }
     },
     computed: {
