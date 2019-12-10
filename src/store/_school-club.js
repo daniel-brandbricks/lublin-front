@@ -66,6 +66,8 @@ export default {
       const confirmed = data.confirmed
       let schools = []
 
+      state.school = 123
+
       if (undefined === id || id === null) {
         return
       }
@@ -74,16 +76,18 @@ export default {
 
       for (let i = 0; i < schools.length; i++) {
         const storeSchool = schools[i]
-        if (storeSchool.id !== id) {
+        if (parseInt(storeSchool.id) !== parseInt(id)) {
           continue
         }
         schools.splice(i, 1, data)
         confirmed ? state.schools.confirmed = schools : state.schools.toConfirm = schools
 
+        console.log(state.schools)
         return
       }
 
       confirmed ? state.schools.confirmed.push(data) : state.schools.toConfirm.push(data)
+      console.log(state.schools)
     },
     deleteSchool (state, data) {
       // todo

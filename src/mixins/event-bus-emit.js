@@ -8,6 +8,7 @@ export default {
   },
   methods: {
     changeAdminNavbarButton (params) {
+      console.log(params)
       EventBus.$emit('NAVBAR_BUTTON_LINK', (params))
     },
     changeAdminNavbarBreadcrumbs (params) {

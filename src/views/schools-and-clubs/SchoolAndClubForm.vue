@@ -16,8 +16,8 @@
                    :key="$route.params.tab+'FormLeaders'" v-show="$route.params.tab === 'leaders'"/>
 
       <!--   Component for GroupEntity   -->
-      <FormGroups :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormGroups"
-                  :key="$route.params.tab+'FormGroups'" v-show="$route.params.tab === 'groups'"/>
+      <FormParticipantGroups :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroups"
+                  :key="$route.params.tab+'FormParticipantGroups'" v-show="$route.params.tab === 'participant-groups'"/>
 
       <!--   Component for EventEntity   -->
       <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"
@@ -42,6 +42,7 @@
       <!--   Component for todo Entity   -->
       <FormMTSF :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMTSF"
                 :key="$route.params.tab+'FormMTSF'" v-show="$route.params.tab === 'mtsf'"/>
+
     </template>
   </div>
 </template>
@@ -54,7 +55,7 @@
   import FormMainData from '@/views/schools-and-clubs/components/FormMainData'
   import FormPlaces from '@/views/schools-and-clubs/components/FormPlaces'
   import FormLeaders from '@/views/schools-and-clubs/components/FormLeaders'
-  import FormGroups from '@/views/schools-and-clubs/components/FormGroups'
+  import FormParticipantGroups from '@/views/schools-and-clubs/components/FormParticipantGroups'
   import FormCompetitors from '@/views/schools-and-clubs/components/FormCompetitors'
   import FormActivities from '@/views/schools-and-clubs/components/FormActivities'
   import FormCalendar from '@/views/schools-and-clubs/components/FormCalendar'
@@ -71,7 +72,7 @@
       FormMainData,
       FormPlaces,
       FormLeaders,
-      FormGroups,
+      FormParticipantGroups,
       FormEvents,
       FormCompetitors,
       FormActivities,
@@ -128,8 +129,11 @@
         isConfirmed: undefined
       }
     },
-    computed: {},
     methods: {
+      updateSchool () {
+        this.school = this.$store.getters.school(this.isConfirmed, this.id)
+      },
+
       // FormPlaces
       addPlace (placeDefault) {
         // let copy = {...placeDefault}
@@ -208,9 +212,9 @@
                 tab: 'leaders'
               },
               {
-                title: 'Grupy',
+                title: 'Lista Zawodników',
                 link: 'school.or.club',
-                tab: 'groups'
+                tab: 'participant-groups'
               },
               {
                 title: 'Zawodnicy',
@@ -254,7 +258,7 @@
         { text: this.id ? parseInt(this.school.type) === 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true }
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
-    }
+    },
   }
 </script>
 
