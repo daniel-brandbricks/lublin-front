@@ -108,7 +108,7 @@ export default {
             resolve()
           })
           .catch(error => {
-            console.log(error.response)
+            console.log(error)
             reject(error.response)
           })
       })

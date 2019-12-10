@@ -132,7 +132,7 @@ const adminRouter = {
       path: 'lesson/:id?',
       name: 'lesson',
       // todo
-      component: ParticipantGroups
+      component: LessonForm
     },
 
     // Calendar
