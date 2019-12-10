@@ -91,7 +91,11 @@
         return undefined === discipline ? '' : discipline.title + ((index + 1) < arrayLength ? ',' : '')
       },
       rowRedirect (row) {
-        this.$parent.rowRedirect(row.id, false)
+        this.$router.push({
+          name: 'leader',
+          params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': false }
+        })
+        // this.$parent.rowRedirect(row.id, false)
       }
     },
     created () {
@@ -101,7 +105,7 @@
       } else {
         this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
       }
-      this.$store.dispatch('getDisciplines')
+      // this.$store.dispatch('getDisciplines')
     }
   }
 </script>

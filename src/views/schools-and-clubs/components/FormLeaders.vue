@@ -3,38 +3,37 @@
     <b-row class="justify-content-center">
       <b-col cols="8">
         <b-row class="align-items-center mb-3">
-          <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedDisciplines"
-                        :multiple="true"
-                        placeholder="Dyscyplina"
-                        :options="disciplinesTreeselect"/>
-          </b-col>
-          <b-col cols="4">
-            <treeselect class="custom"
-                        v-model="selectedSportObjects"
-                        :multiple="true"
-                        placeholder="Obiekt"
-                        :options="sportObjectsTreeselect"/>
-          </b-col>
+<!--          <b-col cols="4">-->
+<!--            <treeselect class="custom"-->
+<!--                        v-model="selectedDisciplines"-->
+<!--                        :multiple="true"-->
+<!--                        placeholder="Dyscyplina"-->
+<!--                        :options="disciplinesTreeselect"/>-->
+<!--          </b-col>-->
+<!--          <b-col cols="4">-->
+<!--            <treeselect class="custom"-->
+<!--                        v-model="selectedSportObjects"-->
+<!--                        :multiple="true"-->
+<!--                        placeholder="Obiekt"-->
+<!--                        :options="sportObjectsTreeselect"/>-->
+<!--          </b-col>-->
           <b-col cols="4">
             <b-form-group
               class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
-                            v-model="search"></b-form-input>
+                            v-model="search"/>
             </b-form-group>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
 
-    <leader-table :is-confirmed="'all'" :ids-to-pass="[2,6,7]"
+    <leader-table :is-confirmed="'all'" :ids-to-pass="leadersIdsToPass"
                   :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"
                   :key="$route.params.tab"/>
 
-    <b-modal ref="leaderModal" centered title="Zapiąć/Odpiąć prowadzącego" hide-footer size="xl">
-    {{selectedLeaders}}
+    <b-modal ref="leaderModal" centered title="Zapiąć/Odpiąć prowadzącego" hide-footer size="lg">
       <treeselect class="custom"
                   v-model="selectedLeaders"
                   :multiple="true"
@@ -55,19 +54,19 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
   import LeaderTable from '@/views/leaders/components/LeaderTable'
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import EventBus from '@/event-bus'
 
   export default {
     name: 'FormLeaders',
-    components: { LeaderTable, Treeselect },
-    mixins: [ EventBusEmit ],
+    props: ['school'],
+    components: {LeaderTable, Treeselect},
+    mixins: [EventBusEmit],
     data () {
       return {
         // tmp
         selectedLeaders: [],
-        existedLeaders: [],
 
         selectedDisciplines: [],
         selectedSportObjects: [],
@@ -75,7 +74,7 @@
       }
     },
     computed: {
-      ...mapGetters([ 'leaders', 'disciplines', 'sportObjects' ]),
+      ...mapGetters(['leaders', 'disciplines', 'sportObjects']),
       leadersTreeselect () {
         let leadersPrepared = []
         for (let index in this.leaders) {
@@ -105,6 +104,19 @@
           })
         }
         return sportObjectsPrepared
+      },
+      leadersIdsToPass () {
+        let leaders = this.school.leaders || []
+        let ids = []
+
+        for (let index in leaders) {
+          ids.push(leaders[index].id)
+        }
+
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.selectedLeaders = [...ids]
+
+        return ids
       }
     },
     methods: {
@@ -119,11 +131,15 @@
 
         console.log(school)
         this.$store.dispatch('putSchool', school)
+          .then((response) => {
+            this.$parent.updateSchool()
+          })
+        this.$refs.leaderModal.hide()
       }
     },
     mounted () {
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ eventBusMethod: 'OPEN_SCHOOLS_LEADERS_MODAL' })
+      this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_LEADERS_MODAL'})
       console.log(this.$refs)
     },
     created () {

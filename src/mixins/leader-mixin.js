@@ -31,8 +31,6 @@ export default {
       let selectedDisciplines = this.filters.selectedDisciplines || []
       let selectedSportObjects = this.filters.selectedSportObjects || []
 
-      console.log(this.filters)
-      console.log(leaders)
       for (let leaderIndex in leaders) {
         // console.log(leaders[leaderIndex])
         if (undefined === leaders[leaderIndex] || leaders[leaderIndex] === null) {
@@ -45,7 +43,9 @@ export default {
         let fullName = firstName.toLowerCase() + lastName.toLowerCase()
         if (search.length > 0 && fullName.indexOf(search.toLowerCase()) === -1) continue
         if (selectedDisciplines.length > 0 && !this.checkDisciplineExists(leaders[leaderIndex], selectedDisciplines)) continue
-        if (selectedSportObjects.length > 0 && !this.checkSportObjectExists(leaders[leaderIndex], selectedSportObjects)) continue
+
+        // todo after back complete
+        // if (selectedSportObjects.length > 0 && !this.checkSportObjectExists(leaders[leaderIndex], selectedSportObjects)) continue
         // if (selectedDiscipline.length > 0 && !selectedDiscipline.includes(parseInt(leaders[leaderIndex].district))) continue
         filteredLeaders.push(leaders[leaderIndex])
       }

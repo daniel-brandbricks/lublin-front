@@ -2,7 +2,7 @@
   <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"></TabLinks>
+        <TabLinks :links="tabLinks"/>
       </b-col>
     </b-row>
 
@@ -28,7 +28,7 @@
               class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
-                            v-model="search"></b-form-input>
+                            v-model="search"/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -105,12 +105,12 @@
       }
     },
     methods: {
-      rowRedirect (id, isConfirmed) {
-        this.$router.push({
-          name: 'leader',
-          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
-        })
-      }
+      // rowRedirect (id, isConfirmed) {
+      //   this.$router.push({
+      //     name: 'leader',
+      //     params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+      //   })
+      // }
     },
     created () {
       if (this.$route.params.tab === undefined) {
