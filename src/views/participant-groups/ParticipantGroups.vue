@@ -32,32 +32,32 @@
       </b-col>
 
       <b-col cols="8" class="mt-4">
-<!--        <b-row class="justify-content-between align-items-center">-->
-<!--          <b-col cols="4">-->
-<!--            <treeselect v-model="disciplines.id" v-if="disciplines"-->
-<!--                        :multiple="false" class="custom"-->
-<!--                        placeholder="Dyscyplina" :options="participantGroupDiscipline"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('disciplines.title')}"-->
-<!--                        name="disciplines.title" key="disciplines.title" v-validate="{'required':true}"-->
-<!--            />-->
-<!--          </b-col>-->
-<!--          <b-col cols="4">-->
-<!--            <treeselect v-model="lessonCategories.id" v-if="lessonCategories"-->
-<!--                        :multiple="false" class="custom"-->
-<!--                        placeholder="Kategoria" :options="participantGroupLessonCategory"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('categories.title')}"-->
-<!--                        name="categories.title" key="categories.title" v-validate="{'required':true}"-->
-<!--            />-->
-<!--          </b-col>-->
-<!--          <b-col cols="4">-->
-<!--           <treeselect v-model="classes.id" v-if="classes"-->
-<!--                        :multiple="false" class="custom"-->
-<!--                        placeholder="Klasa" :options="participantGroupClass"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('classes.title')}"-->
-<!--                        name="classes.title" key="classes.title" v-validate="{'required':true}"-->
-<!--            />-->
-<!--          </b-col>-->
-<!--        </b-row>-->
+        <b-row class="justify-content-between align-items-center">
+          <b-col cols="4">
+            <treeselect v-model="disciplines.id" v-if="disciplines"
+                        :multiple="false" class="custom"
+                        placeholder="Dyscyplina" :options="participantGroupDiscipline"
+                        :class="{'error-input-custom': veeErrors.has('disciplines.title')}"
+                        name="disciplines.title" key="disciplines.title" v-validate="{'required':true}"
+            />
+          </b-col>
+          <b-col cols="4">
+            <treeselect v-model="lessonCategories.id" v-if="lessonCategories"
+                        :multiple="false" class="custom"
+                        placeholder="Kategoria" :options="participantGroupLessonCategory"
+                        :class="{'error-input-custom': veeErrors.has('categories.title')}"
+                        name="categories.title" key="categories.title" v-validate="{'required':true}"
+            />
+          </b-col>
+          <b-col cols="4">
+           <treeselect v-model="classes.id" v-if="classes"
+                        :multiple="false" class="custom"
+                        placeholder="Klasa" :options="participantGroupClass"
+                        :class="{'error-input-custom': veeErrors.has('classes.title')}"
+                        name="classes.title" key="classes.title" v-validate="{'required':true}"
+            />
+          </b-col>
+        </b-row>
       </b-col>
 
       <!--   Table   -->

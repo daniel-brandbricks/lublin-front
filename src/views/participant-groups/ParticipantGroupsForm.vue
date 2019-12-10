@@ -1,27 +1,27 @@
 <template>
   <div class="container">
-    <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
+    <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"></TabLinks>
+        <TabLinks :links="tabLinks"/>
         <template>
           <FormMainData :participantGroup="participantGroup" @childSubmit="submit" ref="FormMainData"
-                        :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+                        :key="$route.params.tab+'FormMainData'" v-if="$route.params.tab === 'main-data'"/>
           <!--        Component for ParticipantEntity   -->
           <FormParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" @childSubmit="submit"
                             ref="FormParticipants"
-                            :key="$route.params.tab+'FormParticipants'" v-show="$route.params.tab === 'participants'"/>
+                            :key="$route.params.tab+'FormParticipants'" v-if="$route.params.tab === 'participants'"/>
           <!--        Component for todo Entity isValidForm for ALL  -->
           <FormActivities :participantGroup="participantGroup" @childSubmit="submit" ref="FormActivities"
-                          :key="$route.params.tab+'FormActivities'" v-show="$route.params.tab === 'activities'"/>
+                          :key="$route.params.tab+'FormActivities'" v-if="$route.params.tab === 'activities'"/>
           <!--        Component for todo Entity   -->
           <FormCalendar :participantGroup="participantGroup" @childSubmit="submit" ref="FormCalendar"
-                        :key="$route.params.tab+'FormCalendar'" v-show="$route.params.tab === 'calendar'"/>
+                        :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
           <!--        Component for todo Entity   -->
           <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"
-                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>
+                         :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency'"/>
           <!--        Component for todo Entity   -->
           <FormMTSF :participantGroup="participantGroup" @childSubmit="submit" ref="FormMTSF"
-                    :key="$route.params.tab+'FormMTSF'" v-show="$route.params.tab === 'mtsf'"/>
+                    :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
         </template>
       </b-col>
     </b-row>
@@ -71,26 +71,6 @@
             link: 'participant.group',
             tab: 'participants',
             method: 'checkValidMainForm'
-          },
-          {
-            title: 'Zajęcia',
-            link: 'participant.group',
-            tab: 'activities'
-          },
-          {
-            title: 'Kalendarz',
-            link: 'participant.group',
-            tab: 'calendar'
-          },
-          {
-            title: 'Frekwencja',
-            link: 'participant.group',
-            tab: 'frequency'
-          },
-          {
-            title: 'MTSF',
-            link: 'participant.group',
-            tab: 'mtsf'
           }
         ],
 
@@ -98,7 +78,7 @@
         participantGroup: {
           active: 1,
           title: '',
-          sex: '',
+          sex: 1,
           discipline: {
             id: null
           },
@@ -175,6 +155,40 @@
         this.$store.dispatch('getParticipantGroup', { id: this.id })
           .then((response) => {
             this.participantGroup = response
+
+            this.tabLinks = [
+              {
+                title: 'Dane ogólne',
+                link: 'participant.group',
+                tab: 'main-data'
+              },
+              {
+                title: 'Zawodnicy',
+                link: 'participant.group',
+                tab: 'participants',
+                method: 'checkValidMainForm'
+              },
+              {
+                title: 'Zajęcia',
+                link: 'participant.group',
+                tab: 'activities'
+              },
+              {
+                title: 'Kalendarz',
+                link: 'participant.group',
+                tab: 'calendar'
+              },
+              {
+                title: 'Frekwencja',
+                link: 'participant.group',
+                tab: 'frequency'
+              },
+              {
+                title: 'MTSF',
+                link: 'participant.group',
+                tab: 'mtsf'
+              }
+            ]
           })
       }
 

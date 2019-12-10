@@ -6,7 +6,7 @@
       <!--      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">-->
       <ImageInputAdvanced :imgPath="school.image" @afterCropImage="afterCropImage"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                          :min-width="100" :max-height="1000" :max-width="1000"></ImageInputAdvanced>
+                          :min-width="100" :max-height="1000" :max-width="1000"/>
     </b-col>
 
     <b-col cols="12" lg="5" class="">
@@ -38,7 +38,7 @@
                       placeholder="Nazwa"
                       :class="{'error-input-custom': veeErrors.has('school.name')}"
                       name="school.name" key="school.name" v-validate="{'required':true}"
-                      v-model="school.name"></b-form-input>
+                      v-model="school.name"/>
       </b-form-group>
       <b-form-group
         class="custom">
@@ -46,7 +46,7 @@
                       placeholder="E-mail"
                       :class="{'error-input-custom': veeErrors.has('school.email')}"
                       name="school.email" key="school.email" v-validate="{'required':true, 'email':true}"
-                      v-model="school.email"></b-form-input>
+                      v-model="school.email"/>
       </b-form-group>
       <b-form-group
         class="custom">
@@ -54,7 +54,7 @@
                       placeholder="Hasło"
                       :class="{'error-input-custom': veeErrors.has('school.password')}"
                       name="school.password" key="school.password" v-validate="{'required':true}"
-                      v-model="school.password"></b-form-input>
+                      v-model="school.password"/>
       </b-form-group>
       <b-form-group
         class="custom">
@@ -62,7 +62,7 @@
                       placeholder="Telefon"
                       :class="{'error-input-custom': veeErrors.has('school.phone')}"
                       name="school.phone" key="school.phone" v-validate="{'required':true}"
-                      v-model="school.phone"></b-form-input>
+                      v-model="school.phone"/>
       </b-form-group>
 
       <h2 class="my-4">Lokalizacja</h2>
@@ -81,7 +81,7 @@
                       placeholder="Adres"
                       :class="{'error-input-custom': veeErrors.has('school.address')}"
                       name="school.address" key="school.address" v-validate="{'required':true}"
-                      v-model="school.address"></b-form-input>
+                      v-model="school.address"/>
       </b-form-group>
       <b-form-group
         class="custom">
@@ -89,7 +89,7 @@
                       placeholder="Kod pocztowy"
                       :class="{'error-input-custom': veeErrors.has('school.postcode')}"
                       name="school.postcode" key="school.postcode" v-validate="{'required':true}"
-                      v-model="school.postcode"></b-form-input>
+                      v-model="school.postcode"/>
       </b-form-group>
       <h1>MAP</h1>
       <b-form-group
@@ -98,12 +98,12 @@
                       placeholder="Godziny otwarcia"
                       :class="{'error-input-custom': veeErrors.has('school.openHours')}"
                       name="school.openHours" key="school.openHours" v-validate="{'required':true}"
-                      v-model="school.openHours"></b-form-input>
+                      v-model="school.openHours"/>
       </b-form-group>
       <!--      todo or not todo v-validate="{'required':true}" -->
       <textarea class="custom w-100" v-model="school.comments" placeholder="Uwagi"
                 :class="{'error-input-custom': veeErrors.has('school.comments')}"
-                name="school.comments" :key="'school.comments'" :v-validate="'required'"></textarea>
+                name="school.comments" :key="'school.comments'" :v-validate="'required'"/>
 
       <h2 class="my-4">Osoba do kontaktu</h2>
       <b-form-group
@@ -113,7 +113,7 @@
                       :class="{'error-input-custom': veeErrors.has('school.personToContactFullName')}"
                       name="school.personToContactFullName" key="school.personToContactFullName"
                       v-validate="{'required':true}"
-                      v-model="school.personToContactFullName"></b-form-input>
+                      v-model="school.personToContactFullName"/>
       </b-form-group>
       <b-form-group
         class="custom">
@@ -122,7 +122,7 @@
                       :class="{'error-input-custom': veeErrors.has('school.personToContactPhone')}"
                       name="school.personToContactPhone" key="school.personToContactPhone"
                       v-validate="{'required':true}"
-                      v-model="school.personToContactPhone"></b-form-input>
+                      v-model="school.personToContactPhone"/>
       </b-form-group>
 
       <!--      <h1>{{this.loading}}</h1>-->
@@ -202,7 +202,8 @@
       }
     },
     created () {
-
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
     }
   }
 </script>
