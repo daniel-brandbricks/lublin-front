@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TabLinks :links="tabLinks"></TabLinks>
+    <TabLinks :links="tabLinks"/>
     <template>
       <!--   Component for SchoolEntity   -->
       <FormMainData :school="school" @childSubmit="submit" ref="FormMainData" :districts="districts"

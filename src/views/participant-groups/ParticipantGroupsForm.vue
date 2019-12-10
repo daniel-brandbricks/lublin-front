@@ -3,25 +3,26 @@
     <b-row class="justify-content-center">
       <b-col cols="12">
         <TabLinks :links="tabLinks"/>
+        {{isValidForm}}
         <template>
           <FormMainData :participantGroup="participantGroup" @childSubmit="submit" ref="FormMainData"
-                        :key="$route.params.tab+'FormMainData'" v-if="$route.params.tab === 'main-data'"/>
+                        :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
           <!--        Component for ParticipantEntity   -->
           <FormParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" @childSubmit="submit"
-                            ref="FormParticipants"
-                            :key="$route.params.tab+'FormParticipants'" v-if="$route.params.tab === 'participants'"/>
+                            ref="FormParticipants" :participantYearsSelected="participantYearsSelected"
+                            :key="$route.params.tab+'FormParticipants'" v-show="$route.params.tab === 'participants'"/>
           <!--        Component for todo Entity isValidForm for ALL  -->
           <FormActivities :participantGroup="participantGroup" @childSubmit="submit" ref="FormActivities"
-                          :key="$route.params.tab+'FormActivities'" v-if="$route.params.tab === 'activities'"/>
+                          :key="$route.params.tab+'FormActivities'" v-show="$route.params.tab === 'activities'"/>
           <!--        Component for todo Entity   -->
           <FormCalendar :participantGroup="participantGroup" @childSubmit="submit" ref="FormCalendar"
-                        :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
+                        :key="$route.params.tab+'FormCalendar'" v-show="$route.params.tab === 'calendar'"/>
           <!--        Component for todo Entity   -->
           <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"
-                         :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency'"/>
+                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>
           <!--        Component for todo Entity   -->
           <FormMTSF :participantGroup="participantGroup" @childSubmit="submit" ref="FormMTSF"
-                    :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
+                    :key="$route.params.tab+'FormMTSF'" v-show="$route.params.tab === 'mtsf'"/>
         </template>
       </b-col>
     </b-row>
@@ -90,36 +91,44 @@
           },
           participants: [],
 
-          years: [],
-
           // checkbox
-          selectedGender: [],
-          selectedType: [],
-
-          genderOptions: [
-            { text: 'kobieta', value: 0 },
-            { text: 'mężczyzna', value: 1 }
-          ]
+          // selectedGender: [],
+          // selectedType: [],
         },
+
+        participantYearsSelected: [],
+        genderOptions: [
+          { text: 'kobieta', value: 0 },
+          { text: 'mężczyzna', value: 1 }
+        ],
 
         isValidForm: false
       }
     },
     computed: {},
     methods: {
+      prepareParticipantGroupToSubmit (participantGroup) {
+        let participants = participantGroup.participants || []
+        let preparedParticipants = []
+        for (let index in participants) {
+          preparedParticipants.push(participants[index].id)
+        }
+
+        participantGroup.participants = preparedParticipants
+      },
       checkValidMainForm () {
         this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
           })
       },
-      // addParticipant (participantDefault) {
-      //   // let copy = {...participantDefault}
-      //   this.participantGroup.participants.push(participantDefault)
-      // },
       addParticipant () {
-        this.participantGroup.participants.push({})
+        this.participantGroup.participants.push({id: null})
+        this.participantYearsSelected.push({year: null})
       },
+      // addParticipant () {
+      //   this.participantGroup.participants.push({})
+      // },
       removeParticipant (index) {
         this.participantGroup.participants.splice(index, 1)
       },
@@ -127,6 +136,7 @@
         let participantGroup = {...this.participantGroup}
         console.log(this.participantGroup)
 
+        this.prepareParticipantGroupToSubmit(participantGroup)
         const method = this.id === undefined ? 'postParticipantGroup' : 'putParticipantGroup'
         this.$store.dispatch(method, participantGroup)
           .then(() => {

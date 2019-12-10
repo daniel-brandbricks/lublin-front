@@ -1,12 +1,12 @@
 <template>
-  <b-row class="justify-content-center">
+  <b-row class="justify-content-center" v-if="participantGroup">
     <b-col cols="6">
       <h5>Aktywuj</h5>
       <b-form-group>
         <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"
                       name="participantGroup.active" :key="'participantGroup.active'+index" v-validate="{'required':true}"
-                      v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
+                      v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>
@@ -106,36 +106,6 @@
       lessonCategories () {
         return this.$store.getters.lessonCategories
       }
-      // disciplinesTreeselect () {
-      //   let disciplines = this.disciplines
-      //   let prepared = []
-      //
-      //   for (let disciplineIndex in disciplines) {
-      //     prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
-      //   }
-      //
-      //   return prepared
-      // },
-      // lessonCategoriesTreeselect () {
-      //   let lessonCategories = this.lessonCategories
-      //   let prepared = []
-      //
-      //   for (let lessonCategoryIndex in lessonCategories) {
-      //     prepared.push({id: lessonCategories[lessonCategoryIndex].id, label: lessonCategories[lessonCategoryIndex].title})
-      //   }
-      //
-      //   return prepared
-      // },
-      // classesTreeselect () {
-      //   let classes = this.classes
-      //   let prepared = []
-      //
-      //   for (let classIndex in classes) {
-      //     prepared.push({id: classes[classIndex].id, label: classes[classIndex].title})
-      //   }
-      //
-      //   return prepared
-      // }
     },
     methods: {
       submit (validRequired) {
