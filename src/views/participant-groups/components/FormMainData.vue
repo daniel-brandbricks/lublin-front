@@ -2,6 +2,7 @@
   <b-row class="justify-content-center" v-if="participantGroup">
     <b-col cols="6">
       <h5>Aktywuj</h5>
+      {{participantGroup}}
       <b-form-group>
         <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('participantGroup.active')}"

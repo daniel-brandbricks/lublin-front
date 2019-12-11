@@ -77,7 +77,7 @@
 
         // todo maybe
         participantGroup: {
-          active: 1,
+          active: true,
           title: '',
           sex: 1,
           discipline: {
@@ -89,11 +89,7 @@
           lessonCategory: {
             id: null
           },
-          participants: [],
-
-          // checkbox
-          // selectedGender: [],
-          // selectedType: [],
+          participants: []
         },
 
         participantYearsSelected: [],
@@ -107,6 +103,13 @@
     },
     computed: {},
     methods: {
+      setDataFromExistedParticipantGroup (participantGroup) {
+        let participants = participantGroup.participants || []
+        for (let index in participants) {
+          console.log(participants[index])
+          this.participantYearsSelected.push({year: participants[index].year})
+        }
+      },
       prepareParticipantGroupToSubmit (participantGroup) {
         let participants = participantGroup.participants || []
         let preparedParticipants = []
@@ -160,11 +163,20 @@
         this.$router.push({ name: 'participant.group', params: { 'tab': 'main-data' } })
       }
 
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      let breadcrumbs = [
+        { text: 'Lista zawodników', to: { name: 'participant.groups' } },
+        { text: 'Nowa', active: true }
+      ]
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+
       // from data todo in participant
       if (this.id) {
         this.$store.dispatch('getParticipantGroup', { id: this.id })
           .then((response) => {
             this.participantGroup = response
+            this.setDataFromExistedParticipantGroup(response)
 
             this.tabLinks = [
               {
@@ -199,17 +211,14 @@
                 tab: 'mtsf'
               }
             ]
+
+            let breadcrumbs = [
+              { text: 'Lista zawodników', to: { name: 'participant.groups' } },
+              { text: response.title, active: true }
+            ]
+            this.changeAdminNavbarBreadcrumbs(breadcrumbs)
           })
       }
-
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
-
-      let breadcrumbs = [
-        { text: 'Lista zawodników', to: { name: 'participant.groups' } },
-        { text: this.id ? this.participantGroup.name : 'Nowa', active: true }
-      ]
-      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }
   }
 </script>

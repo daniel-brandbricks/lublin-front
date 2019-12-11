@@ -28,7 +28,8 @@
                       :name="'participantGroup.participants.fullName'+index"
                       :class="{'error-input-custom': veeErrors.has('participantGroup.participants.fullName'+index)}"
                       :key="'participantGroup.participants.fullName'+index" v-validate="{'required':true}"
-                      :options="participantsTreeselect(participantYearsSelected[index].year)"/>
+                      :options="participantsTreeselect(participantYearsSelected[index] ?
+                      participantYearsSelected[index].year : null)"/>
         </div>
       </div>
       <div class="row mb-3">
@@ -102,8 +103,17 @@
             }
 
             let participant = this.$store.getters.participant(id)
-            if (parseInt(participant.year) !== parseInt(newValue[index].year)) {
-              this.participantGroup.participants[index].id = null
+            if (undefined === participant) {
+              this.$store.dispatch('getParticipant', { id: id })
+                .then((response) => {
+                  if (parseInt(response.year) !== parseInt(newValue[index].year)) {
+                    this.participantGroup.participants[index].id = null
+                  }
+                })
+            } else {
+              if (parseInt(participant.year) !== parseInt(newValue[index].year)) {
+                this.participantGroup.participants[index].id = null
+              }
             }
           }
         },
