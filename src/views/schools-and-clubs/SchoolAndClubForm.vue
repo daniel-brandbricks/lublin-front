@@ -24,12 +24,12 @@
                   :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
 
       <!--   Component for todo Entity   -->
-      <FormCompetitors :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
+      <FormParticipants :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
                        :key="$route.params.tab+'FormCompetitors'" v-if="$route.params.tab === 'competitors'"/>
 
       <!--   Component for todo Entity   -->
-      <FormActivities :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"
-                      :key="$route.params.tab+'FormActivities'" v-if="$route.params.tab === 'activities'"/>
+      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"
+                      :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
 
       <!--   Component for todo Entity   -->
       <FormCalendar :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCalendar"
@@ -51,13 +51,13 @@
   import TabLinks from '@/components/TabLinks'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
+  import ToastMixin from '@/mixins/toast-mixin'
 
   import FormMainData from '@/views/schools-and-clubs/components/FormMainData'
   import FormPlaces from '@/views/schools-and-clubs/components/FormPlaces'
   import FormLeaders from '@/views/schools-and-clubs/components/FormLeaders'
   import FormParticipantGroups from '@/views/schools-and-clubs/components/FormParticipantGroups'
-  import FormCompetitors from '@/views/schools-and-clubs/components/FormCompetitors'
-  import FormActivities from '@/views/schools-and-clubs/components/FormActivities'
+  import FormParticipants from '@/views/schools-and-clubs/components/FormParticipants'
   import FormCalendar from '@/views/schools-and-clubs/components/FormCalendar'
   import FormFrequency from '@/views/schools-and-clubs/components/FormFrequency'
   import FormMTSF from '@/views/schools-and-clubs/components/FormMTSF'
@@ -74,13 +74,12 @@
       FormLeaders,
       FormParticipantGroups,
       FormEvents,
-      FormCompetitors,
-      FormActivities,
+      FormParticipants,
       FormCalendar,
       FormFrequency,
       FormMTSF
     },
-    mixins: [ EventBusEmit, FormMixin ],
+    mixins: [ EventBusEmit, FormMixin, ToastMixin ],
     data () {
       return {
         tabLinks: [
@@ -250,15 +249,15 @@
           })
       }
 
-        /** @buttonLink route name || false if button must be hidden */
-        this.changeAdminNavbarButton({ buttonLink: false })
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
 
       let breadcrumbs = [
         { text: 'Kłuby i szkoły', to: { name: 'schools.and.clubs', params: { 'tab': 'confirmed' } } },
         { text: this.id ? parseInt(this.school.type) === 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true }
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
-    },
+    }
   }
 </script>
 

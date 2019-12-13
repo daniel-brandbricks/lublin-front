@@ -33,7 +33,7 @@
 
         <template slot="edit" slot-scope="scope">
           <b-link class="icon-link">
-            <span class="icon icon-iconm_search"></span>
+            <span class="icon icon-iconm_search"/>
           </b-link>
         </template>
 

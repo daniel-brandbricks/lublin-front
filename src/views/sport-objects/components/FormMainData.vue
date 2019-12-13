@@ -9,8 +9,6 @@
                   :searchable="false"
                   placeholder="Klub / Szkoła"
                   :options="schoolsAndClubsPrepared"
-                  :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"
-                  name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"
                   class="custom"/>
 
       <!--      <ImageInputAdvanced :imgPath="sportObject.image" :hideImage="true"></ImageInputAdvanced>-->
@@ -21,8 +19,8 @@
       <h2 class="mb-4">Aktywuj</h2>
       <b-form-group>
         <b-form-radio v-model="sportObject.active" :value="element.value" class="d-inline-block mr-3"
-                      :class="{'error-input-custom': veeErrors.has('sportObject.active')}"
-                      name="sportObject.active" :key="'sportObject.active'+index" v-validate="{'required':true}"
+                      :class="{'error-input-custom': veeErrors.has('sportObject.active'+index)}"
+                      :name="'sportObject.active'+index" :key="'sportObject.active'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
           {{ element.title }}
         </b-form-radio>
@@ -34,7 +32,7 @@
                       placeholder="Nazwa"
                       :class="{'error-input-custom': veeErrors.has('sportObject.title')}"
                       name="sportObject.title" key="sportObject.title" v-validate="{'required':true}"
-                      v-model="sportObject.title"></b-form-input>
+                      v-model="sportObject.title"/>
       </b-form-group>
       <!--    treeselect    -->
       <treeselect v-model="sportObject.type.id" v-if="sportObject.type"
@@ -57,7 +55,7 @@
                       placeholder="Adres"
                       :class="{'error-input-custom': veeErrors.has('sportObject.address')}"
                       name="sportObject.address" key="sportObject.address" v-validate="{'required':true}"
-                      v-model="sportObject.address"></b-form-input>
+                      v-model="sportObject.address"/>
       </b-form-group>
       <b-form-group
         class="custom">
@@ -65,7 +63,7 @@
                       placeholder="Kod pocztowy"
                       :class="{'error-input-custom': veeErrors.has('sportObject.postcode')}"
                       name="sportObject.postcode" key="sportObject.postcode" v-validate="{'required':true}"
-                      v-model="sportObject.postcode"></b-form-input>
+                      v-model="sportObject.postcode"/>
       </b-form-group>
       <h1>MAP</h1>
 
@@ -121,10 +119,11 @@
       schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
         let preparedSchools = []
-
+        console.log(data)
         for (let schoolIndex in data) {
           preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
         }
+        console.log(preparedSchools)
 
         return preparedSchools
       },

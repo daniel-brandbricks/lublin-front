@@ -15,7 +15,7 @@
         </template>
 
         <template slot="disciplines" slot-scope="scope">
-          <span></span>
+          <span/>
           <span class="d-inline" v-for="(discipline,index) in scope.item.disciplines" :key="index">
             {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}
           </span>
@@ -27,9 +27,16 @@
           </span>
         </template>
 
+        <template slot="lessons" slot-scope="scope">
+          <span/>
+          <span class="d-inline" v-for="(lesson,index) in scope.item.lessons" :key="index">
+<!--            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}-->
+          </span>
+        </template>
+
         <template slot="edit" slot-scope="scope">
           <b-link class="icon-link">
-            <span class="icon icon-iconm_search"></span>
+            <span class="icon icon-iconm_search"/>
           </b-link>
         </template>
 

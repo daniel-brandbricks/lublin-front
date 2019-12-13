@@ -1,10 +1,10 @@
 <template>
-  <div class="wrap">FormCompetitors</div>
+
 </template>
 
 <script>
   export default {
-    name: 'FormCompetitors'
+    name: 'FormParticipants'
   }
 </script>
 

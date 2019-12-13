@@ -36,13 +36,10 @@ export default {
     },
     postSubmitError (error) {
       this.loading = false
-
-      // todo change
-      if (!error.hasOwnProperty('data') || !error.data.hasOwnProperty('validationErrors')) {
+      if (!error.hasOwnProperty('data') || !error.data.hasOwnProperty('error')) {
         this.showToast('Wystąpil błąd', 'Uwaga', 'danger')
       } else {
-        let key = Object.keys(error.data.validationErrors)[0]
-        this.showToast(error.data.validationErrors[key], 'Uwaga', 'danger')
+        this.showToast(error.data.error, 'Uwaga', 'danger')
       }
     },
     deleteFromForm (method, id, toDeleteWord = 'daną pozycję', routeToPush = false, routeParams = null, urlParams = {}) {

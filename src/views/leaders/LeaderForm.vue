@@ -2,7 +2,7 @@
   <div class="container">
     <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"></TabLinks>
+        <TabLinks :links="tabLinks"/>
       </b-col>
     </b-row>
 
@@ -80,13 +80,14 @@
 
         leader: {
           id: this.id,
+          role: 1,
           confirmed: 0,
           firstName: '',
           lastName: '',
           email: '',
           password: '',
           phone: '',
-          active: 1,
+          active: true,
           disciplines: [
             // { id: 1 },
             // { id: 2 }

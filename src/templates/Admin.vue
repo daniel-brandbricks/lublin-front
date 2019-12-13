@@ -1,18 +1,18 @@
 <template>
   <div class="d-flex" id="wrapper" :class="{'toggled': showSidebar}">
-    <Sidebar></Sidebar>
+    <Sidebar/>
 
     <main class="" id="page-content-wrapper">
       <perfect-scrollbar id="scrollbar" class="custom ps-content">
 
         <nav class="mb-3">
           <!--todo Переделать-->
-          <AdminNavbar></AdminNavbar>
+          <AdminNavbar/>
         </nav>
 
         <div class="container-fluid">
           <button class="btn btn-primary btn-sidebar-toggle" id="menu-toggle" @click="toggleSidebar">
-            <span class="icon-icon_arrow_24"></span>
+            <span class="icon-icon_arrow_24"/>
           </button>
           <router-view/>
 
