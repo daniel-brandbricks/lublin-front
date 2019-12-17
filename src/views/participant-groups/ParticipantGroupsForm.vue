@@ -1,14 +1,15 @@
 <template>
   <div class="container">
-    <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
+    <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"></TabLinks>
+        <TabLinks :links="tabLinks"/>
+        {{isValidForm}}
         <template>
           <FormMainData :participantGroup="participantGroup" @childSubmit="submit" ref="FormMainData"
                         :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
           <!--        Component for ParticipantEntity   -->
           <FormParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" @childSubmit="submit"
-                            ref="FormParticipants"
+                            ref="FormParticipants" :participantYearsSelected="participantYearsSelected"
                             :key="$route.params.tab+'FormParticipants'" v-show="$route.params.tab === 'participants'"/>
           <!--        Component for todo Entity isValidForm for ALL  -->
           <FormActivities :participantGroup="participantGroup" @childSubmit="submit" ref="FormActivities"
@@ -71,34 +72,14 @@
             link: 'participant.group',
             tab: 'participants',
             method: 'checkValidMainForm'
-          },
-          {
-            title: 'Zajęcia',
-            link: 'participant.group',
-            tab: 'activities'
-          },
-          {
-            title: 'Kalendarz',
-            link: 'participant.group',
-            tab: 'calendar'
-          },
-          {
-            title: 'Frekwencja',
-            link: 'participant.group',
-            tab: 'frequency'
-          },
-          {
-            title: 'MTSF',
-            link: 'participant.group',
-            tab: 'mtsf'
           }
         ],
 
         // todo maybe
         participantGroup: {
-          active: 1,
+          active: true,
           title: '',
-          sex: '',
+          sex: 1,
           discipline: {
             id: null
           },
@@ -108,38 +89,49 @@
           lessonCategory: {
             id: null
           },
-          participants: [],
-
-          years: [],
-
-          // checkbox
-          selectedGender: [],
-          selectedType: [],
-
-          genderOptions: [
-            { text: 'kobieta', value: 0 },
-            { text: 'mężczyzna', value: 1 }
-          ]
+          participants: []
         },
+
+        participantYearsSelected: [],
+        genderOptions: [
+          { text: 'kobieta', value: 0 },
+          { text: 'mężczyzna', value: 1 }
+        ],
 
         isValidForm: false
       }
     },
     computed: {},
     methods: {
+      setDataFromExistedParticipantGroup (participantGroup) {
+        let participants = participantGroup.participants || []
+        for (let index in participants) {
+          console.log(participants[index])
+          this.participantYearsSelected.push({year: participants[index].year})
+        }
+      },
+      prepareParticipantGroupToSubmit (participantGroup) {
+        let participants = participantGroup.participants || []
+        let preparedParticipants = []
+        for (let index in participants) {
+          preparedParticipants.push(participants[index].id)
+        }
+
+        participantGroup.participants = preparedParticipants
+      },
       checkValidMainForm () {
         this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
           })
       },
-      // addParticipant (participantDefault) {
-      //   // let copy = {...participantDefault}
-      //   this.participantGroup.participants.push(participantDefault)
-      // },
       addParticipant () {
-        this.participantGroup.participants.push({})
+        this.participantGroup.participants.push({id: null})
+        this.participantYearsSelected.push({year: null})
       },
+      // addParticipant () {
+      //   this.participantGroup.participants.push({})
+      // },
       removeParticipant (index) {
         this.participantGroup.participants.splice(index, 1)
       },
@@ -147,6 +139,7 @@
         let participantGroup = {...this.participantGroup}
         console.log(this.participantGroup)
 
+        this.prepareParticipantGroupToSubmit(participantGroup)
         const method = this.id === undefined ? 'postParticipantGroup' : 'putParticipantGroup'
         this.$store.dispatch(method, participantGroup)
           .then(() => {
@@ -170,22 +163,62 @@
         this.$router.push({ name: 'participant.group', params: { 'tab': 'main-data' } })
       }
 
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      let breadcrumbs = [
+        { text: 'Lista zawodników', to: { name: 'participant.groups' } },
+        { text: 'Nowa', active: true }
+      ]
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+
       // from data todo in participant
       if (this.id) {
         this.$store.dispatch('getParticipantGroup', { id: this.id })
           .then((response) => {
             this.participantGroup = response
+            this.setDataFromExistedParticipantGroup(response)
+
+            this.tabLinks = [
+              {
+                title: 'Dane ogólne',
+                link: 'participant.group',
+                tab: 'main-data'
+              },
+              {
+                title: 'Zawodnicy',
+                link: 'participant.group',
+                tab: 'participants',
+                method: 'checkValidMainForm'
+              },
+              {
+                title: 'Zajęcia',
+                link: 'participant.group',
+                tab: 'activities'
+              },
+              {
+                title: 'Kalendarz',
+                link: 'participant.group',
+                tab: 'calendar'
+              },
+              {
+                title: 'Frekwencja',
+                link: 'participant.group',
+                tab: 'frequency'
+              },
+              {
+                title: 'MTSF',
+                link: 'participant.group',
+                tab: 'mtsf'
+              }
+            ]
+
+            let breadcrumbs = [
+              { text: 'Lista zawodników', to: { name: 'participant.groups' } },
+              { text: response.title, active: true }
+            ]
+            this.changeAdminNavbarBreadcrumbs(breadcrumbs)
           })
       }
-
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
-
-      let breadcrumbs = [
-        { text: 'Lista zawodników', to: { name: 'participant.groups' } },
-        { text: this.id ? this.participantGroup.name : 'Nowa', active: true }
-      ]
-      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }
   }
 </script>

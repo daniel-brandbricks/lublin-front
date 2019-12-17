@@ -122,7 +122,6 @@ export default {
               return
             }
 
-            console.log(response)
             context.commit('setParticipantGroups', response)
             resolve()
           })

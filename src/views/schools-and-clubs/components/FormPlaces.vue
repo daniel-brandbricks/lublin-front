@@ -20,7 +20,7 @@
                             placeholder="Nazwa"
                             :class="{'error-input-custom': veeErrors.has('place.title'+index)}"
                             :name="'place.title'+index" :key="'place.title'+index" v-validate="{'required':true}"
-                            v-model="place.title"></b-form-input>
+                            v-model="place.title"/>
             </b-form-group>
 
             <!--    treeselect    -->
@@ -41,7 +41,7 @@
                             :class="{'error-input-custom': veeErrors.has('place.address'+index)}"
                             :name="'place.address'+index" :key="'place.address'+index"
                             v-validate="{'required':true}"
-                            v-model="place.address"></b-form-input>
+                            v-model="place.address"/>
             </b-form-group>
             <b-form-group
               class="custom">
@@ -50,7 +50,7 @@
                             :class="{'error-input-custom': veeErrors.has('place.postcode'+index)}"
                             :name="'place.postcode'+index" :key="'place.postcode'+index"
                             v-validate="{'required':true}"
-                            v-model="place.postcode"></b-form-input>
+                            v-model="place.postcode"/>
             </b-form-group>
             <h1>MAP</h1>
           </div>

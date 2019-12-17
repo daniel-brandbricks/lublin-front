@@ -3,20 +3,20 @@
     <b-row class="justify-content-center">
       <b-col cols="8">
         <b-row class="align-items-center mb-3">
-<!--          <b-col cols="4">-->
-<!--            <treeselect class="custom"-->
-<!--                        v-model="selectedDisciplines"-->
-<!--                        :multiple="true"-->
-<!--                        placeholder="Dyscyplina"-->
-<!--                        :options="disciplinesTreeselect"/>-->
-<!--          </b-col>-->
-<!--          <b-col cols="4">-->
-<!--            <treeselect class="custom"-->
-<!--                        v-model="selectedSportObjects"-->
-<!--                        :multiple="true"-->
-<!--                        placeholder="Obiekt"-->
-<!--                        :options="sportObjectsTreeselect"/>-->
-<!--          </b-col>-->
+          <b-col cols="4">
+            <treeselect class="custom"
+                        v-model="selectedDisciplines"
+                        :multiple="true"
+                        placeholder="Dyscyplina"
+                        :options="disciplinesTreeselect"/>
+          </b-col>
+          <b-col cols="4">
+            <treeselect class="custom"
+                        v-model="selectedSportObjects"
+                        :multiple="true"
+                        placeholder="Obiekt"
+                        :options="sportObjectsTreeselect"/>
+          </b-col>
           <b-col cols="4">
             <b-form-group
               class="custom">

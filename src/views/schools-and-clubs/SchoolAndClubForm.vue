@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TabLinks :links="tabLinks"></TabLinks>
+    <TabLinks :links="tabLinks"/>
     <template>
       <!--   Component for SchoolEntity   -->
       <FormMainData :school="school" @childSubmit="submit" ref="FormMainData" :districts="districts"
@@ -9,39 +9,39 @@
       <!--   Component for PlaceEntity   -->
       <FormPlaces :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormPlaces"
                   :districts="districts"
-                  :key="$route.params.tab+'FormPlaces'" v-show="$route.params.tab === 'places'"/>
+                  :key="$route.params.tab+'FormPlaces'" v-if="$route.params.tab === 'places'"/>
 
       <!--   Component for todo Entity   -->
       <FormLeaders :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormLeaders"
-                   :key="$route.params.tab+'FormLeaders'" v-show="$route.params.tab === 'leaders'"/>
+                   :key="$route.params.tab+'FormLeaders'" v-if="$route.params.tab === 'leaders'"/>
 
       <!--   Component for GroupEntity   -->
       <FormParticipantGroups :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroups"
-                  :key="$route.params.tab+'FormParticipantGroups'" v-show="$route.params.tab === 'participant-groups'"/>
+                  :key="$route.params.tab+'FormParticipantGroups'" v-if="$route.params.tab === 'participant-groups'"/>
 
       <!--   Component for EventEntity   -->
       <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"
-                  :key="$route.params.tab+'FormEvents'" v-show="$route.params.tab === 'events'"/>
+                  :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
 
       <!--   Component for todo Entity   -->
-      <FormCompetitors :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
-                       :key="$route.params.tab+'FormCompetitors'" v-show="$route.params.tab === 'competitors'"/>
+      <FormParticipants :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
+                       :key="$route.params.tab+'FormCompetitors'" v-if="$route.params.tab === 'competitors'"/>
 
       <!--   Component for todo Entity   -->
-      <FormActivities :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"
-                      :key="$route.params.tab+'FormActivities'" v-show="$route.params.tab === 'activities'"/>
+      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"
+                      :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
 
       <!--   Component for todo Entity   -->
       <FormCalendar :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCalendar"
-                    :key="$route.params.tab+'FormCalendar'" v-show="$route.params.tab === 'calendar'"/>
+                    :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
 
       <!--   Component for todo Entity   -->
       <FormFrequency :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormFrequency"
-                     :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>
+                     :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency'"/>
 
       <!--   Component for todo Entity   -->
       <FormMTSF :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMTSF"
-                :key="$route.params.tab+'FormMTSF'" v-show="$route.params.tab === 'mtsf'"/>
+                :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
 
     </template>
   </div>
@@ -51,13 +51,13 @@
   import TabLinks from '@/components/TabLinks'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
+  import ToastMixin from '@/mixins/toast-mixin'
 
   import FormMainData from '@/views/schools-and-clubs/components/FormMainData'
   import FormPlaces from '@/views/schools-and-clubs/components/FormPlaces'
   import FormLeaders from '@/views/schools-and-clubs/components/FormLeaders'
   import FormParticipantGroups from '@/views/schools-and-clubs/components/FormParticipantGroups'
-  import FormCompetitors from '@/views/schools-and-clubs/components/FormCompetitors'
-  import FormActivities from '@/views/schools-and-clubs/components/FormActivities'
+  import FormParticipants from '@/views/schools-and-clubs/components/FormParticipants'
   import FormCalendar from '@/views/schools-and-clubs/components/FormCalendar'
   import FormFrequency from '@/views/schools-and-clubs/components/FormFrequency'
   import FormMTSF from '@/views/schools-and-clubs/components/FormMTSF'
@@ -74,13 +74,12 @@
       FormLeaders,
       FormParticipantGroups,
       FormEvents,
-      FormCompetitors,
-      FormActivities,
+      FormParticipants,
       FormCalendar,
       FormFrequency,
       FormMTSF
     },
-    mixins: [ EventBusEmit, FormMixin ],
+    mixins: [ EventBusEmit, FormMixin, ToastMixin ],
     data () {
       return {
         tabLinks: [

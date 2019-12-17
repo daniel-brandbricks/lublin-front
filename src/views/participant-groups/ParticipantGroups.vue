@@ -12,14 +12,14 @@
                 name="flavour-1"
               />
             </b-form-group>
-            <b-form-group class="custom d-inline-block">
-              <b-form-checkbox-group
-                id="checkbox-group-2"
-                v-model="selectedType"
-                :options="typeOptions"
-                name="flavour-2"
-              />
-            </b-form-group>
+<!--            <b-form-group class="custom d-inline-block">-->
+<!--              <b-form-checkbox-group-->
+<!--                id="checkbox-group-2"-->
+<!--                v-model="selectedType"-->
+<!--                :options="typeOptions"-->
+<!--                name="flavour-2"-->
+<!--              />-->
+<!--            </b-form-group>-->
           </b-col>
           <b-col cols="6">
             <b-form-group class="custom">
@@ -32,38 +32,32 @@
       </b-col>
 
       <b-col cols="8" class="mt-4">
-<!--        <b-row class="justify-content-between align-items-center">-->
-<!--          <b-col cols="4">-->
-<!--            <treeselect v-model="disciplines.id" v-if="disciplines"-->
-<!--                        :multiple="false" class="custom"-->
-<!--                        placeholder="Dyscyplina" :options="participantGroupDiscipline"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('disciplines.title')}"-->
-<!--                        name="disciplines.title" key="disciplines.title" v-validate="{'required':true}"-->
-<!--            />-->
-<!--          </b-col>-->
-<!--          <b-col cols="4">-->
-<!--            <treeselect v-model="lessonCategories.id" v-if="lessonCategories"-->
-<!--                        :multiple="false" class="custom"-->
-<!--                        placeholder="Kategoria" :options="participantGroupLessonCategory"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('categories.title')}"-->
-<!--                        name="categories.title" key="categories.title" v-validate="{'required':true}"-->
-<!--            />-->
-<!--          </b-col>-->
-<!--          <b-col cols="4">-->
-<!--           <treeselect v-model="classes.id" v-if="classes"-->
-<!--                        :multiple="false" class="custom"-->
-<!--                        placeholder="Klasa" :options="participantGroupClass"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('classes.title')}"-->
-<!--                        name="classes.title" key="classes.title" v-validate="{'required':true}"-->
-<!--            />-->
-<!--          </b-col>-->
-<!--        </b-row>-->
+        <b-row class="justify-content-between align-items-center">
+          <b-col cols="4">
+            <treeselect v-model="selectedDisciplines" v-if="selectedDisciplines"
+                        :multiple="true" class="custom"
+                        placeholder="Dyscyplina" :options="participantGroupDiscipline"
+            />
+          </b-col>
+          <b-col cols="4">
+            <treeselect v-model="selectedLessonCategories" v-if="selectedLessonCategories"
+                        :multiple="true" class="custom"
+                        placeholder="Kategoria" :options="participantGroupLessonCategory"
+            />
+          </b-col>
+          <b-col cols="4">
+           <treeselect v-model="selectedClasses" v-if="selectedClasses"
+                        :multiple="true" class="custom"
+                        placeholder="Klasa" :options="participantGroupClass"
+            />
+          </b-col>
+        </b-row>
       </b-col>
 
       <!--   Table   -->
       <b-col cols="8" class="mt-4">
         <b-table
-          :items="participantList"
+          :items="participantGroups"
           :fields="fields"
           striped
           sort-icon-left
@@ -73,13 +67,16 @@
         >
 
           <template slot="discipline" slot-scope="scope">
-            <span>{{scope.item.discipline.title}}</span>
+            <span>{{getDisciplineTitleById(scope.item.discipline.id)}}</span>
+          </template>
+          <template slot="sex" slot-scope="scope">
+            <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
           </template>
           <template slot="lessonCategory" slot-scope="scope">
-            <span>{{scope.item.lessonCategory.title}}</span>
+            <span>{{getLessonCategoryTitleById(scope.item.lessonCategory.id)}}</span>
           </template>
           <template slot="class" slot-scope="scope">
-            <span>{{scope.item.class.title}}</span>
+            <span>{{getClassTitleById(scope.item.class.id)}}</span>
           </template>
 
           <template slot="status" slot-scope="scope">
@@ -124,11 +121,11 @@
 
         search: '',
 
-        selectedType: [],
-        typeOptions: [
-          { text: 'klub', value: 0 },
-          { text: 'szkola', value: 1 }
-        ],
+        // selectedType: [],
+        // typeOptions: [
+        //   { text: 'klub', value: 0 },
+        //   { text: 'szkola', value: 1 }
+        // ],
 
         selectedGender: [],
         genderOptions: [
@@ -136,17 +133,64 @@
           { text: 'mężczyzna', value: 1 }
         ],
 
-        disciplines: [],
-        lessonCategories: [],
-        classes: []
+        selectedDisciplines: [],
+        selectedLessonCategories: [],
+        selectedClasses: []
       }
     },
     computed: {
-      participantList () {
-        return this.$store.getters.participantGroups
+      disciplines () {
+        return this.$store.getters.disciplines
+      },
+      lessonCategories () {
+        return this.$store.getters.lessonCategories
+      },
+      classes () {
+        return this.$store.getters.classes
+      },
+      participantGroups () {
+        let participantGroups = this.$store.getters.participantGroups
+
+        let filteredParticipantGroups = []
+        let search = this.search || ''
+        let selectedGender = this.selectedGender || []
+        let disciplines = this.selectedDisciplines || []
+        let lessonCategories = this.selectedLessonCategories || []
+        let classes = this.selectedClasses || []
+
+        console.log(lessonCategories)
+
+        for (let index in participantGroups) {
+          if (search.length > 0 && participantGroups[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
+          if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue
+          if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
+          if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
+          if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
+          filteredParticipantGroups.push(participantGroups[index])
+        }
+
+        return filteredParticipantGroups
       }
     },
     methods: {
+      getDisciplineTitleById (id) {
+        if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
+        return this.disciplines.find((obj) => {
+          return obj.id === id
+        }).title
+      },
+      getLessonCategoryTitleById (id) {
+        if (undefined === this.lessonCategories || this.lessonCategories === null || this.lessonCategories.length < 1) return ''
+        return this.lessonCategories.find((obj) => {
+          return obj.id === id
+        }).title
+      },
+      getClassTitleById (id) {
+        if (undefined === this.classes || this.classes === null || this.classes.length < 1) return ''
+        return this.classes.find((obj) => {
+          return obj.id === id
+        }).title
+      },
       rowRedirect (row) {
         this.$router.push({
           name: 'participant.group',

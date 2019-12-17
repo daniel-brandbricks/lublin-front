@@ -13,10 +13,10 @@ export default {
     //   return state.participant
     // },
     participant: (state) => (id) => {
-      let participants = []
+      let participants = state.participants
 
       if (undefined === id) {
-        participants = state.participants.concat(state.participants)
+        return
       }
 
       for (let i = 0; i < participants.length; i++) {
