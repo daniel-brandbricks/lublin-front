@@ -13,6 +13,7 @@
       </b-form-group>
 
       <h2 class="mb-4">Płeć</h2>
+<!--      todo maybe checkbox like in invisionapp-->
       <b-form-radio v-model="participantGroup.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
                     :class="{'error-input-custom': veeErrors.has('participantGroup.sex')}"
                     name="participantGroup.sex" :key="'participantGroup.sex'+index" v-validate="{'required':true}"
