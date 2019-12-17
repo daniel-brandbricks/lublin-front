@@ -2,7 +2,8 @@
   <div class="container">
     <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
       <b-col cols="12">
-      <TabLinks :links="tabLinks"></TabLinks>
+      <TabLinks :links="tabLinks"/>
+        {{isValidForm}}
       </b-col>
     </b-row>
 
@@ -68,26 +69,33 @@
             tab: 'mtsf'
           }
         ],
-
         years: YEARS,
+
         participant: {
-          active: 1,
+          active: true,
           firstName: '',
           lastName: '',
-          sex: 1,
           year: null,
-          class: [],
+          sex: 1,
+          discipline: {
+            id: null
+          },
+          category: {
+            id: null
+          },
+          class: {
+            id: null
+          },
 
-          participants: [],
-          disciplines: [],
-
-          // checkbox
-          selectedGender: [],
-          genderOptions: [
-            { text: 'kobieta', value: 0 },
-            { text: 'mężczyzna', value: 1 }
-          ]
+          // for v-for
+          disciplines: []
+          // selectedGender: []
         },
+
+        genderOptions: [
+          { text: 'kobieta', value: 0 },
+          { text: 'mężczyzna', value: 1 }
+        ],
 
         isValidForm: false
       }
@@ -123,13 +131,13 @@
             this.postSubmitError(error)
           })
       },
-      addDisciplineAndClass () {
-        this.participant.disciplines.push({})
-        this.participant.class.push({})
+      addDiscipline () {
+        this.participant.disciplines.push({id: null})
+        // this.participant.class.push({})
       },
       removeDiscipline (index) {
         this.participant.disciplines.splice(index, 1)
-        this.participant.class.splice(index, 1)
+        // this.participant.class.splice(index, 1)
       }
     },
     created () {

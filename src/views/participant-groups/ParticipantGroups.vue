@@ -12,6 +12,8 @@
                 name="flavour-1"
               />
             </b-form-group>
+<!--            todo checkbox klub/szkola   -->
+
 <!--            <b-form-group class="custom d-inline-block">-->
 <!--              <b-form-checkbox-group-->
 <!--                id="checkbox-group-2"-->

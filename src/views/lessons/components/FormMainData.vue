@@ -7,7 +7,7 @@
       <b-form-radio v-model="lesson.active" :value="element.value" class="d-inline-block my-3 mr-3"
                     :class="{'error-input-custom': veeErrors.has('lesson.active')}"
                     name="lesson.active" :key="'lesson.active'+index" v-validate="{'required':true}"
-                    v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
+                    v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
         {{ element.title }}
       </b-form-radio>
       </b-form-group>
@@ -16,7 +16,7 @@
       <b-form-radio v-model="lesson.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
                     :class="{'error-input-custom': veeErrors.has('lesson.sex')}"
                     name="lesson.sex" :key="'lesson.sex'+index" v-validate="{'required':true}"
-                    v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
+                    v-for="(element, index) in [{title:'mężczyzna', value: true}, {title: 'kobieta', value: false}]">
         {{element.title}}
       </b-form-radio>
 
@@ -29,17 +29,16 @@
                       v-model="lesson.title"/>
       </b-form-group>
 <!--      todo leader treeselect-->
-      <h2>LEADERS TREESELECT </h2>
-<!--      <b-form-group class="custom mb-2">-->
-<!--        <treeselect class="custom m-0" v-if="lesson.leader"-->
-<!--                    v-model="lesson.leader.id"-->
-<!--                    :multiple="false"-->
-<!--                    placeholder="Prowadzący"-->
-<!--                    :options="leaders"-->
-<!--                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"-->
-<!--                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"-->
-<!--                    class="custom mb-3"/>-->
-<!--      </b-form-group>-->
+<!--      <h2>LEADERS TREESELECT </h2>-->
+      <b-form-group class="custom mb-2">
+        <treeselect class="custom m-0" v-if="lesson.leader"
+                    v-model="lesson.leader.id"
+                    :multiple="false"
+                    placeholder="Prowadzący"
+                    :options="lessonLeader"
+                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"
+                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>
+      </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.discipline"
                     v-model="lesson.discipline.id"
@@ -66,14 +65,20 @@
       </b-form-group>
       <h5>Organizator</h5>
       <b-form-group>
-        <b-form-radio v-model="lesson.object" :value="element.value" class="d-inline-block my-3 mr-3"
-                      :class="{'error-input-custom': veeErrors.has('lesson.object')}"
-                      name="lesson.active" :key="'lesson.object'+index" v-validate="{'required':true}"
+        <b-form-radio v-model="lesson.schoolOrClub" :value="element.value" class="d-inline-block my-3 mr-3"
+                      :class="{'error-input-custom': veeErrors.has('lesson.schoolOrClub')}"
+                      name="lesson.schoolOrClub" :key="'lesson.schoolOrClub'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Klub', value: 1}, {title: 'Szkoły', value: 0}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>
 <!--      todo treeselect kluby/szkoly-->
+      <treeselect class="custom m-0" v-if="lesson.schoolOrClub"
+                  v-model="lesson.schoolOrClub.id"
+                  :multiple="false"
+                  placeholder="Nazwa klubu/szkoły" :options="lessonSchoolOrClub"
+                  :class="{'error-input-custom': veeErrors.has('lesson.schoolOrClub')}"
+                  name="lesson.schoolOrClub" key="lesson.schoolOrClub" v-validate="{'required':true}"/>
 <!--      buttons   -->
       <b-row class="mt-4">
         <b-col>
@@ -108,7 +113,7 @@
       return {
         lessons: [],
         lessonDefault: {
-          active: 1,
+          active: '',
           sex: '',
           title: '',
           leaders: [],
@@ -116,13 +121,16 @@
           lessonCategories: [],
           classes: [],
           //  todo check this radio
-          object: 1
+          schoolOrClub: 0
         },
 
         isValidForm: false
       }
     },
     computed: {
+      schools () {
+        return this.$store.getters.schools
+      },
       leaders () {
         return this.$store.getters.leaders
       },
@@ -166,6 +174,8 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
+      this.$store.dispatch('getSchools', {confirmed: 0})
+      this.$store.dispatch('getSchools', {confirmed: 1})
     }
   }
 </script>

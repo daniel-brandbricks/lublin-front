@@ -5,7 +5,7 @@ export default {
   },
   methods: {},
   computed: {
-    participantClass () {
+    participantListClass () {
       let data = this.$store.getters.classes
       let preparedClasses = []
 
@@ -34,6 +34,26 @@ export default {
       }
 
       return preparedDisciplines
+    },
+    participantCategory () {
+      let data = this.$store.getters.lessonCategories
+      let preparedCategories = []
+
+      for (let categoryIndex in data) {
+        preparedCategories.push({ id: data[categoryIndex].id, label: data[categoryIndex].title })
+      }
+
+      return preparedCategories
+    },
+    participantClass () {
+      let data = this.$store.getters.classes
+      let preparedClasses = []
+
+      for (let classIndex in data) {
+        preparedClasses.push({ id: data[classIndex].id, label: data[classIndex].title })
+      }
+
+      return preparedClasses
     }
   }
 }

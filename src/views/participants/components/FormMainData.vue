@@ -6,12 +6,11 @@
         <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('participant.active')}"
                       name="participant.active" :key="'participant.active'+index" v-validate="{'required':true}"
-                      v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
+                      v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>
 
-      <!--            todo CHECKBOX  OR RADIO -->
       <h2 class="mb-4">Płeć</h2>
       <b-form-radio v-model="participant.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
                     :class="{'error-input-custom': veeErrors.has('participant.sex')}"
@@ -42,45 +41,51 @@
                     :options="years"
                     :class="{'error-input-custom': veeErrors.has('participant.year')}"
                     name="participant.year" key="participant.year" v-validate="{'required':true}"
-                    class="custom mb-3"/>
+                    class="custom mb-2"
+        />
       </b-form-group>
 
       <h5 class="my-3">Dyscipliny</h5>
       <div class="row" v-if="participant.disciplines"
-           v-for="(discipline,index) in participant.disciplines" :key="index">
+           v-for="(discipline, index) in participant.disciplines" :key="index">
         <div class="col-2">
           <div class="text-center _custom-css">
             <p class="m-auto">{{index + 1}}</p>
           </div>
-          <p @click="removeDiscipline(index)" v-if="participant.disciplines.length > 0 && participant.class.length > 0">usuń</p>
+          <p @click="removeDiscipline(index)" v-if="participant.disciplines.length > 0">usuń</p>
         </div>
         <div class="col-10">
-          <treeselect class="custom mb-2" v-if="participant.disciplines[index]"
-                      v-model="participant.disciplines[index].id"
+          <treeselect class="custom mb-2" v-if="participant.discipline"
+                      v-model="participant.discipline.id"
                       :multiple="false"
-                      :class="{'error-input-custom': veeErrors.has('participant.discipline'+index)}"
-                      :name="'participant.discipline'+index" :key="'participant.discipline'+index" v-validate="{'required':true}"
-                      placeholder="Dyscyplina"
-                      :options="disciplinesTreeselect"/>
-          <treeselect class="custom mb-2" v-if="participant.class[index]"
-                      v-model="participant.class[index].id"
+                      placeholder="Dyscyplina" :options="participantDiscipline"
+                      :name="'participant.discipline'+index"
+                      :class="{'error-input-custom': veeErrors.has('participant.discipline')}"
+                      :key="'participant.discipline'" v-validate="{'required':true}"/>
+          <treeselect class="custom mb-2" v-if="participant.category"
+                      v-model="participant.category.id"
                       :multiple="false"
-                      placeholder="Klasa"
+                      placeholder="Kategoria" :options="participantCategory"
+                      :name="'participant.category'+index"
+                      :class="{'error-input-custom': veeErrors.has('participant.category')}"
+                      :key="'participant.category'" v-validate="{'required':true}"/>
+          <treeselect class="custom mb-2" v-if="participant.class"
+                      v-model="participant.class.id"
+                      :multiple="false"
+                      placeholder="Klasa" :options="participantClass"
+                      :name="'participant.class'+index"
                       :class="{'error-input-custom': veeErrors.has('participant.class')}"
-                      name="'participant.class'+index" :key="'participant.class'+index" v-validate="{'required':true}"
-                      :options="classTreeselect"
-          />
-
+                      :key="'participant.class'" v-validate="{'required':true}"/>
         </div>
       </div>
-      <div class="row mb-3">
+      <div class="row mb-2">
         <div class="col-2">
           <div class="text-center _custom-css">
-            <p class="m-auto">{{participant.disciplines.length + 1 && participant.class.length + 1}}</p>
+            <p class="m-auto">{{participant.disciplines.length + 1}}</p>
           </div>
         </div>
         <div class="col-10">
-          <b-btn @click="addDisciplineAndClass" variant="primary" block class="w-50">+ Dodaj</b-btn>
+          <b-btn @click="addDiscipline" variant="primary" block class="w-50">+ Dodaj</b-btn>
         </div>
       </div>
 
@@ -111,7 +116,7 @@
 
   export default {
     name: 'FormMainData',
-    props: [ 'participant', 'years' ],
+    props: [ 'participant', 'years', 'participantYearsSelected'],
     components: { Treeselect },
     mixins: [ EventBusEmit, FormMixin, ParticipantMixin ],
     data () {
@@ -121,9 +126,8 @@
           active: 1,
           firstName: '',
           lastName: '',
-          sex: '',
+          sex: ''
 
-          years: []
         },
 
         isValidForm: false
@@ -133,33 +137,16 @@
       disciplines () {
         return this.$store.getters.disciplines
       },
+      categories () {
+        return this.$store.getters.lessonCategories
+      },
       classes () {
         return this.$store.getters.classes
-      },
-      classTreeselect () {
-        let classes = this.classes
-        let prepared = []
-
-        for (let classIndex in classes) {
-          prepared.push({id: classes[classIndex].id, label: classes[classIndex].title})
-        }
-
-        return prepared
-      },
-      disciplinesTreeselect () {
-        let disciplines = this.disciplines
-        let prepared = []
-
-        for (let disciplineIndex in disciplines) {
-          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
-        }
-
-        return prepared
       }
     },
     methods: {
-      addDisciplineAndClass () {
-        this.$parent.addDisciplineAndClass()
+      addDiscipline () {
+        this.$parent.addDiscipline()
       },
       removeDiscipline (index) {
         this.$parent.removeDiscipline(index)
@@ -190,6 +177,7 @@
     created () {
       this.$store.dispatch('getParticipants')
       this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
     }
   }

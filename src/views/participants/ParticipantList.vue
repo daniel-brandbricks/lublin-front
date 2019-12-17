@@ -1,16 +1,17 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center align-items-center">
+<!--      todo выровнять чекбокс-->
       <b-col cols="8">
         <b-row class="justify-content-center align-items-center">
-          <b-col cols="3">
+          <b-col cols="">
             <b-form-group class="custom d-inline-block">
-              <b-form-checkbox v-model="sex" :value="element.value"
-                            :class="{'error-input-custom': veeErrors.has('sex')}"
-                            name="sex" :key="'sex'+index" v-validate="{'required':true}"
-                            v-for="(element, index) in [{title:'kobieta', value: 1}, {title: 'mężczyzna', value: 0}]">
-                {{element.title}}
-              </b-form-checkbox>
+              <b-form-checkbox-group
+                id="checkbox-group-1"
+                v-model="selectedGender"
+                :options="genderOptions"
+                name="flavour-1"
+              />
             </b-form-group>
           </b-col>
           <b-col cols="9">
@@ -23,11 +24,9 @@
                             :options="years"/>
               </b-col>
               <b-col cols="4">
-                <treeselect v-model="classes.id" v-if="classes"
-                            :multiple="false" class="custom"
-                            placeholder="Klasa" :options="participantClass"
-                            :class="{'error-input-custom': veeErrors.has('title')}"
-                            name="title" key="title" v-validate="{'required':true}"
+                <treeselect v-model="selectedClasses" v-if="selectedClasses"
+                            :multiple="true" class="custom"
+                            placeholder="Klasa" :options="participantListClass"
                 />
               </b-col>
               <b-col cols="4">
@@ -55,14 +54,16 @@
         >
 
           <template slot="class" slot-scope="scope">
-            <span>{{scope.item.class.title}}</span>
+            <span>{{getClassTitleById(scope.item.class.id)}}</span>
           </template>
-<!--          <templatee slot="sex" slot-scope="scope">-->
-<!--            <span>{{scope.item.sex}}</span>-->
-<!--          </templatee>-->
+<!--          todo rocznik-->
+          <template slot="sex" slot-scope="scope">
+            <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
+          </template>
+
           <template slot="status" slot-scope="scope">
-            <span class="status" :class="{'active': scope.item.active}">
-              {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+            <span class="status"
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
 
           <template slot="edit" slot-scope="scope">
@@ -103,19 +104,48 @@
           { key: 'edit', label: '' }
         ],
 
-        sex: '',
+        selectedGender: [],
+        genderOptions: [
+          { text: 'kobieta', value: 0 },
+          { text: 'mężczyzna', value: 1 }
+        ],
+
         yearValue: null,
         years: YEARS,
-        classes: [],
+        selectedClasses: [],
         search: ''
       }
     },
     computed: {
+      classes () {
+        return this.$store.getters.classes
+      },
       participantList () {
-        return this.$store.getters.participants
+        let participantList = this.$store.getters.participants
+
+        let filteredParticipantList = []
+        let search = this.search || ''
+        let selectedGender = this.selectedGender || []
+        //  todo for years
+        let classes = this.selectedClasses || []
+
+        for (let index in participantList) {
+          if (search.length > 0 && participantList[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
+          if (selectedGender.length > 0 && !selectedGender.includes(participantList[index].sex)) continue
+          if (classes.length > 0 && !classes.includes(parseInt(participantList[index].class.id))) continue
+          filteredParticipantList.push(participantList[index])
+        }
+
+        return filteredParticipantList
       }
     },
     methods: {
+      getClassTitleById (id) {
+        if (undefined === this.classes || this.classes === null || this.classes.length < 1) return ''
+        return this.classes.find((obj) => {
+          return obj.id === id
+        }).title
+      },
       rowRedirect (row) {
         this.$router.push({
           name: 'participant',
