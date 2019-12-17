@@ -52,6 +52,7 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         resolve(data)
       })
       .catch(error => {
+        console.log(error.response)
         if (isAuthorized && error.response && error.response.data.error === 'empty user') {
           console.log('api service TOKEN_EXPIRED')
           store.dispatch('clearAuthToken')
@@ -60,7 +61,7 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
           console.log('api service 401 [2]')
-          // router.push({ name: 'login' })
+          router.push({ name: 'home' })
         }
 
         if (axios.isCancel(error)) {
