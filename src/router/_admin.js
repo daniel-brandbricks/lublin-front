@@ -124,14 +124,13 @@ const adminRouter = {
 
     // Lessons list
     {
-      path: 'lessons',
+      path: 'lessons/:tab?',
       name: 'lessons',
       component: LessonsList
     },
     {
-      path: 'lesson/:id?',
+      path: 'lesson/:tab?/:id?',
       name: 'lesson',
-      // todo
       component: LessonForm
     },
 
