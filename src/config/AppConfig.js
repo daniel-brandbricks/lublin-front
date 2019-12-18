@@ -49,3 +49,7 @@ export const YEARS = [
   { id: 2014, label: 2014 },
   { id: 2015, label: 2015 }
 ]
+
+export const PERMISSIONS = [
+  { id: 1, label: 'test' }
+]
