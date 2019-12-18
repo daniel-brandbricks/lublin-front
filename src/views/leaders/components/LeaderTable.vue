@@ -11,7 +11,7 @@
         @row-clicked="rowRedirect"
       >
         <template slot="fullName" slot-scope="scope">
-          <span>{{scope.item.firstName + ' ' + scope.item.firstName}}</span>
+          <span>{{scope.item.firstName + ' ' + scope.item.lastName}}</span>
         </template>
 
         <template slot="disciplines" slot-scope="scope">
