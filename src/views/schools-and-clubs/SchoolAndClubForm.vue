@@ -99,7 +99,7 @@
 
         school: {
           image: null,
-          active: 1,
+          active: true,
           confirmed: false,
           type: 0,
           name: '',
@@ -121,7 +121,8 @@
           personToContactPhone: '',
 
           // foreign
-          places: []
+          places: [],
+          schoolsUsers: []
         },
 
         isValidForm: false,

@@ -29,9 +29,9 @@
       </b-col>
     </b-row>
 
-    <leader-table :is-confirmed="'all'" :ids-to-pass="leadersIdsToPass"
-                  :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"
-                  :key="$route.params.tab"/>
+    <leader-table :is-confirmed="'all'" :ids-to-pass="leadersIdsToPass" :key="$route.params.tab"
+                  :fieldsParams="[{key: 'status', label: 'Status dla tego obiektu'}]"
+                  :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"/>
 
     <b-modal ref="leaderModal" centered title="Zapiąć/Odpiąć prowadzącego" hide-footer size="lg">
       <treeselect class="custom"
@@ -65,6 +65,7 @@
     mixins: [EventBusEmit],
     data () {
       return {
+        id: this.$route.params.id,
         // tmp
         selectedLeaders: [],
 
@@ -106,11 +107,13 @@
         return sportObjectsPrepared
       },
       leadersIdsToPass () {
-        let leaders = this.school.leaders || []
+        let schoolsUsers = this.school.schoolsUsers || []
         let ids = []
 
-        for (let index in leaders) {
-          ids.push(leaders[index].id)
+        for (let index in schoolsUsers) {
+          if (parseInt(schoolsUsers[index].role) === 0 && parseInt(schoolsUsers[index].user.role) === 1) {
+            ids.push(schoolsUsers[index].user.id)
+          }
         }
 
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -120,6 +123,15 @@
       }
     },
     methods: {
+      // for FormLeaders to change field status (to use SchoolUser status)
+      getStatusPersonInSchool (item) {
+        let schoolUser = this.school.schoolsUsers.find(x => {
+          return parseInt(x.user.id) === parseInt(item.id)
+        })
+
+        return schoolUser.status
+      },
+
       openLeadersModal () {
         if (this.$refs.leaderModal) this.$refs.leaderModal.show()
       },
@@ -149,7 +161,12 @@
       EventBus.$on('OPEN_SCHOOLS_LEADERS_MODAL', (params) => {
         this.openLeadersModal()
       })
-      // this.changeAdminNavbarBreadcrumbs([ { text: 'Prowadzący', active: true } ])
+
+      let breadcrumbs = [
+        { text: 'Kłuby i szkoły', to: { name: 'schools.and.clubs', params: { 'tab': 'confirmed' } } },
+        { text: this.id ? parseInt(this.school.type) === 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true }
+      ]
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }
   }
 </script>

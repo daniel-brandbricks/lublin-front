@@ -17,7 +17,7 @@
         <b-form-radio v-model="school.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('school.active')}"
                       name="school.active" :key="'school.active'+index" v-validate="{'required':true}"
-                      v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
+                      v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>

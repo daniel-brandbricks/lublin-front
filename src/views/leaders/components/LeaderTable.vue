@@ -22,7 +22,13 @@
         </template>
 
         <template slot="status" slot-scope="scope">
-          <span class="status" :class="{'active': scope.item.active}">
+          <!-- This span used for changing slot in parent-relative objects using this table -->
+          <span v-if="fieldsParams && fieldsParams.find(x => {return x.key === 'status'})"
+                class="status" :class="{'active': $parent.getStatusPersonInSchool(scope.item)}">
+            {{$parent.getStatusPersonInSchool(scope.item) == 1 ? 'aktywny' : 'nieaktywny'}}
+          </span>
+          <span class="status" :class="{'active': scope.item.active}"
+                v-else>
             {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
           </span>
         </template>
@@ -50,7 +56,7 @@
 
   export default {
     name: 'ListToConfirm',
-    props: ['filters', 'isConfirmed', 'idsToPass'],
+    props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams'],
     mixins: [LeaderMixin],
     data () {
       return {
@@ -70,7 +76,7 @@
         let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
         : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
 
-        // this block for filtering by passed ids through related entities
+        // this block for filtering by passed ids through parent-related entities
         if (undefined === this.idsToPass) {
           leadersPassedByIds = storeLeaders
         } else {
@@ -103,6 +109,15 @@
           params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': false }
         })
         // this.$parent.rowRedirect(row.id, false)
+      },
+
+      // used to replace definite field in this table from parent-relative component (entity)
+      replaceTableField (newField) {
+        for (let index in this.fields) {
+          if (this.fields[index].key === newField.key) {
+            this.fields[index].label = newField.label
+          }
+        }
       }
     },
     created () {
@@ -113,6 +128,15 @@
         this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
       }
       // this.$store.dispatch('getDisciplines')
+
+      // check params from parent-relative component (entity)
+      if (this.fieldsParams) {
+        for (let key in this.fieldsParams) {
+          let field = this.fieldsParams[key]
+          console.log(field)
+          this.replaceTableField(field)
+        }
+      }
     }
   }
 </script>

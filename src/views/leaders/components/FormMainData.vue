@@ -1,7 +1,8 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="6" v-if="leader">
+    <b-col cols="6">
       <h5>Aktywuj</h5>
+      {{leader.active}}
       <b-form-group>
         <b-form-radio v-model="leader.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('leader.active')}"
@@ -17,14 +18,14 @@
                       placeholder="Imię"
                       :class="{'error-input-custom': veeErrors.has('leader.firstName')}"
                       name="leader.firstName" key="leader.firstName" v-validate="{'required':true}"
-                      v-model="leader.firstName"></b-form-input>
+                      v-model="leader.firstName"/>
       </b-form-group>
       <b-form-group class="custom">
         <b-form-input id="surname-1" class="custom m-0"
                       placeholder="Nazwisko"
                       :class="{'error-input-custom': veeErrors.has('leader.lastName')}"
                       name="leader.lastName" key="leader.lastName" v-validate="{'required':true}"
-                      v-model="leader.lastName"></b-form-input>
+                      v-model="leader.lastName"/>
       </b-form-group>
 
       <h5 class="my-3">Dyscipliny</h5>
@@ -62,21 +63,21 @@
                       placeholder="E-mail"
                       :class="{'error-input-custom': veeErrors.has('leader.email')}"
                       name="leader.email" key="leader.email" v-validate="{'required':true, 'email': true}"
-                      v-model="leader.email"></b-form-input>
+                      v-model="leader.email"/>
       </b-form-group>
       <b-form-group class="custom mb-2">
         <b-form-input id="password-1" class="custom m-0"
                       placeholder="Hasło" type="password"
                       :class="{'error-input-custom': veeErrors.has('leader.password')}"
                       name="leader.password" key="leader.password" v-validate="{'required': leader.id === undefined}"
-                      v-model="leader.password"></b-form-input>
+                      v-model="leader.password"/>
       </b-form-group>
       <b-form-group class="custom">
         <b-form-input id="phone-1" class="custom m-0"
                       placeholder="Telefon" type="number"
                       :class="{'error-input-custom': veeErrors.has('leader.phone')}"
                       name="leader.phone" key="leader.phone" v-validate="{'required':true}"
-                      v-model="leader.phone"></b-form-input>
+                      v-model="leader.phone"/>
       </b-form-group>
 
       <!--buttons-->

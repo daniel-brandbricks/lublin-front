@@ -8,6 +8,8 @@
 
     <FormMainData :leader="leader" @childSubmit="submit" ref="FormMainData"
                   :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+    <form-permissions :leader="leader" @childSubmit="submit" ref="Permissions"
+                      :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
   </div>
 </template>
 
@@ -16,78 +18,28 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import FormMainData from '@/views/leaders/components/FormMainData'
+  import FormPermissions from '@/views/leaders/components/FormPermissions'
 
   export default {
     name: 'LeaderForm',
     components: {
-      TabLinks, FormMainData
+      TabLinks, FormMainData, FormPermissions
     },
     mixins: [ EventBusEmit, FormMixin ],
     data () {
       return {
-        tabLinks: [
-          {
-            title: 'Dane ogólne',
-            link: 'leader',
-            tab: 'main-data'
-          },
-          {
-            title: 'Uprawnienia',
-            link: 'leader',
-            tab: 'permissions'
-          },
-          {
-            title: 'Obiekty',
-            link: 'leader',
-            tab: 'sport-objects'
-          },
-          {
-            title: 'Lista Zawodników',
-            link: 'leader',
-            tab: 'participant-list'
-          },
-          {
-            title: 'Zawodnicy',
-            link: 'leader',
-            tab: 'participants'
-          },
-          {
-            title: 'Zajęcia',
-            link: 'leader',
-            tab: 'lessons'
-          },
-          {
-            title: 'Kalendarz',
-            link: 'leader',
-            tab: 'calendar'
-          },
-          {
-            title: 'Frekwencja',
-            link: 'leader',
-            tab: 'frequency'
-          },
-          {
-            title: 'MTSF',
-            link: 'leader',
-            tab: 'mtsf'
-          },
-          {
-            title: 'Wydarzenia',
-            link: 'leader',
-            tab: 'events'
-          }
-        ],
+        tabLinks: [],
 
         leader: {
           id: this.id,
           role: 1,
-          confirmed: 0,
+          active: true,
+          confirmed: false,
           firstName: '',
           lastName: '',
           email: '',
           password: '',
           phone: '',
-          active: true,
           disciplines: [
             // { id: 1 },
             // { id: 2 }
@@ -96,6 +48,19 @@
       }
     },
     computed: {},
+    watch: {
+      leader: function (val) {
+        console.log(val)
+        if (val.id) {
+          let breadcrumbs = [
+            { text: 'Prowadzący', to: { name: 'leaders', params: { 'tab': 'confirmed' } } },
+            { text: this.leader.firstName + ' ' + this.leader.lastName, active: true }
+          ]
+          console.log(breadcrumbs)
+          this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+        }
+      }
+    },
     methods: {
       // todo maybe for mixin?
       prepareToSubmit (leader) {
@@ -133,22 +98,75 @@
       }
     },
     created () {
-      // set isConfirmed data from table redirect only
-      if (this.$route.params.isConfirmed) {
-        this.isConfirmed = this.$route.params.isConfirmed
-      }
-
       // init leader
-      this.leader = Object.assign(this.leader, this.$store.getters.leader(this.isConfirmed, this.id))
+      this.leader = Object.assign(this.leader, this.$store.getters.leader(this.id, this.isConfirmed))
 
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'leader', params: { 'tab': 'main-data' } })
+      }
+
+      // set isConfirmed data from table redirect only
+      if (this.$route.params.isConfirmed) {
+        this.isConfirmed = this.$route.params.isConfirmed
       }
 
       if (this.id) {
         this.$store.dispatch('getLeader', { id: this.id })
           .then((response) => {
             this.prepareLeader(response)
+
+            this.tabLinks = [
+              {
+                title: 'Dane ogólne',
+                link: 'leader',
+                tab: 'main-data'
+              },
+              {
+                title: 'Uprawnienia',
+                link: 'leader',
+                tab: 'permissions'
+              },
+              {
+                title: 'Obiekty',
+                link: 'leader',
+                tab: 'sport-objects'
+              },
+              {
+                title: 'Lista Zawodników',
+                link: 'leader',
+                tab: 'participant-list'
+              },
+              {
+                title: 'Zawodnicy',
+                link: 'leader',
+                tab: 'participants'
+              },
+              {
+                title: 'Zajęcia',
+                link: 'leader',
+                tab: 'lessons'
+              },
+              {
+                title: 'Kalendarz',
+                link: 'leader',
+                tab: 'calendar'
+              },
+              {
+                title: 'Frekwencja',
+                link: 'leader',
+                tab: 'frequency'
+              },
+              {
+                title: 'MTSF',
+                link: 'leader',
+                tab: 'mtsf'
+              },
+              {
+                title: 'Wydarzenia',
+                link: 'leader',
+                tab: 'events'
+              }
+            ]
           })
       }
 
@@ -159,7 +177,7 @@
 
       let breadcrumbs = [
         { text: 'Prowadzący', to: { name: 'leaders', params: { 'tab': 'confirmed' } } },
-        { text: this.id ? this.leader.name : 'Nowy', active: true }
+        { text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true }
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }
