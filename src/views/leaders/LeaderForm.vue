@@ -6,10 +6,13 @@
       </b-col>
     </b-row>
 
-    <FormMainData :leader="leader" @childSubmit="submit" ref="FormMainData"
-                  :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
-    <form-permissions :leader="leader" @childSubmit="submit" ref="Permissions"
-                      :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
+    <template>
+      <!--   Component for UserEntity   -->
+      <FormMainData :leader="leader" @childSubmit="submit" ref="FormMainData"
+                    :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+      <form-permissions :leader="leader" @childSubmit="submit" ref="Permissions"
+                        :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
+    </template>
   </div>
 </template>
 
@@ -25,7 +28,7 @@
     components: {
       TabLinks, FormMainData, FormPermissions
     },
-    mixins: [ EventBusEmit, FormMixin ],
+    mixins: [EventBusEmit, FormMixin],
     data () {
       return {
         tabLinks: [],
@@ -53,8 +56,8 @@
         console.log(val)
         if (val.id) {
           let breadcrumbs = [
-            { text: 'Prowadzący', to: { name: 'leaders', params: { 'tab': 'confirmed' } } },
-            { text: this.leader.firstName + ' ' + this.leader.lastName, active: true }
+            {text: 'Prowadzący', to: {name: 'leaders', params: {'tab': 'confirmed'}}},
+            {text: this.leader.firstName + ' ' + this.leader.lastName, active: true}
           ]
           console.log(breadcrumbs)
           this.changeAdminNavbarBreadcrumbs(breadcrumbs)
@@ -102,7 +105,7 @@
       this.leader = Object.assign(this.leader, this.$store.getters.leader(this.id, this.isConfirmed))
 
       if (this.$route.params.tab === undefined) {
-        this.$router.push({ name: 'leader', params: { 'tab': 'main-data' } })
+        this.$router.push({name: 'leader', params: {'tab': 'main-data'}})
       }
 
       // set isConfirmed data from table redirect only
@@ -111,7 +114,7 @@
       }
 
       if (this.id) {
-        this.$store.dispatch('getLeader', { id: this.id })
+        this.$store.dispatch('getLeader', {id: this.id})
           .then((response) => {
             this.prepareLeader(response)
 
@@ -173,11 +176,11 @@
       this.$store.dispatch('getDisciplines')
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarButton({buttonLink: false})
 
       let breadcrumbs = [
-        { text: 'Prowadzący', to: { name: 'leaders', params: { 'tab': 'confirmed' } } },
-        { text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true }
+        {text: 'Prowadzący', to: {name: 'leaders', params: {'tab': 'confirmed'}}},
+        {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }

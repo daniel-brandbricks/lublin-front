@@ -98,6 +98,7 @@
         districts: DISTRICTS,
 
         school: {
+          id: this.id,
           image: null,
           active: true,
           confirmed: false,

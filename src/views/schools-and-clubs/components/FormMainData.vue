@@ -13,6 +13,7 @@
 
       <!--    radios    -->
       <h2 class="mb-4">Aktywuj</h2>
+      {{school}}
       <b-form-group>
         <b-form-radio v-model="school.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('school.active')}"
