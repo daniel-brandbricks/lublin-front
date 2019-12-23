@@ -2,11 +2,10 @@
   <b-row class="justify-content-center">
     <b-col cols="6">
       <h5>Aktywuj</h5>
-      {{leader}}
       <b-form-group>
         <b-form-radio v-model="leader.active" :value="element.value" class="d-inline-block my-3 mr-3"
-                      :class="{'error-input-custom': veeErrors.has('leader.active')}"
-                      name="leader.active" :key="'leader.active'+index" v-validate="{'required':true}"
+                      :class="{'error-input-custom': veeErrors.has('leader.active1')}"
+                      name="leader.active1" :key="'leader.active1'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
           {{ element.title }}
         </b-form-radio>

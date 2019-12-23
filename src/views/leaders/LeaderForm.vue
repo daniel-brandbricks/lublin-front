@@ -22,13 +22,14 @@
   import FormMixin from '@/mixins/form-mixin'
   import FormMainData from '@/views/leaders/components/FormMainData'
   import FormPermissions from '@/views/leaders/components/FormPermissions'
+  import LeaderMixin from '@/mixins/leader-mixin'
 
   export default {
     name: 'LeaderForm',
     components: {
       TabLinks, FormMainData, FormPermissions
     },
-    mixins: [EventBusEmit, FormMixin],
+    mixins: [EventBusEmit, FormMixin, LeaderMixin],
     data () {
       return {
         tabLinks: [],
@@ -37,7 +38,7 @@
           id: this.id,
           role: 1,
           active: true,
-          confirmed: false,
+          confirmed: true,
           firstName: '',
           lastName: '',
           email: '',
@@ -97,7 +98,9 @@
         this.leader.disciplines.splice(index, 1)
       },
       prepareLeader (leader) {
+        this.prepareLeaderPermissions(leader)
         this.leader = leader
+        console.log(this.leader)
       }
     },
     created () {
