@@ -4,6 +4,19 @@ export default {
     return {}
   },
   methods: {
+    prepareLeaderPermissions (leader) {
+      for (let schoolIndex in leader.schoolPermissions) {
+        let preparedIdsArray = []
+        for (let placeIndex in leader.schoolPermissions[schoolIndex].places) {
+          preparedIdsArray.push(leader.schoolPermissions[schoolIndex].places[placeIndex].id)
+        }
+        leader.schoolPermissions[schoolIndex].places = preparedIdsArray
+      }
+
+      console.log(leader.schoolPermissions)
+      return leader
+    },
+
     // getSportObjectTypeNameById (id) {
     //   if (undefined === this.sportObjectTypes || this.sportObjectTypes === null) return ''
     //   return this.sportObjectTypes.find((obj) => {

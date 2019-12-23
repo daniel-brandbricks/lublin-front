@@ -3,7 +3,6 @@
     <TabLinks :links="tabLinks"/>
 
     <template>
-      {{sportObject.schools}}
       <!--   Component for PlaceEntity   -->
       <FormMainData :sportObject="sportObject" @childSubmit="submit" ref="FormMainData" :districts="districts"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
