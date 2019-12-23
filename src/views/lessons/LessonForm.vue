@@ -2,7 +2,8 @@
   <div class="container">
     <b-row class="justify-content-center" >
     <b-col cols="12">
-    <TabLinks :links="tabLinks"></TabLinks>
+    <TabLinks :links="tabLinks"/>
+      {{isValidForm}}
     </b-col>
     </b-row>
 
@@ -53,7 +54,7 @@
           }
         ],
         lesson: {
-          active: 1,
+          active: true,
           sex: 1,
           title: '',
           leader: {
@@ -68,7 +69,7 @@
           class: {
             id: null
           },
-          schoolOrClub: 0
+          schools: []
         },
 
         isValidForm: false
@@ -93,6 +94,16 @@
             this.postSubmitError(error)
           })
       },
+      prepareLesson (response) {
+        console.log(response)
+        response.schools = response.schools.map(school => school.id)
+        if (undefined === response.type || response.type === null) {
+          response.type = {
+            id: null
+          }
+        }
+        this.sportObject = response
+      },
       goToFormTab (tabName, params = {}) {
         this.checkValidMainForm()
         let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
@@ -109,7 +120,7 @@
       if (this.id) {
         this.$store.dispatch('getLesson', { id: this.id })
           .then((response) => {
-            this.lesson = response
+            // this.lesson = response
 
             this.tabLinks = [
               {

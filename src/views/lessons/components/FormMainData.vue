@@ -73,12 +73,18 @@
         </b-form-radio>
       </b-form-group>
 <!--      todo treeselect kluby/szkoly-->
-      <treeselect class="custom m-0" v-if="lesson.schoolOrClub"
-                  v-model="lesson.schoolOrClub.id"
-                  :multiple="false"
-                  placeholder="Nazwa klubu/szkoły" :options="lessonSchoolOrClub"
-                  :class="{'error-input-custom': veeErrors.has('lesson.schoolOrClub')}"
-                  name="lesson.schoolOrClub" key="lesson.schoolOrClub" v-validate="{'required':true}"/>
+<!--      <treeselect class="custom m-0" v-if="lesson.schoolOrClub"-->
+<!--                  v-model="lesson.schoolOrClub.id"-->
+<!--                  :multiple="false"-->
+<!--                  placeholder="Nazwa klubu/szkoły" :options="lessonSchoolOrClub"-->
+<!--                  :class="{'error-input-custom': veeErrors.has('lesson.schoolOrClub')}"-->
+<!--                  name="lesson.schoolOrClub" key="lesson.schoolOrClub" v-validate="{'required':true}"/>-->
+      <treeselect v-model="lesson.schools"
+                  :multiple="true"
+                  :searchable="false"
+                  placeholder="Klub / Szkoła"
+                  :options="schoolsAndClubsPrepared"
+                  class="custom"/>
 <!--      buttons   -->
       <b-row class="mt-4">
         <b-col>
@@ -116,7 +122,7 @@
           active: '',
           sex: '',
           title: '',
-          leaders: [],
+          // leaders: [],
           disciplines: [],
           lessonCategories: [],
           classes: [],

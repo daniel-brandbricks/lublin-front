@@ -21,16 +21,20 @@
           </span>
         </template>
 
+<!--        <template slot="status" slot-scope="scope">-->
+<!--          &lt;!&ndash; This span used for changing slot in parent-relative objects using this table &ndash;&gt;-->
+<!--          <span v-if="fieldsParams && fieldsParams.find(x => {return x.key === 'status'})"-->
+<!--                class="status" :class="{'active': $parent.getStatusPersonInSchool(scope.item)}">-->
+<!--            {{$parent.getStatusPersonInSchool(scope.item) == 1 ? 'aktywny' : 'nieaktywny'}}-->
+<!--          </span>-->
+<!--          <span class="status" :class="{'active': scope.item.active}"-->
+<!--                v-else>-->
+<!--            {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}-->
+<!--          </span>-->
+<!--        </template>-->
         <template slot="status" slot-scope="scope">
-          <!-- This span used for changing slot in parent-relative objects using this table -->
-          <span v-if="fieldsParams && fieldsParams.find(x => {return x.key === 'status'})"
-                class="status" :class="{'active': $parent.getStatusPersonInSchool(scope.item)}">
-            {{$parent.getStatusPersonInSchool(scope.item) == 1 ? 'aktywny' : 'nieaktywny'}}
-          </span>
-          <span class="status" :class="{'active': scope.item.active}"
-                v-else>
-            {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
-          </span>
+            <span class="status"
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
         <template slot="lessons" slot-scope="scope">
