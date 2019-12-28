@@ -17,6 +17,7 @@ import classModule from './_class'
 import seasonModule from './_season'
 import leaderModule from './_leader'
 import lessonModule from './_lesson'
+import permissionModule from './_permission'
 
 Vue.use(Vuex)
 
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     seasonModule,
     leaderModule,
     skillModule,
+    permissionModule,
     lessonModule
   }
 })

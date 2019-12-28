@@ -98,7 +98,6 @@
         this.leader.disciplines.splice(index, 1)
       },
       prepareLeader (leader) {
-        this.prepareLeaderPermissions(leader)
         this.leader = leader
         console.log(this.leader)
       }
@@ -120,6 +119,7 @@
         this.$store.dispatch('getLeader', {id: this.id})
           .then((response) => {
             this.prepareLeader(response)
+            this.$store.dispatch('getPermissionsByIds', {ids: response.schoolPermissions})
 
             this.tabLinks = [
               {
