@@ -29,15 +29,15 @@
                       v-model="lesson.title"/>
       </b-form-group>
 <!--      todo leader treeselect-->
-<!--      <h2>LEADERS TREESELECT </h2>-->
+      <h2>LEADERS TREESELECT </h2>
       <b-form-group class="custom mb-2">
-        <treeselect class="custom m-0" v-if="lesson.leader"
-                    v-model="lesson.leader.id"
-                    :multiple="false"
-                    placeholder="Prowadzący"
-                    :options="lessonLeader"
-                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"
-                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>
+<!--        <treeselect class="custom m-0" v-if="lesson.leader"-->
+<!--                    v-model="lesson.leader.id"-->
+<!--                    :multiple="false"-->
+<!--                    placeholder="Prowadzący"-->
+<!--                    :options="lessonLeader"-->
+<!--                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"-->
+<!--                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>-->
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.discipline"
@@ -51,7 +51,7 @@
         <treeselect class="custom m-0" v-if="lesson.lessonCategory"
                     v-model="lesson.lessonCategory.id"
                     :multiple="false"
-                    placeholder="Kategoria" :options="lessonOfLessonCategory"
+                    placeholder="Kategoria" :options="lessonCategory"
                     :class="{'error-input-custom': veeErrors.has('lesson.lessonCategory')}"
                     name="lesson.lessonCategory" key="lesson.lessonCategory" v-validate="{'required':true}"/>
       </b-form-group>
@@ -65,10 +65,10 @@
       </b-form-group>
       <h5>Organizator</h5>
       <b-form-group>
-        <b-form-radio v-model="lesson.schoolOrClub" :value="element.value" class="d-inline-block my-3 mr-3"
-                      :class="{'error-input-custom': veeErrors.has('lesson.schoolOrClub')}"
-                      name="lesson.schoolOrClub" :key="'lesson.schoolOrClub'+index" v-validate="{'required':true}"
-                      v-for="(element,index) in [{title: 'Klub', value: 1}, {title: 'Szkoły', value: 0}]">
+        <b-form-radio v-model="lesson.type" :value="element.value" class="d-inline-block my-3 mr-3"
+                      :class="{'error-input-custom': veeErrors.has('lesson.type')}"
+                      name="lesson.type" :key="'lesson.type'+index" v-validate="{'required':true}"
+                      v-for="(element,index) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>
@@ -117,20 +117,21 @@
     mixins: [ EventBusEmit, FormMixin, LessonMixin ],
     data () {
       return {
-        lessons: [],
-        lessonDefault: {
-          active: '',
-          sex: '',
-          title: '',
-          // leaders: [],
-          disciplines: [],
-          lessonCategories: [],
-          classes: [],
-          //  todo check this radio
-          schoolOrClub: 0
-        },
-
-        isValidForm: false
+        // lessons: [],
+        // lessonDefault: {
+        //   active: '',
+        //   sex: '',
+        //   title: '',
+        //   type: '',
+        //   // leaders: [],
+        //   disciplines: [],
+        //   lessonCategories: [],
+        //   classes: []
+        //   //  todo check this radio
+        //   // places: []
+        // },
+        //
+        // isValidForm: false
       }
     },
     computed: {

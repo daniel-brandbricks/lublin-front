@@ -4,7 +4,7 @@
       <b-col cols="8">
         <b-row class="justify-content-center align-items-center">
           <b-col cols="6">
-            <b-form-group class="custom d-inline-block">
+            <b-form-group class="custom">
               <b-form-checkbox-group
                 id="checkbox-group-1"
                 v-model="selectedType"
@@ -72,8 +72,12 @@
           </template>
 
           <template slot="leaders" slot-scope="scope">
-            <span>{{getLeadersFullName(scope.item.leaders)}}</span>
+            <span>{{getLeadersFullNamesByIds(scope.item.leaders)}}</span>
           </template>
+
+<!--          <template slot="leaders" slot-scope="scope">-->
+<!--            <span>{{leaders}}</span>-->
+<!--          </template>-->
 
           <template slot="status" slot-scope="scope">
             <span class="status"
@@ -136,18 +140,22 @@
       },
       classes () {
         return this.$store.getters.classes
+      },
+      leaders () {
+        return this.$store.getters.leaders
       }
     },
     methods: {
-      getLeadersFullName (leaders) {
-        let value = ''
-        for (let index in leaders) {
-          value += leaders[index].firstName + ' ' + leaders[index].lastName
-          if (leaders.length > 1 && index < leaders.length) {
-            value += ', '
+      getLeadersFullNamesByIds (ids) {
+        let names = ''
+        console.log(this.leaders)
+        if (undefined === this.leaders || this.leaders === null || this.leaders.length < 1) return names
+        for (let index in this.leaders) {
+          if (ids.includes(this.leaders[index].id)) {
+            names += this.leaders[index].firstName + ' ' + this.leaders[index].lastName + ', '
           }
         }
-        return value
+        return names.substring(0, names.length - 2)
       },
       getDisciplineTitleById (id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
@@ -183,8 +191,8 @@
       this.$store.dispatch('getLeaders', {confirmed: 1})
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({buttonLink: 'lesson', params: {tab: 'main-data'}})
-      this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
+      this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zajęć', active: true } ])
     }
   }
 </script>

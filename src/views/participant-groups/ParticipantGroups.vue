@@ -12,16 +12,16 @@
                 name="flavour-1"
               />
             </b-form-group>
-<!--            todo checkbox klub/szkola   -->
+            <!--            todo checkbox klub/szkola   -->
 
-<!--            <b-form-group class="custom d-inline-block">-->
-<!--              <b-form-checkbox-group-->
-<!--                id="checkbox-group-2"-->
-<!--                v-model="selectedType"-->
-<!--                :options="typeOptions"-->
-<!--                name="flavour-2"-->
-<!--              />-->
-<!--            </b-form-group>-->
+            <!--            <b-form-group class="custom d-inline-block">-->
+            <!--              <b-form-checkbox-group-->
+            <!--                id="checkbox-group-2"-->
+            <!--                v-model="selectedType"-->
+            <!--                :options="typeOptions"-->
+            <!--                name="flavour-2"-->
+            <!--              />-->
+            <!--            </b-form-group>-->
           </b-col>
           <b-col cols="6">
             <b-form-group class="custom">
@@ -48,7 +48,7 @@
             />
           </b-col>
           <b-col cols="4">
-           <treeselect v-model="selectedClasses" v-if="selectedClasses"
+            <treeselect v-model="selectedClasses" v-if="selectedClasses"
                         :multiple="true" class="custom"
                         placeholder="Klasa" :options="participantGroupClass"
             />
