@@ -13,8 +13,6 @@
 </template>
 
 <script>
-  import Treeselect from '@riophae/vue-treeselect'
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import TabLinks from '@/components/TabLinks'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
@@ -27,7 +25,6 @@
     name: 'ParticipantForm',
     components: {
       TabLinks,
-      Treeselect,
       FormMainData
     },
     mixins: [ EventBusEmit, FormMixin ],
@@ -37,41 +34,12 @@
           {
             link: 'participant',
             tab: 'main-data'
-          },
-          {
-            title: 'Dane ogólne',
-            link: 'participant',
-            tab: 'main-data'
-          },
-          {
-            title: 'Lista Zawodników',
-            link: 'participant',
-            tab: 'participants-list'
-          },
-          {
-            title: 'Zajęcia',
-            link: 'participant',
-            tab: 'activities'
-          },
-          {
-            title: 'Kalendarz',
-            link: 'participant',
-            tab: 'calendar'
-          },
-          {
-            title: 'Frekwencja',
-            link: 'participant',
-            tab: 'frequency'
-          },
-          {
-            title: 'MTSF',
-            link: 'participant',
-            tab: 'mtsf'
           }
         ],
         years: YEARS,
 
         participant: {
+          id: this.id,
           active: true,
           firstName: '',
           lastName: '',
@@ -80,18 +48,17 @@
           discipline: {
             id: null
           },
-          category: {
-            id: null
-          },
-          class: {
-            id: null
-          },
+          // category: {
+          //   id: null
+          // },
+          // class: {
+          //   id: null
+          // },
 
-          // for v-for
           disciplines: []
-          // selectedGender: []
         },
 
+        participantYearsSelected: [],
         genderOptions: [
           { text: 'kobieta', value: 0 },
           { text: 'mężczyzna', value: 1 }
@@ -102,20 +69,36 @@
     },
     computed: {},
     methods: {
+      setDataFromExistedParticipant (participant) {
+        let disciplines = participant.disciplines || []
+        for (let index in disciplines) {
+          this.participantYearsSelected.push({years: disciplines[index].year})
+        }
+      },
+      prepareToSubmit (participant) {
+        let disciplines = participant.disciplines || []
+        let disciplinesPrepared = []
+
+        for (let disciplinesIndex in disciplines) {
+          disciplinesPrepared.push(disciplines[disciplinesIndex].id)
+        }
+
+        participant.disciplines = disciplinesPrepared
+      },
       checkValidMainForm () {
         this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
           })
       },
-      prepareToSubmit (participant) {
-        let disciplines = participant.disciplines
-        let disciplinesPrepared = []
-
-        for (let disciplinesIndex in disciplines) {
-          disciplinesPrepared.push(disciplines[disciplinesIndex].id)
-        }
-        participant.disciplines = disciplinesPrepared
+      addDiscipline () {
+        this.participant.disciplines.push({})
+      },
+      removeDiscipline (index) {
+        this.participant.disciplines.splice(index, 1)
+      },
+      prepareParticipant (participant) {
+        this.participant = participant
       },
       submit () {
         let participant = {...this.participant}
@@ -130,14 +113,6 @@
           .catch((error) => {
             this.postSubmitError(error)
           })
-      },
-      addDiscipline () {
-        this.participant.disciplines.push({id: null})
-        // this.participant.class.push({})
-      },
-      removeDiscipline (index) {
-        this.participant.disciplines.splice(index, 1)
-        // this.participant.class.splice(index, 1)
       }
     },
     created () {
@@ -145,21 +120,61 @@
         this.$router.push({ name: 'participant', params: {'tab': 'main-data'} })
       }
 
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      let breadcrumbs = [
+        { text: 'Zawodnicy', to: { name: 'participants' } },
+        { text: 'Nowa', active: true }
+      ]
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+
       if (this.id) {
         this.$store.dispatch('getParticipant', { id: this.id })
           .then((response) => {
-            this.participantGroup = response
+            this.prepareParticipant(response)
+            this.setDataFromExistedParticipant(response)
+
+            this.tabLinks = [
+              {
+                title: 'Dane ogólne',
+                link: 'participant',
+                tab: 'main-data'
+              },
+              {
+                title: 'Lista Zawodników',
+                link: 'participant',
+                tab: 'participants-list'
+              },
+              {
+                title: 'Zajęcia',
+                link: 'participant',
+                tab: 'activities'
+              },
+              {
+                title: 'Kalendarz',
+                link: 'participant',
+                tab: 'calendar'
+              },
+              {
+                title: 'Frekwencja',
+                link: 'participant',
+                tab: 'frequency'
+              },
+              {
+                title: 'MTSF',
+                link: 'participant',
+                tab: 'mtsf'
+              }
+            ]
+
+            let fullName = response.firstName + ' ' + response.lastName
+            let breadcrumbs = [
+              { text: 'Zawodnicy', to: { name: 'participants' } },
+              { text: fullName, active: true }
+            ]
+            this.changeAdminNavbarBreadcrumbs(breadcrumbs)
           })
       }
-
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
-
-      let breadcrumbs = [
-        { text: 'Zawodnicy', to: { name: 'participants' } },
-        { text: this.id ? this.participant.name : 'Nowa', active: true }
-      ]
-      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }
   }
 </script>

@@ -5,7 +5,34 @@ export default {
   },
   methods: {},
   computed: {
-    participantListClass () {
+    participantList () {
+      let participants = this.participants || []
+      let filteredParticipants = []
+      let search = this.search || ''
+      let classes = this.selectedClasses || []
+      let yearValue = this.yearValue || []
+      let selectedGender = this.selectedGender || []
+
+      for (let participantIndex in participants) {
+        if (undefined === participants[participantIndex] || participants[participantIndex] === null) {
+          continue
+        }
+
+        let firstName = participants[participantIndex].firstName || ''
+        let lastName = participants[participantIndex].lastName || ''
+
+        let fullName = firstName.toLowerCase() + lastName.toLowerCase()
+        if (search.length > 0 && fullName.indexOf(search.toLowerCase()) === -1) continue
+        // if (classes.length > 0 && !classes.includes(parseInt(participants[participantIndex].class.id))) continue
+        if (yearValue.length > 0 && !yearValue.includes(parseInt(participants[participantIndex].year))) continue
+        if (selectedGender.length > 0 && !selectedGender.includes(parseInt(participants[participantIndex].sex))) continue
+
+        filteredParticipants.push(participants[participantIndex])
+      }
+
+      return filteredParticipants
+    },
+    classesTreeselect () {
       let data = this.$store.getters.classes
       let preparedClasses = []
 
@@ -15,25 +42,20 @@ export default {
 
       return preparedClasses
     },
-    participantYears () {
-      let data = this.$store.getters.participants
-      let preparedParticipants = []
+    disciplinesTreeselect () {
+      let disciplines = this.disciplines
+      let prepared = []
 
-      for (let participantIndex in data) {
-        preparedParticipants.push({ id: data[participantIndex].id, label: data[participantIndex].year })
+      for (let disciplineIndex in disciplines) {
+        // need for making disciplines in select unique
+        if (this.selectedDisciplinesIds.indexOf(disciplines[disciplineIndex].id) === -1) {
+          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
+        } else {
+          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title, isDisabled: true})
+        }
       }
 
-      return preparedParticipants
-    },
-    participantDiscipline () {
-      let data = this.$store.getters.disciplines
-      let preparedDisciplines = []
-
-      for (let disciplineIndex in data) {
-        preparedDisciplines.push({ id: data[disciplineIndex].id, label: data[disciplineIndex].title })
-      }
-
-      return preparedDisciplines
+      return prepared
     },
     participantCategory () {
       let data = this.$store.getters.lessonCategories

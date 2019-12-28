@@ -1,19 +1,19 @@
 <template>
   <div>
-    <b-row class="justify-content-center align-items-center">
+    <b-row class="justify-content-center">
       <b-col cols="8">
         <b-row class="justify-content-center align-items-center">
-          <b-col cols="3">
-            <b-form-group class="custom d-inline-block">
-              <b-form-checkbox v-model="sex" :value="element.value"
-                               :class="{'error-input-custom': veeErrors.has('sex')}"
-                               name="sex" :key="'sex'+index" v-validate="{'required':true}"
-                               v-for="(element, index) in [{title:'kobieta', value: true}, {title: 'mężczyzna', value: false}]">
-                {{element.title}}
-              </b-form-checkbox>
+          <b-col cols="6">
+            <b-form-group class="custom">
+              <b-form-checkbox-group
+                id="checkbox-group-1"
+                v-model="selectedType"
+                :options="typeOptions"
+                name="flavour-1"
+              />
             </b-form-group>
           </b-col>
-          <b-col cols="9">
+          <b-col cols="6">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
@@ -23,28 +23,28 @@
         </b-row>
       </b-col>
 
-      <b-col cols="8" class="mt-3">
-        <b-row class="align-items-center">
+      <b-col cols="8" class="mt-4">
+        <b-row class="justify-content-between align-items-center">
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedDisciplines"
+                        v-model="selectedDisciplines" v-if="selectedDisciplines"
                         :multiple="true"
                         placeholder="Dyscyplina"
-                        :options="disciplinesTreeselect"/>
+                        :options="lessonDiscipline"/>
           </b-col>
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedLessonCategories"
+                        v-model="selectedLessonCategories" v-if="selectedLessonCategories"
                         :multiple="true"
                         placeholder="Kategoria"
-                        :options="lessonCategoriesTreeselect"/>
+                        :options="lessonCategory"/>
           </b-col>
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedClasses"
+                        v-model="selectedClasses" v-if="selectedClasses"
                         :multiple="true"
                         placeholder="Klasa"
-                        :options="classesTreeselect"/>
+                        :options="lessonClass"/>
           </b-col>
         </b-row>
       </b-col>
@@ -61,54 +61,29 @@
           @row-clicked="rowRedirect"
         >
 
-<!--          <template slot="discipline" slot-scope="scope">-->
-<!--            <span>{{scope.item.discipline.title}}</span>-->
-<!--          </template>-->
           <template slot="disciplines" slot-scope="scope">
-            <span></span>
-            <span class="d-inline" v-for="(discipline,index) in scope.item.disciplines" :key="index">
-            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}
-          </span>
+            <span>{{getDisciplineTitleById(scope.item.discipline.id)}}</span>
           </template>
-          <template slot="lessonCategory" slot-scope="scope">
-            <span>{{scope.item.lessonCategory.title}}</span>
+          <template slot="lessonCategories" slot-scope="scope">
+            <span>{{getLessonCategoryTitleById(scope.item.lessonCategory.id)}}</span>
           </template>
-          <template slot="class" slot-scope="scope">
-            <span>{{scope.item.class.title}}</span>
+          <template slot="classes" slot-scope="scope">
+            <span>{{getClassTitleById(scope.item.class.id)}}</span>
           </template>
-<!--          <template slot="leader" slot-scope="scope">-->
-<!--            <span>{{scope.item.leader.firstName}}</span>-->
-<!--          </template>-->
-<!--          <template slot="leader" slot-scope="scope">-->
-<!--&lt;!&ndash;            <span></span>&ndash;&gt;-->
-<!--            <span class="d-inline" v-for="(leader, index) in scope.item.leaders" :key="index">-->
-<!--              {{getLeaderFullNameById(leader.id, index, scope.item.leaders.length)}}-->
-<!--            </span>-->
-<!--          </template>-->
-<!--          <template slot="leader" slot-scope="scope">-->
-<!--            <span>{{scope.item.leaders.length}}</span>-->
-<!--          </template>-->
 
-          <template slot="name" slot-scope="scope">
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="wrap-img-type-table mr-3">
-                <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
-              </div>
-              <span>{{scope.item.name}}</span>
-            </div>
-
+          <template slot="leaders" slot-scope="scope">
+            <span>{{getLeadersFullNamesByIds(scope.item.leaders)}}</span>
           </template>
+
+<!--          <template slot="leaders" slot-scope="scope">-->
+<!--            <span>{{leaders}}</span>-->
+<!--          </template>-->
 
           <template slot="status" slot-scope="scope">
             <span class="status"
                   :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
           </template>
 
-          <template slot="btnTable" slot-scope="scope">
-            <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
-              Zatwierdź
-            </b-btn>
-          </template>
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
@@ -129,25 +104,27 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import LessonMixin from '@/mixins/lesson-mixin'
 
-  import { mapGetters } from 'vuex'
-
   export default {
-    components: { Treeselect },
-    props: [ 'lesson' ],
-    mixins: [ EventBusEmit, LessonMixin ],
+    components: {Treeselect},
+    props: ['lesson'],
+    mixins: [EventBusEmit, LessonMixin],
     data () {
       return {
         fields: [
-          { key: 'title', label: 'Nazwa zajęcia', sortable: true },
-          { key: 'disciplines', label: 'Dyscyplina', sortable: true },
-          { key: 'lessonCategories', label: 'Kategoria', sortable: true },
-          { key: 'classes', label: 'Klasa', sortable: true },
-          { key: 'leaders', label: 'Prowadzący', sortable: true },
-          { key: 'status', label: 'Status w systemie', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'title', label: 'Nazwa zajęcia', sortable: true},
+          {key: 'disciplines', label: 'Dyscyplina', sortable: true},
+          {key: 'lessonCategories', label: 'Kategoria', sortable: true},
+          {key: 'classes', label: 'Klasa', sortable: true},
+          {key: 'leaders', label: 'Prowadzący', sortable: true},
+          {key: 'status', label: 'Status w systemie', sortable: true},
+          {key: 'edit', label: ''}
         ],
 
-        sex: '',
+        selectedType: [],
+        typeOptions: [
+          {text: 'klub', value: 0},
+          {text: 'szkola', value: 1}
+        ],
         search: '',
         selectedDisciplines: [],
         selectedLessonCategories: [],
@@ -155,52 +132,53 @@
       }
     },
     computed: {
-      lessonsList () {
-        return this.$store.getters.lessons
+      disciplines () {
+        return this.$store.getters.disciplines
       },
-      ...mapGetters([ 'disciplines', 'lessonCategories', 'classes' ]),
-      disciplinesTreeselect () {
-        let disciplinesPrepared = []
-        for (let index in this.disciplines) {
-          disciplinesPrepared.push({
-            id: this.disciplines[index].id,
-            label: this.disciplines[index].title
-          })
-        }
-        return disciplinesPrepared
+      lessonCategories () {
+        return this.$store.getters.lessonCategories
       },
-      lessonCategoriesTreeselect () {
-        let lessonCategoriesPrepared = []
-        for (let index in this.lessonCategories) {
-          lessonCategoriesPrepared.push({
-            id: this.lessonCategories[index].id,
-            label: this.lessonCategories[index].title
-          })
-        }
-        return lessonCategoriesPrepared
+      classes () {
+        return this.$store.getters.classes
       },
-      classesTreeselect () {
-        let classesPrepared = []
-        for (let index in this.classes) {
-          classesPrepared.push({
-            id: this.classes[index].id,
-            label: this.classes[index].title
-          })
-        }
-        return classesPrepared
+      leaders () {
+        return this.$store.getters.leaders
       }
     },
     methods: {
-      getLeaderFullNameById (id, index = null, arrayLength = null) {
-        if (undefined === this.leaders || this.leaders === null || this.leaders.length < 1) return ''
-        return this.leaders.find((obj) => {
+      getLeadersFullNamesByIds (ids) {
+        let names = ''
+        console.log(this.leaders)
+        if (undefined === this.leaders || this.leaders === null || this.leaders.length < 1) return names
+        for (let index in this.leaders) {
+          if (ids.includes(this.leaders[index].id)) {
+            names += this.leaders[index].firstName + ' ' + this.leaders[index].lastName + ', '
+          }
+        }
+        return names.substring(0, names.length - 2)
+      },
+      getDisciplineTitleById (id) {
+        if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
+        return this.disciplines.find((obj) => {
           return obj.id === id
-        }).firstName + ((index + 1) < arrayLength ? ',' : '')
+        }).title
+      },
+      getLessonCategoryTitleById (id) {
+        if (undefined === this.lessonCategories || this.lessonCategories === null || this.lessonCategories.length < 1) return ''
+        return this.lessonCategories.find((obj) => {
+          return obj.id === id
+        }).title
+      },
+      getClassTitleById (id) {
+        if (undefined === this.classes || this.classes === null || this.classes.length < 1) return ''
+        return this.classes.find((obj) => {
+          return obj.id === id
+        }).title
       },
       rowRedirect (row) {
         this.$router.push({
           name: 'lesson',
-          params: { 'tab': 'main-data', 'id': row.id }
+          params: {'tab': 'main-data', 'id': row.id}
         })
       }
     },

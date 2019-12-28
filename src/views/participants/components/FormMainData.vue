@@ -2,6 +2,7 @@
   <b-row class="justify-content-center" v-if="participant">
     <b-col cols="6">
       <h5>Aktywuj</h5>
+      {{participant}}
       <b-form-group>
         <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('participant.active')}"
@@ -55,27 +56,13 @@
           <p @click="removeDiscipline(index)" v-if="participant.disciplines.length > 0">usuń</p>
         </div>
         <div class="col-10">
-          <treeselect class="custom mb-2" v-if="participant.discipline"
-                      v-model="participant.discipline.id"
+          <treeselect class="custom" v-if="participant.disciplines[index]"
+                      v-model="participant.disciplines[index].id"
                       :multiple="false"
-                      placeholder="Dyscyplina" :options="participantDiscipline"
-                      :name="'participant.discipline'+index"
-                      :class="{'error-input-custom': veeErrors.has('participant.discipline')}"
-                      :key="'participant.discipline'" v-validate="{'required':true}"/>
-          <treeselect class="custom mb-2" v-if="participant.category"
-                      v-model="participant.category.id"
-                      :multiple="false"
-                      placeholder="Kategoria" :options="participantCategory"
-                      :name="'participant.category'+index"
-                      :class="{'error-input-custom': veeErrors.has('participant.category')}"
-                      :key="'participant.category'" v-validate="{'required':true}"/>
-          <treeselect class="custom mb-2" v-if="participant.class"
-                      v-model="participant.class.id"
-                      :multiple="false"
-                      placeholder="Klasa" :options="participantClass"
-                      :name="'participant.class'+index"
-                      :class="{'error-input-custom': veeErrors.has('participant.class')}"
-                      :key="'participant.class'" v-validate="{'required':true}"/>
+                      :class="{'error-input-custom': veeErrors.has('participant.discipline'+index)}"
+                      :name="'participant.discipline'+index" :key="'participant.discipline'+index" v-validate="{'required':true}"
+                      placeholder="Dyscyplina"
+                      :options="disciplinesTreeselect"/>
         </div>
       </div>
       <div class="row mb-2">
@@ -85,9 +72,51 @@
           </div>
         </div>
         <div class="col-10">
-          <b-btn @click="addDiscipline" variant="primary" block class="w-50">+ Dodaj</b-btn>
+          <b-btn @click="addDiscipline" variant="primary" blocl class="w-50">+ Dodaj</b-btn>
         </div>
       </div>
+<!--      <div class="row" v-if="participant.disciplines"-->
+<!--           v-for="(discipline, index) in participant.disciplines" :key="index">-->
+<!--        <div class="col-2">-->
+<!--          <div class="text-center _custom-css">-->
+<!--            <p class="m-auto">{{index + 1}}</p>-->
+<!--          </div>-->
+<!--          <p @click="removeDiscipline(index)" v-if="participant.disciplines.length > 0">usuń</p>-->
+<!--        </div>-->
+<!--        <div class="col-10">-->
+<!--          <treeselect class="custom mb-2" v-if="participant.discipline && participant.discipline[index]"-->
+<!--                      v-model="participant.discipline[index].id"-->
+<!--                      :multiple="false"-->
+<!--                      placeholder="Dyscyplina" :options="participantDiscipline"-->
+<!--                      :name="'participant.discipline'+index"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('participant.discipline')}"-->
+<!--                      :key="'participant.discipline'+index" v-validate="{'required':true}"/>-->
+<!--          <treeselect class="custom mb-2" v-if="participant.category && participant.category[index]"-->
+<!--                      v-model="participant.category[index].id"-->
+<!--                      :multiple="false"-->
+<!--                      placeholder="Kategoria" :options="participantCategory"-->
+<!--                      :name="'participant.category'+index"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('participant.category')}"-->
+<!--                      :key="'participant.category'+index" v-validate="{'required':true}"/>-->
+<!--          <treeselect class="custom mb-2" v-if="participant.class && participant.class[index]"-->
+<!--                      v-model="participant.class[index].id"-->
+<!--                      :multiple="false"-->
+<!--                      placeholder="Klasa" :options="participantClass"-->
+<!--                      :name="'participant.class'+index"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('participant.class')}"-->
+<!--                      :key="'participant.class'+index" v-validate="{'required':true}"/>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="row mb-2">-->
+<!--        <div class="col-2">-->
+<!--          <div class="text-center _custom-css">-->
+<!--            <p class="m-auto">{{participant.disciplines.length + 1}}</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-10">-->
+<!--          <b-btn @click="addDiscipline" variant="primary" block class="w-50">+ Dodaj</b-btn>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <!--buttons-->
       <b-row class="mt-4">
@@ -121,16 +150,34 @@
     mixins: [ EventBusEmit, FormMixin, ParticipantMixin ],
     data () {
       return {
-        participants: [],
-        participantDefault: {
-          active: 1,
-          firstName: '',
-          lastName: '',
-          sex: ''
+        // participantDefault: {
+        //   active: 1,
+        //   firstName: '',
+        //   lastName: '',
+        //   sex: '',
+        //
+        //   disciplines: [],
+        //   categories: [],
+        //   classes: []
+        // },
+        //
+        // isValidForm: false
 
+        selectedDisciplinesIds: []
+      }
+    },
+    watch: {
+      'participant.disciplines': {
+        handler: function (newValue) {
+          this.selectedDisciplinesIds = []
+          for (let index in newValue) {
+            if (newValue[index] && newValue[index].id &&
+              this.selectedDisciplinesIds.indexOf(newValue[index].id) === -1) {
+                this.selectedDisciplinesIds.push(newValue[index].id)
+              }
+          }
         },
-
-        isValidForm: false
+        deep: true
       }
     },
     computed: {
@@ -175,6 +222,12 @@
       }
     },
     created () {
+      for (let index in this.participant.disciplines) {
+        if (this.participant.disciplines[index] && this.participant.disciplines[index].id &&
+          this.selectedDisciplinesIds.indexOf(this.participant.disciplines[index].id) === -1) {
+            this.selectedDisciplinesIds.push(this.participant.disciplines[index].id)
+          }
+      }
       this.$store.dispatch('getParticipants')
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')

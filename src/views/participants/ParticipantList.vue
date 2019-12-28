@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <b-row class="justify-content-center align-items-center">
+    <b-row class="justify-content-center">
 <!--      todo выровнять чекбокс-->
+<!--      todo выровнял чекбокс только поставил колс 10 и на таблицу тоже-->
       <b-col cols="8">
         <b-row class="justify-content-center align-items-center">
-          <b-col cols="">
+          <b-col cols="6">
             <b-form-group class="custom d-inline-block">
               <b-form-checkbox-group
                 id="checkbox-group-1"
@@ -24,9 +25,11 @@
                             :options="years"/>
               </b-col>
               <b-col cols="4">
-                <treeselect v-model="selectedClasses" v-if="selectedClasses"
-                            :multiple="true" class="custom"
-                            placeholder="Klasa" :options="participantListClass"
+                <treeselect class="custom"
+                            v-model="selectedClasses" v-if="selectedClasses"
+                            :multiple="true"
+                            placeholder="Klasa"
+                            :options="classesTreeselect"
                 />
               </b-col>
               <b-col cols="4">
@@ -42,7 +45,7 @@
       </b-col>
 
       <!--   Table   -->
-      <b-col cols="8" class="mt-4">
+      <b-col cols="10" class="mt-4">
         <b-table
           :items="participantList"
           :fields="fields"
@@ -53,9 +56,10 @@
           @row-clicked="rowRedirect"
         >
 
-          <template slot="class" slot-scope="scope">
-            <span>{{getClassTitleById(scope.item.class.id)}}</span>
-          </template>
+<!--          todo class-->
+<!--          <template slot="class" slot-scope="scope">-->
+<!--            <span>{{getClassTitleById(scope.item.class.id)}}</span>-->
+<!--          </template>-->
 <!--          todo rocznik-->
           <template slot="sex" slot-scope="scope">
             <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
@@ -63,7 +67,9 @@
 
           <template slot="status" slot-scope="scope">
             <span class="status"
-                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+                  :class="{'active': scope.item.active}">
+              {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
+            </span>
           </template>
 
           <template slot="edit" slot-scope="scope">
@@ -121,31 +127,45 @@
         return this.$store.getters.classes
       },
       participantList () {
-        let participantList = this.$store.getters.participants
-
-        let filteredParticipantList = []
+        let participants = this.$store.getters.participants
+        let filteredParticipants = []
         let search = this.search || ''
         let selectedGender = this.selectedGender || []
-        //  todo for years
+        let yearValue = this.yearValue || []
         let classes = this.selectedClasses || []
 
-        for (let index in participantList) {
-          if (search.length > 0 && participantList[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
-          if (selectedGender.length > 0 && !selectedGender.includes(participantList[index].sex)) continue
-          if (classes.length > 0 && !classes.includes(parseInt(participantList[index].class.id))) continue
-          filteredParticipantList.push(participantList[index])
+        for (let index in participants) {
+          if (undefined === participants[index] || participants[index] === null) {
+            continue
+          }
+
+          let firstName = participants[index].firstName || ''
+          let lastName = participants[index].lastName || ''
+          let fullName = firstName.toLowerCase() + lastName.toLowerCase()
+
+          if (search.length > 0 && fullName.indexOf(search.toLowerCase()) === -1) continue
+          if (selectedGender.length > 0 && !selectedGender.includes(participants[index].sex)) continue
+          if (yearValue.length > 0 && !yearValue.includes(parseInt(participants[index].year))) continue
+          if (classes.length > 0 && !classes.includes(parseInt(participants[index].class))) continue
+
+          // if (classes.length > 0 && !classes.includes(parseInt(participants[index].class.id))) continue
+          filteredParticipants.push(participants[index])
         }
 
-        return filteredParticipantList
+        return filteredParticipants
       }
     },
     methods: {
-      getClassTitleById (id) {
-        if (undefined === this.classes || this.classes === null || this.classes.length < 1) return ''
-        return this.classes.find((obj) => {
+      getClassTitleById (id, index = null, arrayLength = null) {
+        if (undefined === this.classes || this.classes === null) return ''
+        // todo error title of undefined
+        let dictionaryClass = this.classes.find((obj) => {
           return obj.id === id
-        }).title
+        })
+
+        return undefined === dictionaryClass ? '' : dictionaryClass.title + ((index + 1) < arrayLength ? ',' : '')
       },
+      //  todo check
       rowRedirect (row) {
         this.$router.push({
           name: 'participant',

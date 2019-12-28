@@ -76,6 +76,7 @@
         this.buttonLinkParams = params.params
       })
       EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
+        console.log(params);
         this.items = params
         // todo
       })

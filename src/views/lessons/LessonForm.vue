@@ -2,12 +2,18 @@
   <div class="container">
     <b-row class="justify-content-center" >
     <b-col cols="12">
-    <TabLinks :links="tabLinks"></TabLinks>
+    <TabLinks :links="tabLinks"/>
+      {{isValidForm}}
     </b-col>
     </b-row>
 
           <FormMainData :lesson="lesson" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMainData"
-                    :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+                        :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+          <!--      Component for Objects    -->
+          <FormObjects :lesson="lesson" :isValidForm="isValidForm" @childSubmit="submit" ref="FormObjects"
+                       :key="$route.params.tab+'FormObjects'" v-show="$route.params.tab === 'objects'"/>
+          <FormParticipantGroupsList :lesson="lesson" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroupsList"
+                       :key="$route.params.tab+'FormParticipantGroupsList'" v-show="$route.params.tab === 'participants-list'"/>
   </div>
 </template>
 
@@ -20,11 +26,17 @@
   import FormMixin from '@/mixins/form-mixin'
 
   import FormMainData from '@/views/lessons/components/FormMainData'
+  import FormObjects from '@/views/lessons/components/FormObjects'
+  import FormParticipantGroupsList from '@/views/lessons/components/FormParticipantGroupsList'
 
   export default {
     name: 'LessonForm',
     components: {
-      TabLinks, Treeselect, FormMainData
+      TabLinks,
+      Treeselect,
+      FormMainData,
+      FormObjects,
+      FormParticipantGroupsList
     },
     mixins: [ EventBusEmit, FormMixin ],
     data () {
@@ -44,7 +56,7 @@
           {
             title: 'Lista Zawodników',
             link: 'lesson',
-            tab: 'participants-list'
+            tab: 'participant-group-list'
           },
           {
             title: 'Kalendarz',
@@ -53,7 +65,7 @@
           }
         ],
         lesson: {
-          active: 1,
+          active: true,
           sex: 1,
           title: '',
           leader: {
@@ -68,7 +80,12 @@
           class: {
             id: null
           },
-          schoolOrClub: 0
+          schoolsOrClubs: {
+            id: null,
+            type: null
+          },
+          places: [],
+          participantGroups: []
         },
 
         isValidForm: false
@@ -100,11 +117,18 @@
       }
     },
     created () {
-      this.lesson = Object.assign(this.lesson, this.$store.getters.lesson(this.id))
-
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'lesson', params: {'tab': 'main-data'} })
       }
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({ buttonLink: false })
+      let breadcrumbs = [
+        { text: 'Lista zajęć', to: { name: 'lessons' } },
+        { text: 'Nowa', active: true }
+      ]
+      console.log(breadcrumbs)
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
       if (this.id) {
         this.$store.dispatch('getLesson', { id: this.id })
@@ -149,17 +173,14 @@
                 tab: 'MTSF'
               }
             ]
+
+            let breadcrumbs = [
+              { text: 'Lista zajęć', to: { name: 'lessons' } },
+              { text: response.title, active: true }
+            ]
+            this.changeAdminNavbarBreadcrumbs(breadcrumbs)
           })
       }
-
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
-
-      let breadcrumbs = [
-        { text: 'Lista zajęć', to: { name: 'lessons' } },
-        { text: this.id ? this.participantGroup.name : 'Nazwa zajęcia', active: true }
-      ]
-      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }
   }
 </script>
