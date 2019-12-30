@@ -7,22 +7,6 @@ export default {
   },
   getters: {
     permissions (state) {
-      // let permissions = [...state.permissions]
-      //
-      // for (let schoolIndex in permissions) {
-      //   let preparedIdsArray = []
-      //   for (let placeIndex in permissions[schoolIndex].places) {
-      //     if (permissions[schoolIndex].places[placeIndex] && permissions[schoolIndex].places[placeIndex].id) {
-      //       preparedIdsArray.push(permissions[schoolIndex].places[placeIndex].id)
-      //     }
-      //   }
-      //   permissions[schoolIndex].places = preparedIdsArray.length > 0 ? preparedIdsArray : permissions[schoolIndex].places
-      //
-      //   if (typeof permissions[schoolIndex].permissions === 'string') {
-      //     permissions[schoolIndex].permissions = JSON.parse(permissions[schoolIndex].permissions)
-      //   }
-      // }
-
       return state.permissions
     },
     permissionPerId: (state) => (id) => {
@@ -30,6 +14,9 @@ export default {
     }
   },
   mutations: {
+    clearPermissions (state, data) {
+      state.permissions = []
+    },
     setPermissions (state, data) {
       state.permissions = data
     },
@@ -215,109 +202,8 @@ export default {
           })
       })
     },
-
-    getClassProfiles (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class', 'get', true, data, {profiles: true}, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('setClassProfiles', response)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    postClass (context, data) {
-      console.log(data)
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class', 'post', true, data, null, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            if (data.type === 2) {
-              context.commit('setClassAll', response)
-            } else {
-              context.commit('setClass', {...response, oldId: data.id})
-            }
-            resolve(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    postClassProfile (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class', 'post', true, data, {profiles: true}, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('setClassProfile', {...response, oldId: data.id})
-            resolve(response)
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    putClassProfile (context, data) {
-      const id = data.id
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class/' + id, 'put', true, data, {profiles: true}, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('setClassProfile', response)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    deleteClassProfName (context, data) {
-      const id = data.urlParams
-
-      if (id < 0) {
-        context.commit('deleteClassProfile', data)
-        return
-      }
-
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/class/', 'delete', true, null, {profileId: id}, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('deleteClassProfile', data)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
+    clearPermissions (context) {
+      context.commit('clearPermissions')
     }
   }
 }

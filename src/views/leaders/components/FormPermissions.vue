@@ -1,5 +1,9 @@
 <template>
   <b-row class="justify-content-center">
+<!--    <pre>-->
+<!--    schoolIds: {{schoolIds}}-->
+<!--    permissionIds: {{selectedPermissions}}-->
+<!--    </pre>-->
     <b-col cols="6">
       <div class="row mt-2" v-if="permissions"
            v-for="(schoolPermission,index) in permissions" :key="index">
@@ -8,7 +12,7 @@
             <p class="m-auto">{{index + 1}}</p>
           </div>
           <template v-if="permissions.length > 0">
-            {{permissions[index].id}}
+<!--            {{permissions[index].id}}-->
             <p @click="$store.dispatch('deletePermission', {id: permissions[index].id})"
                v-if="permissions[index].id < 0">usuń</p>
             <p @click="deleteFromForm('deletePermission', permissions[index].id)"
@@ -17,7 +21,7 @@
         </div>
         <div class="col-10">
           <h5 class="mb-3">Dane ogólne</h5>
-          {{permissions[index].school.id}}
+<!--          {{permissions[index].school.id}}-->
           <treeselect class="custom mb-3" v-if="permissions[index].school"
                       v-model="permissions[index].school.id"
                       :multiple="false"
@@ -26,7 +30,7 @@
                       v-validate="{'required':true}" placeholder="Kłub / szkoła"
                       :options="schoolsTreeselect"/>
 
-          {{permissions[index].places}}
+<!--          {{permissions[index].places}}-->
           <treeselect class="custom"
                       v-model="permissions[index].places"
                       :multiple="true"
@@ -53,14 +57,14 @@
                v-for="(permission,permissionIndex) in permissions[index].permissions" :key="index+'_'+permissionIndex">
             <div class="col-2">
               <div class="text-center">
-                <p class="m-auto">{{index + 1}}</p>
+                <p class="m-auto">{{permissionIndex + 1}}</p>
               </div>
               <p class="_text-delete-left" v-if="permissions[index].permissions.length > 0"
                  @click="$store.dispatch('deletePermissionRow', {parentId: permissions[index].id, index: permissionIndex})">
                 usuń</p>
             </div>
             <div class="col-10">
-              {{permissions[index].permissions[permissionIndex]}}
+<!--              {{permissions[index].permissions[permissionIndex]}}-->
               <treeselect class="custom mb-3" v-if="permissions[index].permissions[permissionIndex]"
                           v-model="permissions[index].permissions[permissionIndex].id"
                           :multiple="false"
@@ -69,12 +73,13 @@
                           :key="'permissions.permissions'+index+'_'+permissionIndex"
                           v-validate="{'required':true}"
                           placeholder="Dyscyplina"
-                          :options="permissionsData"/>
-              <b-form-group class="custom my-3">
+                          :options="permissionsDataTreeselect(index)"/>
+
+              <b-form-group class="custom my-3" v-if="permissionOptions(permissions[index].permissions[permissionIndex].id)">
                 <b-form-checkbox-group
-                  id="checkbox-group-type"
-                  v-model="permissionTypesSelected"
-                  :options="permissionType"
+                  :id="'checkbox-group-type'+index+'_'+permissionIndex"
+                  v-model="permissions[index].permissions[permissionIndex].selected"
+                  :options="permissionOptions(permissions[index].permissions[permissionIndex].id)"
                   name="checkbox-group-type"/>
               </b-form-group>
             </div>
@@ -140,44 +145,24 @@
 
   export default {
     name: 'FormMainData',
-    props: ['leader'],
+    props: ['leader', 'schoolIds'],
     components: {Treeselect},
     mixins: [FormMixin],
     data () {
       return {
         isPlacesAreAnArray: false,
 
-        selectedDisciplinesIds: [],
+        selectedSchoolsIds: [],
+        selectedPermissions: {},
 
-        permissionTypesSelected: [],
-        permissionType: [
-          {text: 'czyta', value: '1'},
-          {text: 'tworzy', value: '2'},
-          {text: 'zmienia', value: '3'},
-          {text: 'usuwa', value: '4'}
-        ],
         permissionsData: PERMISSIONS
-      }
-    },
-    watch: {
-      // need for making disciplines in select unique
-      'leader.disciplines': {
-        handler: function (newValue) {
-          this.selectedDisciplinesIds = []
-          for (let index in newValue) {
-            if (newValue[index] && newValue[index].id &&
-              this.selectedDisciplinesIds.indexOf(newValue[index].id) === -1) {
-                this.selectedDisciplinesIds.push(newValue[index].id)
-              }
-          }
-        },
-        deep: true
       }
     },
     computed: {
       permissions: {
         get () {
-          console.log(this.$store.getters.permissions)
+          console.log('get computed permissions')
+          this.checkUniqSchools(this.$store.getters.permissions)
           return this.$store.getters.permissions
         },
         set (value) {
@@ -195,7 +180,14 @@
         let prepared = []
 
         for (let index in schools) {
-          prepared.push({id: schools[index].id, label: schools[index].name})
+          if (this.schoolIds.includes(schools[index].id)) {
+            // need for making schools in select unique
+            if (this.selectedSchoolsIds.indexOf(schools[index].id) === -1) {
+              prepared.push({id: schools[index].id, label: schools[index].name})
+            } else {
+              prepared.push({id: schools[index].id, label: schools[index].name, isDisabled: true})
+            }
+          }
         }
         return prepared
       },
@@ -210,6 +202,59 @@
       }
     },
     methods: {
+      clearPermissionsSelected (permission) {
+        if (![2, 3, 4, 6, 8].includes(permission.id)) {
+          permission.selected = []
+        }
+      },
+      permissionOptions (permissionId) {
+        if ([2, 3, 4, 8].includes(permissionId)) {
+          return [
+            {text: 'czyta', value: '1'},
+            {text: 'tworzy', value: '2'},
+            {text: 'zmienia', value: '3'}
+          ]
+        }
+        if (parseInt(permissionId) === 6) {
+          return [
+            {text: 'tworzy', value: '2'},
+            {text: 'zmienia', value: '3'}
+          ]
+        }
+        return false
+      },
+      permissionsDataTreeselect (schoolIndex) {
+        let permissions = this.permissionsData
+        let prepared = []
+
+        for (let index in permissions) {
+          // need for making schools in select unique
+          if (this.selectedPermissions[schoolIndex].indexOf(permissions[index].id) === -1) {
+            prepared.push({id: permissions[index].id, label: permissions[index].label})
+          } else {
+            prepared.push({id: permissions[index].id, label: permissions[index].label, isDisabled: true})
+          }
+        }
+        return prepared
+      },
+      checkUniqSchools (permissions) {
+        console.log(permissions)
+
+        this.selectedSchoolsIds = []
+        for (let index in permissions) {
+          // uniq schools
+          if (this.selectedSchoolsIds.indexOf(permissions[index].school.id) === -1) {
+            this.selectedSchoolsIds.push(permissions[index].school.id)
+          }
+
+          // uniq permissions
+          this.selectedPermissions[index] = []
+          for (let permissionIndex in permissions[index].permissions) {
+            this.clearPermissionsSelected(permissions[index].permissions[permissionIndex])
+            this.selectedPermissions[index].push(permissions[index].permissions[permissionIndex].id)
+          }
+        }
+      },
       addDiscipline () {
         this.$parent.addDiscipline()
       },

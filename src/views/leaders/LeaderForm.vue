@@ -10,7 +10,7 @@
       <!--   Component for UserEntity   -->
       <FormMainData :leader="leader" @childSubmit="submit" ref="FormMainData"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
-      <form-permissions :leader="leader" @childSubmit="submit" ref="Permissions"
+      <form-permissions :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="Permissions"
                         :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
     </template>
   </div>
@@ -48,7 +48,9 @@
             // { id: 1 },
             // { id: 2 }
           ]
-        }
+        },
+
+        schoolIds: []
       }
     },
     computed: {},
@@ -98,6 +100,11 @@
         this.leader.disciplines.splice(index, 1)
       },
       prepareLeader (leader) {
+        let schoolsIds = []
+        for (let schoolIndex in leader.schoolsUsers) {
+          schoolsIds.push(leader.schoolsUsers[schoolIndex].school.id)
+        }
+        this.schoolIds = schoolsIds
         this.leader = leader
         console.log(this.leader)
       }
@@ -186,6 +193,9 @@
         {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+    },
+    destroyed () {
+      this.$store.dispatch('clearPermissions')
     }
   }
 </script>
