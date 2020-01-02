@@ -53,7 +53,8 @@
         <b-form-input id="input-1" class="custom"
                       placeholder="Hasło"
                       :class="{'error-input-custom': veeErrors.has('school.password')}"
-                      name="school.password" key="school.password" v-validate="{'required':true}"
+                      name="school.password" key="school.password"
+                      v-validate="{'required': school.id === undefined || school.id === null}"
                       v-model="school.password"/>
       </b-form-group>
       <b-form-group
