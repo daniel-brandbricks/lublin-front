@@ -31,6 +31,12 @@
 <!--      todo leader treeselect-->
       <h2>LEADERS TREESELECT </h2>
       <b-form-group class="custom mb-2">
+        <treeselect class="custom m-0" v-if="lesson.leader"
+                    v-model="lesson.leader.id"
+                    :multiple="false"
+                    placeholder="Prowadzący" :options="lessonLeader"
+                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"
+                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>
 <!--        <treeselect class="custom m-0" v-if="lesson.leader"-->
 <!--                    v-model="lesson.leader.id"-->
 <!--                    :multiple="false"-->
@@ -139,7 +145,7 @@
         return this.$store.getters.schools
       },
       leaders () {
-        return this.$store.getters.leaders
+        return this.$store.getters.users
       },
       disciplines () {
         return this.$store.getters.disciplines
@@ -176,8 +182,9 @@
     },
     created () {
       this.$store.dispatch('getLessons')
-      this.$store.dispatch('getLeaders', {confirmed: 0})
-      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getAllUsers')
+      // this.$store.dispatch('getLeaders', {confirmed: 0})
+      // this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')

@@ -72,7 +72,7 @@
           </template>
 
           <template slot="leaders" slot-scope="scope">
-            <span>{{getLeadersFullNamesByIds(scope.item.leaders)}}</span>
+            <span>{{getLeadersFullNamesByIds(scope.item.users)}}</span>
           </template>
 
 <!--          <template slot="leaders" slot-scope="scope">-->
@@ -142,17 +142,17 @@
         return this.$store.getters.classes
       },
       leaders () {
-        return this.$store.getters.leaders
+        return this.$store.getters.users
       }
     },
     methods: {
       getLeadersFullNamesByIds (ids) {
         let names = ''
-        console.log(this.leaders)
-        if (undefined === this.leaders || this.leaders === null || this.leaders.length < 1) return names
-        for (let index in this.leaders) {
-          if (ids.includes(this.leaders[index].id)) {
-            names += this.leaders[index].firstName + ' ' + this.leaders[index].lastName + ', '
+        console.log(this.users)
+        if (undefined === this.users || this.users === null || this.users.length < 1) return names
+        for (let index in this.users) {
+          if (ids.includes(this.users[index].id)) {
+            names += this.users[index].firstName + ' ' + this.users[index].lastName + ', '
           }
         }
         return names.substring(0, names.length - 2)
@@ -187,8 +187,9 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
-      this.$store.dispatch('getLeaders', {confirmed: 0})
-      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getUsers')
+      // this.$store.dispatch('getLeaders', {confirmed: 0})
+      // this.$store.dispatch('getLeaders', {confirmed: 1})
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })
