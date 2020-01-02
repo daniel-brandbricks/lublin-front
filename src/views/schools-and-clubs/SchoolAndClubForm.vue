@@ -194,6 +194,7 @@
           .then((response) => {
             this.school = response
 
+            console.log('more tab links')
             // set more tab links
             this.tabLinks = [
               {

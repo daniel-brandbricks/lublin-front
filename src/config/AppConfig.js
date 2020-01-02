@@ -51,5 +51,13 @@ export const YEARS = [
 ]
 
 export const PERMISSIONS = [
-  { id: 1, label: 'test' }
+  { id: 1, label: 'Składa zaproszenie do klubu/szkoły' },
+  { id: 2, label: 'Dodaje/aktualizuje kalendarz wydarzeń lub imprez' },
+  { id: 3, label: 'Dodaje/aktualizuje dziennik uczestników' },
+  { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
+  { id: 5, label: 'Generuje raporty' },
+  { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
+  { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
+  { id: 8, label: 'Wprowadza wyniki MTSF-u' },
+  { id: 9, label: 'Archiwizuje listy zawodników z możliwością przeniesienia i edycji listy na kolejny rok/sezon' }
 ]

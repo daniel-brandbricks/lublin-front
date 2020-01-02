@@ -122,7 +122,7 @@ export default {
               return
             }
 
-            if (data.confirmed) {
+            if (data && data.confirmed) {
               data.confirmed === 1 ? context.commit('setConfirmedSchools', response) : context.commit('setSchoolsToConfirm', response)
             } else {
               context.commit('setSchools', response)
@@ -130,6 +130,7 @@ export default {
             resolve()
           })
           .catch(error => {
+            console.log(error)
             console.log(error.response)
             reject(error.response)
           })
