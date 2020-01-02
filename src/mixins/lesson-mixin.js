@@ -6,17 +6,17 @@ export default {
   methods: {},
   computed: {
     //    todo Leaders treeselect
-    // lessonLeader () {
-    //   let data = this.$store.getters.users
-    //   let preparedLeaders = []
-    //
-    //   for (let leaderIndex in data) {
-    //     let fullName = data[leaderIndex].firstName + ' ' + data[leaderIndex].lastName
-    //     preparedLeaders.push({ id: data[leaderIndex].id, label: fullName })
-    //    }
-    //
-    //   return preparedLeaders
-    // },
+    lessonLeader () {
+      let data = this.$store.getters.users
+      let preparedLeaders = []
+
+      for (let leaderIndex in data) {
+        let fullName = data[leaderIndex].firstName + ' ' + data[leaderIndex].lastName
+        preparedLeaders.push({ id: data[leaderIndex].id, label: fullName })
+      }
+
+      return preparedLeaders
+    },
     lessonDiscipline () {
       let data = this.$store.getters.disciplines
       let preparedDisciplines = []

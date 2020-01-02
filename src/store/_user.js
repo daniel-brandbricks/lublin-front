@@ -35,6 +35,43 @@ export default {
     }
   },
   actions: {
+    getUser (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/user/' + id, 'get', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setUser', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getUsers (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/user', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setUsers', response)
+            resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
     getAllUsers (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/user/1', 'get', true, null, null, 200)
