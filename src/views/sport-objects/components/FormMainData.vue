@@ -140,6 +140,7 @@
     },
     methods: {
       submit (validRequired) {
+        console.log(111)
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -156,16 +157,16 @@
         }
       },
       submitSetConfirm (isConfirmed, validRequired = true) {
+        console.log(this.isValidForm)
         if (validRequired) {
-          if (this.isValidForm) {
-            this.school.confirmed = isConfirmed
+          if (this.checkValidForm()) {
+            this.sportObject.confirmed = isConfirmed
             this.submit(validRequired)
           } else {
             // validate form in next tab (component)
-            this.$parent.goToFormTab('main-data', { 'validateForm': true })
           }
         } else {
-          this.school.confirmed = isConfirmed
+          this.sportObject.confirmed = isConfirmed
           this.submit(validRequired)
         }
       }

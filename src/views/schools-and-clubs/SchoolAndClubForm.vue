@@ -137,9 +137,9 @@
 
       // FormPlaces
       addPlace (placeDefault) {
-        // let copy = {...placeDefault}
+        let copy = {...placeDefault}
         // copy.collectionType = 'add'
-        this.school.places.push(placeDefault)
+        this.school.places.push(copy)
       },
       removePlace (index) {
         this.school.places.splice(index, 1)
@@ -163,6 +163,7 @@
       submit () {
         let school = this.school
         console.log(this.school)
+        delete school.schoolsUsers
         // school.image = this.mixinImage
 
         const method = this.id === undefined ? 'postSchool' : 'putSchool'

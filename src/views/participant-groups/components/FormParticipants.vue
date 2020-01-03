@@ -94,6 +94,7 @@
       // }
     },
     watch: {
+      // todo review
       'participantYearsSelected': {
         handler: function (newValue) {
           for (let index in newValue) {

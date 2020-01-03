@@ -3,7 +3,6 @@
     <b-row class="justify-content-center">
       <b-col cols="12">
         <TabLinks :links="tabLinks"/>
-        {{isValidForm}}
         <template>
           <FormMainData :participantGroup="participantGroup" @childSubmit="submit" ref="FormMainData"
                         :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>

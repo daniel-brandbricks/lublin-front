@@ -55,12 +55,18 @@
       </b-form-group>
 
       <b-row class="mt-4 justify-content-end">
-        <b-col cols="5">
+        <b-col cols="4" v-if="this.id">
+          <b-btn variant="delete" class="custom"
+                 @click="deleteFromForm('deleteParticipantGroup', participantGroup.id, undefined, 'participant.groups', null)"> <!-- todo Vetal' -->
+            Usuń
+          </b-btn>
+        </b-col>
+        <b-col cols="4">
           <b-btn block class="custom btn" :to="{ name: 'participant.groups' }">
             Anuluj
           </b-btn>
         </b-col>
-        <b-col cols="5">
+        <b-col cols="4">
           <b-btn variant="primary" block class="custom" @click="goToFormTab('participants')">
             Dalej
           </b-btn>

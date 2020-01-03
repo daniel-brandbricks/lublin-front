@@ -15,7 +15,7 @@
         </template>
 
         <template slot="type" slot-scope="scope">
-          <span>{{getSportObjectTypeNameById(scope.item.type.id)}}</span>
+          <span>{{getSportObjectTypeNameById(scope.item.type)}}</span>
         </template>
 
         <template slot="object" slot-scope="scope">
