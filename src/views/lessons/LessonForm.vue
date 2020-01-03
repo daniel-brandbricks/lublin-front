@@ -66,7 +66,7 @@
         ],
         lesson: {
           active: true,
-          sex: 1,
+          sex: true,
           title: '',
           leader: {
             id: null

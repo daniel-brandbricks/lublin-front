@@ -5,6 +5,7 @@
         <b-row class="justify-content-center align-items-center">
           <b-col cols="6">
             <b-form-group class="custom">
+<!--              todo checkbox filter  -->
               <b-form-checkbox-group
                 id="checkbox-group-1"
                 v-model="selectedType"
@@ -71,13 +72,17 @@
             <span>{{getClassTitleById(scope.item.class.id)}}</span>
           </template>
 
-          <template slot="leaders" slot-scope="scope">
-            <span>{{getLeadersFullNamesByIds(scope.item.users)}}</span>
-          </template>
+          <!--          <template slot="leaders" slot-scope="scope">-->
+          <!--            <span>{{scope.item.leaders}}</span>-->
+          <!--          </template>-->
 
-<!--          <template slot="leaders" slot-scope="scope">-->
-<!--            <span>{{leaders}}</span>-->
-<!--          </template>-->
+          <template slot="leaders" slot-scope="scope">
+            <!--            {{getLeadersFullNamesByIds(scope.item.leaders)}}-->
+            <template v-for="leaderId in scope.item.leaders">
+              {{ buildUserNames(leaderById(leaderId.id)) }}
+              <!--              {{getLeadersFullNamesByIds(scope.item.leaders)}}-->
+            </template>
+          </template>
 
           <template slot="status" slot-scope="scope">
             <span class="status"
@@ -103,27 +108,28 @@
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import LessonMixin from '@/mixins/lesson-mixin'
+  import { mapGetters } from 'vuex'
 
   export default {
-    components: {Treeselect},
-    props: ['lesson'],
-    mixins: [EventBusEmit, LessonMixin],
+    components: { Treeselect },
+    props: [ 'lesson', 'isConfirmed' ],
+    mixins: [ EventBusEmit, LessonMixin ],
     data () {
       return {
         fields: [
-          {key: 'title', label: 'Nazwa zajęcia', sortable: true},
-          {key: 'disciplines', label: 'Dyscyplina', sortable: true},
-          {key: 'lessonCategories', label: 'Kategoria', sortable: true},
-          {key: 'classes', label: 'Klasa', sortable: true},
-          {key: 'leaders', label: 'Prowadzący', sortable: true},
-          {key: 'status', label: 'Status w systemie', sortable: true},
-          {key: 'edit', label: ''}
+          { key: 'title', label: 'Nazwa zajęcia', sortable: true },
+          { key: 'disciplines', label: 'Dyscyplina', sortable: true },
+          { key: 'lessonCategories', label: 'Kategoria', sortable: true },
+          { key: 'classes', label: 'Klasa', sortable: true },
+          { key: 'leaders', label: 'Prowadzący', sortable: true },
+          { key: 'status', label: 'Status w systemie', sortable: true },
+          { key: 'edit', label: '' }
         ],
 
         selectedType: [],
         typeOptions: [
-          {text: 'klub', value: 0},
-          {text: 'szkola', value: 1}
+          { text: 'klub', value: 0 },
+          { text: 'szkola', value: 1 }
         ],
         search: '',
         selectedDisciplines: [],
@@ -132,31 +138,33 @@
       }
     },
     computed: {
-      disciplines () {
-        return this.$store.getters.disciplines
+      ...mapGetters([ 'leaderById', 'classes', 'lessonCategories', 'disciplines' ]),
+      leadersConfirmed () {
+        return this.$store.getters.leadersConfirmed
       },
-      lessonCategories () {
-        return this.$store.getters.lessonCategories
-      },
-      classes () {
-        return this.$store.getters.classes
-      },
-      leaders () {
-        return this.$store.getters.users
+      buildUserNames: () => (user) => {
+        if (undefined === user || user === null) {
+          return null
+        }
+        return user.firstName + ' ' + user.lastName
       }
+      // getLeadersFullNamesByIds: () => (ids) => {
+      //   let leadersConfirmed = this.leadersConfirmed
+      //   console.log(leadersConfirmed)
+      //   if (undefined === leadersConfirmed || leadersConfirmed === null || leadersConfirmed.length < 1) {
+      //     return null
+      //   }
+      //
+      //   let names = ''
+      //   for (let leaderId in ids) {
+      //     let user = this.leaderById(leaderId)
+      //     console.log(user)
+      //     names += user.firstName + ' ' + user.lastName
+      //   }
+      //   return names.substring(0, names.length - 2)
+      // }
     },
     methods: {
-      getLeadersFullNamesByIds (ids) {
-        let names = ''
-        console.log(this.users)
-        if (undefined === this.users || this.users === null || this.users.length < 1) return names
-        for (let index in this.users) {
-          if (ids.includes(this.users[index].id)) {
-            names += this.users[index].firstName + ' ' + this.users[index].lastName + ', '
-          }
-        }
-        return names.substring(0, names.length - 2)
-      },
       getDisciplineTitleById (id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
         return this.disciplines.find((obj) => {
@@ -178,7 +186,7 @@
       rowRedirect (row) {
         this.$router.push({
           name: 'lesson',
-          params: {'tab': 'main-data', 'id': row.id}
+          params: { 'tab': 'main-data', 'id': row.id }
         })
       }
     },
@@ -187,9 +195,16 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
-      this.$store.dispatch('getUsers')
       // this.$store.dispatch('getLeaders', {confirmed: 0})
-      // this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 1})
+
+      if (this.fieldsParams) {
+        for (let key in this.fieldsParams) {
+          let field = this.fieldsParams[key]
+          console.log(field)
+          this.replaceTableField(field)
+        }
+      }
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })

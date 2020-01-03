@@ -7,7 +7,7 @@ export default {
   computed: {
     //    todo Leaders treeselect
     lessonLeader () {
-      let data = this.$store.getters.users
+      let data = this.$store.getters.leadersConfirmed
       let preparedLeaders = []
 
       for (let leaderIndex in data) {
