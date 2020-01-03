@@ -17,6 +17,13 @@ export default {
     leaders (state) {
       return state.leaders.confirmed.concat(state.leaders.toConfirm)
     },
+    leaderById: (state) => (id) => {
+      for (let leader of state.leaders.confirmed) {
+        if (parseInt(leader.id) === parseInt(id)) {
+          return leader
+        }
+      }
+    },
     leader: (state) => (id, isConfirmed) => {
       let leaders = []
 
@@ -101,7 +108,6 @@ export default {
               resolve('error')
               return
             }
-
             data.confirmed === 1
               ? context.commit('setConfirmedLeaders', response)
               : context.commit('setLeadersToConfirm', response)

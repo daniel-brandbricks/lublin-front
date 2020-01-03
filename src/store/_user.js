@@ -22,13 +22,20 @@ export default {
     users (state) {
       return state.users
     },
+    getUserById: (state) => (id) => {
+      for (let user in state.users) {
+        if (parseInt(user.id) === parseInt(id)) {
+          return user
+        }
+      }
+    },
     user (state) {
       return state.user
     }
   },
   mutations: {
     setUsers (state, data) {
-      state.users = data.users
+      state.users = data
     },
     setUser (state, data) {
       state.user = data

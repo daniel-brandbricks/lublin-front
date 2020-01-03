@@ -28,22 +28,14 @@
                       name="lesson.title" key="lesson.title" v-validate="{'required':true}"
                       v-model="lesson.title"/>
       </b-form-group>
-<!--      todo leader treeselect-->
-      <h2>LEADERS TREESELECT </h2>
       <b-form-group class="custom mb-2">
+        {{lesson.leader}}
         <treeselect class="custom m-0" v-if="lesson.leader"
                     v-model="lesson.leader.id"
                     :multiple="false"
                     placeholder="Prowadzący" :options="lessonLeader"
                     :class="{'error-input-custom': veeErrors.has('lesson.leader')}"
                     name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>
-<!--        <treeselect class="custom m-0" v-if="lesson.leader"-->
-<!--                    v-model="lesson.leader.id"-->
-<!--                    :multiple="false"-->
-<!--                    placeholder="Prowadzący"-->
-<!--                    :options="lessonLeader"-->
-<!--                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"-->
-<!--                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>-->
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.discipline"
@@ -115,6 +107,7 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import LessonMixin from '@/mixins/lesson-mixin'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'FormMainData',
@@ -122,37 +115,10 @@
     components: { Treeselect },
     mixins: [ EventBusEmit, FormMixin, LessonMixin ],
     data () {
-      return {
-        // lessons: [],
-        // lessonDefault: {
-        //   active: '',
-        //   sex: '',
-        //   title: '',
-        //   type: '',
-        //   // leaders: [],
-        //   disciplines: [],
-        //   lessonCategories: [],
-        //   classes: []
-        //   //  todo check this radio
-        //   // places: []
-        // },
-        //
-        // isValidForm: false
-      }
+      return {}
     },
     computed: {
-      schools () {
-        return this.$store.getters.schools
-      },
-      leaders () {
-        return this.$store.getters.users
-      },
-      disciplines () {
-        return this.$store.getters.disciplines
-      },
-      lessonCategories () {
-        return this.$store.getters.lessonCategories
-      }
+      ...mapGetters([ 'schools', 'disciplines', 'leadersConfirmed', 'classes', 'lessonCategories' ])
     },
     methods: {
       submit (validRequired = false) {
@@ -182,9 +148,7 @@
     },
     created () {
       this.$store.dispatch('getLessons')
-      this.$store.dispatch('getAllUsers')
-      // this.$store.dispatch('getLeaders', {confirmed: 0})
-      // this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
