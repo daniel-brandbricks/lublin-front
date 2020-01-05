@@ -165,6 +165,7 @@
           return this.$store.getters.permissions
         },
         set (value) {
+          console.log(value)
           this.$store.dispatch('setPermissions', value)
         }
       },
