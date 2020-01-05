@@ -21,23 +21,22 @@
         </div>
         <div class="col-10">
           <h5 class="mb-3">Dane ogólne</h5>
-<!--          {{permissions[index].school.id}}-->
           <treeselect class="custom mb-3" v-if="permissions[index].school"
                       v-model="permissions[index].school.id"
                       :multiple="false"
                       :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.school'+index)}"
                       :name="'leader.schoolPermissions.school'+index" :key="'leader.schoolPermissions.school'+index"
                       v-validate="{'required':true}" placeholder="Kłub / szkoła"
+                      @input="permissions[index].places = []"
                       :options="schoolsTreeselect"/>
 
-<!--          {{permissions[index].places}}-->
           <treeselect class="custom"
                       v-model="permissions[index].places"
                       :multiple="true"
                       :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.places'+index)}"
                       :name="'leader.schoolPermissions.places'+index" :key="'leader.schoolPermissions.places'+index"
                       v-validate="{'required':true}" placeholder="Obiekt"
-                      :options="sportObjectsTreeselect"/>
+                      :options="sportObjectsTreeselect(permissions[index].school.id)"/>
 
           <h5 class="my-4">Status</h5>
           <b-form-group>
@@ -178,7 +177,7 @@
       schoolsTreeselect () {
         let schools = this.schools
         let prepared = []
-
+        console.log(schools)
         for (let index in schools) {
           if (this.schoolIds.includes(schools[index].id)) {
             // need for making schools in select unique
@@ -192,13 +191,21 @@
         return prepared
       },
       sportObjectsTreeselect () {
-        let sportObjects = this.sportObjects
-        let prepared = []
+        return schoolId => {
+          let sportObjects = this.sportObjects
+          let prepared = []
 
-        for (let index in sportObjects) {
-          prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+          for (let index in sportObjects) {
+            let schoolsIds = sportObjects[index].schools
+            // get places with @schoolId collection
+            if (undefined === schoolsIds.find(x => {
+              return parseInt(x.id) === parseInt(schoolId)
+            })) continue
+
+            prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+          }
+          return prepared
         }
-        return prepared
       }
     },
     methods: {
