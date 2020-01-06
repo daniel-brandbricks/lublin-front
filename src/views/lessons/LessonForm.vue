@@ -80,13 +80,11 @@
           class: {
             id: null
           },
-          schoolsOrClubs: {
-            id: null,
-            type: null
-          },
-          places: [],
+          sportObjects: [],
           participantGroups: []
         },
+
+        titleObjectsSelected: [],
 
         isValidForm: false
       }

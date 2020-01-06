@@ -57,7 +57,7 @@ export default {
 
       return preparedSchools
     },
-    placesPrepared () {
+    lessonSportObjects () {
       let data = this.$store.getters.sportObjects
       let preparedPlaces = []
       console.log(data)

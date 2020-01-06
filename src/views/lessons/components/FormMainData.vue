@@ -3,6 +3,7 @@
     <b-col cols="6">
 <!--     todo breadcrumbs -->
       <h5>Aktywuj</h5>
+      {{lesson}}
       <b-form-group>
       <b-form-radio v-model="lesson.active" :value="element.value" class="d-inline-block my-3 mr-3"
                     :class="{'error-input-custom': veeErrors.has('lesson.active')}"
@@ -29,7 +30,6 @@
                       v-model="lesson.title"/>
       </b-form-group>
       <b-form-group class="custom mb-2">
-        {{lesson.leader}}
         <treeselect class="custom m-0" v-if="lesson.leader"
                     v-model="lesson.leader.id"
                     :multiple="false"
