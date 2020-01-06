@@ -12,6 +12,9 @@
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
       <form-permissions :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="Permissions"
                         :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
+      <FormSportObjects :leader="leader" ref="SportObjects"
+                        :key="$route.params.tab+'SportObjects'" v-show="$route.params.tab === 'sport-objects'"/>
+
     </template>
   </div>
 </template>
@@ -22,12 +25,13 @@
   import FormMixin from '@/mixins/form-mixin'
   import FormMainData from '@/views/leaders/components/FormMainData'
   import FormPermissions from '@/views/leaders/components/FormPermissions'
+  import FormSportObjects from '@/views/leaders/components/FormSportObjects'
   import LeaderMixin from '@/mixins/leader-mixin'
 
   export default {
     name: 'LeaderForm',
     components: {
-      TabLinks, FormMainData, FormPermissions
+      TabLinks, FormMainData, FormPermissions, FormSportObjects
     },
     mixins: [EventBusEmit, FormMixin, LeaderMixin],
     data () {

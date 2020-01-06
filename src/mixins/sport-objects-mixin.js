@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     sportObjectsListFiltered () {
-      let sportObjects = this.sportObjectsConfirmed || this.sportObjectsToConfirm || []
+      let sportObjects = this.sportObjects /* Confirmed || this.sportObjectsToConfirm */ || []
       let filteredSportObjects = []
       let search = this.filters.search || ''
       let districtValue = this.filters.districtValue || []

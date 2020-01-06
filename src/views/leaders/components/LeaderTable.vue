@@ -57,11 +57,12 @@
 
 <script>
   import LeaderMixin from '@/mixins/leader-mixin'
+  import TableMixin from '@/mixins/table-mixin'
 
   export default {
     name: 'ListToConfirm',
     props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams'],
-    mixins: [LeaderMixin],
+    mixins: [LeaderMixin, TableMixin],
     data () {
       return {
         fields: [
@@ -113,15 +114,6 @@
           params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': false }
         })
         // this.$parent.rowRedirect(row.id, false)
-      },
-
-      // used to replace definite field in this table from parent-relative component (entity)
-      replaceTableField (newField) {
-        for (let index in this.fields) {
-          if (this.fields[index].key === newField.key) {
-            this.fields[index].label = newField.label
-          }
-        }
       }
     },
     created () {
@@ -132,15 +124,6 @@
         this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
       }
       // this.$store.dispatch('getDisciplines')
-
-      // check params from parent-relative component (entity)
-      if (this.fieldsParams) {
-        for (let key in this.fieldsParams) {
-          let field = this.fieldsParams[key]
-          console.log(field)
-          this.replaceTableField(field)
-        }
-      }
     }
   }
 </script>
