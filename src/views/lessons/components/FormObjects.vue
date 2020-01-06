@@ -1,48 +1,36 @@
 <template>
-  <!--    <div class="wrap">OBJECTS</div>-->
-  <b-row class="justify-content-center">
+  <b-row class="justify-content-center" v-if="sportObjects">
     <b-col cols="6">
-<!--      {{lesson.places}}-->
       <h5 class="mb-3">Obiekty Sportowe</h5>
-      <div class="row" v-if="lesson.places"
-           v-for="(place, index) in lesson.places" :key="index">
-        <div class="col-1">
+      <div class="row" v-if="sportObjects"
+           v-for="(sportObject, index) in sportObjects" :key="index">
+        <div class="col-2">
           <div class="text-center _custom-css">
             <p class="m-auto">{{index + 1}}</p>
           </div>
-          <p @click="removePlace(index)" v-if="lesson.places.length > 0">usuń</p>
+            <p @click="removeSportObject(index)" v-if="sportObjects.length > 0">usuń</p>
         </div>
-        <div class="col-11 pl-4">
-          <b-form-group>
-            <b-form-radio v-model="lesson.type" :value="element.value"
-                          class="d-inline-block mr-3"
-                          :class="{'error-input-custom': veeErrors.has('lesson.type'+radioIndex)}"
-                          :name="'lesson.type'+radioIndex" :key="'lesson.type'+radioIndex"
-                          v-validate="{'required':true}"
-                          v-for="(element,radioIndex) in [{title: 'Klub', value: true}, {title: 'Szkoła', value: false}]">
-              {{ element.title }}
-            </b-form-radio>
-          </b-form-group>
-          <treeselect v-model="lesson.schools.title"
-                      :multiple="true"
-                      :searchable="false"
-                      placeholder="Nazwa klubu / szkoły"
-                      :options="schoolsAndClubsPrepared"
-                      class="custom mb-3"/>
-          <treeselect v-model="lesson.places.title"
-                      :multiple="true"
-                      :searchable="false"
-                      placeholder="Nazwa Obiektu"
-                      :options="placesPrepared"
-                      class="custom mb-3"/>
+        <div class="col-10">
+          <b-form-radio v-model="sportObjects[index].status" :value="element.value"
+                        class="d-inline-block mr-3"
+                        :class="{'error-input-custom': veeErrors.has('lesson.active'+radioIndex+'_'+index)}"
+                        :name="'lesson.active'+radioIndex+'_'+index"
+                        :key="'lesson.active'+radioIndex+'_'+index"
+                        v-validate="{'required':true}"
+                        v-for="(element,radioIndex) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
+            {{ element.title }}
+          </b-form-radio>
+          <treeselect class="custom mb-3" v-if="sportObjects[index].school"
+                      v-model="sportObjects[index].school.id"
+                      :multiple="false"
+                      :class="{'error-input-custom': veeErrors.has('lesson.schoolPermissions.school'+index)}"
+                      :name="'leader.schoolPermissions.school'+index" :key="'leader.schoolPermissions.school'+index"
+                      v-validate="{'required':true}" placeholder="Kłub / szkoła"
+                      @input="permissions[index].places = []"
+                      :options="schoolsTreeselect"/>
         </div>
       </div>
       <div class="row mb-3">
-        <div class="col-2">
-          <div class="text-center _custom-css">
-            <p class="m-auto">{{lesson.places.length + 1}}</p>
-          </div>
-        </div>
         <div class="col-10">
           <b-btn @click="addPlace" variant="primary" block-class="w-50">+ Dodaj</b-btn>
         </div>
@@ -76,7 +64,7 @@
   export default {
     // todo props
     name: 'FormObjects',
-    props: [ 'lesson', 'isValidForm' ],
+    props: [ 'lesson', 'isValidForm', 'titleObjectsSelected' ],
     components: { Treeselect },
     mixins: [ EventBusEmit, FormMixin, LessonMixin ],
     data () {
@@ -93,11 +81,11 @@
         'getSportObjects',
         'getSchools'
       ]),
-      removePlace (index) {
-        this.lesson.places.splice(index, 1)
+      removeSportObject (index) {
+        this.lesson.sportObjects.splice(index, 1)
       },
       addPlace () {
-        this.lesson.places.push({ id: null })
+        this.lesson.sportObjects.push({ id: null })
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
