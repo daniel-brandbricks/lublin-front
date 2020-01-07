@@ -80,11 +80,16 @@
           class: {
             id: null
           },
-          sportObjects: [],
+          sportObjects: {
+            type: {
+              id: null
+            }
+          },
           participantGroups: []
         },
 
-        titleObjectsSelected: [],
+        titleObjectsSelected: '',
+        titleSchoolsSelected: [],
 
         isValidForm: false
       }

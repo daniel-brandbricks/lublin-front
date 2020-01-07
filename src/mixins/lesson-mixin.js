@@ -46,14 +46,13 @@ export default {
 
       return preparedClasses
     },
-    schoolsAndClubsPrepared () {
+    sportObjectsSchoolsPrepared () {
       let data = this.$store.getters.schools
       let preparedSchools = []
-      console.log(data)
+
       for (let schoolIndex in data) {
         preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
       }
-      console.log(preparedSchools)
 
       return preparedSchools
     },
