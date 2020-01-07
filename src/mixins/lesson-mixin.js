@@ -46,7 +46,7 @@ export default {
 
       return preparedClasses
     },
-    sportObjectsSchoolsPrepared () {
+    lessonSchools () {
       let data = this.$store.getters.schools
       let preparedSchools = []
 
@@ -59,11 +59,10 @@ export default {
     lessonSportObjects () {
       let data = this.$store.getters.sportObjects
       let preparedPlaces = []
-      console.log(data)
+
       for (let placeIndex in data) {
         preparedPlaces.push({ id: data[placeIndex].id, label: data[placeIndex].title })
       }
-      console.log(preparedPlaces)
 
       return preparedPlaces
     },

@@ -81,7 +81,7 @@
                   :multiple="true"
                   :searchable="false"
                   placeholder="Klub / Szkoła"
-                  :options="schoolsAndClubsPrepared"
+                  :options="lessonSchools"
                   class="custom"/>
 <!--      buttons   -->
       <b-row class="mt-4">
