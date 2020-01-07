@@ -1,23 +1,23 @@
 <template>
   <b-row class="justify-content-center" v-if="lesson">
     <b-col cols="6">
-<!--     todo breadcrumbs -->
+      <!--     todo breadcrumbs -->
       <h5>Aktywuj</h5>
       {{lesson}}
       <b-form-group>
-      <b-form-radio v-model="lesson.active" :value="element.value" class="d-inline-block my-3 mr-3"
-                    :class="{'error-input-custom': veeErrors.has('lesson.active')}"
-                    name="lesson.active" :key="'lesson.active'+index" v-validate="{'required':true}"
-                    v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
-        {{ element.title }}
-      </b-form-radio>
+        <b-form-radio v-model="lesson.active" :value="element.value" class="d-inline-block my-3 mr-3"
+                      :class="{'error-input-custom': veeErrors.has('lesson.active')}"
+                      name="lesson.active" :key="'lesson.active'+index" v-validate="{'required':true}"
+                      v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
+          {{ element.title }}
+        </b-form-radio>
       </b-form-group>
 
-      <h5  class="mb-3">Płeć</h5>
+      <h5 class="mb-3">Płeć</h5>
       <b-form-radio v-model="lesson.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
                     :class="{'error-input-custom': veeErrors.has('lesson.sex')}"
                     name="lesson.sex" :key="'lesson.sex'+index" v-validate="{'required':true}"
-                    v-for="(element, index) in [{title:'mężczyzna', value: true}, {title: 'kobieta', value: false}]">
+                    v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
         {{element.title}}
       </b-form-radio>
 
@@ -37,7 +37,7 @@
                     :class="{'error-input-custom': veeErrors.has('lesson.leader')}"
                     name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>
       </b-form-group>
-      <b-form-group  class="custom mb-2">
+      <b-form-group class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.discipline"
                     v-model="lesson.discipline.id"
                     :multiple="false"
@@ -45,7 +45,7 @@
                     :class="{'error-input-custom': veeErrors.has('lesson.discipline')}"
                     name="lesson.discipline" key="lesson.discipline" v-validate="{'required':true}"/>
       </b-form-group>
-      <b-form-group  class="custom mb-2">
+      <b-form-group class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.lessonCategory"
                     v-model="lesson.lessonCategory.id"
                     :multiple="false"
@@ -53,7 +53,7 @@
                     :class="{'error-input-custom': veeErrors.has('lesson.lessonCategory')}"
                     name="lesson.lessonCategory" key="lesson.lessonCategory" v-validate="{'required':true}"/>
       </b-form-group>
-      <b-form-group  class="custom mb-4">
+      <b-form-group class="custom mb-4">
         <treeselect class="custom m-0" v-if="lesson.class"
                     v-model="lesson.class.id"
                     :multiple="false"
@@ -63,27 +63,21 @@
       </b-form-group>
       <h5>Organizator</h5>
       <b-form-group>
-        <b-form-radio v-model="lesson.type" :value="element.value" class="d-inline-block my-3 mr-3"
-                      :class="{'error-input-custom': veeErrors.has('lesson.type')}"
-                      name="lesson.type" :key="'lesson.type'+index" v-validate="{'required':true}"
+        <b-form-radio @change="lesson.school.id = null"
+                      v-model="orgType" :value="element.value" class="d-inline-block mt-3 mr-3"
+                      :class="{'error-input-custom': veeErrors.has('organizatorType')}"
+                      name="organizatorType" :key="'organizatorType'+index" v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
           {{ element.title }}
         </b-form-radio>
       </b-form-group>
-<!--      todo treeselect kluby/szkoly-->
-<!--      <treeselect class="custom m-0" v-if="lesson.schoolOrClub"-->
-<!--                  v-model="lesson.schoolOrClub.id"-->
-<!--                  :multiple="false"-->
-<!--                  placeholder="Nazwa klubu/szkoły" :options="lessonSchoolOrClub"-->
-<!--                  :class="{'error-input-custom': veeErrors.has('lesson.schoolOrClub')}"-->
-<!--                  name="lesson.schoolOrClub" key="lesson.schoolOrClub" v-validate="{'required':true}"/>-->
-      <treeselect v-model="lesson.schools"
-                  :multiple="true"
-                  :searchable="false"
+      <treeselect v-if="lesson.school"
+                  v-model="lesson.school.id"
+                  :multiple="false"
                   placeholder="Klub / Szkoła"
                   :options="schoolsAndClubsPrepared"
                   class="custom"/>
-<!--      buttons   -->
+      <!--      buttons   -->
       <b-row class="mt-4">
         <b-col>
           <b-btn block class="custom btn" :to="{ name: 'lessons' }">
@@ -107,18 +101,20 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import LessonMixin from '@/mixins/lesson-mixin'
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'FormMainData',
-    props: [ 'lesson' ],
-    components: { Treeselect },
-    mixins: [ EventBusEmit, FormMixin, LessonMixin ],
+    props: ['lesson'],
+    components: {Treeselect},
+    mixins: [EventBusEmit, FormMixin, LessonMixin],
     data () {
-      return {}
+      return {
+        orgType: 0
+      }
     },
     computed: {
-      ...mapGetters([ 'schools', 'disciplines', 'leadersConfirmed', 'classes', 'lessonCategories' ])
+      ...mapGetters(['schools', 'disciplines', 'leadersConfirmed', 'classes', 'lessonCategories'])
     },
     methods: {
       submit (validRequired = false) {
@@ -147,13 +143,12 @@
       }
     },
     created () {
-      this.$store.dispatch('getLessons')
+      this.$store.dispatch('getSchools')
       this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
-      this.$store.dispatch('getSchools', {confirmed: 0})
-      this.$store.dispatch('getSchools', {confirmed: 1})
+      // this.$store.dispatch('getLessons')
     }
   }
 </script>

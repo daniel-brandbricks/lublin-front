@@ -5,6 +5,19 @@ export default {
   },
   methods: {},
   computed: {
+    schoolsAndClubsPrepared () {
+      let data = this.$store.getters.schools
+      let preparedSchools = []
+
+      for (let schoolIndex in data) {
+        if (parseInt(data[schoolIndex].type) === parseInt(this.orgType)) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        }
+      }
+
+      return preparedSchools
+    },
+
     //    todo Leaders treeselect
     lessonLeader () {
       let data = this.$store.getters.leadersConfirmed

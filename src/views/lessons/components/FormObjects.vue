@@ -95,6 +95,8 @@
     },
     created () {
       this.$store.dispatch('getSportObjectTypes')
+
+      this.$emit('tabLinkChanged', 'sportObjects')
     }
   }
 </script>
