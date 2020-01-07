@@ -83,7 +83,7 @@
       <b-row class="mt-4">
         <b-col>
           <b-btn variant="delete" class="custom" :disabled="leader.id === undefined"
-                 @click="deleteFromForm('deleteLeader', leader.id, undefined, 'sport.objects', {tab: 'confirmed'})"> <!-- todo Vetal' -->
+                 @click="deleteFromForm('deleteLeader', leader.id, undefined, 'leaders', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
