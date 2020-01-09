@@ -22,7 +22,7 @@
             {{ element.title }}
           </b-form-radio>
           <treeselect class="custom mb-2" v-if="lesson.sportObjects[index]"
-                      v-model="lesson.sportObjects[index].name"
+                      v-model="lesson.sportObjects[index].id"
                       :multiple="false"
                       placeholder="Nawa Klub / szkoły"
                       :options="schoolOrClubTreeselect"
@@ -87,11 +87,6 @@
       }
     },
     computed: {
-      sportObjects: {
-        get () {
-          return this.$store.getters.schools || this.$store.getters.sportObjects
-        }
-      },
       ...mapGetters([
         'schools',
         'sportObjects'
@@ -141,8 +136,11 @@
       }
     },
     created () {
-      this.$store.dispatch('getSchools')
-      this.$store.dispatch('getSportObjects', {confirmed: 1})
+      this.getSchools()
+      this.getSportObjects({confirmed: 1})
+      // this.$store.dispatch('getSportObjectTypes')
+
+      this.$emit('tabLinkChanged', 'sportObjects')
     }
   }
 </script>

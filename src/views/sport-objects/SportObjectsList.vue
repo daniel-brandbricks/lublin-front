@@ -51,13 +51,6 @@
                         { key: 'data', label: 'Data dodania', toInsert: true },
                         { key: 'btnTable', label: '', toInsert: true }
                         ]"/>
-    <!--    <list-confirmed :filters="{districtValue: districtValue, search: search}"-->
-    <!--                    :sportObjectTypes="sportObjectTypes"-->
-    <!--                    :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>-->
-    <!--    <list-to-confirm :filters="{districtValue: districtValue, search: search}"-->
-    <!--                     :sportObjectTypes="sportObjectTypes"-->
-    <!--                     :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>-->
-
   </div>
 </template>
 

@@ -45,7 +45,8 @@
           {
             title: 'Dane ogólne',
             link: 'lesson',
-            tab: 'main-data'
+            tab: 'main-data',
+            method: 'checkValidMainForm'
           },
           {
             title: 'Obiekty',
@@ -56,18 +57,24 @@
           {
             title: 'Lista Zawodników',
             link: 'lesson',
-            tab: 'participant-group-list'
+            tab: 'participant-group-list',
+            method: 'checkValidMainForm'
           },
           {
             title: 'Kalendarz',
             link: 'lesson',
-            tab: 'calendar'
+            tab: 'calendar',
+            method: 'checkValidMainForm'
           }
         ],
+
         lesson: {
           active: true,
-          sex: true,
+          sex: 1,
           title: '',
+          school: {
+            id: null
+          },
           leader: {
             id: null
           },
@@ -88,10 +95,14 @@
       }
     },
     methods: {
-      checkValidMainForm () {
+      checkValidMainForm (lol) {
+        // todo, in tablinks logic -> in this component router push
+        console.log(lol)
+        console.log(this.$route.params.tab)
         this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
+            return result
           })
       },
       submit () {
@@ -131,7 +142,6 @@
         { text: 'Lista zajęć', to: { name: 'lessons' } },
         { text: 'Nowa', active: true }
       ]
-      console.log(breadcrumbs)
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
       if (this.id) {
