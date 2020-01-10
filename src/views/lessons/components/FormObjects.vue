@@ -91,6 +91,9 @@
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
+      },
+      submit () {
+        console.log('FormObjectsSubmit')
       }
     },
     created () {
