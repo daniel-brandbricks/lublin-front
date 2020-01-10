@@ -91,6 +91,8 @@
           participantGroups: []
         },
 
+        schoolIds: [],
+
         isValidForm: false
       }
     },
