@@ -87,16 +87,11 @@
           class: {
             id: null
           },
-          sportObjects: {
-            type: {
-              id: null
-            }
-          },
+          sportObjects: [],
           participantGroups: []
         },
 
-        titleObjectsSelected: '',
-        titleSchoolsSelected: [],
+        schoolIds: [],
 
         isValidForm: false
       }
@@ -136,6 +131,14 @@
             this.postSubmitError(error)
           })
       },
+      prepareLesson (lesson) {
+        let schoolIds = []
+        for (let schoolIndex in lesson.schoolsUsers) {
+          schoolIds.push(lesson.schoolsUsers[schoolIndex].school.id)
+        }
+        this.schoolIds = schoolIds
+        this.lesson = lesson
+      },
       goToFormTab (tabName, params = {}) {
         this.checkValidMainForm()
         let defaultParams = {...{'tab': tabName, 'id': this.id}, ...params}
@@ -158,7 +161,8 @@
       if (this.id) {
         this.$store.dispatch('getLesson', {id: this.id})
           .then((response) => {
-            this.lesson = response
+            this.prepareLesson(response)
+            // this.lesson = response
 
             this.tabLinks = [
               {
