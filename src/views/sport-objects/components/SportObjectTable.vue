@@ -31,9 +31,9 @@
                 :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
-        <template slot="object" slot-scope="scope">
-          <span>{{scope.item.placeType.title}}</span>
-        </template>
+<!--        <template slot="object" slot-scope="scope">-->
+<!--          <span>{{scope.item.placeType.title}}</span>-->
+<!--        </template>-->
 
         <template slot="data" slot-scope="scope">
           <span>{{scope.item.created}}</span>

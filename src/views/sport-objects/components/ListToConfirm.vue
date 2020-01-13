@@ -10,21 +10,25 @@
         class="custom table-responsive"
         @row-clicked="rowRedirect"
       >
-        <template slot="name" slot-scope="scope">
-          <span v-if="scope.item">{{scope.item.title}}</span>
-        </template>
+<!--        <template slot="name" slot-scope="scope">-->
+<!--          <span v-if="scope.item">{{scope.item.title}}</span>-->
+<!--        </template>-->
 
-        <template slot="type" slot-scope="scope">
-          <span v-if="scope.item.type">{{getSportObjectTypeNameById(scope.item.type.id)}}</span>
-        </template>
+<!--        <template slot="type" slot-scope="scope">-->
+<!--          <span v-if="scope.item.type">{{getSportObjectTypeNameById(scope.item.type.id)}}</span>-->
+<!--        </template>-->
+<!--        <template slot="type" slot-scope="scope">-->
+<!--          {{scope.item.type}}-->
+<!--          <span v-if="scope.item.type">{{getSportObjectTypeById(scope.item.type.id)}}</span>-->
+<!--        </template>-->
 
-        <template slot="object" slot-scope="scope">
-          <span>{{scope.item.placeType.title}}</span>
-        </template>
+        <!--        <template slot="object" slot-scope="scope">-->
+<!--          <span>{{scope.item.placeType.title}}</span>-->
+<!--        </template>-->
 
-        <template slot="data" slot-scope="scope">
-          <span>{{scope.item.created}}</span>
-        </template>
+<!--        <template slot="data" slot-scope="scope">-->
+<!--          <span>{{scope.item.created}}</span>-->
+<!--        </template>-->
 
         <template slot="btnTable" slot-scope="scope">
           <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
@@ -79,6 +83,7 @@
     },
     created () {
       this.$store.dispatch('getSportObjects', { confirmed: 0 })
+      this.$store.dispatch('getSportObjectTypes')
     }
   }
 </script>

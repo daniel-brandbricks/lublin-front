@@ -25,28 +25,20 @@
                       v-model="lesson.sportObjects[index].id"
                       :multiple="false"
                       placeholder="Nawa Klub / szkoły"
-                      @input="sportObjects[index].places = []"
+                      @input="lesson.sportObjects[index].places = []"
                       :options="schoolOrClubTreeselect"
-                      :class="{'error-input-custom': veeErrors.has('lesson.schoolSportObjects.school')}"
-                      :name="'lesson.schoolSportObjects.school'+index" :key="'lesson.schoolSportObjects.school'+index"
+                      :class="{'error-input-custom': veeErrors.has('lesson.schoolSportObjects')}"
+                      :name="'lesson.schoolSportObjects'+index" :key="'lesson.schoolSportObjects'+index"
                       v-validate="{'required': true}"/>
+<!--          todo UNKNOWN select, but this one done-->
           <treeselect class="custom mb-4" v-if="lesson.sportObjects[index]"
-                      v-model="lesson.sportObjects[index].id"
+                      v-model="lesson.sportObjects[index].places"
                       :multiple="false"
                       placeholder="Nawa obiektu"
-                      :options="sportObjectTitleTreeselect"
-                      :class="{'error-input-custom': veeErrors.has('lesson.sportObjects.place')}"
-                      :name="'lesson.sportObjects.place'+index" :key="'lesson.sportObjects.place'+index"
-                      v-validate="{'required': true}"/>
-<!--          <treeselect class="custom mb-4" v-if="lesson.sportObjects[index]"-->
-<!--                      v-model="lesson.sportObjects[index].id"-->
-<!--                      :multiple="false"-->
-<!--                      placeholder="Nawa obiektu"-->
-<!--                      :options="sportObjectTitleTreeselect(selectedSchoolsIds[index] ?-->
-<!--                      selectedSchoolsIds[index].id : null)"-->
-<!--                      :class="{'error-input-custom': veeErrors.has('lesson.sportObjects.place')}"-->
-<!--                      :name="'lesson.sportObjects.place'+index" :key="'lesson.sportObjects.place'+index"-->
-<!--                      v-validate="{'required': true}"/>-->
+                      :class="{'error-input-custom': veeErrors.has('lesson.schoolSportObjects.places'+index)}"
+                      :name="'lesson.schoolSportObjects.places'+index" :key="'lesson.schoolSportObjects.places'+index"
+                      v-validate="{'required': true}"
+                      :options="sportObjectByIdTreeselect(lesson.sportObjects[index].id)"/>
         </div>
       </div>
       <div class="row mb-3">
@@ -124,6 +116,23 @@
         }
 
         return prepared
+      },
+      sportObjectByIdTreeselect () {
+        return schoolId => {
+          let sportObjects = this.sportObjects
+          let prepared = []
+
+          for (let index in sportObjects) {
+            let schoolIds = sportObjects[index].schools
+            if (undefined === schoolIds.find(x => {
+              return parseInt(x.id) === parseInt(schoolId)
+            })) continue
+
+            prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+          }
+
+          return prepared
+        }
       }
     },
     methods: {
