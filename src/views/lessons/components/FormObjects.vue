@@ -140,8 +140,11 @@
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
       },
-      submit () {
-        console.log('FormObjectsSubmit')
+      submit (tabToRedirect) {
+        this.$router.push({
+          name: 'lesson',
+          params: { 'tab': tabToRedirect, 'id': this.$route.params.id }
+        })
       }
     },
     created () {

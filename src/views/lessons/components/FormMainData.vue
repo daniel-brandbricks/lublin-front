@@ -120,20 +120,25 @@
     },
     methods: {
       submit (tabToRedirect) {
-        const method = this.id === undefined ? 'postLesson' : 'putLesson'
+        // const method = this.id === undefined ? 'postLesson' : 'putLesson'
         let lesson = this.lesson
         delete lesson.sportObjects
         delete lesson.participantGroups
+        delete lesson.lessonSchools
 
+        this.$parent.submit(lesson)
+        return lesson
         console.log(method)
         this.$store.dispatch(method, lesson)
           .then((response) => {
+            console.log(response)
             this.$router.push({
               name: 'lesson',
               params: { 'tab': tabToRedirect, 'id': response.id }
             })
           })
           .catch((error) => {
+            console.log(error)
             this.postSubmitError(error)
           })
       },

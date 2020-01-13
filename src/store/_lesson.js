@@ -126,15 +126,17 @@ export default {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/lesson/' + id, 'put', true, data, null, 200)
           .then(response => {
+            console.log(response)
             if (response === 'error') {
               resolve('error')
               return
             }
 
             context.commit('setLesson', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
+            console.log(error)
             console.log(error.response)
             reject(error.response)
           })

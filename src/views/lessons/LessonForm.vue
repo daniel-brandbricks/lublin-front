@@ -2,12 +2,12 @@
   <div class="container">
         <TabLinks :links="tabLinks"/>
     <template>
-      <FormMainData :lesson="lesson" :isValidForm="isValidForm" @childSubmit="submit" ref="main-data"
+      <FormMainData :lesson="lesson" :isValidForm="isValidForm" @submit="submit" ref="main-data"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
       <!--      Component for Objects    -->
-      <FormObjects :lesson="lesson" :isValidForm="isValidForm" @childSubmit="submit" ref="objects"
+      <FormObjects :lesson="lesson" :isValidForm="isValidForm" @submit="submit" ref="objects"
                    :key="$route.params.tab+'FormObjects'" v-show="$route.params.tab === 'objects'"/>
-      <FormParticipantGroupsList :lesson="lesson" :isValidForm="isValidForm" @childSubmit="submit"
+      <FormParticipantGroupsList :lesson="lesson" :isValidForm="isValidForm" @submit="submit"
                                  ref="participants-list"
                                  :key="$route.params.tab+'FormParticipantGroupsList'"
                                  v-show="$route.params.tab === 'participants-list'"/>
@@ -91,7 +91,7 @@
           participantGroups: []
         },
 
-        schoolIds: [],
+        // schoolIds: [],
 
         isValidForm: false
       }
@@ -119,24 +119,25 @@
             .catch(e => reject(e))
         })
       },
-      submit () {
-        let lesson = {...this.lesson}
-
+      submit (lesson) {
+        console.log(lesson)
         const method = this.id === undefined ? 'postLesson' : 'putLesson'
         this.$store.dispatch(method, lesson)
-          .then(() => {
-            this.postSubmitRedirect('lessons')
+          .then((response) => {
+            console.log(response)
+            this.prepareLesson(response)
+            // this.postSubmitRedirect('lessons')
           })
           .catch((error) => {
             this.postSubmitError(error)
           })
       },
       prepareLesson (lesson) {
-        let schoolIds = []
-        for (let schoolIndex in lesson.schoolsUsers) {
-          schoolIds.push(lesson.schoolsUsers[schoolIndex].school.id)
+        let leaderIds = []
+        for (let leaderIndex in lesson.leaders) {
+          leaderIds.push(lesson.leaders[leaderIndex].id)
         }
-        this.schoolIds = schoolIds
+        lesson.leaders = leaderIds
         this.lesson = lesson
       },
       goToFormTab (tabName, params = {}) {
