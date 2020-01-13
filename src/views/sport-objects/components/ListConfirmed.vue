@@ -18,6 +18,10 @@
           <span>{{getSportObjectTypeNameById(scope.item.type)}}</span>
         </template>
 
+<!--        <template slot="type" slot-scope="scope">-->
+<!--          <span>{{getSportObjectTypeById(scope.item.type.id)}}</span>-->
+<!--        </template>-->
+
         <template slot="object" slot-scope="scope">
           <span>{{scope.item.places.length}}</span>
         </template>
