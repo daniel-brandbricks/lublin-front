@@ -30,12 +30,12 @@
                       v-model="lesson.title"/>
       </b-form-group>
       <b-form-group class="custom mb-2">
-        <treeselect class="custom m-0" v-if="lesson.leader"
-                    v-model="lesson.leader.id"
-                    :multiple="false"
+        <treeselect class="custom m-0"
+                    v-model="lesson.leaders"
+                    :multiple="true"
                     placeholder="Prowadzący" :options="lessonLeader"
-                    :class="{'error-input-custom': veeErrors.has('lesson.leader')}"
-                    name="lesson.leader" key="lesson.leader" v-validate="{'required':true}"/>
+                    :class="{'error-input-custom': veeErrors.has('lesson.leaders')}"
+                    name="lesson.leaders" key="lesson.leaders" v-validate="{'required':true}"/>
       </b-form-group>
       <b-form-group class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.discipline"
@@ -75,8 +75,10 @@
                   v-model="lesson.school.id"
                   :multiple="false"
                   placeholder="Klub / Szkoła"
-                  :options="lessonSchools"
-                  class="custom"/>
+                  :options="schoolsAndClubsPrepared"
+                  class="custom"
+                  :class="{'error-input-custom': veeErrors.has('lesson.school')}"
+                  name="lesson.school" key="lesson.school" v-validate="{'required':true}"/>
       <!--      buttons   -->
       <b-row class="mt-4">
         <b-col>
@@ -117,24 +119,29 @@
       ...mapGetters(['schools', 'disciplines', 'leadersConfirmed', 'classes', 'lessonCategories'])
     },
     methods: {
-      submit (validRequired = false) {
-        if (validRequired) {
-          this.preSubmit()
-            .then((result) => {
-              if (!result) {
-                this.loading = false
-                return
-              }
+      submit (tabToRedirect) {
+        const method = this.id === undefined ? 'postLesson' : 'putLesson'
+        let lesson = this.lesson
+        delete lesson.sportObjects
+        delete lesson.participantGroups
 
-              this.loading = false
-              this.$parent.submit()
+        console.log(method)
+        this.$store.dispatch(method, lesson)
+          .then((response) => {
+            this.$router.push({
+              name: 'lesson',
+              params: { 'tab': tabToRedirect, 'id': response.id }
             })
-        } else {
-          this.$parent.submit()
-        }
+          })
+          .catch((error) => {
+            this.postSubmitError(error)
+          })
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
+      },
+      checkValidTabForm () {
+        return this.$validator.validateScopes()
       }
     },
     mounted () {
