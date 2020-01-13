@@ -2,11 +2,15 @@
   <div class="container">
         <TabLinks :links="tabLinks"/>
     <template>
-      <FormMainData :lesson="lesson" :isValidForm="isValidForm" @submit="submit" ref="main-data"
+      <FormMainData :lesson="lesson" @submit="submit" ref="main-data"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
       <!--      Component for Objects    -->
-      <FormObjects :lesson="lesson" :isValidForm="isValidForm" @submit="submit" ref="objects"
+      <FormObjects :lesson="lesson" @submit="submit" ref="objects" v-if="undefined === lesson.sportObjects ||
+       lesson.sportObjects.length < 1"
                    :key="$route.params.tab+'FormObjects'" v-show="$route.params.tab === 'objects'"/>
+      <ListObjects :lesson="lesson" ref="objects" v-else
+                   :key="$route.params.tab+'ListObjects'" v-show="$route.params.tab === 'objects'"/>
+
       <FormParticipantGroupsList :lesson="lesson" :isValidForm="isValidForm" @submit="submit"
                                  ref="participants-list"
                                  :key="$route.params.tab+'FormParticipantGroupsList'"
@@ -25,7 +29,10 @@
 
   import FormMainData from '@/views/lessons/components/FormMainData'
   import FormObjects from '@/views/lessons/components/FormObjects'
+  import ListObjects from '@/views/lessons/components/ListObjects'
   import FormParticipantGroupsList from '@/views/lessons/components/FormParticipantGroupsList'
+
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'LessonForm',
@@ -34,6 +41,7 @@
       Treeselect,
       FormMainData,
       FormObjects,
+      ListObjects,
       FormParticipantGroupsList
     },
     mixins: [EventBusEmit, FormMixin],
@@ -96,12 +104,9 @@
         isValidForm: false
       }
     },
-    // watch: {
-    //   '$route.params.id': function (val) {
-    //     console.log(val)
-    //     this.lesson = this.$store.getters.lesson(val)
-    //   }
-    // },
+    computed: {
+      ...mapGetters([ 'lessonSportObjects' ])
+    },
     methods: {
       changeTab (tabToRedirect) {
         console.log(tabToRedirect)
@@ -119,13 +124,15 @@
             .catch(e => reject(e))
         })
       },
-      submit (lesson) {
+      submit (lesson, tabToRedirect) {
         console.log(lesson)
         const method = this.id === undefined ? 'postLesson' : 'putLesson'
         this.$store.dispatch(method, lesson)
           .then((response) => {
-            console.log(response)
             this.prepareLesson(response)
+            if (tabToRedirect) {
+              this.$router.push({ name: 'lesson', params: { 'tab': tabToRedirect, 'id': response.id } })
+            }
             // this.postSubmitRedirect('lessons')
           })
           .catch((error) => {

@@ -3,9 +3,14 @@ import * as apiService from '@/services/apiService'
 export default {
   state: {
     lessons: [],
-    lesson: null
+    lesson: null,
+    lessonSportObjects: [],
+    lessonParticipantLists: []
   },
   getters: {
+    lessonSportObjects (state) {
+      return state.lessonSportObjects
+    },
     lessons (state) {
       return state.lessons
     },
@@ -28,12 +33,42 @@ export default {
     }
   },
   mutations: {
+    addEmptyLessonSportObject (state) {
+      let newId = -1
+      for (const item of state.lessonSportObjects) {
+        if (parseInt(item.id) <= newId) {
+          newId = item.id - 1
+        }
+      }
+
+      state.lessonSportObjects.push({
+        id: newId,
+        school: { id: null },
+        place: { id: null }
+      })
+    },
+    deleteLessonSportObject (state, data) {
+      let lessonSportObjects = [...state.lessonSportObjects]
+      for (let i = 0; i < lessonSportObjects.length; i++) {
+        const storeLessonSportObject = lessonSportObjects[i]
+        if (storeLessonSportObject.id !== data.id) {
+          continue
+        }
+        lessonSportObjects.splice(i, 1)
+        state.lessonSportObjects = lessonSportObjects
+        return
+      }
+    },
+
+    setLessonSportObjects (state, data) {
+      state.lessonSportObjects = data
+    },
     setLessons (state, data) {
       state.lessons = data
     },
     setLesson (state, data) {
       const id = data.id
-      let lessons = []
+      let lessons = state.lessons || []
 
       if (undefined === id || id === null) {
         return
@@ -47,8 +82,16 @@ export default {
         lessons.splice(i, 1, data)
 
         state.lessons = lessons
+        state.lessonSportObjects = JSON.parse(JSON.stringify(lessons[i].lessonSchools))
+        // todo back first
+        // state.lessonParticipantLists = lessons[i].lessonSchools
         return
       }
+
+      lessons.push(data)
+      state.lessonSportObjects = JSON.parse(JSON.stringify(data.lessonSchools))
+      // todo back first
+      // state.lessonParticipantLists = lessons[i].lessonSchools
     },
     deleteLesson (state, id) {
       let lessons = [...state.lessons]
@@ -64,11 +107,25 @@ export default {
     }
   },
   actions: {
+    addEmptyLessonSportObject (context) {
+      context.commit('addEmptyLessonSportObject')
+    },
+    deleteLessonSportObject (context, data) {
+      const id = data.id
+      if (id < 0) {
+        context.commit('deleteLessonSportObject', data)
+        return
+      }
+
+      console.log('remove from db')
+    },
+
     getLesson (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/lesson/' + id, 'get', true, data, null, 200)
           .then(response => {
+            console.log(response)
             if (response === 'error') {
               resolve('error')
               return
@@ -78,6 +135,7 @@ export default {
             resolve(response)
           })
           .catch(error => {
+            console.log(error)
             console.log(error.response)
             reject(error.response)
           })

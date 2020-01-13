@@ -1,54 +1,54 @@
 <template>
-<b-row class="justify-content-center" v-if="lesson">
+  <b-row class="justify-content-center" v-if="lesson">
     <b-col cols="6">
       <h5 class="mb-3">Obiekty Sportowe</h5>
-      {{lesson.sportObjects}}
-      <div class="row" v-if="lesson.sportObjects"
-           v-for="(sportObject, index) in lesson.sportObjects" :key="index">
+      <div class="row" v-if="lessonSportObjects"
+           v-for="(sportObject, index) in lessonSportObjects" :key="index">
         <div class="col-2">
           <div class="text-center _custom-css">
             <p class="m-auto">{{index + 1}}</p>
           </div>
-            <p @click="removeSportObject(index)" v-if="lesson.sportObjects.length > 0">usuń</p>
+          <p @click="deleteLessonSportObject(lessonSportObjects[index].id, index)"
+             v-if="lessonSportObjects.length > 0">usuń</p>
         </div>
         <div class="col-10">
-          <b-form-radio v-model="lesson.sportObjects[index].status" :value="element.value"
+          <b-form-radio v-model="orgTypes[index]" :value="element.value"
                         class="d-inline-block mr-4 mb-2"
-                        :class="{'error-input-custom': veeErrors.has('lesson.active'+radioIndex)}"
-                        :name="'lesson.active'+radioIndex"
-                        :key="'lesson.active'+radioIndex"
+                        :class="{'error-input-custom': veeErrors.has('orgType'+index+'_'+radioIndex)}"
+                        :name="'orgType'+index+'_'+radioIndex"
+                        :key="'orgType'+index+'_'+radioIndex"
                         v-validate="{'required':true}"
-                        v-for="(element,radioIndex) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
+                        v-for="(element,radioIndex) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
             {{ element.title }}
           </b-form-radio>
-          <treeselect class="custom mb-2" v-if="lesson.sportObjects[index]"
-                      v-model="lesson.sportObjects[index].id"
+          <treeselect class="custom mb-2" v-if="lessonSportObjects[index].school"
+                      v-model="lessonSportObjects[index].school.id"
                       :multiple="false"
                       placeholder="Nawa Klub / szkoły"
-                      @input="lesson.sportObjects[index].places = []"
-                      :options="schoolOrClubTreeselect"
-                      :class="{'error-input-custom': veeErrors.has('lesson.schoolSportObjects')}"
-                      :name="'lesson.schoolSportObjects'+index" :key="'lesson.schoolSportObjects'+index"
+                      @change="lessonSportObjects[index].places = []"
+                      :options="schoolOrClubTreeselect(index)"
+                      :class="{'error-input-custom': veeErrors.has('lessonSportObjects.school'+index)}"
+                      :name="'lessonSportObjects.school'+index" :key="'lessonSportObjects.school'+index"
                       v-validate="{'required': true}"/>
-<!--          todo UNKNOWN select, but this one done-->
-          <treeselect class="custom mb-4" v-if="lesson.sportObjects[index]"
-                      v-model="lesson.sportObjects[index].places"
+          <treeselect class="custom mb-4" v-if="lessonSportObjects[index].place"
+                      v-model="lessonSportObjects[index].place.id"
                       :multiple="false"
                       placeholder="Nawa obiektu"
-                      :class="{'error-input-custom': veeErrors.has('lesson.schoolSportObjects.places'+index)}"
-                      :name="'lesson.schoolSportObjects.places'+index" :key="'lesson.schoolSportObjects.places'+index"
+                      :class="{'error-input-custom': veeErrors.has('lessonSportObjects.place'+index)}"
+                      :name="'lessonSportObjects.place'+index" :key="'lessonSportObjects.place'+index"
                       v-validate="{'required': true}"
-                      :options="sportObjectByIdTreeselect(lesson.sportObjects[index].id)"/>
+                      :options="sportObjectByIdTreeselect(lessonSportObjects[index].school.id)"/>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-2">
           <div class="text-center _custom-css">
-            <p class="m-auto">{{lesson.sportObjects.length + 1}}</p>
+            <p class="m-auto">{{lessonSportObjects.length + 1}}</p>
           </div>
         </div>
         <div class="col-10">
-          <b-btn @click="addSportObject" variant="primary" block-class="w-50">+ Dodaj</b-btn>
+          <b-btn @click="addEmptyLessonSportObject()" variant="primary" block-class="w-50">+ Dodaj
+          </b-btn>
         </div>
       </div>
 
@@ -59,7 +59,10 @@
           </b-btn>
         </b-col>
         <b-col>
-          <b-btn variant="primary" block class="custom" @click="goToFormTab('participant-group-list')">
+          <b-btn @click="submit" variant="primary" block>Zapisz</b-btn>
+        </b-col>
+        <b-col>
+          <b-btn variant="primary" @click="goToFormTab('participant-group-list')">
             Dalej
           </b-btn>
         </b-col>
@@ -74,18 +77,19 @@
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
-  import { mapActions, mapGetters } from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
+  import LessonMixin from '@/mixins/lesson-mixin'
 
   export default {
-    // todo props
     name: 'FormObjects',
-    props: [ 'lesson', 'isValidForm', 'schoolIds' ],
-    components: { Treeselect },
-    mixins: [ EventBusEmit, FormMixin ],
+    props: ['lesson', 'schoolIds'],
+    components: {Treeselect},
+    mixins: [EventBusEmit, FormMixin, LessonMixin],
     data () {
       return {
         selectedSchoolsIds: [],
-        titlePlace: ''
+        titlePlace: '',
+        orgTypes: []
       }
     },
     computed: {
@@ -93,29 +97,34 @@
         'schools',
         'sportObjects'
       ]),
-      schoolOrClubTreeselect () {
-        let schools = this.schools
-        let prepared = []
-
-        for (let index in schools) {
-          if (this.selectedSchoolsIds.indexOf(schools[index].id) === -1) {
-            prepared.push({ id: schools[index].id, label: schools[index].name })
-          } else {
-            prepared.push({ id: schools[index].id, label: schools[index].name, isDisabled: true })
-          }
+      lessonSportObjects: {
+        get () {
+          this.checkLessonSportObjects(this.$store.getters.lessonSportObjects)
+          return this.$store.getters.lessonSportObjects
+        },
+        set (value) {
+          console.log(value)
+          this.$store.dispatch('setLessonSportObjects', value)
         }
-
-        return prepared
       },
-      sportObjectTitleTreeselect () {
-        let data = this.sportObjects
-        let prepared = []
+      schoolOrClubTreeselect () {
+        return typeIndex => {
+          let schools = this.schools
+          let prepared = []
 
-        for (let index in data) {
-          prepared.push({ id: data[index].id, label: data[index].title })
+          for (let index in schools) {
+            if (undefined !== this.orgTypes[typeIndex] && parseInt(schools[index].type) !== this.orgTypes[typeIndex]) {
+              continue
+            }
+            if (this.selectedSchoolsIds.indexOf(schools[index].id) === -1) {
+              prepared.push({id: schools[index].id, label: schools[index].name})
+            } else {
+              prepared.push({id: schools[index].id, label: schools[index].name, isDisabled: true})
+            }
+          }
+
+          return prepared
         }
-
-        return prepared
       },
       sportObjectByIdTreeselect () {
         return schoolId => {
@@ -126,7 +135,9 @@
             let schoolIds = sportObjects[index].schools
             if (undefined === schoolIds.find(x => {
               return parseInt(x.id) === parseInt(schoolId)
-            })) continue
+            })) {
+              continue
+            }
 
             prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
           }
@@ -140,6 +151,15 @@
         'getSportObjects',
         'getSchools'
       ]),
+      deleteLessonSportObject (id, index) {
+        this.$store.dispatch('deleteLessonSportObject', {id: id})
+        console.log(index)
+        delete this.orgTypes[index]
+      },
+      addEmptyLessonSportObject () {
+        this.$store.dispatch('addEmptyLessonSportObject')
+        // this.orgTypes.push(0)
+      },
       removeSportObject (index) {
         this.lesson.sportObjects.splice(index, 1)
       },
@@ -150,10 +170,29 @@
         this.$parent.goToFormTab(tabName)
       },
       submit (tabToRedirect) {
-        this.$router.push({
-          name: 'lesson',
-          params: { 'tab': tabToRedirect, 'id': this.$route.params.id }
-        })
+        console.log(123123)
+        let lesson = {
+          id: this.$route.params.id,
+          lessonSchools: Object.assign({}, this.lessonSportObjects)
+        }
+        this.$parent.submit(lesson, tabToRedirect)
+
+        // this.$router.push({
+        //   name: 'lesson',
+        //   params: {'tab': tabToRedirect, 'id': this.$route.params.id}
+        // })
+      },
+      checkLessonSportObjects (lessonSportObjects) {
+        this.selectedSchoolsIds = []
+
+        for (let index in lessonSportObjects) {
+          if (lessonSportObjects[index].school && lessonSportObjects[index].school.id) {
+            // uniq schools
+            if (this.selectedSchoolsIds.indexOf(lessonSportObjects[index].school.id) === -1) {
+              this.selectedSchoolsIds.push(lessonSportObjects[index].school.id)
+            }
+          }
+        }
       }
     },
     created () {

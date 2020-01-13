@@ -101,7 +101,6 @@ export default {
           newId = item.id - 1
         }
       }
-      console.log(JSON.parse('[{"id": "null"}]'))
 
       state.permissions.push({
         id: newId,
