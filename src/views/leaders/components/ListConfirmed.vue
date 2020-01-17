@@ -21,6 +21,16 @@
           </span>
         </template>
 
+        <template slot="sportObject" slot-scope="scope">
+          <span class="d-inline" v-for="(place,index) in scope.item.places" :key="index">
+            {{getPlaceTitleById(place.id, index, scope.item.places.length)}}
+          </span>
+        </template>
+
+        <template slot="lessons" slot-scope="scope">
+          <span>{{scope.item.lessons.length}}</span>
+        </template>
+
         <template slot="status" slot-scope="scope">
           <span class="status" :class="{'active': scope.item.status}">
             {{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}
@@ -40,6 +50,7 @@
 
 <script>
   import LeaderMixin from '@/mixins/leader-mixin'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ListConfirmed',
@@ -58,11 +69,9 @@
       }
     },
     computed: {
+      ...mapGetters(['disciplines', 'sportObjects', 'lessons']),
       leadersConfirmed () {
         return this.$store.getters.leadersConfirmed
-      },
-      disciplines () {
-        return this.$store.getters.disciplines
       }
     },
     methods: {
@@ -72,13 +81,19 @@
           return obj.id === id
         }).title + ((index + 1) < arrayLength ? ',' : '')
       },
+      getPlaceTitleById (id, index = null, arrayLength = null) {
+        if (undefined === this.sportObjects || this.sportObjects === null || this.sportObjects.length < 1) return ''
+        return this.sportObjects.find((obj) => {
+          return obj.id === id
+        }).title + ((index + 1) < arrayLength ? ',' : '')
+      },
       rowRedirect (row) {
         this.$parent.rowRedirect(row.id, true)
       }
     },
     created () {
       this.$store.dispatch('getLeaders', { confirmed: 1 })
-      this.$store.dispatch('getDisciplines')
+      // this.$store.dispatch('getDisciplines')
     }
   }
 </script>
