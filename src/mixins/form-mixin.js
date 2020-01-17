@@ -1,7 +1,9 @@
 import EventBus from '@/event-bus'
+import ToastMixin from '@/mixins/toast-mixin'
 
 export default {
   name: 'FormMixin',
+  mixins: [ToastMixin],
   data () {
     return {
       id: this.$route.params.id,

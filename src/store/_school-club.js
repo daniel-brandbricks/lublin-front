@@ -27,7 +27,6 @@ export default {
       } else {
         schools = isConfirmed ? state.schools.confirmed : state.schools.toConfirm
       }
-
       for (let i = 0; i < schools.length; i++) {
         const school = schools[i]
         if (undefined === school || school === null || school.length < 1) {
