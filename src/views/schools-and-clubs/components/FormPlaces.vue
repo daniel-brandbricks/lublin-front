@@ -1,7 +1,5 @@
 <template>
   <div>
-    isValidForm: {{isValidForm}}
-
     <b-row class="justify-content-center">
       <b-col cols="12" lg="6" class="">
         <div class="row" v-if="school.places"
@@ -136,6 +134,9 @@
           confirmed: null,
           type: null,
           name: '',
+          // school: {
+          //   id: null
+          // },
 
           // location
           district: null,

@@ -91,7 +91,9 @@
           // todo
           mapImg: '',
 
-          schools: []
+          school: {
+            id: null
+          }
         },
 
         isValidForm: false,
@@ -122,7 +124,6 @@
       // todo look at this
       prepareSportObject (response) {
         console.log(response)
-        response.schools = response.schools.map(school => school.id)
         if (undefined === response.type || response.type === null) {
           response.type = {
             id: null

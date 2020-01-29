@@ -65,8 +65,6 @@ export default {
       const confirmed = data.confirmed
       let schools = []
 
-      state.school = 123
-
       if (undefined === id || id === null) {
         return
       }

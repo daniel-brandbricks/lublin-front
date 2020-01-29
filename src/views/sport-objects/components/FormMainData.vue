@@ -4,14 +4,16 @@
     <b-col cols="12" lg="3" class="">
       <h2>Przypisany do</h2>
       <!--    treeselect    -->
-      <treeselect v-model="sportObject.schools"
-                  :multiple="true"
-                  :searchable="false"
-                  placeholder="Klub / Szkoła"
-                  :options="schoolsAndClubsPrepared"
-                  class="custom"/>
+      <template v-if="sportObject.school">
+        <treeselect v-model="sportObject.school.id"
+                    :multiple="false"
+                    :searchable="false"
+                    placeholder="Klub / Szkoła"
+                    :options="schoolsAndClubsPrepared"
+                    class="custom"/>
 
-      <!--      <ImageInputAdvanced :imgPath="sportObject.image" :hideImage="true"></ImageInputAdvanced>-->
+        <ImageInputAdvanced :key="sportObject.school.id" :imgPath="getSchoolImageById(sportObject.school.id)" :hideImage="true"/>
+      </template>
     </b-col>
 
     <b-col cols="12" lg="5" class="">
@@ -20,7 +22,8 @@
       <b-form-group>
         <b-form-radio v-model="sportObject.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('sportObject.active'+index)}"
-                      :name="'sportObject.active'+index" :key="'sportObject.active'+index" v-validate="{'required':true}"
+                      :name="'sportObject.active'+index" :key="'sportObject.active'+index"
+                      v-validate="{'required':true}"
                       v-for="(element,index) in [{title: 'Tak', value: 1}, {title: 'Nie', value: 0}]">
           {{ element.title }}
         </b-form-radio>
@@ -71,7 +74,8 @@
       <b-row class="mt-4">
         <b-col>
           <b-btn variant="delete" class="custom"
-                 @click="deleteFromForm('deleteSportObject', sportObject.id, undefined, 'sport.objects', {tab: 'confirmed'})"> <!-- todo Vetal' -->
+                 @click="deleteFromForm('deleteSportObject', sportObject.id, undefined, 'sport.objects', {tab: 'confirmed'})">
+            <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
@@ -108,9 +112,9 @@
 
   export default {
     name: 'FormMainData',
-    props: [ 'sportObject', 'districts' ],
-    components: { Treeselect, ImageInputAdvanced },
-    mixins: [ EventBusEmit, FormMixin ],
+    props: ['sportObject', 'districts'],
+    components: {Treeselect, ImageInputAdvanced},
+    mixins: [EventBusEmit, FormMixin],
     data () {
       return {}
     },
@@ -121,7 +125,11 @@
         let preparedSchools = []
         console.log(data)
         for (let schoolIndex in data) {
-          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+          preparedSchools.push({
+            id: data[schoolIndex].id,
+            label: data[schoolIndex].name,
+            image: data[schoolIndex].image
+          })
         }
         console.log(preparedSchools)
 
@@ -132,15 +140,19 @@
         let preparedSchools = []
 
         for (let schoolIndex in data) {
-          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].title })
+          preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].title})
         }
 
         return preparedSchools
       }
     },
     methods: {
+      getSchoolImageById (id) {
+        let schools = this.schoolsAndClubsPrepared
+        let school = schools.find(obj => parseInt(obj.id) === parseInt(id))
+        return undefined === school ? '' : (school.image && school.image.length > 0 ? school.image : '')
+      },
       submit (validRequired) {
-        console.log(111)
         if (validRequired) {
           this.preSubmit()
             .then((result) => {

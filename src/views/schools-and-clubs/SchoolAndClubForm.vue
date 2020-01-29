@@ -148,15 +148,23 @@
         // this.school.places = [...this.school.places, ...placesToDelete]
       },
       checkValidMainForm () {
-        this.$refs.FormMainData.checkValidForm()
+        console.log(123123123)
+        return this.$refs.FormMainData.checkValidForm()
           .then((result) => {
+            console.log(result)
             this.isValidForm = result
+            if (result) {
+              this.$router.push({
+                name: 'school.or.club',
+                params: {'tab': 'places', id: this.id}
+              })
+            }
           })
       },
       goToFormTab (tabName, params = {}) {
         this.checkValidMainForm()
-        let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
-        this.$router.push({ name: 'school.or.club', params: defaultParams })
+        // let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
+        // this.$router.push({ name: 'school.or.club', params: defaultParams })
       },
 
       // submit full school and school sport-objects without form validation

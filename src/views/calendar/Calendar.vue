@@ -32,7 +32,7 @@
             :unchecked-value="false"
             value="false"
             name="flavour-1"
-          ></b-form-checkbox-group>
+          />
         </b-form-group>
 
         <lessons v-show="showLessons.length > 0" :lessons="lessons"/>
@@ -45,15 +45,14 @@
             :unchecked-value="false"
             value="false"
             name="checkbox-group-show-events"
-          ></b-form-checkbox-group>
+          />
         </b-form-group>
 
         <events v-show="showEvents.length > 0" :events="events"/>
       </b-col>
 
       <b-col cols="6">
-        <TabLinks :links="tabLinks"></TabLinks>
-
+        <TabLinks :links="tabLinks"/>
         <calendar :key="$route.params.tab" v-if="$route.params.tab === 'calendar'"/>
 
         <h4>Wyniki</h4>

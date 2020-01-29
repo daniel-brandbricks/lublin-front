@@ -3,7 +3,6 @@
     <b-col cols="6">
       <!--     todo breadcrumbs -->
       <h5>Aktywuj</h5>
-      {{lesson}}
       <b-form-group>
         <b-form-radio v-model="lesson.active" :value="element.value" class="d-inline-block my-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('lesson.active')}"

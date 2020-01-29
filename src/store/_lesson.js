@@ -112,12 +112,12 @@ export default {
     },
     deleteLessonSportObject (context, data) {
       const id = data.id
-      if (id < 0) {
+      // if (id < 0) {
         context.commit('deleteLessonSportObject', data)
-        return
-      }
+        // return
+      // }
 
-      console.log('remove from db')
+      // console.log('remove from db')
     },
 
     getLesson (context, data) {

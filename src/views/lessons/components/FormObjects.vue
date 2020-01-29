@@ -14,10 +14,8 @@
         <div class="col-10">
           <b-form-radio v-model="orgTypes[index]" :value="element.value"
                         class="d-inline-block mr-4 mb-2"
-                        :class="{'error-input-custom': veeErrors.has('orgType'+index+'_'+radioIndex)}"
                         :name="'orgType'+index+'_'+radioIndex"
                         :key="'orgType'+index+'_'+radioIndex"
-                        v-validate="{'required':true}"
                         v-for="(element,radioIndex) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
             {{ element.title }}
           </b-form-radio>
@@ -170,7 +168,7 @@
         this.$parent.goToFormTab(tabName)
       },
       submit (tabToRedirect) {
-        console.log(123123)
+        console.log(tabToRedirect)
         let lesson = {
           id: this.$route.params.id,
           lessonSchools: Object.assign({}, this.lessonSportObjects)
