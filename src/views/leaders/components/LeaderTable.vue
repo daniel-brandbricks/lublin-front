@@ -21,6 +21,17 @@
           </span>
         </template>
 
+        <template slot="sportObject" slot-scope="scope">
+          <span/>
+          <span class="d-inline" v-for="(place,index) in scope.item.places" :key="index">
+            {{getPlaceTitleById(place.id, index, scope.item.places.length)}}
+          </span>
+        </template>
+
+        <template slot="lessons" slot-scope="scope">
+          <span>{{scope.item.lessons.length}}</span>
+        </template>
+
 <!--        <template slot="status" slot-scope="scope">-->
 <!--          &lt;!&ndash; This span used for changing slot in parent-relative objects using this table &ndash;&gt;-->
 <!--          <span v-if="fieldsParams && fieldsParams.find(x => {return x.key === 'status'})"-->
@@ -37,12 +48,12 @@
                   :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
-        <template slot="lessons" slot-scope="scope">
-          <span/>
-          <span class="d-inline" v-for="(lesson,index) in scope.item.lessons" :key="index">
-<!--            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}-->
-          </span>
-        </template>
+<!--        <template slot="lessons" slot-scope="scope">-->
+<!--          <span/>-->
+<!--          <span class="d-inline" v-for="(lesson,index) in scope.item.lessons" :key="index">-->
+<!--&lt;!&ndash;            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}&ndash;&gt;-->
+<!--          </span>-->
+<!--        </template>-->
 
         <template slot="edit" slot-scope="scope">
           <b-link class="icon-link">
@@ -58,6 +69,8 @@
 <script>
   import LeaderMixin from '@/mixins/leader-mixin'
   import TableMixin from '@/mixins/table-mixin'
+
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ListToConfirm',
@@ -76,6 +89,10 @@
       }
     },
     computed: {
+      ...mapGetters(['disciplines', 'sportObjects', 'lessons']),
+      leadersConfirmed () {
+        return this.$store.getters.leadersConfirmed
+      },
       leaders () {
         let leadersPassedByIds = []
         let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
@@ -93,21 +110,9 @@
         }
 
         return leadersPassedByIds
-      },
-      disciplines () {
-        return this.$store.getters.disciplines
       }
     },
     methods: {
-      getDisciplineTitleById (id, index = null, arrayLength = null) {
-        if (undefined === this.disciplines || this.disciplines === null) return ''
-        // todo error title of undefined
-        let discipline = this.disciplines.find((obj) => {
-          return obj.id === id
-        })
-
-        return undefined === discipline ? '' : discipline.title + ((index + 1) < arrayLength ? ',' : '')
-      },
       rowRedirect (row) {
         this.$router.push({
           name: 'leader',
