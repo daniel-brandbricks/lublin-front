@@ -124,14 +124,11 @@ export default {
       context.commit('addEmptyPermissionRow', data)
     },
     getPermissionsByIds (context, data) {
-      if (!data.hasOwnProperty('ids')) {
+      const ids = data.filter(Boolean)
+      if (undefined === ids || ids === null || ids.length < 1) {
         return false
       }
 
-      const ids = []
-      for (let index in data.ids) {
-        ids.push(data.ids[index].id)
-      }
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/permission', 'get', true, ids, {ids: ids}, 200)
           .then(response => {

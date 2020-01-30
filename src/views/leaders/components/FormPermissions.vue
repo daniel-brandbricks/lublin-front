@@ -1,10 +1,12 @@
 <template>
   <b-row class="justify-content-center">
-<!--    <pre>-->
-<!--    schoolIds: {{schoolIds}}-->
-<!--    permissionIds: {{selectedPermissions}}-->
-<!--    </pre>-->
+    <!--    <pre>-->
+    <!--    schoolIds: {{schoolIds}}-->
+    <!--    permissionIds: {{selectedPermissions}}-->
+    <!--    </pre>-->
     <b-col cols="6">
+      {{permissions}}
+<!--   todo permissions here 31.01.2020 trouble in GET  -->
       <div class="row mt-2" v-if="permissions"
            v-for="(schoolPermission,index) in permissions" :key="index">
         <div class="col-2">
@@ -12,7 +14,7 @@
             <p class="m-auto">{{index + 1}}</p>
           </div>
           <template v-if="permissions.length > 0">
-<!--            {{permissions[index].id}}-->
+            <!--            {{permissions[index].id}}-->
             <p @click="$store.dispatch('deletePermission', {id: permissions[index].id})"
                v-if="permissions[index].id < 0">usuń</p>
             <p @click="deleteFromForm('deletePermission', permissions[index].id)"
@@ -63,7 +65,7 @@
                 usuń</p>
             </div>
             <div class="col-10">
-<!--              {{permissions[index].permissions[permissionIndex]}}-->
+              <!--              {{permissions[index].permissions[permissionIndex]}}-->
               <treeselect class="custom mb-3" v-if="permissions[index].permissions[permissionIndex]"
                           v-model="permissions[index].permissions[permissionIndex].id"
                           :multiple="false"
@@ -74,7 +76,8 @@
                           placeholder="Dyscyplina"
                           :options="permissionsDataTreeselect(index)"/>
 
-              <b-form-group class="custom my-3" v-if="permissionOptions(permissions[index].permissions[permissionIndex].id)">
+              <b-form-group class="custom my-3"
+                            v-if="permissionOptions(permissions[index].permissions[permissionIndex].id)">
                 <b-form-checkbox-group
                   :id="'checkbox-group-type'+index+'_'+permissionIndex"
                   v-model="permissions[index].permissions[permissionIndex].selected"
@@ -161,7 +164,9 @@
       permissions: {
         get () {
           console.log('get computed permissions')
+          console.log(this.$store.getters.permissions)
           this.checkUniqSchools(this.$store.getters.permissions)
+          console.log(123)
           return this.$store.getters.permissions
         },
         set (value) {
@@ -195,14 +200,9 @@
         return schoolId => {
           let sportObjects = this.sportObjects
           let prepared = []
-
           for (let index in sportObjects) {
-            let schoolsIds = sportObjects[index].schools
-            // get places with @schoolId collection
-            if (undefined === schoolsIds.find(x => {
-              return parseInt(x.id) === parseInt(schoolId)
-            })) continue
-
+            // get places with @schoolId
+            if (parseInt(sportObjects[index].school.id) !== parseInt(schoolId)) continue
             prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
           }
           return prepared
@@ -251,8 +251,8 @@
         this.selectedSchoolsIds = []
         for (let index in permissions) {
           // uniq schools
-          if (this.selectedSchoolsIds.indexOf(permissions[index].school.id) === -1) {
-            this.selectedSchoolsIds.push(permissions[index].school.id)
+          if (this.selectedSchoolsIds.indexOf(permissions[index].schoolUser.school.id) === -1) {
+            this.selectedSchoolsIds.push(permissions[index].schoolUser.school.id)
           }
 
           // uniq permissions

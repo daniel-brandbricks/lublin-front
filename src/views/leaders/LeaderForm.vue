@@ -14,7 +14,6 @@
                         :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
       <FormSportObjects :leader="leader" ref="SportObjects"
                         :key="$route.params.tab+'SportObjects'" v-show="$route.params.tab === 'sport-objects'"/>
-
     </template>
   </div>
 </template>
@@ -130,7 +129,13 @@
         this.$store.dispatch('getLeader', {id: this.id})
           .then((response) => {
             this.prepareLeader(response)
-            this.$store.dispatch('getPermissionsByIds', {ids: response.schoolPermissions})
+            console.log(response)
+
+            // get permissions by separate request from server
+            this.$store.dispatch('getPermissionsByIds', !Array.isArray(response.schoolsUsers)
+              ? false : response.schoolsUsers.map(obj => {
+                if (obj.permission && obj.permission.hasOwnProperty('id')) return obj.permission.id
+            }))
 
             this.tabLinks = [
               {
