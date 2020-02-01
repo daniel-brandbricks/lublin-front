@@ -106,8 +106,10 @@ export default {
         id: newId,
         permissions: [{id: null, 'selected': []}], // '[{"id": "null"}]',
         status: true,
-        school: {
-          id: null
+        schoolUser: {
+          school: {
+            id: null
+          }
         },
         places: []
       })
@@ -125,6 +127,7 @@ export default {
     },
     getPermissionsByIds (context, data) {
       const ids = data.filter(Boolean)
+      console.log(ids)
       if (undefined === ids || ids === null || ids.length < 1) {
         return false
       }

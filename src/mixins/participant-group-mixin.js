@@ -5,6 +5,15 @@ export default {
   },
   methods: {},
   computed: {
+    schools () {
+      let data = this.$store.getters.schoolsConfirmed
+      let preparedSchools = []
+      for (let schoolIndex in data) {
+        preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+      }
+
+      return preparedSchools
+    },
     participantGroupDiscipline () {
       let data = this.$store.getters.disciplines
       let preparedDisciplines = []

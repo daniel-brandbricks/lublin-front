@@ -70,15 +70,15 @@
             title: 'Zawodnicy',
             link: 'participant.group',
             tab: 'participants',
-            method: 'checkValidMainForm'
+            method: 'checkValidMainForm',
+            methodParams: 'participants'
           }
         ],
 
-        // todo maybe
         participantGroup: {
           active: true,
           title: '',
-          sex: 1,
+          sex: [0, 1],
           discipline: {
             id: null
           },
@@ -88,7 +88,11 @@
           lessonCategory: {
             id: null
           },
-          participants: []
+          participants: [],
+          school: {
+            id: null
+          },
+          lessons: []
         },
 
         participantYearsSelected: [],
@@ -118,10 +122,16 @@
 
         participantGroup.participants = preparedParticipants
       },
-      checkValidMainForm () {
-        this.$refs.FormMainData.checkValidForm()
+      checkValidMainForm (params) {
+        return this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
+            if (result) {
+              this.$router.push({
+                name: 'participant.group',
+                params: {'tab': params, id: this.id}
+              })
+            }
           })
       },
       addParticipant () {
@@ -149,9 +159,9 @@
           })
       },
       goToFormTab (tabName, params = {}) {
-        this.checkValidMainForm()
-        let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
-        this.$router.push({ name: 'participant.group', params: defaultParams })
+        this.checkValidMainForm(tabName)
+        // let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
+        // this.$router.push({ name: 'participant.group', params: defaultParams })
       }
     },
     created () {
@@ -187,27 +197,36 @@
                 title: 'Zawodnicy',
                 link: 'participant.group',
                 tab: 'participants',
-                method: 'checkValidMainForm'
+                method: 'checkValidMainForm',
+                methodParams: 'participants'
               },
               {
                 title: 'Zajęcia',
                 link: 'participant.group',
-                tab: 'activities'
+                tab: 'activities',
+                method: 'checkValidMainForm',
+                methodParams: 'activities'
               },
               {
                 title: 'Kalendarz',
                 link: 'participant.group',
-                tab: 'calendar'
+                tab: 'calendar',
+                method: 'checkValidMainForm',
+                methodParams: 'calendar'
               },
               {
                 title: 'Frekwencja',
                 link: 'participant.group',
-                tab: 'frequency'
+                tab: 'frequency',
+                method: 'checkValidMainForm',
+                methodParams: 'frequency'
               },
               {
                 title: 'MTSF',
                 link: 'participant.group',
-                tab: 'mtsf'
+                tab: 'mtsf',
+                method: 'checkValidMainForm',
+                methodParams: 'mtsf'
               }
             ]
 

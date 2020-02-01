@@ -1,12 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <!--    <pre>-->
-    <!--    schoolIds: {{schoolIds}}-->
-    <!--    permissionIds: {{selectedPermissions}}-->
-    <!--    </pre>-->
     <b-col cols="6">
-      {{permissions}}
-<!--   todo permissions here 31.01.2020 trouble in GET  -->
       <div class="row mt-2" v-if="permissions"
            v-for="(schoolPermission,index) in permissions" :key="index">
         <div class="col-2">
@@ -23,8 +17,8 @@
         </div>
         <div class="col-10">
           <h5 class="mb-3">Dane ogólne</h5>
-          <treeselect class="custom mb-3" v-if="permissions[index].school"
-                      v-model="permissions[index].school.id"
+          <treeselect class="custom mb-3" v-if="permissions[index].schoolUser.school"
+                      v-model="permissions[index].schoolUser.school.id"
                       :multiple="false"
                       :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.school'+index)}"
                       :name="'leader.schoolPermissions.school'+index" :key="'leader.schoolPermissions.school'+index"
@@ -38,7 +32,7 @@
                       :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.places'+index)}"
                       :name="'leader.schoolPermissions.places'+index" :key="'leader.schoolPermissions.places'+index"
                       v-validate="{'required':true}" placeholder="Obiekt"
-                      :options="sportObjectsTreeselect(permissions[index].school.id)"/>
+                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>
 
           <h5 class="my-4">Status</h5>
           <b-form-group>
@@ -164,9 +158,9 @@
       permissions: {
         get () {
           console.log('get computed permissions')
-          console.log(this.$store.getters.permissions)
           this.checkUniqSchools(this.$store.getters.permissions)
           console.log(123)
+          console.log(this.$store.getters.permissions)
           return this.$store.getters.permissions
         },
         set (value) {

@@ -14,12 +14,15 @@
 
       <h2 class="mb-4">Płeć</h2>
 <!--      todo maybe checkbox like in invisionapp-->
-      <b-form-radio v-model="participantGroup.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
-                    :class="{'error-input-custom': veeErrors.has('participantGroup.sex')}"
-                    name="participantGroup.sex" :key="'participantGroup.sex'+index" v-validate="{'required':true}"
-                    v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
-        {{element.title}}
-      </b-form-radio>
+      <b-form-checkbox-group
+        id="checkbox-group-1" class="mr-3 mb-3"
+        v-model="participantGroup.sex"
+        name="participantGroup.sex" :key="'participantGroup.sex'" v-validate="{'required':true}"
+        :options="[
+            { text: 'kobieta', value: 0 },
+            { text: 'mężczyzna', value: 1 }
+          ]"
+      />
 
       <h5 class="mb-3">Dane ogólne</h5>
       <b-form-group class="custom mb-2">
@@ -28,6 +31,14 @@
                       :class="{'error-input-custom': veeErrors.has('participantGroup.title')}"
                       name="participantGroup.title" key="participantGroup.title" v-validate="{'required':true}"
                       v-model="participantGroup.title"/>
+      </b-form-group>
+      <b-form-group  class="custom mb-2">
+        <treeselect class="custom m-0"
+                    v-model="participantGroup.school.id"
+                    :multiple="false"
+                    placeholder="Szkoła / Klub" :options="schools"
+                    :class="{'error-input-custom': veeErrors.has('participantGroup.school')}"
+                    name="participantGroup.school" key="participantGroup.school" v-validate="{'required':true}"/>
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
@@ -98,7 +109,10 @@
           title: '',
           disciplines: [],
           categories: [],
-          classes: []
+          classes: [],
+          school: {
+            id: null
+          }
         },
 
         isValidForm: false
@@ -142,7 +156,7 @@
       }
     },
     created () {
-      console.log(11)
+      this.$store.dispatch('getSchools')
       this.$store.dispatch('getParticipantGroups')
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')

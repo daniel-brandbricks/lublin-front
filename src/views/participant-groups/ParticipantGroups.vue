@@ -123,12 +123,6 @@
 
         search: '',
 
-        // selectedType: [],
-        // typeOptions: [
-        //   { text: 'klub', value: 0 },
-        //   { text: 'szkola', value: 1 }
-        // ],
-
         selectedGender: [],
         genderOptions: [
           { text: 'kobieta', value: 0 },

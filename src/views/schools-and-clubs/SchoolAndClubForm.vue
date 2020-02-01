@@ -148,7 +148,6 @@
         // this.school.places = [...this.school.places, ...placesToDelete]
       },
       checkValidMainForm () {
-        console.log(123123123)
         return this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             console.log(result)

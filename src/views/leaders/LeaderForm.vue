@@ -137,6 +137,11 @@
                 if (obj.permission && obj.permission.hasOwnProperty('id')) return obj.permission.id
             }))
 
+            // this.$store.dispatch('getPermissionsByIds', !Array.isArray(response.schoolsUsers)
+            //   ? false : response.schoolsUsers.map(obj => {
+            //     if (obj.permissions && obj.permissions.length > 0) return obj.permissions
+            //   }))
+
             this.tabLinks = [
               {
                 title: 'Dane ogólne',
