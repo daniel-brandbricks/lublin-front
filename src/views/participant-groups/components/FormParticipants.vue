@@ -29,7 +29,7 @@
                       :class="{'error-input-custom': veeErrors.has('participantGroup.participants.fullName'+index)}"
                       :key="'participantGroup.participants.fullName'+index" v-validate="{'required':true}"
                       :options="participantsTreeselect(participantYearsSelected[index] ?
-                      participantYearsSelected[index].year : null)"/>
+                      participantYearsSelected[index].year : null, selectedParticipants)"/>
         </div>
       </div>
       <div class="row mb-3">
@@ -77,28 +77,18 @@
     mixins: [EventBusEmit, FormMixin, ParticipantMixin],
     data () {
       return {
-        years: YEARS
+        years: YEARS,
+        selectedParticipants: []
       }
     },
-    computed: {
-      // participantsTreeselect () {
-      //   let data = this.$store.getters.participants
-      //   let prepared = []
-      //
-      //   for (let disciplineIndex in data) {
-      //     prepared.push({id: data[disciplineIndex].id,
-      //                    label: data[disciplineIndex].firstName + ' ' + data[disciplineIndex].lastName})
-      //   }
-      //
-      //   return prepared
-      // }
-    },
+    computed: {},
     watch: {
       // todo review
       'participantYearsSelected': {
         handler: function (newValue) {
           for (let index in newValue) {
-            let id = this.participantGroup.participants[index].id
+            let id = undefined === this.participantGroup.participants[index] ? null
+            : this.participantGroup.participants[index].id
             if (undefined === id || id === null) {
               continue
             }
@@ -119,20 +109,33 @@
           }
         },
         deep: true
+      },
+      'participantGroup.participants': {
+        handler: function (val) {
+          let idsArray = []
+          for (let index in val) {
+            idsArray.push(val[index].id)
+          }
+          this.selectedParticipants = idsArray
+        },
+        deep: true
       }
     },
     methods: {
-      participantsTreeselect (year) {
+      participantsTreeselect (year, selectedParticipants) {
         let data = this.$store.getters.participants
         let prepared = []
 
         for (let participantIndex in data) {
           if (year && parseInt(data[participantIndex].year) === parseInt(year)) {
-            prepared.push({id: data[participantIndex].id,
-                           label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName})
-          } else if (undefined === year || year === null) {
-            prepared.push({id: data[participantIndex].id,
-                           label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName})
+            if (this.selectedParticipants.indexOf(data[participantIndex].id) === -1) {
+              prepared.push({id: data[participantIndex].id,
+                             label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName})
+            } else {
+              prepared.push({id: data[participantIndex].id,
+                             label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName,
+                             isDisabled: true})
+            }
           }
         }
 
@@ -174,7 +177,6 @@
       }
     },
     created () {
-      this.$store.dispatch('getParticipants')
     }
   }
 </script>

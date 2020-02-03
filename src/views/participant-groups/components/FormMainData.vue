@@ -129,6 +129,13 @@
         return this.$store.getters.lessonCategories
       }
     },
+    watch: {
+      'participantGroup.school.id': function (schoolId) {
+        if (undefined === schoolId || schoolId === null) return
+        this.$store.dispatch('getParticipants', {schools: schoolId})
+        this.$parent.clearParticipants(schoolId)
+      }
+    },
     methods: {
       submit (validRequired) {
         if (validRequired) {

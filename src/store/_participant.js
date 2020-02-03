@@ -88,7 +88,7 @@ export default {
               resolve('error')
               return
             }
-
+console.log(response)
             context.commit('setParticipants', response)
             resolve()
           })

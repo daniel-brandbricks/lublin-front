@@ -101,12 +101,23 @@
           { text: 'mężczyzna', value: 1 }
         ],
 
-        isValidForm: false
+        isValidForm: false,
+        dbSchoolId: null
       }
     },
     computed: {},
     methods: {
+      clearParticipants (schoolId) {
+        if (parseInt(schoolId) !== this.dbSchoolId) {
+          this.participantGroup.participants = []
+          this.participantYearsSelected = []
+        }
+
+        if (this.dbSchoolId !== null) this.dbSchoolId = null
+      },
       setDataFromExistedParticipantGroup (participantGroup) {
+        this.dbSchoolId = participantGroup.school.id
+
         let participants = participantGroup.participants || []
         for (let index in participants) {
           console.log(participants[index])
@@ -143,6 +154,7 @@
       // },
       removeParticipant (index) {
         this.participantGroup.participants.splice(index, 1)
+        this.participantYearsSelected.splice(index, 1)
       },
       submit () {
         let participantGroup = {...this.participantGroup}
@@ -180,10 +192,10 @@
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
-      // from data todo in participant
       if (this.id) {
         this.$store.dispatch('getParticipantGroup', { id: this.id })
           .then((response) => {
+            console.log(response)
             this.participantGroup = response
             this.setDataFromExistedParticipantGroup(response)
 
