@@ -72,7 +72,7 @@
             <span>{{getDisciplineTitleById(scope.item.discipline.id)}}</span>
           </template>
           <template slot="sex" slot-scope="scope">
-            <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
+            <span>{{getSex(scope.item.sex)}}</span>
           </template>
           <template slot="lessonCategory" slot-scope="scope">
             <span>{{getLessonCategoryTitleById(scope.item.lessonCategory.id)}}</span>
@@ -154,11 +154,13 @@
         let lessonCategories = this.selectedLessonCategories || []
         let classes = this.selectedClasses || []
 
-        console.log(lessonCategories)
+        console.log(selectedGender)
 
         for (let index in participantGroups) {
+          console.log(participantGroups[index].sex)
           if (search.length > 0 && participantGroups[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
-          if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue
+          if (selectedGender.length > 0 && !participantGroups[index].sex.filter(x => selectedGender.indexOf(x) !== -1)) continue
+          // if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue
           if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
           if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
@@ -169,6 +171,14 @@
       }
     },
     methods: {
+      getSex (value) {
+        if (!Array.isArray(value)) return ''
+        let string = ''
+        if (value.includes(1)) string += 'Mężczyzna'
+        if (value.length > 1) string += ', '
+        if (value.includes(0)) string += 'Kobieta'
+        return string
+      },
       getDisciplineTitleById (id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
         return this.disciplines.find((obj) => {

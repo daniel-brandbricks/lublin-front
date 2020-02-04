@@ -90,6 +90,7 @@
           .catch((error) => {
             this.hideModal()
             console.log(error)
+            console.log(this.routeParams)
             if (this.routeToPush) {
               this.routeParams['toastText'] = 'Dane zostały usunięte'
               this.routeParams['toastVariant'] = 'success'

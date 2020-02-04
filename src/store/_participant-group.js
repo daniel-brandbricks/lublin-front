@@ -186,6 +186,27 @@ export default {
             reject(error.response)
           })
       })
+    },
+
+    // tab links actions
+    changeParticipantStatusInList (context, data) {
+      const id = data.listId
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/participant-group/' + id, 'put', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setParticipantGroup', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
     }
   }
 }

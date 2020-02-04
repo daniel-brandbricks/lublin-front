@@ -9,7 +9,14 @@
           <!--        Component for ParticipantEntity   -->
           <FormParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" @childSubmit="submit"
                             ref="FormParticipants" :participantYearsSelected="participantYearsSelected"
-                            :key="$route.params.tab+'FormParticipants'" v-show="$route.params.tab === 'participants'"/>
+                            :key="$route.params.tab+'FormParticipants'"
+                            v-if="dbParticipants.length < 1 && $route.params.tab === 'participants'"/>
+
+          <ListParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" ref="ListParticipants"
+                            :key="$route.params.tab+'ListParticipants'+dbParticipants.length"
+                            v-if="participantGroup.id && dbParticipants.length > 0
+                            && $route.params.tab === 'participants'"/>
+
           <!--        Component for todo Entity isValidForm for ALL  -->
           <FormActivities :participantGroup="participantGroup" @childSubmit="submit" ref="FormActivities"
                           :key="$route.params.tab+'FormActivities'" v-show="$route.params.tab === 'activities'"/>
@@ -44,10 +51,13 @@
 
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import ListParticipants from '@/views/participant-groups/components/ListParticipants'
+  import EventBus from '@/event-bus'
 
   export default {
     name: 'ParticipantGroupsForm',
     components: {
+      ListParticipants,
       TabLinks,
       Treeselect,
       FormMainData,
@@ -102,7 +112,8 @@
         ],
 
         isValidForm: false,
-        dbSchoolId: null
+        dbSchoolId: null,
+        dbParticipants: []
       }
     },
     computed: {},
@@ -117,6 +128,7 @@
       },
       setDataFromExistedParticipantGroup (participantGroup) {
         this.dbSchoolId = participantGroup.school.id
+        this.dbParticipants = participantGroup.participants
 
         let participants = participantGroup.participants || []
         for (let index in participants) {
@@ -174,6 +186,17 @@
         this.checkValidMainForm(tabName)
         // let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
         // this.$router.push({ name: 'participant.group', params: defaultParams })
+      },
+      changeParticipantStatusInList (params) {
+        this.$store.dispatch('changeParticipantStatusInList', {
+          listId: this.id,
+          participantId: params.id,
+          status: params.status
+        }).then((response) => {
+          console.log(response)
+          this.participantGroup = response
+          this.setDataFromExistedParticipantGroup(response)
+        })
       }
     },
     created () {

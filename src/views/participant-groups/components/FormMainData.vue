@@ -36,6 +36,7 @@
         <treeselect class="custom m-0"
                     v-model="participantGroup.school.id"
                     :multiple="false"
+                    :disabled="participantGroup.id && participantGroup.school.id !== null"
                     placeholder="Szkoła / Klub" :options="schools"
                     :class="{'error-input-custom': veeErrors.has('participantGroup.school')}"
                     name="participantGroup.school" key="participantGroup.school" v-validate="{'required':true}"/>
@@ -68,7 +69,7 @@
       <b-row class="mt-4 justify-content-end">
         <b-col cols="4" v-if="this.id">
           <b-btn variant="delete" class="custom"
-                 @click="deleteFromForm('deleteParticipantGroup', participantGroup.id, undefined, 'participant.groups', null)"> <!-- todo Vetal' -->
+                 @click="deleteFromForm('deleteParticipantGroup', participantGroup.id, undefined, 'participant.groups', {})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
@@ -78,7 +79,12 @@
           </b-btn>
         </b-col>
         <b-col cols="4">
-          <b-btn variant="primary" block class="custom" @click="goToFormTab('participants')">
+          <b-btn v-if="participantGroup.id"
+                 variant="primary" block class="custom" @click="submit(true)">
+            Zapisz
+          </b-btn>
+          <b-btn v-else
+                 variant="primary" block class="custom" @click="goToFormTab('participants')">
             Dalej
           </b-btn>
         </b-col>

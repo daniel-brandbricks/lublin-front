@@ -1,21 +1,19 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center">
-<!--      todo выровнять чекбокс-->
-<!--      todo выровнял чекбокс только поставил колс 10 и на таблицу тоже-->
-      <b-col cols="8">
+      <b-col cols="10">
         <b-row class="justify-content-center align-items-center">
-          <b-col cols="6">
+          <b-col cols="4">
             <b-form-group class="custom d-inline-block">
               <b-form-checkbox-group
-                id="checkbox-group-1"
+                :id="'checkbox-group-1'+statusSlot?'111':'222'"
                 v-model="selectedGender"
                 :options="genderOptions"
-                name="flavour-1"
+                :name="'checkbox-group-1'+statusSlot?'111':'222'"
               />
             </b-form-group>
           </b-col>
-          <b-col cols="9">
+          <b-col cols="8">
             <b-row class="align-items-center">
               <b-col cols="4">
                 <treeselect class="custom"
@@ -43,7 +41,6 @@
           </b-col>
         </b-row>
       </b-col>
-
       <!--   Table   -->
       <b-col cols="10" class="mt-4">
         <b-table
@@ -53,23 +50,43 @@
           sort-icon-left
           responsive="md"
           class="custom table-responsive"
-          @row-clicked="rowRedirect"
         >
 
-<!--          todo class-->
-<!--          <template slot="class" slot-scope="scope">-->
-<!--            <span>{{getClassTitleById(scope.item.class.id)}}</span>-->
-<!--          </template>-->
-<!--          todo rocznik-->
+          <!--          todo class-->
+          <!--          <template slot="class" slot-scope="scope">-->
+          <!--            <span>{{getClassTitleById(scope.item.class.id)}}</span>-->
+          <!--          </template>-->
+          <!--          todo rocznik-->
           <template slot="sex" slot-scope="scope">
             <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
           </template>
 
           <template slot="status" slot-scope="scope">
-            <span class="status"
-                  :class="{'active': scope.item.active}">
-              {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
-            </span>
+
+            <b-dropdown class="status-dropdown">
+              <template v-if="undefined === statusSlot" v-slot:button-content>
+                <span class="status c-pointer"
+                      :class="{'active': scope.item.active}">
+                  {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
+                </span>
+              </template>
+              <template v-else v-slot:button-content>
+                <span class="status c-pointer"
+                      :class="{'active': scope.item.status}">
+                  {{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}
+                </span>
+              </template>
+              <b-dropdown-item :disabled="undefined === statusSlot ? scope.item.active : scope.item.status"
+              @click="changeParticipantStatus(scope.item.id, 1)">
+                Aktywuj
+              </b-dropdown-item>
+              <b-dropdown-item :disabled="undefined === statusSlot ? !scope.item.active : !scope.item.status"
+              @click="changeParticipantStatus(scope.item.id, 0)">
+                Dezaktywuj
+              </b-dropdown-item>
+            </b-dropdown>
+
+            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">GOTO</span>
           </template>
 
           <template slot="edit" slot-scope="scope">
@@ -89,31 +106,32 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import { YEARS } from '@/config/AppConfig'
+  import {YEARS} from '@/config/AppConfig'
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import ParticipantMixin from '@/mixins/participant-mixin'
+  import EventBus from '@/event-bus'
 
   export default {
-    components: { Treeselect },
-    props: [ 'participant' ],
-    mixins: [ EventBusEmit, ParticipantMixin ],
+    components: {Treeselect},
+    props: ['participant', 'statusSlot'],
+    mixins: [EventBusEmit, ParticipantMixin],
     data () {
       return {
         fields: [
-          { key: 'firstName', label: 'Imię', sortable: true },
-          { key: 'lastName', label: 'Nazwisko', sortable: true },
-          { key: 'sex', label: 'Płeć', sortable: true },
-          { key: 'year', label: 'Rocznik', sortable: true },
-          { key: 'class', label: 'Klasa', sortable: true },
-          { key: 'status', label: 'Status w systemie', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'firstName', label: 'Imię', sortable: true},
+          {key: 'lastName', label: 'Nazwisko', sortable: true},
+          {key: 'sex', label: 'Płeć', sortable: true},
+          {key: 'year', label: 'Rocznik', sortable: true},
+          {key: 'class', label: 'Klasa', sortable: true},
+          {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
+          {key: 'edit', label: ''}
         ],
 
         selectedGender: [],
         genderOptions: [
-          { text: 'kobieta', value: 0 },
-          { text: 'mężczyzna', value: 1 }
+          {text: 'kobieta', value: 0},
+          {text: 'mężczyzna', value: 1}
         ],
 
         yearValue: null,
@@ -148,14 +166,35 @@
           if (yearValue.length > 0 && !yearValue.includes(parseInt(participants[index].year))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participants[index].class))) continue
 
-          // if (classes.length > 0 && !classes.includes(parseInt(participants[index].class.id))) continue
-          filteredParticipants.push(participants[index])
+          console.log(participants[index])
+          if (this.statusSlot) {
+            let ids = Object.keys(this.statusSlot.ids)
+            let preparedParticipant = participants[index]
+            if (ids.includes(participants[index].id.toString())) {
+              preparedParticipant.status = this.statusSlot.ids[participants[index].id]
+              filteredParticipants.push(preparedParticipant)
+            }
+          } else {
+            filteredParticipants.push(participants[index])
+          }
         }
 
         return filteredParticipants
       }
     },
     methods: {
+      changeParticipantStatus (id, status) {
+        console.log(this.statusSlot)
+        console.log(status)
+
+        if (undefined === this.statusSlot) {
+          // todo put status to system
+          return
+        }
+
+        this.$emit(this.statusSlot.event, ({id: id, status: status}))
+
+      },
       getClassTitleById (id, index = null, arrayLength = null) {
         if (undefined === this.classes || this.classes === null) return ''
         // todo error title of undefined
@@ -169,17 +208,20 @@
       rowRedirect (row) {
         this.$router.push({
           name: 'participant',
-          params: { 'tab': 'main-data', 'id': row.id }
+          params: {'tab': 'main-data', 'id': row.id}
         })
       }
     },
     created () {
+      console.log(this.statusSlot)
       this.$store.dispatch('getParticipants')
       this.$store.dispatch('getClasses')
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'participant', params: { tab: 'main-data' } })
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Zawodnicy', active: true } ])
+      this.changeAdminNavbarButton({buttonLink: 'participant', params: {tab: 'main-data'}})
+      if (this.statusSlot === undefined) {
+        this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])
+      }
     }
   }
 </script>
