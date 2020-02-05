@@ -155,11 +155,11 @@
         let classes = this.selectedClasses || []
 
         console.log(selectedGender)
-
+        // todo continue here + teest filtration
         for (let index in participantGroups) {
           console.log(participantGroups[index].sex)
           if (search.length > 0 && participantGroups[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
-          if (selectedGender.length > 0 && !participantGroups[index].sex.filter(x => selectedGender.indexOf(x) !== -1)) continue
+          if (selectedGender.length > 0 && participantGroups[index].sex.filter(x => selectedGender.includes(x)).length < 1) continue
           // if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue
           if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
           if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
