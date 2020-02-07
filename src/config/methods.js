@@ -48,3 +48,24 @@ export function empty (v) {
   }
   return false
 }
+
+export function checkPesel (s) {
+  // Sprawdź długość, musi być 11 znaków
+  if (s.length !== 11) return false
+
+  // Sprawdź, czy wszystkie znaki to cyfry
+  // eslint-disable-next-line no-array-constructor
+  var aInt = []
+  for (let i = 0; i < 11; i++) {
+    aInt[i] = parseInt(s.substring(i, i + 1))
+    if (isNaN(aInt[i])) {
+      return false
+    }
+  }
+
+  // Sprawdź sumę kontrolną
+  var wagi = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1]
+  var sum = 0
+  for (let i = 0; i < 11; i++) { sum += wagi[i] * aInt[i] }
+  return (sum % 10) === 0;
+}

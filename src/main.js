@@ -30,8 +30,13 @@ import './assets/scss/style.scss'
 // Vee validate
 import locale from '@/config/ValidatorConfig'
 import VeeValidate from 'vee-validate'
+import {checkPesel} from '../src/config/methods'
 const rulesPlugin = ({ Validator }) => {
   Validator.localize('pl', locale)
+  Validator.extend('pesel', {
+    getMessage: field => 'Nieprawidłowy pesel',
+    validate: pesel => checkPesel(pesel)
+  })
 }
 
 VeeValidate.use(rulesPlugin)

@@ -36,12 +36,29 @@
                       v-model="participant.lastName"/>
       </b-form-group>
       <b-form-group class="custom mb-2">
+        <b-form-input id="name-1" class="custom m-0"
+                      placeholder="Pesel"
+                      :class="{'error-input-custom': veeErrors.has('participant.pesel')}"
+                      name="participant.pesel" key="participant.pesel" v-validate="{'required':true, 'pesel': true, 'numeric': true}"
+                      v-model="participant.pesel"/>
+      </b-form-group>
+      <b-form-group class="custom mb-2">
         <treeselect v-model="participant.year"
                     :multiple="false"
                     placeholder="Rocznik"
                     :options="years"
                     :class="{'error-input-custom': veeErrors.has('participant.year')}"
                     name="participant.year" key="participant.year" v-validate="{'required':true}"
+                    class="custom"
+        />
+      </b-form-group>
+      <b-form-group class="custom mb-2">
+        <treeselect v-model="participant.school.id"
+                    :multiple="false"
+                    placeholder="Szkoła / Klub"
+                    :options="schoolsTreeselect"
+                    :class="{'error-input-custom': veeErrors.has('participant.school')}"
+                    name="participant.school" key="participant.school" v-validate="{'required':true}"
                     class="custom mb-2"
         />
       </b-form-group>
@@ -189,6 +206,9 @@
       },
       classes () {
         return this.$store.getters.classes
+      },
+      schools () {
+        return this.$store.getters.schools
       }
     },
     methods: {
@@ -232,6 +252,7 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
+      this.$store.dispatch('getSchools', {})
     }
   }
 </script>

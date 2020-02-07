@@ -42,6 +42,16 @@ export default {
 
       return preparedClasses
     },
+    schoolsTreeselect () {
+      let data = this.$store.getters.schools
+      let preparedSchools = []
+
+      for (let schoolIndex in data) {
+        preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+      }
+
+      return preparedSchools
+    },
     disciplinesTreeselect () {
       let disciplines = this.disciplines
       let prepared = []

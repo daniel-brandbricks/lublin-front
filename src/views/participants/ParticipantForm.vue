@@ -43,8 +43,12 @@
           active: true,
           firstName: '',
           lastName: '',
+          pesel: '',
           year: null,
           sex: 1,
+          school: {
+            id: null
+          },
           discipline: {
             id: null
           },
@@ -124,7 +128,7 @@
       this.changeAdminNavbarButton({ buttonLink: false })
       let breadcrumbs = [
         { text: 'Zawodnicy', to: { name: 'participants' } },
-        { text: 'Nowa', active: true }
+        { text: 'Nowy', active: true }
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
