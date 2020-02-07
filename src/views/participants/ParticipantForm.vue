@@ -49,9 +49,6 @@
           school: {
             id: null
           },
-          discipline: {
-            id: null
-          },
           // category: {
           //   id: null
           // },

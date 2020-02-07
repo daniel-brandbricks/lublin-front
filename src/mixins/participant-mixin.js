@@ -30,6 +30,7 @@ export default {
         filteredParticipants.push(participants[participantIndex])
       }
 
+      console.log(filteredParticipants)
       return filteredParticipants
     },
     classesTreeselect () {

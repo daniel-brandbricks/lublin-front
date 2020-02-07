@@ -178,7 +178,8 @@
             filteredParticipants.push(participants[index])
           }
         }
-
+        
+        console.log(filteredParticipants)
         return filteredParticipants
       }
     },
@@ -188,7 +189,11 @@
         console.log(status)
 
         if (undefined === this.statusSlot) {
-          // todo put status to system
+          this.$store.dispatch('putParticipant', {
+            id: id,
+            active: status,
+            actionType: 'put-partly'
+          })
           return
         }
 

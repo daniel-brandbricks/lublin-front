@@ -72,7 +72,7 @@ export default {
     // },
     setParticipantGroup (state, data) {
       const id = data.id
-      let participantGroups = []
+      let participantGroups = state.participantGroups
 
       if (undefined === id || id === null) {
         return
@@ -88,6 +88,8 @@ export default {
         state.participantGroups = participantGroups
         return
       }
+
+      state.participantGroups.push(data)
     },
     deleteParticipantGroup (state, data) {
       // todo

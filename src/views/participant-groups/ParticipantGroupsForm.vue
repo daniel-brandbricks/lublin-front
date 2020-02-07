@@ -12,6 +12,7 @@
                             :key="$route.params.tab+'FormParticipants'"
                             v-if="dbParticipants.length < 1 && $route.params.tab === 'participants'"/>
 
+          {{dbParticipants}}
           <ListParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" ref="ListParticipants"
                             :key="$route.params.tab+'ListParticipants'+dbParticipants.length"
                             v-if="participantGroup.id && dbParticipants.length > 0
@@ -128,7 +129,7 @@
       },
       setDataFromExistedParticipantGroup (participantGroup) {
         this.dbSchoolId = participantGroup.school.id
-        this.dbParticipants = participantGroup.participants
+        this.dbParticipants = JSON.parse(JSON.stringify(participantGroup.participants))
 
         let participants = participantGroup.participants || []
         for (let index in participants) {

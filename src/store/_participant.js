@@ -35,27 +35,26 @@ export default {
       state.participants = data
     },
     setParticipant (state, data) {
-      state.participant = data
+      const id = data.id
+      let participants = state.participants
+
+      if (undefined === id || id === null) {
+        return
+      }
+
+      for (let i = 0; i < participants.length; i++) {
+        const storeParticipant = participants[i]
+        if (storeParticipant.id !== id) {
+          continue
+        }
+        participants.splice(i, 1, data)
+
+        state.participants = participants
+        return
+      }
+
+      state.participants.push(data)
     },
-    // setParticipant (state, data) {
-    //   const id = data.id
-    //   let participants = []
-    //
-    //   if (undefined === id || id === null) {
-    //     return
-    //   }
-    //
-    //   for (let i = 0; i < participants.length; i++) {
-    //     const storeParticipant = participants[i]
-    //     if (storeParticipant.id !== id) {
-    //       continue
-    //     }
-    //     participants.splice(i, 1, data)
-    //
-    //     state.participants = participants
-    //     return
-    //   }
-    // },
     deleteParticipant (state, data) {
       // todo
     }
@@ -88,7 +87,7 @@ export default {
               resolve('error')
               return
             }
-console.log(response)
+
             context.commit('setParticipants', response)
             resolve()
           })
@@ -126,6 +125,7 @@ console.log(response)
               return
             }
 
+            console.log(response)
             context.commit('setParticipant', response)
             resolve()
           })
