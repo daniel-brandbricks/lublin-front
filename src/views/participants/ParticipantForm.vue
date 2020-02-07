@@ -79,12 +79,18 @@
       prepareToSubmit (participant) {
         let disciplines = participant.disciplines || []
         let disciplinesPrepared = []
-
         for (let disciplinesIndex in disciplines) {
           disciplinesPrepared.push(disciplines[disciplinesIndex].id)
         }
-
         participant.disciplines = disciplinesPrepared
+
+        let participantGroups = participant.participantGroups || []
+        let participantGroupsPrepared = []
+        for (let index in participantGroups) {
+          participantGroupsPrepared.push(participantGroups[index].participantGroup.id)
+        }
+        participant.participantGroups = participantGroupsPrepared
+
       },
       checkValidMainForm () {
         this.$refs.FormMainData.checkValidForm()

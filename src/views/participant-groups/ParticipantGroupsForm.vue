@@ -12,7 +12,6 @@
                             :key="$route.params.tab+'FormParticipants'"
                             v-if="dbParticipants.length < 1 && $route.params.tab === 'participants'"/>
 
-          {{dbParticipants}}
           <ListParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" ref="ListParticipants"
                             :key="$route.params.tab+'ListParticipants'+dbParticipants.length"
                             v-if="participantGroup.id && dbParticipants.length > 0
@@ -37,7 +36,6 @@
 </template>
 
 <script>
-
   import TabLinks from '@/components/TabLinks'
 
   import EventBusEmit from '@/mixins/event-bus-emit'
@@ -53,7 +51,6 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import ListParticipants from '@/views/participant-groups/components/ListParticipants'
-  import EventBus from '@/event-bus'
 
   export default {
     name: 'ParticipantGroupsForm',

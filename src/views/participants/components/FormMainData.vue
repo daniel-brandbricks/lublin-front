@@ -144,7 +144,7 @@
         </b-col>
         <b-col>
           <b-btn block variant="primary" class="custom" @click="submit(1, true)">
-            Dodaj
+            {{undefined === id ? 'Dodaj' : 'Zapisz'}}
           </b-btn>
         </b-col>
       </b-row>
