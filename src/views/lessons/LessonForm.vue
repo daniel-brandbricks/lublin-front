@@ -55,13 +55,13 @@
             method: 'changeTab',
             methodParams: 'main-data'
           },
-          {
-            title: 'Obiekty',
-            link: 'lesson',
-            tab: 'objects',
-            method: 'changeTab',
-            methodParams: 'objects'
-          },
+          // {
+          //   title: 'Obiekty',
+          //   link: 'lesson',
+          //   tab: 'objects',
+          //   method: 'changeTab',
+          //   methodParams: 'objects'
+          // },
           {
             title: 'Lista Zawodników',
             link: 'lesson',
@@ -79,13 +79,20 @@
         ],
 
         lesson: {
+          // todo 07.02.2020 repetition POST PUT GET DELETE lessons
+          repetition: null,
           active: true,
           sex: 1,
           title: '',
           school: {
             id: null
           },
-          leaders: [],
+          place: {
+            id: null
+          },
+          leader: {
+            id: null
+          },
           discipline: {
             id: null
           },
@@ -95,8 +102,8 @@
           class: {
             id: null
           },
-          sportObjects: [],
-          participantGroups: []
+          // sportObjects: [],
+          // participantGroups: []
         },
 
         // schoolIds: [],
@@ -125,26 +132,26 @@
         })
       },
       submit (lesson, tabToRedirect) {
-        console.log(lesson)
+        if (undefined === lesson) lesson = this.lesson
+
         const method = this.id === undefined ? 'postLesson' : 'putLesson'
         this.$store.dispatch(method, lesson)
-          .then((response) => {
-            this.prepareLesson(response)
-            if (tabToRedirect) {
-              this.$router.push({ name: 'lesson', params: { 'tab': tabToRedirect, 'id': response.id } })
-            }
-            // this.postSubmitRedirect('lessons')
-          })
+          // .then((response) => {
+          //   this.prepareLesson(response)
+          //   if (tabToRedirect) {
+          //     this.$router.push({ name: 'lesson', params: { 'tab': tabToRedirect, 'id': response.id } })
+          //   }
+          // })
           .catch((error) => {
             this.postSubmitError(error)
           })
       },
       prepareLesson (lesson) {
-        let leaderIds = []
-        for (let leaderIndex in lesson.leaders) {
-          leaderIds.push(lesson.leaders[leaderIndex].id)
-        }
-        lesson.leaders = leaderIds
+        // let leaderIds = []
+        // for (let leaderIndex in lesson.leaders) {
+        //   leaderIds.push(lesson.leaders[leaderIndex].id)
+        // }
+        // lesson.leaders = leaderIds
         this.lesson = lesson
       },
       goToFormTab (tabName, params = {}) {
@@ -180,13 +187,13 @@
                 method: 'changeTab',
                 methodParams: 'main-data'
               },
-              {
-                title: 'Obiekty',
-                link: 'lesson',
-                tab: 'objects',
-                method: 'changeTab',
-                methodParams: 'objects'
-              },
+              // {
+              //   title: 'Obiekty',
+              //   link: 'lesson',
+              //   tab: 'objects',
+              //   method: 'changeTab',
+              //   methodParams: 'objects'
+              // },
               {
                 title: 'Lista Zawodników',
                 link: 'lesson',

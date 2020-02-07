@@ -3,7 +3,6 @@
     <b-row class="justify-content-center" v-if="$route.params.id !== undefined">
       <b-col cols="12">
       <TabLinks :links="tabLinks"/>
-        {{isValidForm}}
       </b-col>
     </b-row>
 

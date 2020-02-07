@@ -61,3 +61,31 @@ export const PERMISSIONS = [
   { id: 8, label: 'Wprowadza wyniki MTSF-u' },
   { id: 9, label: 'Archiwizuje listy zawodników z możliwością przeniesienia i edycji listy na kolejny rok/sezon' }
 ]
+
+export const LESSON_REPEAT = [
+  { id: 1, label: '1 tydz.' },
+  { id: 2, label: '2 tyg.' },
+  { id: 3, label: '3 tyg.' },
+  { id: 4, label: '4 tyg.' },
+  { id: 5, label: '5 tyg.' },
+  { id: 6, label: '6 tyg.' },
+  { id: 7, label: '7 tyg.' },
+  { id: 8, label: '8 tyg.' },
+  { id: 9, label: '9 tyg.' },
+  { id: 10, label: '10 tyg.' },
+  { id: 11, label: '11 tyg.' },
+  { id: 12, label: '12 tyg.' },
+  { id: 13, label: '13 tyg.' },
+  { id: 14, label: '14 tyg.' },
+  { id: 15, label: '15 tyg.' },
+  { id: 16, label: '16 tyg.' },
+  { id: 17, label: '17 tyg.' },
+  { id: 18, label: '18 tyg.' },
+  { id: 19, label: '19 tyg.' },
+  { id: 20, label: '20 tyg.' },
+  { id: 21, label: '21 tyg.' },
+  { id: 22, label: '22 tyg.' },
+  { id: 23, label: '23 tyg.' },
+  { id: 24, label: '24 tyg.' },
+  { id: 25, label: '25 tyg.' }
+]

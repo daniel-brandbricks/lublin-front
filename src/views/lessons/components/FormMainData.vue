@@ -29,14 +29,6 @@
                       v-model="lesson.title"/>
       </b-form-group>
       <b-form-group class="custom mb-2">
-        <treeselect class="custom m-0"
-                    v-model="lesson.leaders"
-                    :multiple="true"
-                    placeholder="Prowadzący" :options="lessonLeader"
-                    :class="{'error-input-custom': veeErrors.has('lesson.leaders')}"
-                    name="lesson.leaders" key="lesson.leaders" v-validate="{'required':true}"/>
-      </b-form-group>
-      <b-form-group class="custom mb-2">
         <treeselect class="custom m-0" v-if="lesson.discipline"
                     v-model="lesson.discipline.id"
                     :multiple="false"
@@ -60,6 +52,14 @@
                     :class="{'error-input-custom': veeErrors.has('lesson.class')}"
                     name="lesson.class" key="lesson.class" v-validate="{'required':true}"/>
       </b-form-group>
+      <b-form-group class="custom mb-4">
+        <treeselect class="custom m-0"
+                    v-model="lesson.repetition"
+                    :multiple="false"
+                    placeholder="Powtarzaj przez.." :options="lessonRepeat"
+                    :class="{'error-input-custom': veeErrors.has('lesson.repetition')}"
+                    name="lesson.repetition" key="lesson.repetition" v-validate="{'required':true}"/>
+      </b-form-group>
       <h5>Organizator</h5>
       <b-form-group>
         <b-form-radio @change="lesson.school.id = null"
@@ -75,9 +75,25 @@
                   :multiple="false"
                   placeholder="Klub / Szkoła"
                   :options="schoolsAndClubsPrepared"
-                  class="custom"
+                  class="custom mb-2"
                   :class="{'error-input-custom': veeErrors.has('lesson.school')}"
                   name="lesson.school" key="lesson.school" v-validate="{'required':true}"/>
+      <b-form-group class="custom mb-2">
+        <treeselect class="custom m-0"
+                    v-model="lesson.leader.id"
+                    :multiple="false"
+                    placeholder="Prowadzący" :options="leadersTreeselect(lesson.school.id)"
+                    :class="{'error-input-custom': veeErrors.has('lesson.leaders')}"
+                    name="lesson.leaders" key="lesson.leaders" v-validate="{'required':true}"/>
+      </b-form-group>
+      <b-form-group class="custom mb-2">
+        <treeselect class="custom m-0"
+                    v-model="lesson.place.id"
+                    :multiple="false"
+                    placeholder="Obiekt sportowy" :options="sportObjectsTreeselect(lesson.school.id)"
+                    :class="{'error-input-custom': veeErrors.has('lesson.place')}"
+                    name="lesson.place" key="lesson.place" v-validate="{'required':true}"/>
+      </b-form-group>
       <!--      buttons   -->
       <b-row class="mt-4">
         <b-col>
@@ -86,8 +102,8 @@
           </b-btn>
         </b-col>
         <b-col>
-          <b-btn variant="primary" block class="custom" @click="goToFormTab('objects')">
-            Dalej
+          <b-btn variant="primary" block class="custom" @click="submit">
+            Zapisz
           </b-btn>
         </b-col>
       </b-row>
@@ -98,6 +114,8 @@
 <script>
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
+  import {LESSON_REPEAT} from '@/config/AppConfig'
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
@@ -111,20 +129,43 @@
     mixins: [EventBusEmit, FormMixin, LessonMixin],
     data () {
       return {
-        orgType: 0
+        orgType: 0,
+        lessonRepeat: LESSON_REPEAT
       }
     },
     computed: {
-      ...mapGetters(['schools', 'disciplines', 'leadersConfirmed', 'classes', 'lessonCategories'])
+      ...mapGetters(['schools', 'disciplines', 'sportObjectsConfirmed', 'leadersConfirmed', 'classes', 'lessonCategories']),
+      sportObjectsTreeselect () {
+        return schoolId => {
+          let sportObjects = this.sportObjectsConfirmed
+          let prepared = []
+          for (let index in sportObjects) {
+            // get places with @schoolId
+            if (parseInt(sportObjects[index].school.id) !== parseInt(schoolId)) continue
+            prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+          }
+          return prepared
+        }
+      },
+      leadersTreeselect () {
+        return schoolId => {
+          let leadersConfirmed = this.leadersConfirmed
+          let prepared = []
+          for (let index in leadersConfirmed) {
+            // get places with @schoolId
+            if (!Array.isArray(leadersConfirmed[index].schoolsUsers) ||
+              undefined === leadersConfirmed[index].schoolsUsers.find(x => {
+                return parseInt(x.school.id) === schoolId
+            })) continue
+            prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
+          }
+          return prepared
+        }
+      }
     },
     methods: {
       submit (tabToRedirect) {
-        let lesson = this.lesson
-        delete lesson.sportObjects
-        delete lesson.participantGroups
-        delete lesson.lessonSchools
-
-        this.$parent.submit(lesson, tabToRedirect)
+        this.$parent.submit()
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
@@ -141,6 +182,7 @@
     created () {
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getSportObjects', {confirmed: 1})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
