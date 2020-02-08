@@ -79,8 +79,10 @@
         ],
 
         lesson: {
-          // todo 07.02.2020 repetition POST PUT GET DELETE lessons
+          // todo 09.02.2020 repetition, dates than POST PUT GET DELETE lessons
           repetition: null,
+          date: null,
+          timeRange: [],
           active: true,
           sex: 1,
           title: '',
