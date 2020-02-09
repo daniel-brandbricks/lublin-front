@@ -1,15 +1,15 @@
 <template>
   <div class="container">
-        <TabLinks :links="tabLinks"/>
+    <TabLinks :links="tabLinks"/>
     <template>
       <FormMainData :lesson="lesson" @submit="submit" ref="main-data"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
       <!--      Component for Objects    -->
-      <FormObjects :lesson="lesson" @submit="submit" ref="objects" v-if="undefined === lesson.sportObjects ||
-       lesson.sportObjects.length < 1"
-                   :key="$route.params.tab+'FormObjects'" v-show="$route.params.tab === 'objects'"/>
-      <ListObjects :lesson="lesson" ref="objects" v-else
-                   :key="$route.params.tab+'ListObjects'" v-show="$route.params.tab === 'objects'"/>
+      <!--      <FormObjects :lesson="lesson" @submit="submit" ref="objects" v-if="undefined === lesson.sportObjects ||-->
+      <!--       lesson.sportObjects.length < 1"-->
+      <!--                   :key="$route.params.tab+'FormObjects'" v-show="$route.params.tab === 'objects'"/>-->
+      <!--      <ListObjects :lesson="lesson" ref="objects" v-else-->
+      <!--                   :key="$route.params.tab+'ListObjects'" v-show="$route.params.tab === 'objects'"/>-->
 
       <FormParticipantGroupsList :lesson="lesson" :isValidForm="isValidForm" @submit="submit"
                                  ref="participants-list"
@@ -32,7 +32,7 @@
   import ListObjects from '@/views/lessons/components/ListObjects'
   import FormParticipantGroupsList from '@/views/lessons/components/FormParticipantGroupsList'
 
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'LessonForm',
@@ -54,7 +54,7 @@
             tab: 'main-data',
             method: 'changeTab',
             methodParams: 'main-data'
-          },
+          }
           // {
           //   title: 'Obiekty',
           //   link: 'lesson',
@@ -62,30 +62,28 @@
           //   method: 'changeTab',
           //   methodParams: 'objects'
           // },
-          {
-            title: 'Lista Zawodników',
-            link: 'lesson',
-            tab: 'participant-group-list',
-            method: 'changeTab',
-            methodParams: 'participant-group-list'
-          },
-          {
-            title: 'Kalendarz',
-            link: 'lesson',
-            tab: 'calendar',
-            method: 'changeTab',
-            methodParams: 'calendar'
-          }
+          // {
+          //   title: 'Lista Zawodników',
+          //   link: 'lesson',
+          //   tab: 'participant-group-list',
+          //   method: 'changeTab',
+          //   methodParams: 'participant-group-list'
+          // },
         ],
 
         lesson: {
-          // todo 09.02.2020 repetition, dates than POST PUT GET DELETE lessons
           repetition: null,
           date: null,
+          newDate: null,
           timeRange: [],
+          newTimeRange: [],
           active: true,
+          canceled: false,
           sex: 1,
           title: '',
+          participantGroup: {
+            id: null
+          },
           school: {
             id: null
           },
@@ -103,7 +101,7 @@
           },
           class: {
             id: null
-          },
+          }
           // sportObjects: [],
           // participantGroups: []
         },
@@ -114,7 +112,7 @@
       }
     },
     computed: {
-      ...mapGetters([ 'lessonSportObjects' ])
+      ...mapGetters(['lessonSportObjects'])
     },
     methods: {
       changeTab (tabToRedirect) {
@@ -127,7 +125,8 @@
                 return
               }
 
-              this.$refs[this.$route.params.tab].submit(tabToRedirect)
+              // this.$refs[this.$route.params.tab].submit(tabToRedirect)
+              this.$router.push({name: 'lesson', params: {'tab': tabToRedirect}})
               resolve(response)
             })
             .catch(e => reject(e))
@@ -137,7 +136,16 @@
         if (undefined === lesson) lesson = this.lesson
 
         const method = this.id === undefined ? 'postLesson' : 'putLesson'
+
+        if (this.id === undefined) {
+          delete lesson.newDate
+          delete lesson.newTimeRange
+        }
+
         this.$store.dispatch(method, lesson)
+          .then((response) => {
+            this.$router.push({name: 'lessons'})
+          })
           // .then((response) => {
           //   this.prepareLesson(response)
           //   if (tabToRedirect) {
@@ -196,13 +204,13 @@
               //   method: 'changeTab',
               //   methodParams: 'objects'
               // },
-              {
-                title: 'Lista Zawodników',
-                link: 'lesson',
-                tab: 'participants-list',
-                method: 'changeTab',
-                methodParams: 'participants-list'
-              },
+              // {
+              //   title: 'Lista Zawodników',
+              //   link: 'lesson',
+              //   tab: 'participants-list',
+              //   method: 'changeTab',
+              //   methodParams: 'participants-list'
+              // },
               {
                 title: 'Zawodnicy',
                 link: 'lesson',

@@ -71,7 +71,7 @@
                         :class="{'error-input-custom': veeErrors.has('lesson.school')}"
                         name="lesson.school" key="lesson.school" v-validate="{'required':true}"/>
             <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0"
+                <treeselect class="custom m-0" v-if="lesson.leader"
                             v-model="lesson.leader.id"
                             :multiple="false"
                             placeholder="Prowadzący" :options="leadersTreeselect(lesson.school.id)"
@@ -79,12 +79,22 @@
                             name="lesson.leaders" key="lesson.leaders" v-validate="{'required':true}"/>
             </b-form-group>
             <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0"
+                <treeselect class="custom m-0" v-if="lesson.place"
                             v-model="lesson.place.id"
                             :multiple="false"
                             placeholder="Obiekt sportowy" :options="sportObjectsTreeselect(lesson.school.id)"
                             :class="{'error-input-custom': veeErrors.has('lesson.place')}"
                             name="lesson.place" key="lesson.place" v-validate="{'required':true}"/>
+            </b-form-group>
+
+            <b-form-group class="custom mb-2">
+                <treeselect class="custom m-0" v-if="lesson.participantGroup"
+                            v-model="lesson.participantGroup.id"
+                            :multiple="false"
+                            placeholder="Lista zawodników" :options="participantGroupsTreeselect(lesson.school.id)"
+                            :class="{'error-input-custom': veeErrors.has('lesson.participantGroup')}"
+                            name="lesson.participantGroup" key="lesson.participantGroup"
+                            v-validate="{'required':true}"/>
             </b-form-group>
 
             <h5 class="my-4">Czas</h5>
@@ -112,10 +122,41 @@
                 <treeselect class="custom m-0"
                             v-model="lesson.repetition"
                             :multiple="false"
-                            placeholder="Powtarzaj przez.." :options="lessonRepeat"
-                            :class="{'error-input-custom': veeErrors.has('lesson.repetition')}"
-                            name="lesson.repetition" key="lesson.repetition" v-validate="{'required':true}"/>
+                            placeholder="Powtarzaj przez.." :options="lessonRepeat"/>
             </b-form-group>
+
+            <b-form-group class="custom checkbox-big-span mb-3" v-if="undefined !== id">
+                <b-form-checkbox-group
+                        id="checkbox-group-1"
+                        v-model="lesson.canceled"
+                        :options="[{text: 'Zajęcia odwołane', value: true}]"
+                        :unchecked-value="false"
+                        value="false"
+                        name="flavour-1"
+                />
+            </b-form-group>
+
+            <template v-if="undefined !== id && lesson.canceled">
+            <date-picker v-model="lesson.newDate" :lang="'pl'"
+                         :class="{'error-input-custom': veeErrors.has('lesson.newDate')}"
+                         :name="'lesson.newDate'" :key="'lesson.newDate'"
+                         value-type="format" format="YYYY-MM-DD"
+                         type="date"
+                         v-validate="{'required': true}"
+                         id="inputDatapicFromnewDate" placeholder="" class="w-100 custom mb-3">
+            </date-picker>
+            <date-picker v-model="lesson.newTimeRange" :lang="'pl'"
+                         :class="{'error-input-custom': veeErrors.has('lesson.newTimeRange')}"
+                         :name="'lesson.newTimeRange'" :key="'lesson.newTimeRange'"
+                         type="time"
+                         range @clear="lesson.newTimeRange = []"
+                         :show-second="false"
+                         value-type="format"
+                         format="HH:mm"
+                         v-validate="{'required': true}"
+                         id="inputDatapicFromlessonnewTimeRange" placeholder="" class="w-100 custom mb-3">
+            </date-picker>
+            </template>
 
             <!--      buttons   -->
             <b-row class="mt-4">
@@ -153,22 +194,33 @@
     mixins: [EventBusEmit, FormMixin, LessonMixin],
     data () {
       return {
-        dateval2: [],
-        dateval: [],
         orgType: 0,
         lessonRepeat: LESSON_REPEAT
       }
     },
     computed: {
-      ...mapGetters(['schools', 'disciplines', 'sportObjectsConfirmed', 'leadersConfirmed', 'classes', 'lessonCategories']),
+      ...mapGetters(['schools', 'disciplines', 'participantGroups', 'sportObjectsConfirmed',
+                     'leadersConfirmed', 'classes', 'lessonCategories']),
       sportObjectsTreeselect () {
         return schoolId => {
           let sportObjects = this.sportObjectsConfirmed
           let prepared = []
           for (let index in sportObjects) {
             // get places with @schoolId
-            if (parseInt(sportObjects[index].school.id) !== parseInt(schoolId)) continue
+            if (sportObjects[index].school && parseInt(sportObjects[index].school.id) !== parseInt(schoolId)) continue
             prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+          }
+          return prepared
+        }
+      },
+      participantGroupsTreeselect () {
+        return schoolId => {
+          let participantGroups = this.participantGroups
+          let prepared = []
+          for (let index in participantGroups) {
+            // get participant groups with @schoolId
+            if (participantGroups[index].school && parseInt(participantGroups[index].school.id) !== parseInt(schoolId)) continue
+            prepared.push({id: participantGroups[index].id, label: participantGroups[index].title})
           }
           return prepared
         }
@@ -193,12 +245,11 @@
     },
     methods: {
       submit (tabToRedirect) {
-        // todo uncomment
-        // this.$validator.validateScopes()
-        //   .then((result) => {
-        //     if (result === false) return
+        this.$validator.validateScopes()
+          .then((result) => {
+            if (result === false) return
             this.$parent.submit()
-          // })
+          })
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
@@ -217,6 +268,7 @@
       this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getSportObjects', {confirmed: 1})
       this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getParticipantGroups')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
       // this.$store.dispatch('getLessons')

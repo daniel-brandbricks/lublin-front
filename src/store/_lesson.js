@@ -82,14 +82,14 @@ export default {
         lessons.splice(i, 1, data)
 
         state.lessons = lessons
-        state.lessonSportObjects = JSON.parse(JSON.stringify(lessons[i].lessonSchools))
+        // state.lessonSportObjects = JSON.parse(JSON.stringify(lessons[i].lessonSchools))
         // todo back first
         // state.lessonParticipantLists = lessons[i].lessonSchools
         return
       }
 
       lessons.push(data)
-      state.lessonSportObjects = JSON.parse(JSON.stringify(data.lessonSchools))
+      // state.lessonSportObjects = JSON.parse(JSON.stringify(data.lessonSchools))
       // todo back first
       // state.lessonParticipantLists = lessons[i].lessonSchools
     },
@@ -130,7 +130,6 @@ export default {
               resolve('error')
               return
             }
-
             context.commit('setLesson', response)
             resolve(response)
           })

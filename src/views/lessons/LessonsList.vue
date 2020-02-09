@@ -77,11 +77,9 @@
           <!--          </template>-->
 
           <template slot="leaders" slot-scope="scope">
-            <!--            {{getLeadersFullNamesByIds(scope.item.leaders)}}-->
-            <template v-for="leaderId in scope.item.leaders">
-              {{ buildUserNames(leaderById(leaderId.id)) }}
-              <!--              {{getLeadersFullNamesByIds(scope.item.leaders)}}-->
-            </template>
+            <span>
+              {{ buildUserNames(leaderById(scope.item.leader.id)) }}
+            </span>
           </template>
 
           <template slot="status" slot-scope="scope">
