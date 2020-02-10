@@ -28,24 +28,24 @@
                               name="lesson.title" key="lesson.title" v-validate="{'required':true}"
                               v-model="lesson.title"/>
             </b-form-group>
-            <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0" v-if="lesson.discipline"
+            <b-form-group class="custom mb-2" v-if="lesson.discipline">
+                <treeselect class="custom m-0"
                             v-model="lesson.discipline.id"
                             :multiple="false"
                             placeholder="Dyscyplina" :options="lessonDiscipline"
                             :class="{'error-input-custom': veeErrors.has('lesson.discipline')}"
                             name="lesson.discipline" key="lesson.discipline" v-validate="{'required':true}"/>
             </b-form-group>
-            <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0" v-if="lesson.lessonCategory"
+            <b-form-group class="custom mb-2" v-if="lesson.lessonCategory">
+                <treeselect class="custom m-0"
                             v-model="lesson.lessonCategory.id"
                             :multiple="false"
                             placeholder="Kategoria" :options="lessonCategory"
                             :class="{'error-input-custom': veeErrors.has('lesson.lessonCategory')}"
                             name="lesson.lessonCategory" key="lesson.lessonCategory" v-validate="{'required':true}"/>
             </b-form-group>
-            <b-form-group class="custom mb-4">
-                <treeselect class="custom m-0" v-if="lesson.class"
+            <b-form-group class="custom mb-4" v-if="lesson.class">
+                <treeselect class="custom m-0"
                             v-model="lesson.class.id"
                             :multiple="false"
                             placeholder="Klasa" :options="lessonClass"
@@ -62,24 +62,25 @@
                     {{ element.title }}
                 </b-form-radio>
             </b-form-group>
-            <treeselect v-if="lesson.school"
-                        v-model="lesson.school.id"
+            <b-form-group v-if="lesson.school">
+            <treeselect v-model="lesson.school.id"
                         :multiple="false"
                         placeholder="Klub / Szkoła"
                         :options="schoolsAndClubsPrepared"
                         class="custom mb-2"
                         :class="{'error-input-custom': veeErrors.has('lesson.school')}"
                         name="lesson.school" key="lesson.school" v-validate="{'required':true}"/>
-            <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0" v-if="lesson.leader"
+            </b-form-group>
+            <b-form-group class="custom mb-2" v-if="lesson.leader">
+                <treeselect class="custom m-0"
                             v-model="lesson.leader.id"
                             :multiple="false"
                             placeholder="Prowadzący" :options="leadersTreeselect(lesson.school.id)"
                             :class="{'error-input-custom': veeErrors.has('lesson.leaders')}"
                             name="lesson.leaders" key="lesson.leaders" v-validate="{'required':true}"/>
             </b-form-group>
-            <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0" v-if="lesson.place"
+            <b-form-group class="custom mb-2" v-if="lesson.place">
+                <treeselect class="custom m-0"
                             v-model="lesson.place.id"
                             :multiple="false"
                             placeholder="Obiekt sportowy" :options="sportObjectsTreeselect(lesson.school.id)"
@@ -87,8 +88,8 @@
                             name="lesson.place" key="lesson.place" v-validate="{'required':true}"/>
             </b-form-group>
 
-            <b-form-group class="custom mb-2">
-                <treeselect class="custom m-0" v-if="lesson.participantGroup"
+            <b-form-group class="custom mb-2" v-if="lesson.participantGroup">
+                <treeselect class="custom m-0"
                             v-model="lesson.participantGroup.id"
                             :multiple="false"
                             placeholder="Lista zawodników" :options="participantGroupsTreeselect(lesson.school.id)"
@@ -104,7 +105,7 @@
                          value-type="format" format="YYYY-MM-DD"
                          type="date"
                          v-validate="{'required': true}"
-                         id="inputDatapicFromdatelesson" placeholder="" class="w-100 custom mb-3">
+                         id="lessonDate" placeholder="" class="w-100 custom mb-3">
             </date-picker>
             <date-picker v-model="lesson.timeRange" :lang="'pl'"
                          :class="{'error-input-custom': veeErrors.has('lesson.timeRange')}"
@@ -115,11 +116,12 @@
                          value-type="format"
                          format="HH:mm"
                          v-validate="{'required': true}"
-                         id="inputDatapicFromlesson" placeholder="" class="w-100 custom mb-3">
+                         id="lessonTimeRange" placeholder="" class="w-100 custom mb-3">
             </date-picker>
 
             <b-form-group class="custom mb-4">
                 <treeselect class="custom m-0"
+                            id="lessonRepetition"
                             v-model="lesson.repetition"
                             :multiple="false"
                             placeholder="Powtarzaj przez.." :options="lessonRepeat"/>
@@ -127,9 +129,9 @@
 
             <b-form-group class="custom checkbox-big-span mb-3" v-if="undefined !== id">
                 <b-form-checkbox-group
-                        id="checkbox-group-1"
+                        id="lessonCanceled"
                         v-model="lesson.canceled"
-                        :options="[{text: 'Zajęcia odwołane', value: true}]"
+                        :options="[{text: 'Zajęcia odwołane', value: 1}]"
                         :unchecked-value="false"
                         value="false"
                         name="flavour-1"
@@ -143,7 +145,7 @@
                          value-type="format" format="YYYY-MM-DD"
                          type="date"
                          v-validate="{'required': true}"
-                         id="inputDatapicFromnewDate" placeholder="" class="w-100 custom mb-3">
+                         id="lessonNewDate" placeholder="" class="w-100 custom mb-3">
             </date-picker>
             <date-picker v-model="lesson.newTimeRange" :lang="'pl'"
                          :class="{'error-input-custom': veeErrors.has('lesson.newTimeRange')}"
@@ -154,7 +156,7 @@
                          value-type="format"
                          format="HH:mm"
                          v-validate="{'required': true}"
-                         id="inputDatapicFromlessonnewTimeRange" placeholder="" class="w-100 custom mb-3">
+                         id="lessonNewTimeRange" placeholder="" class="w-100 custom mb-3">
             </date-picker>
             </template>
 

@@ -31,7 +31,7 @@ export default {
       return preparedLeaders
     },
     lessonDiscipline () {
-      let data = this.$store.getters.disciplines
+      let data = this.$store.getters.disciplines || []
       let preparedDisciplines = []
       for (let disciplineIndex in data) {
         preparedDisciplines.push({ id: data[disciplineIndex].id, label: data[disciplineIndex].title })
@@ -40,7 +40,7 @@ export default {
       return preparedDisciplines
     },
     lessonCategory () {
-      let data = this.$store.getters.lessonCategories
+      let data = this.$store.getters.lessonCategories || []
       let preparedLessonCategories = []
 
       for (let lessonCategoryIndex in data) {
@@ -50,7 +50,7 @@ export default {
       return preparedLessonCategories
     },
     lessonClass () {
-      let data = this.$store.getters.classes
+      let data = this.$store.getters.classes || []
       let preparedClasses = []
 
       for (let classIndex in data) {

@@ -31,12 +31,11 @@
 </template>
 
 <script>
-  // node_modules
-
   import EventBusEmit from '@/mixins/event-bus-emit'
+  import listMixin from '@/mixins/list-mixin'
 
   export default {
-    mixins: [ EventBusEmit ],
+    mixins: [ EventBusEmit, listMixin ],
     name: 'CoAdministrators',
     data () {
       return {
@@ -65,7 +64,7 @@
     },
     created () {
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarButton({ buttonLink: 'co.administrator' })
       this.changeAdminNavbarBreadcrumbs([ { text: 'Współadministratorzy', active: true } ])
     }
   }

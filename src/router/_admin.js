@@ -28,6 +28,7 @@ import ParticipantGroupsForm from '@/views/participant-groups/ParticipantGroupsF
 import History from '@/views/history/History'
 import LeaderForm from '@/views/leaders/LeaderForm'
 import ParticipantForm from '@/views/participants/ParticipantForm'
+import CoAdministrator from '@/views/co-administrators/CoAdministrator'
 
 const adminRouter = {
   path: '/admin',
@@ -193,6 +194,11 @@ const adminRouter = {
       path: 'co-administrators',
       name: 'co.administrators',
       component: CoAdministrators
+    },
+    {
+      path: 'co-administrator',
+      name: 'co.administrator',
+      component: CoAdministrator
     },
 
     // Messages

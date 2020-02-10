@@ -28,21 +28,21 @@
         <b-row class="justify-content-between align-items-center">
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedDisciplines" v-if="selectedDisciplines"
+                        v-model="selectedDisciplines"
                         :multiple="true"
                         placeholder="Dyscyplina"
                         :options="lessonDiscipline"/>
           </b-col>
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedLessonCategories" v-if="selectedLessonCategories"
+                        v-model="selectedLessonCategories"
                         :multiple="true"
                         placeholder="Kategoria"
                         :options="lessonCategory"/>
           </b-col>
           <b-col cols="4">
             <treeselect class="custom"
-                        v-model="selectedClasses" v-if="selectedClasses"
+                        v-model="selectedClasses"
                         :multiple="true"
                         placeholder="Klasa"
                         :options="lessonClass"/>
@@ -63,13 +63,19 @@
         >
 
           <template slot="disciplines" slot-scope="scope">
-            <span>{{getDisciplineTitleById(scope.item.discipline.id)}}</span>
+            <span v-if="scope.item && scope.item.discipline">
+              {{getDisciplineTitleById(scope.item.discipline.id)}}
+            </span>
           </template>
           <template slot="lessonCategories" slot-scope="scope">
-            <span>{{getLessonCategoryTitleById(scope.item.lessonCategory.id)}}</span>
+            <span v-if="scope.item && scope.item.lessonCategory">
+              {{getLessonCategoryTitleById(scope.item.lessonCategory.id)}}
+            </span>
           </template>
           <template slot="classes" slot-scope="scope">
-            <span>{{getClassTitleById(scope.item.class.id)}}</span>
+            <span v-if="scope.item && scope.item.class">
+              {{getClassTitleById(scope.item.class.id)}}
+            </span>
           </template>
 
           <!--          <template slot="leaders" slot-scope="scope">-->
@@ -77,7 +83,7 @@
           <!--          </template>-->
 
           <template slot="leaders" slot-scope="scope">
-            <span>
+            <span v-if="scope.item && scope.item.leader">
               {{ buildUserNames(leaderById(scope.item.leader.id)) }}
             </span>
           </template>

@@ -18,6 +18,7 @@ import seasonModule from './_season'
 import leaderModule from './_leader'
 import lessonModule from './_lesson'
 import permissionModule from './_permission'
+import administratorModule from './_administrator'
 
 Vue.use(Vuex)
 
@@ -39,6 +40,7 @@ export default new Vuex.Store({
     leaderModule,
     skillModule,
     permissionModule,
+    administratorModule,
     lessonModule
   }
 })
