@@ -96,6 +96,44 @@ export default {
             reject(error.response)
           })
       })
+    },
+
+    // Mailings
+    sendMailConfirmed (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mail', 'post', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    getMailConfirmed (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mail', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
     }
   }
 }

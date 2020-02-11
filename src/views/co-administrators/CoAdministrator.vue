@@ -102,12 +102,13 @@
             const method = this.id === undefined ? 'postAdministrator' : 'putAdministrator'
             this.$store.dispatch(method, this.admin)
               .then((response) => {
-                this.routeParams['toastText'] = 'Dane zostały zapisane' + this.id === undefined
+                let routeParams = {}
+                routeParams['toastText'] = 'Dane zostały zapisane' + this.id === undefined
                   ? '. Email zostal nadeslany z linkiem do wprowadzenia hasła' : ''
-                this.routeParams['toastVariant'] = 'success'
+                routeParams['toastVariant'] = 'success'
                 this.$router.push({
                   name: 'co.administrators',
-                  params: this.routeParams
+                  params: routeParams
                 })
               })
               // eslint-disable-next-line handle-callback-err

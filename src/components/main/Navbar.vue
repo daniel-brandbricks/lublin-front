@@ -162,7 +162,8 @@
         Nulla massa leo, semper lacinia elit vel, semper molestie justo.
       </p>
       <div class="btn-container d-flex flex-column w-100 mt-3">
-        <b-btn variant="primary" v-b-modal.modal-login-registration
+        <b-btn variant="primary"
+               @click="$bvModal.hide('modal-login-registration')"
                class="custom text-nowrap   mb-sm-0 w-100">
           <span class="icon icon-arrow_left pr-2"></span>Wróć do strony
         </b-btn>
@@ -177,6 +178,7 @@
              hide-header
              hide-footer
              title-tag="div"
+             @hidden="emailResetPass = ''"
              size="sm">
       <div class="wrap-logo text-center">
         <img src="/static/img/logo.svg" alt="LOGO">
@@ -184,12 +186,13 @@
       <h2 class="mb-3 text-center">
         Odzyskanie hasła
       </h2>
-      <p class="fix-card-text">
-        Nulla massa leo, semper lacinia elit vel, semper molestie justo.
-      </p>
+      <b-form-input id="input-1" class="custom"
+                    placeholder="E-mail"
+                    v-model="emailResetPass"></b-form-input>
       <div class="btn-container d-flex flex-column w-100 mt-3">
         <b-btn variant="primary" v-b-modal.modal-login-registration
-               class="custom text-nowrap   mb-sm-0 w-100">
+               @click="sendResetPass"
+               class="custom text-nowrap mb-sm-0 w-100">
           <span class="icon-icon_mail pr-2"></span>wyślij
         </b-btn>
       </div>
@@ -215,6 +218,7 @@
         firstName: '',
         lastName: '',
         emailSignUp: '',
+        emailResetPass: '',
         phone: '',
 
         email: '',
@@ -242,7 +246,24 @@
         }]
       }
     },
+    // todo 12.02.2020
+    // test confirm mail
+    // modals logic
+    // reset pass first
     methods: {
+      sendResetPass () {
+        if (!this.validateEmail(this.emailResetPass)) {
+          // todo mixin
+          this.$bvToast.toast('Niepoprawny format adresu e-mail', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-full',
+            solid: true,
+            variant: 'danger'
+          })
+
+          return false
+        }
+      },
       showForgotPassModal () {
         this.resetModal()
         this.$bvModal.hide('modal-login')
