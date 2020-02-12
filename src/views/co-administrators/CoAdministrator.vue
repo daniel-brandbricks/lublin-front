@@ -53,7 +53,7 @@
         <b-row class="mt-4">
           <b-col>
             <b-btn variant="delete" class="custom"
-                   @click="deleteFromForm('deleteAdministrator', admin.id, undefined, 'co.administrators')">
+                   @click="deleteFromForm('deleteAdministrator', admin.id, undefined, 'co.administrators', {})">
               Usuń
             </b-btn>
           </b-col>
