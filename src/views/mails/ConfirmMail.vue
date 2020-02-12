@@ -2,7 +2,11 @@
   <div v-if="id && hash && !passwordExists">
     <b-row class="justify-content-center">
       <b-col class="mt-5 d-flex justify-content-center">
-        <img src="/static/img/logo.svg" alt="LOGO">
+        <b-link :to="{name:'home'}">
+          <div class="sidebar-heading">
+            <img src="/static/img/logo.svg" alt="">
+          </div>
+        </b-link>
       </b-col>
     </b-row>
     <b-row class="justify-content-center mt-5">
@@ -53,7 +57,15 @@
           method: 'confirmEmail'
         })
           .then((response) => {
-            console.log(response)
+            if (response && response.status && response.status === 'OK') {
+              let routeParams = {}
+              routeParams['toastText'] = 'Konto zostało aktywowane'
+              routeParams['toastVariant'] = 'success'
+              this.$router.push({
+                name: 'home',
+                params: routeParams
+              })
+            }
           })
           // eslint-disable-next-line handle-callback-err
           .catch((error) => {

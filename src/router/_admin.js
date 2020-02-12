@@ -196,7 +196,7 @@ const adminRouter = {
       component: CoAdministrators
     },
     {
-      path: 'co-administrator',
+      path: 'co-administrator/:id?',
       name: 'co.administrator',
       component: CoAdministrator
     },

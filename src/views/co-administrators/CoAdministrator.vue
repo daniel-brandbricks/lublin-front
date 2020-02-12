@@ -85,6 +85,7 @@
     data () {
       return {
         admin: {
+          role: 2,
           active: false,
           firstName: '',
           lastName: '',
@@ -123,7 +124,25 @@
     created () {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
-      this.changeAdminNavbarBreadcrumbs([{text: 'Współadministratorzy', active: true}])
+      let breadcrumbs = [
+        {text: 'Współadministratorzy', to: {name: 'co.administrators'}},
+        {text: 'Nowy', active: true}
+      ]
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+
+      if (this.id) {
+        this.$store.dispatch('getAdministrator', {id: this.id})
+          .then((response) => {
+            this.admin = response
+            console.log(response)
+
+            let breadcrumbs = [
+              {text: 'Współadministratorzy', to: {name: 'co.administrators'}},
+              {text: response.firstName + ' ' + response.lastName, active: true}
+            ]
+            this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+          })
+      }
     }
   }
 </script>

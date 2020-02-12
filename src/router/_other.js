@@ -36,7 +36,7 @@ const changeMail = {
   component: ChangeMail
 }
 const resetPassword = {
-  path: '/paswowrd/reset/:id/:hash',
+  path: '/password/reset/:id/:hash',
   name: 'password.reset',
   component: ResetPassword
 }

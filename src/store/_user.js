@@ -134,6 +134,61 @@ export default {
             reject(error.response)
           })
       })
+    },
+
+    getPasswordReset (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mail', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    sendResetPassword (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mail', 'post', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    passwordReset (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mail', 'post', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
     }
   }
 }

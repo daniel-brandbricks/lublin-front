@@ -3,7 +3,7 @@
     <b-row class="justify-content-center">
       <b-col cols="8">
         <b-table
-          :items="items"
+          :items="administrators"
           :fields="fields"
           striped
           sort-icon-left
@@ -41,28 +41,31 @@
       return {
         // table
         fields: [
-          { key: 'name', label: 'Imię', sortable: true },
-          { key: 'surname', label: 'Nazwisko', sortable: true },
+          { key: 'firstName', label: 'Imię', sortable: true },
+          { key: 'lastName', label: 'Nazwisko', sortable: true },
           { key: 'phone', label: 'Telefon', sortable: true },
           { key: 'email', label: 'E-mail', sortable: true },
           { key: 'status', label: 'Status w systemie', sortable: true },
           { key: 'edit', label: '' }
-        ],
-        items: [
-          { name: 'Face', surname: 'Raper', phone: 5553535, email: 'face@gmail.com' },
-          { name: 'Table', surname: 'Mebel', phone: 123456, email: 'stol@gmail.com' }
         ]
       }
     },
+    computed: {
+      administrators () {
+        return this.$store.getters.administrators
+      }
+    },
     methods: {
-      rowRedirect (id, isConfirmed) {
+      rowRedirect (node) {
         this.$router.push({
-          name: 'co.administrators',
-          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+          name: 'co.administrator',
+          params: { id: node.id }
         })
       }
     },
     created () {
+      this.$store.dispatch('getAdministrators')
+
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'co.administrator' })
       this.changeAdminNavbarBreadcrumbs([ { text: 'Współadministratorzy', active: true } ])

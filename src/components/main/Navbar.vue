@@ -82,7 +82,7 @@
                      class="custom text-nowrap mb-sm-0 w-100">
                 <span class="icon icon-login pr-2"></span> zaloguj się
               </b-btn>
-              <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-1 fsz-13" v-b-modal.modal-login-newPass>
+              <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-3 fsz-13" v-b-modal.modal-login-newPass>
                 Zapomniałeś hasła?
               </b-btn>
             </div>
@@ -190,7 +190,7 @@
                     placeholder="E-mail"
                     v-model="emailResetPass"></b-form-input>
       <div class="btn-container d-flex flex-column w-100 mt-3">
-        <b-btn variant="primary" v-b-modal.modal-login-registration
+        <b-btn variant="primary"
                @click="sendResetPass"
                class="custom text-nowrap mb-sm-0 w-100">
           <span class="icon-icon_mail pr-2"></span>wyślij
@@ -207,9 +207,11 @@
   import Treeselect from '@riophae/vue-treeselect'
   // import the styles
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import listMixin from '@/mixins/list-mixin'
 
   export default {
     components: {Treeselect},
+    mixins: [listMixin],
     name: 'Navbar',
     data () {
       return {
@@ -253,7 +255,6 @@
     methods: {
       sendResetPass () {
         if (!this.validateEmail(this.emailResetPass)) {
-          // todo mixin
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
             toaster: 'b-toaster-bottom-full',
@@ -263,6 +264,21 @@
 
           return false
         }
+        this.$store.dispatch('sendResetPassword', {
+          email: this.emailResetPass,
+          method: 'sendResetPassword'
+        })
+          .then((response) => {
+            // todo check response
+            console.log(response)
+            this.$bvModal.hide('modal-login-newPass')
+            this.$bvModal.show('modal-login-registration')
+          })
+          // eslint-disable-next-line handle-callback-err
+          .catch((error) => {
+            // todo show error
+            //  console.log(error)
+          })
       },
       showForgotPassModal () {
         this.resetModal()
