@@ -136,6 +136,25 @@ export default {
       })
     },
 
+    getChangeMail (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mail', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+
     getPasswordReset (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/mail', 'get', true, data, data, 200)

@@ -66,7 +66,7 @@
       if (undefined === this.id || undefined === this.hash) {
         this.showToast('Nieprawidłowy URL', 'Uwaga', 'danger')
       } else {
-        this.$store.dispatch('getPasswordReset', {
+        this.$store.dispatch('getChangeMail', {
           id: this.id,
           hash: this.hash,
           method: 'checkChangeMail'
@@ -74,12 +74,12 @@
           .then((response) => {
             this.hashExists = true
             this.showToast('Mail się zmienił, możesz zalogować się ponownie!',
-              'Uwaga', 'success')
+                           'Uwaga', 'success')
           })
           // eslint-disable-next-line handle-callback-err
           .catch((error) => {
             if (error && error.data && error.data.error) {
-              this.showToast(error.data.error,'Uwaga', 'success')
+              this.showToast(error.data.error, 'Uwaga', 'success')
               this.hashExists = false
             }
           })
