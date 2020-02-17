@@ -7,6 +7,7 @@ import My from '@/views/My'
 import ConfirmMail from '@/views/mails/ConfirmMail'
 import ChangeMail from '@/views/mails/ChangeMail'
 import ResetPassword from '@/views/mails/ResetPassword'
+import ConfirmSchool from '@/views/mails/ConfirmSchool'
 
 const login = {
   path: '/login',
@@ -41,10 +42,17 @@ const resetPassword = {
   component: ResetPassword
 }
 
+const confirmSchool = {
+  path: '/school/confirm/:id/:hash',
+  name: 'confirm.school',
+  component: ConfirmSchool
+}
+
 export {
   login,
   dev,
   my,
+  confirmSchool,
   confirmMail,
   changeMail,
   resetPassword

@@ -42,7 +42,8 @@ export default {
       state.authToken = null
     },
     setAuthUser (state, data) {
-      state.authUser = data
+      state.authUser = data === null ? data : data.user
+      console.log(state.authUser)
     }
   },
   actions: {
@@ -64,6 +65,7 @@ export default {
             console.log(response)
 
             context.commit('setAuthToken', response)
+            context.commit('setAuthUser', response)
             resolve(response)
           })
           .catch(error => {

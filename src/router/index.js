@@ -5,7 +5,7 @@ import store from '@/store'
 // modules
 import mainRouter from '@/router/_main'
 import adminRouter from '@/router/_admin'
-import { login, dev, my, confirmMail, changeMail, resetPassword } from '@/router/_other'
+import { login, dev, my, confirmMail, changeMail, resetPassword, confirmSchool } from '@/router/_other'
 
 Vue.use(Router)
 
@@ -15,6 +15,7 @@ const routes = [
   login,
   dev,
   my,
+  confirmSchool,
   confirmMail,
   changeMail,
   resetPassword

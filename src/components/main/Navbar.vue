@@ -60,7 +60,7 @@
         <img src="/static/img/logo.svg" alt="LOGO">
       </div>
       <b-tabs pills class="custom">
-        <b-tab title="Logowanie" class="" active>
+        <b-tab title="Logowanie" class="" active @click="resetModal">
           <b-form ref="form" @submit.prevent="login">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom"
@@ -82,7 +82,8 @@
                      class="custom text-nowrap mb-sm-0 w-100">
                 <span class="icon icon-login pr-2"></span> zaloguj się
               </b-btn>
-              <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-3 fsz-13" v-b-modal.modal-login-newPass>
+              <b-btn variant="icon" @click="showForgotPassModal" class="custom mt-3 fsz-13"
+                     v-b-modal.modal-login-newPass>
                 Zapomniałeś hasła?
               </b-btn>
             </div>
@@ -90,54 +91,85 @@
         </b-tab>
 
         <!--  SING UP  -->
-        <b-tab title="Rejstracja">
+        <b-tab title="Rejstracja" @click="resetModal">
           <b-form-group class="custom">
             <b-form-group>
               <div class="d-flex">
-                <b-form-radio v-model="selectedRadio" name="some-radios" value="A" class="mr-3">Klub / Szkoła
+                <b-form-radio v-model="selectedRegister" name="some-radios" value="1" class="mr-3">Klub / Szkoła
                 </b-form-radio>
-                <b-form-radio v-model="selectedRadio" name="some-radios" value="B">Prowadzący</b-form-radio>
+                <b-form-radio v-model="selectedRegister" name="some-radios" value="2">Prowadzący</b-form-radio>
               </div>
             </b-form-group>
 
-            <b-form-group
-              class="custom">
-              <b-form-input type="text" class="custom"
-                            placeholder="Imię"
-                            v-model="firstName"></b-form-input>
-            </b-form-group>
-            <b-form-group
-              class="custom">
-              <b-form-input type="text" class="custom mb-3"
-                            placeholder="Nazwisko"
-                            v-model="lastName"></b-form-input>
-            </b-form-group>
-            <treeselect v-model="value"
-                        :multiple="false"
-                        :options="optionsTS"
-                        class="custom"/>
-            <b-btn variant="icon" class="custom my-2 text-uppercase fix-sub">
-              dodaj kolejną <span class="_plus ml-2"></span>
-            </b-btn>
-            <b-form-group
-              class="custom">
-              <b-form-input id="input-1" class="custom"
-                            placeholder="E-mail"
-                            v-model="emailSignUp"></b-form-input>
-            </b-form-group>
-            <b-form-group
-              class="custom">
-              <b-form-input type="number" class="custom"
-                            placeholder="Telefon"
-                            v-model="phone"></b-form-input>
-            </b-form-group>
-            <div class="btn-container d-flex flex-column w-100 mt-3">
-              <b-btn variant="primary" v-b-modal.modal-login-registration
-                     class="custom text-nowrap   mb-sm-0 w-100">
-                <span class="icon icon-mail pr-2"></span> Wyślij danne
-              </b-btn>
+            <div v-if="selectedRegister === '1'">
+              <b-form-group
+                class="custom">
+                <b-form-input type="text" class="custom"
+                              placeholder="Nazwa"
+                              v-model="schoolName"></b-form-input>
+              </b-form-group>
+              <b-form-group
+                class="custom">
+                <b-form-input type="text" class="custom mb-3"
+                              placeholder="E-mail"
+                              v-model="schoolEmail"></b-form-input>
+              </b-form-group>
+              <b-form-group
+                class="custom">
+                <b-form-input class="custom mb-3"
+                              placeholder="Telefon" type="number"
+                              v-model="schoolPhone"></b-form-input>
+              </b-form-group>
 
+              <div class="btn-container d-flex flex-column w-100 mt-3">
+                <b-btn variant="primary" @click="sendCreateSchool"
+                       class="custom text-nowrap   mb-sm-0 w-100">
+                  <span class="icon icon-mail pr-2"></span> Wyślij danne
+                </b-btn>
+
+              </div>
             </div>
+            <div v-else>
+              <b-form-group
+                class="custom">
+                <b-form-input type="text" class="custom"
+                              placeholder="Imię"
+                              v-model="firstName"></b-form-input>
+              </b-form-group>
+              <b-form-group
+                class="custom">
+                <b-form-input type="text" class="custom mb-3"
+                              placeholder="Nazwisko"
+                              v-model="lastName"></b-form-input>
+              </b-form-group>
+              <treeselect v-model="leaderDisciplines"
+                          :multiple="true"
+                          :options="disciplinesTreeselect"
+                          class="custom mb-4"/>
+              <!--            <b-btn variant="icon" class="custom my-2 text-uppercase fix-sub">-->
+              <!--              dodaj kolejną <span class="_plus ml-2"></span>-->
+              <!--            </b-btn>-->
+              <b-form-group
+                class="custom">
+                <b-form-input id="input-1" class="custom"
+                              placeholder="E-mail" type="email"
+                              v-model="leaderEmail"></b-form-input>
+              </b-form-group>
+              <b-form-group
+                class="custom">
+                <b-form-input type="number" class="custom"
+                              placeholder="Telefon"
+                              v-model="leaderPhone"></b-form-input>
+              </b-form-group>
+              <div class="btn-container d-flex flex-column w-100 mt-3">
+                <b-btn variant="primary" @click="sendCreateLeader"
+                       class="custom text-nowrap   mb-sm-0 w-100">
+                  <span class="icon icon-mail pr-2"></span> Wyślij danne
+                </b-btn>
+
+              </div>
+            </div>
+
           </b-form-group>
         </b-tab>
       </b-tabs>
@@ -208,18 +240,29 @@
   // import the styles
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import listMixin from '@/mixins/list-mixin'
+  import ToastMixin from '@/mixins/toast-mixin'
 
   export default {
     components: {Treeselect},
-    mixins: [listMixin],
+    mixins: [listMixin, ToastMixin],
     name: 'Navbar',
     data () {
       return {
-        selectedRadio: 'A',
+        selectedRegister: '1',
 
+        // school
+        schoolName: '',
+        schoolEmail: '',
+        schoolPhone: '',
+
+        // leader
         firstName: '',
         lastName: '',
-        emailSignUp: '',
+        leaderDisciplines: null,
+        leaderEmail: '',
+        leaderPhone: '',
+
+        // emailSignUp: '',
         emailResetPass: '',
         phone: '',
 
@@ -227,31 +270,28 @@
         password: '',
 
         loginError: false,
-
-        value: null,
-        optionsTS: [{
-          id: 'a',
-          label: 'first',
-          children: [{
-            id: 'aa',
-            label: 'aa'
-          }, {
-            id: 'ab',
-            label: 'ab'
-          }]
-        }, {
-          id: 'b',
-          label: 'second'
-        }, {
-          id: 'c',
-          label: 'third'
-        }]
       }
     },
-    // todo 12.02.2020
-    // test confirm mail
-    // modals logic
-    // reset pass first
+    watch: {
+      selectedRegister: function (val) {
+        this.resetModal()
+      }
+    },
+    computed: {
+      disciplines () {
+        return this.$store.getters.disciplines
+      },
+      disciplinesTreeselect () {
+        let disciplines = this.disciplines
+        let prepared = []
+
+        for (let disciplineIndex in disciplines) {
+          prepared.push({id: disciplines[disciplineIndex].id, label: disciplines[disciplineIndex].title})
+        }
+
+        return prepared
+      }
+    },
     methods: {
       sendResetPass () {
         if (!this.validateEmail(this.emailResetPass)) {
@@ -276,8 +316,68 @@
           })
           // eslint-disable-next-line handle-callback-err
           .catch((error) => {
-            // todo show error
-            //  console.log(error)
+            console.log(error)
+            this.showToast(error.data.error, 'Wystąpil błąd')
+          })
+      },
+      sendCreateSchool () {
+        if (!this.validateEmail(this.schoolEmail)) {
+          this.$bvToast.toast('Niepoprawny format adresu e-mail', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-full',
+            solid: true,
+            variant: 'danger'
+          })
+
+          return false
+        }
+        this.$store.dispatch('sendCreateSchool', {
+          email: this.schoolEmail,
+          name: this.schoolName,
+          phone: this.schoolPhone,
+          method: 'sendCreateSchool'
+        })
+          .then((response) => {
+            console.log(response)
+            this.$bvModal.hide('modal-login')
+            this.$bvModal.show('modal-login-registration')
+          })
+          // eslint-disable-next-line handle-callback-err
+          .catch((error) => {
+            this.showToast(error.data.error, 'Wystąpil błąd')
+            console.log(error)
+          })
+      },
+      // todo
+      sendCreateLeader () {
+        if (!this.validateEmail(this.leaderEmail)) {
+          this.$bvToast.toast('Niepoprawny format adresu e-mail', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-full',
+            solid: true,
+            variant: 'danger'
+          })
+
+          return false
+        }
+        // todo
+        this.$store.dispatch('sendCreateLeader', {
+          email: this.leaderEmail,
+          phone: this.leaderPhone,
+          disciplines: this.leaderDisciplines,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          method: 'sendCreateLeader'
+        })
+          .then((response) => {
+            console.log(response)
+            this.$bvModal.hide('modal-login')
+            this.$bvModal.show('modal-login-registration')
+          })
+          // eslint-disable-next-line handle-callback-err
+          .catch((error) => {
+            this.showToast(error.data.error, 'Wystąpil błąd')
+            console.log(error)
           })
       },
       showForgotPassModal () {
@@ -286,12 +386,20 @@
         this.$bvModal.show('modal-login-newPass')
       },
       resetModal () {
+        this.leaderEmail = ''
+        this.leaderPhone = ''
+        this.leaderDisciplines = null
         this.firstName = ''
         this.lastName = ''
-        this.emailSignUp = ''
+
+        this.schoolPhone = ''
+        this.schoolEmail = ''
+        this.schoolName = ''
+
         this.phone = ''
         this.email = ''
         this.password = ''
+        this.emailResetPass = ''
       },
       validateEmail (email) {
         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -324,7 +432,7 @@
         this.$store.dispatch('login', data)
           .then((response) => {
             console.log(response)
-            this.$router.push({ name: 'test.content' })
+            this.$router.push({name: 'test.content'})
           })
           .catch((error) => {
             this.loginError = true
@@ -342,6 +450,7 @@
       }
     },
     created () {
+      this.$store.dispatch('getDisciplines')
     }
   }
 </script>

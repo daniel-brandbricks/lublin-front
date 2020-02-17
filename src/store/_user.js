@@ -101,7 +101,7 @@ export default {
     // Mailings
     sendMailConfirmed (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/mail', 'post', true, data, null, 200)
+        apiService.makeApiCall('resource/mail', 'post', true, data, data, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
@@ -208,6 +208,82 @@ export default {
             reject(error.response)
           })
       })
-    }
+    },
+
+    // main page
+    sendCreateSchool (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/home-page', 'post', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    getCreateSchool (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/home-page', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    putSchoolByEmail (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/home-page', 'put', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+
+    sendCreateLeader (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/home-page', 'post', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+
   }
 }
