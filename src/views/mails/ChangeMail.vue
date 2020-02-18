@@ -28,40 +28,7 @@
         hashExists: false
       }
     },
-    methods: {
-      submit () {
-        if (this.password.length < 6 || this.passwordConfirm.length < 6) {
-          this.showToast('Hasło nie może być mniej niż 6 znaków', 'Uwaga', 'danger')
-          return
-        }
-        if (this.password !== this.passwordConfirm) {
-          this.showToast('Hasła nie są identyczne', 'Uwaga', 'danger')
-          return
-        }
-
-        this.$store.dispatch('passwordReset', {
-          password: this.password,
-          id: this.id,
-          hash: this.hash,
-          method: 'passwordReset'
-        })
-          .then((response) => {
-            if (response && response.status && response.status === 'OK') {
-              let routeParams = {}
-              routeParams['toastText'] = 'Hasło zostało zmienione'
-              routeParams['toastVariant'] = 'success'
-              this.$router.push({
-                name: 'home',
-                params: routeParams
-              })
-            }
-          })
-          // eslint-disable-next-line handle-callback-err
-          .catch((error) => {
-            console.log(error)
-          })
-      }
-    },
+    methods: {},
     created () {
       if (undefined === this.id || undefined === this.hash) {
         this.showToast('Nieprawidłowy URL', 'Uwaga', 'danger')

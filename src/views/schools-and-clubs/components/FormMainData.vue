@@ -48,15 +48,15 @@
                       name="school.email" key="school.email" v-validate="{'required':true, 'email':true}"
                       v-model="school.email"/>
       </b-form-group>
-      <b-form-group
-        class="custom">
-        <b-form-input id="input-1" class="custom"
-                      placeholder="Hasło"
-                      :class="{'error-input-custom': veeErrors.has('school.password')}"
-                      name="school.password" key="school.password"
-                      v-validate="{'required': school.id === undefined || school.id === null}"
-                      v-model="school.password"/>
-      </b-form-group>
+<!--      <b-form-group v-if="school.id !== undefined"-->
+<!--        class="custom">-->
+<!--        <b-form-input id="input-1" class="custom"-->
+<!--                      placeholder="Hasło"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('school.password')}"-->
+<!--                      name="school.password" key="school.password"-->
+<!--                      v-validate="{'required': school.id === undefined || school.id === null}"-->
+<!--                      v-model="school.password"/>-->
+<!--      </b-form-group>-->
       <b-form-group
         class="custom">
         <b-form-input id="input-1" class="custom"
