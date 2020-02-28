@@ -64,13 +64,13 @@
                       name="leader.email" key="leader.email" v-validate="{'required':true, 'email': true}"
                       v-model="leader.email"/>
       </b-form-group>
-      <b-form-group class="custom mb-2">
-        <b-form-input id="password-1" class="custom m-0"
-                      placeholder="Hasło" type="password"
-                      :class="{'error-input-custom': veeErrors.has('leader.password')}"
-                      name="leader.password" key="leader.password" v-validate="{'required': leader.id === undefined}"
-                      v-model="leader.password"/>
-      </b-form-group>
+<!--      <b-form-group class="custom mb-2">-->
+<!--        <b-form-input id="password-1" class="custom m-0"-->
+<!--                      placeholder="Hasło" type="password"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('leader.password')}"-->
+<!--                      name="leader.password" key="leader.password" v-validate="{'required': leader.id === undefined}"-->
+<!--                      v-model="leader.password"/>-->
+<!--      </b-form-group>-->
       <b-form-group class="custom">
         <b-form-input id="phone-1" class="custom m-0"
                       placeholder="Telefon" type="number"
@@ -78,6 +78,30 @@
                       name="leader.phone" key="leader.phone" v-validate="{'required':true}"
                       v-model="leader.phone"/>
       </b-form-group>
+
+      <div v-if="id !== undefined" class="mt-5">
+        <b-form-group class="custom mb-2">
+          <b-form-input id="password-1" class="custom m-0"
+                        placeholder="Stare hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                        :class="{'error-input-custom': veeErrors.has('leader.password')}"
+                        name="leader.password" key="leader.password" v-validate="{'required': leader.id === undefined}"
+                        v-model="leader.password"/>
+        </b-form-group>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="password-1" class="custom m-0"
+                        placeholder="Nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                        :class="{'error-input-custom': veeErrors.has('leader.newPassword')}"
+                        name="leader.newPassword" key="leader.newPassword" v-validate="{'required': leader.id === undefined}"
+                        v-model="leader.newPassword"/>
+        </b-form-group>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="password-1" class="custom m-0"
+                        placeholder="Powtórz nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                        :class="{'error-input-custom': veeErrors.has('leader.confirmPassword')}"
+                        name="confirmPassword" key="confirmPassword" v-validate="{'required': leader.id === undefined}"
+                        v-model="confirmPassword"/>
+        </b-form-group>
+      </div>
 
       <!--buttons-->
       <b-row class="mt-4">
@@ -124,12 +148,8 @@
     mixins: [ FormMixin ],
     data () {
       return {
-        selectedDisciplinesIds: []
-        // disciplinesTreeselect: [
-        //   { id: 0, label: 'Bieg 50m' },
-        //   { id: 1, label: 'Bieg 150m' },
-        //   { id: 2, label: 'Bieg 250m' }
-        // ]
+        selectedDisciplinesIds: [],
+        confirmPassword: ''
       }
     },
     watch: {
@@ -175,6 +195,10 @@
         this.$parent.removeDiscipline(index)
       },
       submit (isConfirmed, validRequired = true) {
+        if (this.confirmPassword.length > 0 || this.leader.password.length > 0 || this.leader.newPassword.length > 0) {
+          if (!this.checkPassword()) return
+        }
+
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -191,6 +215,17 @@
           this.leader.confirmed = isConfirmed
           this.$parent.submit()
         }
+      },
+      checkPassword () {
+        if (this.confirmPassword !== this.leader.newPassword) {
+          this.showToast('Hasła nie są identyczne', 'Uwaga', 'danger')
+          return false
+        }
+        if (this.leader.newPassword.length < 6) {
+          this.showToast('Hasło nie może być mniej niż 6 znaków', 'Uwaga', 'danger')
+          return false
+        }
+        return true
       }
     },
     created () {

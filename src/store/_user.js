@@ -1,4 +1,5 @@
 import * as apiService from '@/services/apiService'
+import {setAuthUser} from '@/store/_auth'
 // import { BASE_API_URL } from '@/config/AppConfig'
 
 // import router from '@/router'
@@ -89,6 +90,27 @@ export default {
             }
 
             console.log(response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    putUser (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/user/' + id, 'put', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            context.commit('setUser', response)
+            context.commit('setAuthUser', {user: response})
             resolve(response)
           })
           .catch(error => {

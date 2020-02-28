@@ -29,6 +29,7 @@ import History from '@/views/history/History'
 import LeaderForm from '@/views/leaders/LeaderForm'
 import ParticipantForm from '@/views/participants/ParticipantForm'
 import CoAdministrator from '@/views/co-administrators/CoAdministrator'
+import Profile from '@/views/Profile'
 
 const adminRouter = {
   path: '/admin',
@@ -206,6 +207,13 @@ const adminRouter = {
       path: 'messages',
       name: 'messages',
       component: Messages
+    },
+
+    // Profile
+    {
+      path: 'profile',
+      name: 'profile',
+      component: Profile
     }
   ]
 }

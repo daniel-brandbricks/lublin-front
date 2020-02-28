@@ -1,0 +1,164 @@
+<template>
+  <div>
+    <b-row class="justify-content-center">
+      <b-col cols="8">
+        <h5 class="mb-3">Dane ogólne</h5>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="name-1" class="custom m-0"
+                        placeholder="Imię"
+                        :class="{'error-input-custom': veeErrors.has('user.firstName')}"
+                        name="user.firstName" key="user.firstName" v-validate="{'required':true}"
+                        v-model="user.firstName"/>
+        </b-form-group>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="surname-1" class="custom m-0"
+                        placeholder="Nazwisko"
+                        :class="{'error-input-custom': veeErrors.has('user.lastName')}"
+                        name="user.lastName" key="user.lastName" v-validate="{'required':true}"
+                        v-model="user.lastName"/>
+        </b-form-group>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="phone-1" class="custom m-0"
+                        placeholder="Telefon" type="number"
+                        :class="{'error-input-custom': veeErrors.has('user.phone')}"
+                        name="user.phone" key="user.phone" v-validate="{'required':true}"
+                        v-model="user.phone"/>
+        </b-form-group>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="email-1" class="custom m-0"
+                        placeholder="E-mail"
+                        :class="{'error-input-custom': veeErrors.has('user.email')}"
+                        name="user.email" key="user.email" v-validate="{'required':true, 'email': true}"
+                        v-model="user.email"/>
+        </b-form-group>
+
+        <div class="mt-5">
+          <b-form-group class="custom mb-2">
+            <b-form-input id="password-1" class="custom m-0"
+                          placeholder="Stare hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          :class="{'error-input-custom': veeErrors.has('user.password')}"
+                          name="user.password" key="user.password" v-validate="{'required': user.id === undefined}"
+                          v-model="password"/>
+          </b-form-group>
+          <b-form-group class="custom mb-2">
+            <b-form-input id="password-1" class="custom m-0"
+                          placeholder="Nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          :class="{'error-input-custom': veeErrors.has('user.newPassword')}"
+                          name="user.newPassword" key="user.newPassword" v-validate="{'required': user.id === undefined}"
+                          v-model="newPassword"/>
+          </b-form-group>
+          <b-form-group class="custom mb-2">
+            <b-form-input id="password-1" class="custom m-0"
+                          placeholder="Powtórz nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          :class="{'error-input-custom': veeErrors.has('user.confirmPassword')}"
+                          name="confirmPassword" key="confirmPassword" v-validate="{'required': user.id === undefined}"
+                          v-model="confirmPassword"/>
+          </b-form-group>
+        </div>
+
+        <!--buttons-->
+        <b-row class="mt-4 justify-content-end">
+          <b-col lg="3" md="6" sm="12">
+            <b-btn block class="custom" @click="submit">
+              Zapisz
+            </b-btn>
+          </b-col>
+        </b-row>
+      </b-col>
+
+    </b-row>
+
+  </div>
+</template>
+
+<script>
+  import FormMixin from '@/mixins/form-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
+
+  export default {
+    mixins: [EventBusEmit, FormMixin],
+    name: 'Profile',
+    data () {
+      return {
+        user: {
+          role: 2,
+          active: false,
+          firstName: '',
+          lastName: '',
+          phone: '',
+          email: ''
+        },
+
+        password: '',
+        newPassword: '',
+        confirmPassword: ''
+      }
+    },
+    computed: {
+      authUser () {
+        return this.$store.getters.authUser
+      }
+    },
+    methods: {
+      submit () {
+        this.$validator.validateScopes()
+          .then((result) => {
+            if (result === false) return
+
+            if (this.confirmPassword.length > 0 || this.password.length > 0 || this.newPassword.length > 0) {
+              if (!this.checkPassword()) return
+              this.user.password = this.password
+              this.user.newPassword = this.newPassword
+            }
+
+            this.$store.dispatch('putUser', this.user)
+              .then((response) => {
+                this.showToast('Dane zostały zapisane', 'Uwaga', 'success')
+                delete this.user.password
+                delete this.user.newPassword
+                this.password = ''
+                this.newPassword = ''
+                this.confirmPassword = ''
+              })
+              // eslint-disable-next-line handle-callback-err
+              .catch((error) => {
+                delete this.user.password
+                delete this.user.newPassword
+                this.password = ''
+                this.newPassword = ''
+                this.confirmPassword = ''
+                console.log(error)
+                this.showToast((error && error.data && error.data.error)
+                ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
+              })
+          })
+      },
+      checkPassword () {
+        if (this.confirmPassword !== this.newPassword) {
+          this.showToast('Hasła nie są identyczne', 'Uwaga', 'danger')
+          return false
+        }
+        if (this.newPassword.length < 6) {
+          this.showToast('Hasło nie może być mniej niż 6 znaków', 'Uwaga', 'danger')
+          return false
+        }
+        return true
+      }
+    },
+    created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
+      this.changeAdminNavbarBreadcrumbs([{text: 'Mój profil', active: true}])
+
+      this.$store.dispatch('getCurrentUser')
+        .then((response) => {
+          this.user = response
+          console.log(response)
+        })
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

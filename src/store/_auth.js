@@ -29,6 +29,7 @@ export default {
       return false
     },
     authUser (state) {
+      console.log(state.authUser)
       return state.authUser
     }
   },
@@ -100,7 +101,6 @@ export default {
     clearAuthToken (context) {
       context.commit('destroyAuthToken')
     },
-    // todo
     getCurrentUser (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('me/', 'get', true, null, null, 200)
@@ -110,7 +110,7 @@ export default {
               return
             }
 
-            context.commit('setAuthUser', response)
+            context.commit('setAuthUser', {user: response})
             resolve(response)
           })
           .catch(error => {

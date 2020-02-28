@@ -110,6 +110,12 @@
             <span class="icon icon-icon_discipline"></span>
             Komunikaty<span class="pl-4"></span>
           </b-link>
+
+          <b-link :to="{name:'profile'}"
+                  class="list-group-item">
+            <span class="icon icon-icon_discipline"></span>
+            Mój profil<span class="pl-4"></span>
+          </b-link>
         </perfect-scrollbar>
 
       </div>

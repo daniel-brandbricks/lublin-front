@@ -46,6 +46,8 @@
           lastName: '',
           email: '',
           password: '',
+          newPassword: '',
+
           phone: '',
           disciplines: [
             // { id: 1 },
@@ -109,6 +111,8 @@
         }
         this.schoolIds = schoolsIds
         this.leader = leader
+        this.leader.password = ''
+        this.leader.newPassword = ''
         console.log(this.leader)
       }
     },

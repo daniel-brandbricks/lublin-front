@@ -41,13 +41,30 @@
                         name="admin.email" key="admin.email" v-validate="{'required':true, 'email': true}"
                         v-model="admin.email"/>
         </b-form-group>
-<!--        <b-form-group class="custom mb-2">-->
-<!--          <b-form-input id="password-1" class="custom m-0"-->
-<!--                        placeholder="Hasło" type="password"-->
-<!--                        :class="{'error-input-custom': veeErrors.has('admin.password')}"-->
-<!--                        name="admin.password" key="admin.password" v-validate="{'required': admin.id === undefined}"-->
-<!--                        v-model="admin.password"/>-->
-<!--        </b-form-group>-->
+
+        <div v-if="id !== undefined" class="mt-5">
+          <b-form-group class="custom mb-2">
+            <b-form-input id="password-1" class="custom m-0"
+                          placeholder="Stare hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          :class="{'error-input-custom': veeErrors.has('admin.password')}"
+                          name="admin.password" key="admin.password" v-validate="{'required': admin.id === undefined}"
+                          v-model="admin.password"/>
+          </b-form-group>
+          <b-form-group class="custom mb-2">
+            <b-form-input id="password-1" class="custom m-0"
+                          placeholder="Nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          :class="{'error-input-custom': veeErrors.has('admin.newPassword')}"
+                          name="admin.newPassword" key="admin.newPassword" v-validate="{'required': admin.id === undefined}"
+                          v-model="admin.newPassword"/>
+          </b-form-group>
+          <b-form-group class="custom mb-2">
+            <b-form-input id="password-1" class="custom m-0"
+                          placeholder="Powtórz nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          :class="{'error-input-custom': veeErrors.has('admin.confirmPassword')}"
+                          name="confirmPassword" key="confirmPassword" v-validate="{'required': admin.id === undefined}"
+                          v-model="confirmPassword"/>
+          </b-form-group>
+        </div>
 
         <!--buttons-->
         <b-row class="mt-4">
@@ -91,8 +108,10 @@
           lastName: '',
           phone: '',
           email: '',
-          password: ''
-        }
+          password: '',
+          newPassword: ''
+        },
+        confirmPassword: ''
       }
     },
     methods: {
@@ -101,6 +120,11 @@
           .then((result) => {
             if (result === false) return
             const method = this.id === undefined ? 'postAdministrator' : 'putAdministrator'
+
+            if (this.confirmPassword.length > 0 || this.admin.password.length > 0 || this.admin.newPassword.length > 0) {
+              if (!this.checkPassword()) return
+            }
+
             this.$store.dispatch(method, this.admin)
               .then((response) => {
                 let routeParams = {}
@@ -119,6 +143,17 @@
                 ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
               })
           })
+      },
+      checkPassword () {
+        if (this.confirmPassword !== this.admin.newPassword) {
+          this.showToast('Hasła nie są identyczne', 'Uwaga', 'danger')
+          return false
+        }
+        if (this.admin.newPassword.length < 6) {
+          this.showToast('Hasło nie może być mniej niż 6 znaków', 'Uwaga', 'danger')
+          return false
+        }
+        return true
       }
     },
     created () {
@@ -134,6 +169,8 @@
         this.$store.dispatch('getAdministrator', {id: this.id})
           .then((response) => {
             this.admin = response
+            this.admin.password = ''
+            this.admin.newPassword = ''
             console.log(response)
 
             let breadcrumbs = [
