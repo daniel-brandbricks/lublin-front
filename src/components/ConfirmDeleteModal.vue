@@ -91,15 +91,15 @@
           .catch((error) => {
             this.hideModal()
             console.log(error)
-            console.log(this.routeParams)
+            // console.log(this.routeParams)
             if (this.routeToPush) {
-              this.routeParams['toastText'] = 'Dane zostały usunięte'
-              this.routeParams['toastVariant'] = 'success'
-              console.log(this.routeParams)
-              this.$router.push({
-                name: this.routeToPush,
-                params: this.routeParams
-              })
+              // this.routeParams['toastText'] = 'Dane zostały usunięte'
+              // this.routeParams['toastVariant'] = 'success'
+              // console.log(this.routeParams)
+              // this.$router.push({
+                // name: this.routeToPush,
+                // params: this.routeParams
+              // })
             } else {
               this.showToast('Wystąpil błąd', 'Uwaga!', 'danger')
             }

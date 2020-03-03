@@ -61,7 +61,14 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
           console.log('api service 401 [2]')
-          router.push({ name: 'home' })
+          store.dispatch('logout')
+            .then(resp => {
+              router.push({ name: 'home' })
+            })
+            // eslint-disable-next-line handle-callback-err
+            .catch(err => {
+              router.push({ name: 'home' })
+            })
         }
 
         if (axios.isCancel(error)) {
