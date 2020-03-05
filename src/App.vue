@@ -10,7 +10,10 @@
 
   export default {
     name: 'App',
-    components: { ConfirmDeleteModal }
+    components: { ConfirmDeleteModal },
+    created () {
+      this.$store.dispatch('getCurrentUser')
+    }
   }
 </script>
 
