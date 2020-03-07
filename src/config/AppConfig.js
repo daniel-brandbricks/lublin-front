@@ -51,14 +51,23 @@ export const YEARS = [
 ]
 
 export const PERMISSIONS = [
+  // Done, test on prod
   { id: 1, label: 'Składa zaproszenie do klubu/szkoły' },
+  // todo
   { id: 2, label: 'Dodaje/aktualizuje kalendarz wydarzeń lub imprez' },
+  // todo ask
   { id: 3, label: 'Dodaje/aktualizuje dziennik uczestników' },
+  // todo
   { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
+  // todo
   { id: 5, label: 'Generuje raporty' },
+  // Done, test on prod, todo ask about objects
   { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
+  // Done, test on prod
   { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
+  // todo
   { id: 8, label: 'Wprowadza wyniki MTSF-u' },
+  // todo
   { id: 9, label: 'Archiwizuje listy zawodników z możliwością przeniesienia i edycji listy na kolejny rok/sezon' }
 ]
 
