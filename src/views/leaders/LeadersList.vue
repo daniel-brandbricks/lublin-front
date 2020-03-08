@@ -102,9 +102,25 @@
           })
         }
         return sportObjectsPrepared
+      },
+      isDirector () {
+        return this.$store.getters.isDirector
+      }
+    },
+    watch: {
+      isDirector: function (val) {
+        this.checkNavButton(val)
       }
     },
     methods: {
+      checkNavButton (val) {
+        if (val) {
+          /** @buttonLink route name || false if button must be hidden */
+          this.changeAdminNavbarButton({ buttonLink: 'leader', params: { tab: 'main-data' } })
+        } else {
+          this.changeAdminNavbarButton({buttonLink: false})
+        }
+      }
       // rowRedirect (id, isConfirmed) {
       //   this.$router.push({
       //     name: 'leader',
@@ -120,8 +136,7 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getSportObjects')
 
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'leader', params: { tab: 'main-data' } })
+      this.checkNavButton(this.isDirector)
       this.changeAdminNavbarBreadcrumbs([ { text: 'Prowadzący', active: true } ])
     }
   }

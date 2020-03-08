@@ -18,6 +18,7 @@
             dashboard
           </b-link>
           <b-link :to="{name:'www', params: {'tab': 'menu'}}"
+                  v-if="$store.getters.isAdmin"
                   class="list-group-item">
             <span class="icon icon-iconm_search"></span>
             Strona www
@@ -88,6 +89,7 @@
           </b-link>
 
           <b-link :to="{name:'dictionary', params: {'tab': 'sport-object-type'}}"
+                  v-if="$store.getters.isAdmin"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Słownik
@@ -100,6 +102,7 @@
           </b-link>
 
           <b-link :to="{name:'co.administrators'}"
+                  v-if="$store.getters.isSU"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Współadministratorzy<span class="pl-4"></span>

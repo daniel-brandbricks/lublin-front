@@ -16,7 +16,11 @@ let generateToken = function () {
 export default {
   state: {
     authToken: generateToken(),
-    authUser: null
+    authUser: null,
+    userRole: null,
+    isDirector: false,
+    isAdmin: false,
+    isSU: false
   },
   getters: {
     authToken (state) {
@@ -31,6 +35,20 @@ export default {
     authUser (state) {
       console.log(state.authUser)
       return state.authUser
+    },
+    isAdmin (state) {
+      console.log(state.isAdmin)
+      return state.isAdmin
+    },
+    isSU (state) {
+      console.log(state.isSU)
+      return state.isSU
+    },
+    isDirector (state) {
+      // return false
+      if (state.isAdmin || state.isSU) return true
+      console.log(state.isDirector)
+      return state.isDirector
     }
   },
   mutations: {
@@ -43,7 +61,13 @@ export default {
       state.authToken = null
     },
     setAuthUser (state, data) {
+      console.log(data)
       state.authUser = data === null ? data : data.user
+      state.userRole = data.user.role
+
+      if (data.user.role === 2 || data.user.role === 3) state.isAdmin = true
+      if (data.user.role === 3) state.isSU = true
+      if (data.user.schoolsUsers.length > 0 && data.user.schoolsUsers[0].role === 1) state.isDirector = true
       console.log(state.authUser)
     }
   },

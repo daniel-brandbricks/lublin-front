@@ -93,13 +93,32 @@
         districts: DISTRICTS
       }
     },
-    computed: {},
+    computed: {
+      isDirector () {
+        return this.$store.getters.isDirector
+      }
+    },
+    watch: {
+      isDirector: function (val) {
+        this.checkNavButton(val)
+      }
+    },
     methods: {
       rowRedirect (id, isConfirmed) {
+        if (!this.isDirector) return
+
         this.$router.push({
           name: 'school.or.club',
           params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
         })
+      },
+      checkNavButton (val) {
+        if (val) {
+          /** @buttonLink route name || false if button must be hidden */
+          this.changeAdminNavbarButton({ buttonLink: 'school.or.club', params: { tab: 'main-data' } })
+        } else {
+          this.changeAdminNavbarButton({buttonLink: false})
+        }
       }
     },
     created () {
@@ -107,8 +126,7 @@
         this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
       }
 
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'school.or.club', params: { tab: 'main-data' } })
+      this.checkNavButton(this.isDirector)
       this.changeAdminNavbarBreadcrumbs([ { text: 'Kłuby i szkoły', active: true } ])
     }
   }

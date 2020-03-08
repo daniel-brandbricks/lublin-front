@@ -39,7 +39,7 @@
           <span>{{scope.item.created}}</span>
         </template>
 
-        <template slot="btnTable" slot-scope="scope">
+        <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isDirector">
           <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
             Zatwierdź
           </b-btn>

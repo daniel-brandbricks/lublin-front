@@ -35,7 +35,7 @@
               <span>{{scope.item.created}}</span>
             </template>
 
-            <template slot="btnTable" slot-scope="scope">
+            <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isDirector">
               <b-btn variant="primary" class="custom mb-0" @click="confirmSchoolAndClubItem(scope.item.id)">
                 Zatwierdź
               </b-btn>
@@ -73,7 +73,7 @@
               <span>{{scope.item.created}}</span>
             </template>
 
-            <template slot="btnTable" slot-scope="scope">
+            <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isDirector">
               <b-btn variant="primary" class="custom mb-0" @click="confirmSportObjectItem(scope.item.id)">
                 Zatwierdź
               </b-btn>

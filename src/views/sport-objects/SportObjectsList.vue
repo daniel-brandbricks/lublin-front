@@ -100,17 +100,35 @@
         districts: DISTRICTS
       }
     },
+    watch: {
+      isDirector: function (val) {
+        this.checkNavButton(val)
+      }
+    },
     computed: {
+      isDirector () {
+        return this.$store.getters.isDirector
+      },
       sportObjectTypes () {
         return this.$store.getters.sportObjectTypes
       }
     },
     methods: {
       rowRedirect (id, isConfirmed) {
+        if (!this.isDirector) return
+
         this.$router.push({
           name: 'sport.object',
           params: {'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed}
         })
+      },
+      checkNavButton (val) {
+        if (val) {
+          /** @buttonLink route name || false if button must be hidden */
+          this.changeAdminNavbarButton({buttonLink: 'sport.object', params: {tab: 'main-data'}})
+        } else {
+          this.changeAdminNavbarButton({buttonLink: false})
+        }
       }
     },
     created () {
@@ -120,8 +138,7 @@
 
       this.$store.dispatch('getSportObjectTypes')
 
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({buttonLink: 'sport.object', params: {tab: 'main-data'}})
+      this.checkNavButton(this.isDirector)
       this.changeAdminNavbarBreadcrumbs([{text: 'Obiekty sportowe', active: true}])
     }
   }

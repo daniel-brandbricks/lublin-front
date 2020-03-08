@@ -110,10 +110,15 @@
         }
 
         return leadersPassedByIds
+      },
+      isDirector () {
+        return this.$store.getters.isDirector
       }
     },
     methods: {
       rowRedirect (row) {
+        if (!this.isDirector) return
+
         this.$router.push({
           name: 'leader',
           params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': false }

@@ -51,11 +51,11 @@ export const YEARS = [
 ]
 
 export const PERMISSIONS = [
-  // Done, test on prod
+  // Done, test on prod, todo ask invite leader or participant, if 2 w kakoi sposob???
   { id: 1, label: 'Składa zaproszenie do klubu/szkoły' },
   // todo
   { id: 2, label: 'Dodaje/aktualizuje kalendarz wydarzeń lub imprez' },
-  // todo ask
+  // todo ask -> is it participant list or participants only?
   { id: 3, label: 'Dodaje/aktualizuje dziennik uczestników' },
   // todo
   { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
