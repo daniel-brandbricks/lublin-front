@@ -131,6 +131,18 @@
       }
     },
     methods: {
+      changeSchoolLeaderStatus (data) {
+        console.log(data)
+        this.$store.dispatch('putSchool', {
+          id: this.$route.params.id,
+          active: data.status,
+          leaderId: data.id,
+          actionType: 'putLeaderStatus'
+        }).then((response) => {
+          console.log(response)
+          this.school = response
+        })
+      },
       updateSchool () {
         this.school = this.$store.getters.school(this.isConfirmed, this.id)
       },

@@ -1,8 +1,10 @@
 <template>
   <b-row class="justify-content-center">
+    {{fieldsParams}}
     <b-col cols="8">
       <b-table
-        :items="leadersFiltered"
+        ref="leader-table"
+        :items="leadersFilteredFixFromComponent"
         :fields="fields"
         striped
         sort-icon-left
@@ -21,19 +23,46 @@
           </span>
         </template>
 
-        <template slot="sportObject" slot-scope="scope">
-          <span/>
-          <span class="d-inline" v-for="(place,index) in scope.item.places" :key="index">
-            {{getPlaceTitleById(place.id, index, scope.item.places.length)}}
-          </span>
-        </template>
+<!--        <template slot="sportObject" slot-scope="scope">-->
+<!--          <span/>-->
+<!--          <span class="d-inline" v-for="(place,index) in scope.item.places" :key="index">-->
+<!--            {{getPlaceTitleById(place.id, index, scope.item.places.length)}}-->
+<!--          </span>-->
+<!--        </template>-->
 
         <template slot="lessons" slot-scope="scope">
           <span>{{scope.item.lessons.length}}</span>
         </template>
 
-<!--        <template slot="status" slot-scope="scope">-->
-<!--          &lt;!&ndash; This span used for changing slot in parent-relative objects using this table &ndash;&gt;-->
+        <template slot="status" slot-scope="scope">
+          {{scope.item.schoolStatus}}
+          qwe
+          {{scope.item.status}}
+          asd
+          <b-dropdown class="status-dropdown">
+            <template v-if="undefined === statusSlot" v-slot:button-content>
+              <span class="status c-pointer"
+                      :class="{'active': scope.item.active}">
+                  {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
+                </span>
+            </template>
+            <template v-else v-slot:button-content>
+              <span class="status c-pointer"
+                      :class="{'active': scope.item.schoolStatus}">
+                  {{scope.item.schoolStatus === true ? 'aktywny' : 'nieaktywny'}}
+                </span>
+            </template>
+            <b-dropdown-item :disabled="undefined === statusSlot ? scope.item.active : scope.item.schoolStatus"
+                             @click="changeLeaderStatus(scope.item.id, 1)">
+              Aktywuj
+            </b-dropdown-item>
+            <b-dropdown-item :disabled="undefined === statusSlot ? !scope.item.active : !scope.item.schoolStatus"
+                             @click="changeLeaderStatus(scope.item.id, 0)">
+              Dezaktywuj
+            </b-dropdown-item>
+          </b-dropdown>
+
+          <!-- This span used for changing slot in parent-relative objects using this table -->
 <!--          <span v-if="fieldsParams && fieldsParams.find(x => {return x.key === 'status'})"-->
 <!--                class="status" :class="{'active': $parent.getStatusPersonInSchool(scope.item)}">-->
 <!--            {{$parent.getStatusPersonInSchool(scope.item) == 1 ? 'aktywny' : 'nieaktywny'}}-->
@@ -42,11 +71,12 @@
 <!--                v-else>-->
 <!--            {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}-->
 <!--          </span>-->
-<!--        </template>-->
-        <template slot="status" slot-scope="scope">
-            <span class="status"
-                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
+
+<!--        <template slot="status" slot-scope="scope">-->
+<!--            <span class="status"-->
+<!--                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>-->
+<!--        </template>-->
 
 <!--        <template slot="lessons" slot-scope="scope">-->
 <!--          <span/>-->
@@ -74,16 +104,16 @@
 
   export default {
     name: 'ListToConfirm',
-    props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams'],
+    props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams', 'parentType', 'statusSlot'],
     mixins: [LeaderMixin, TableMixin],
     data () {
       return {
         fields: [
           {key: 'fullName', label: 'Imię i Nazwisko', sortable: true},
           {key: 'disciplines', label: 'Dyscyplina', sortable: true},
-          {key: 'sportObject', label: 'Obiekt', sortable: true},
+          // {key: 'sportObject', label: 'Obiekt', sortable: true},
           {key: 'lessons', label: 'Zajęcia', sortable: true},
-          {key: 'status', label: 'Status w systemie', sortable: true},
+          {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
           {key: 'edit', label: ''}
         ]
       }
@@ -93,18 +123,36 @@
       leadersConfirmed () {
         return this.$store.getters.leadersConfirmed
       },
+      leadersFilteredFixFromComponent () {
+        console.log(this.leadersFiltered)
+        return this.leadersFiltered
+      },
       leaders () {
         let leadersPassedByIds = []
         let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
         : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
 
+        let filteredLeaders = []
+        for (let leaderIndex in storeLeaders) {
+          if (this.statusSlot) {
+            let ids = Object.keys(this.statusSlot.ids)
+            let preparedLeader = storeLeaders[leaderIndex]
+            if (ids.includes(storeLeaders[leaderIndex].id.toString())) {
+              preparedLeader.schoolStatus = this.statusSlot.ids[storeLeaders[leaderIndex].id]
+              filteredLeaders.push(preparedLeader)
+            }
+          } else {
+            filteredLeaders.push(storeLeaders[leaderIndex])
+          }
+        }
+
         // this block for filtering by passed ids through parent-related entities
         if (undefined === this.idsToPass) {
-          leadersPassedByIds = storeLeaders
+          leadersPassedByIds = filteredLeaders
         } else {
-          for (let index in storeLeaders) {
-            if (this.idsToPass.includes(parseInt(storeLeaders[index].id))) {
-              leadersPassedByIds.push(storeLeaders[index])
+          for (let index in filteredLeaders) {
+            if (this.idsToPass.includes(parseInt(filteredLeaders[index].id))) {
+              leadersPassedByIds.push(filteredLeaders[index])
             }
           }
         }
@@ -116,6 +164,23 @@
       }
     },
     methods: {
+      changeLeaderStatus (id, status) {
+        console.log(this.statusSlot)
+        console.log(status)
+
+        // todo change leader status in system
+        // if (undefined === this.statusSlot) {
+        //   this.$store.dispatch('putLeader', {
+        //     id: id,
+        //     active: status,
+        //     schoolId: this.$route.params.id,
+        //     actionType: 'putSchoolStatus'
+        //   })
+        //   return
+        // }
+
+        this.$emit(this.statusSlot.event, ({id: id, status: status}))
+      },
       rowRedirect (row) {
         if (!this.isDirector) return
 

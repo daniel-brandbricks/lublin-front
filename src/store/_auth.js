@@ -62,7 +62,16 @@ export default {
     },
     setAuthUser (state, data) {
       console.log(data)
-      state.authUser = data === null ? data : data.user
+      if (data === null) {
+        state.authUser = null
+        state.userRole = null
+        state.isDirector = false
+        state.isAdmin = false
+        state.isSU = false
+
+        return
+      }
+      state.authUser = data.user
       state.userRole = data.user.role
 
       if (data.user.role === 2 || data.user.role === 3) state.isAdmin = true
@@ -107,6 +116,7 @@ export default {
         }
         apiService.makeApiCall('logout/', 'post', true, data, null, 200)
           .then(response => {
+            console.log(response)
             if (response === 'error') {
               resolve('error')
               return
@@ -117,6 +127,7 @@ export default {
             resolve()
           })
           .catch(error => {
+            console.log(error)
             console.log(error.response)
             reject(error.response)
           })

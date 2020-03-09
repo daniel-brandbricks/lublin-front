@@ -29,8 +29,10 @@
       </b-col>
     </b-row>
 
+    <!--  :fieldsParams="[{key: 'status', label: 'Status dla tego obiektu'}]" :parentType="'school'"  -->
     <leader-table :is-confirmed="'all'" :ids-to-pass="leadersIdsToPass" :key="$route.params.tab"
-                  :fieldsParams="[{key: 'status', label: 'Status dla tego obiektu'}]"
+                  @school-leader-change-status="$parent.changeSchoolLeaderStatus" :status-slot="statusSlot"
+                  ref="leaderComponent"
                   :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"/>
 
     <b-modal ref="leaderModal" centered title="Zapiąć/Odpiąć prowadzącego" hide-footer size="lg">
@@ -120,6 +122,24 @@
         this.selectedLeaders = [...ids]
 
         return ids
+      },
+      statusSlot () {
+        let data = {}
+        let leaderIds = {}
+
+        let schoolsUsers = this.school.schoolsUsers || []
+        for (let index in schoolsUsers) {
+          console.log(schoolsUsers[index])
+          console.log(schoolsUsers[index])
+          if (parseInt(schoolsUsers[index].role) === 0 && parseInt(schoolsUsers[index].user.role) === 1) {
+            leaderIds[schoolsUsers[index].user.id] = schoolsUsers[index].status
+          }
+        }
+        data['ids'] = leaderIds
+        data['columnWord'] = 'Status dla szkoły / klubu'
+        data['event'] = 'school-leader-change-status'
+        console.log(data)
+        return data
       }
     },
     methods: {
@@ -163,8 +183,8 @@
       })
 
       let breadcrumbs = [
-        { text: 'Kłuby i szkoły', to: { name: 'schools.and.clubs', params: { 'tab': 'confirmed' } } },
-        { text: this.id ? parseInt(this.school.type) === 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true }
+        {text: 'Kłuby i szkoły', to: {name: 'schools.and.clubs', params: {'tab': 'confirmed'}}},
+        {text: this.id ? parseInt(this.school.type) === 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true}
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     }

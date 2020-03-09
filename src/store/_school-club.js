@@ -163,7 +163,7 @@ export default {
             }
 
             context.commit('setSchool', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

@@ -145,6 +145,7 @@
         return this.$store.getters.classes
       },
       participantList () {
+        console.log(111)
         let participants = this.$store.getters.participants
         let filteredParticipants = []
         let search = this.search || ''
@@ -178,7 +179,7 @@
             filteredParticipants.push(participants[index])
           }
         }
-        
+
         console.log(filteredParticipants)
         return filteredParticipants
       }
@@ -198,7 +199,6 @@
         }
 
         this.$emit(this.statusSlot.event, ({id: id, status: status}))
-
       },
       getClassTitleById (id, index = null, arrayLength = null) {
         if (undefined === this.classes || this.classes === null) return ''
