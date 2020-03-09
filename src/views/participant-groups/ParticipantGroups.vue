@@ -107,7 +107,7 @@
 
   export default {
     components: { Treeselect },
-    props: [ 'participantGroup' ],
+    props: [ 'participantGroup', 'school' ],
     mixins: [ EventBusEmit, ParticipantGroupMixin ],
     data () {
       return {
@@ -164,6 +164,10 @@
           if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
           if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
+
+          // for school component
+          if ((this.school && this.school.id) && this.school.id !== participantGroups[index].school.id) continue
+
           filteredParticipantGroups.push(participantGroups[index])
         }
 

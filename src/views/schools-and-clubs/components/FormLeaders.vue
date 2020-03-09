@@ -129,8 +129,6 @@
 
         let schoolsUsers = this.school.schoolsUsers || []
         for (let index in schoolsUsers) {
-          console.log(schoolsUsers[index])
-          console.log(schoolsUsers[index])
           if (parseInt(schoolsUsers[index].role) === 0 && parseInt(schoolsUsers[index].user.role) === 1) {
             leaderIds[schoolsUsers[index].user.id] = schoolsUsers[index].status
           }
@@ -138,7 +136,6 @@
         data['ids'] = leaderIds
         data['columnWord'] = 'Status dla szkoły / klubu'
         data['event'] = 'school-leader-change-status'
-        console.log(data)
         return data
       }
     },
@@ -161,7 +158,6 @@
           leaders: this.selectedLeaders
         }
 
-        console.log(school)
         this.$store.dispatch('putSchool', school)
           .then((response) => {
             this.$parent.updateSchool()
@@ -172,7 +168,6 @@
     mounted () {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_LEADERS_MODAL'})
-      console.log(this.$refs)
     },
     created () {
       this.$store.dispatch('getDisciplines')

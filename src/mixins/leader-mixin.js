@@ -46,7 +46,6 @@ export default {
   },
   computed: {
     leadersFiltered () {
-      console.log(111)
       let leaders = this.leaders || []
       let filteredLeaders = []
       let search = this.filters.search || ''

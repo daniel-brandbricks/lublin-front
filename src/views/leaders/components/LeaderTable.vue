@@ -4,7 +4,7 @@
     <b-col cols="8">
       <b-table
         ref="leader-table"
-        :items="leadersFilteredFixFromComponent"
+        :items="leadersFiltered"
         :fields="fields"
         striped
         sort-icon-left
@@ -23,32 +23,28 @@
           </span>
         </template>
 
-<!--        <template slot="sportObject" slot-scope="scope">-->
-<!--          <span/>-->
-<!--          <span class="d-inline" v-for="(place,index) in scope.item.places" :key="index">-->
-<!--            {{getPlaceTitleById(place.id, index, scope.item.places.length)}}-->
-<!--          </span>-->
-<!--        </template>-->
+        <!--        <template slot="sportObject" slot-scope="scope">-->
+        <!--          <span/>-->
+        <!--          <span class="d-inline" v-for="(place,index) in scope.item.places" :key="index">-->
+        <!--            {{getPlaceTitleById(place.id, index, scope.item.places.length)}}-->
+        <!--          </span>-->
+        <!--        </template>-->
 
         <template slot="lessons" slot-scope="scope">
           <span>{{scope.item.lessons.length}}</span>
         </template>
 
         <template slot="status" slot-scope="scope">
-          {{scope.item.schoolStatus}}
-          qwe
-          {{scope.item.status}}
-          asd
           <b-dropdown class="status-dropdown">
             <template v-if="undefined === statusSlot" v-slot:button-content>
               <span class="status c-pointer"
-                      :class="{'active': scope.item.active}">
+                    :class="{'active': scope.item.active}">
                   {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
                 </span>
             </template>
             <template v-else v-slot:button-content>
               <span class="status c-pointer"
-                      :class="{'active': scope.item.schoolStatus}">
+                    :class="{'active': scope.item.schoolStatus}">
                   {{scope.item.schoolStatus === true ? 'aktywny' : 'nieaktywny'}}
                 </span>
             </template>
@@ -62,28 +58,26 @@
             </b-dropdown-item>
           </b-dropdown>
 
-          <!-- This span used for changing slot in parent-relative objects using this table -->
-<!--          <span v-if="fieldsParams && fieldsParams.find(x => {return x.key === 'status'})"-->
-<!--                class="status" :class="{'active': $parent.getStatusPersonInSchool(scope.item)}">-->
-<!--            {{$parent.getStatusPersonInSchool(scope.item) == 1 ? 'aktywny' : 'nieaktywny'}}-->
-<!--          </span>-->
-<!--          <span class="status" :class="{'active': scope.item.active}"-->
-<!--                v-else>-->
-<!--            {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}-->
-<!--          </span>-->
+          <div v-if="undefined !== statusSlot" class="mt-1">
+            <span>Status w systemie: </span>
+            <br>
+          <span class="status mb-2" :class="{'active': scope.item.active}">
+            {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
+          </span>
+          </div>
         </template>
 
-<!--        <template slot="status" slot-scope="scope">-->
-<!--            <span class="status"-->
-<!--                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>-->
-<!--        </template>-->
+        <!--        <template slot="status" slot-scope="scope">-->
+        <!--            <span class="status"-->
+        <!--                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>-->
+        <!--        </template>-->
 
-<!--        <template slot="lessons" slot-scope="scope">-->
-<!--          <span/>-->
-<!--          <span class="d-inline" v-for="(lesson,index) in scope.item.lessons" :key="index">-->
-<!--&lt;!&ndash;            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}&ndash;&gt;-->
-<!--          </span>-->
-<!--        </template>-->
+        <!--        <template slot="lessons" slot-scope="scope">-->
+        <!--          <span/>-->
+        <!--          <span class="d-inline" v-for="(lesson,index) in scope.item.lessons" :key="index">-->
+        <!--&lt;!&ndash;            {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}&ndash;&gt;-->
+        <!--          </span>-->
+        <!--        </template>-->
 
         <template slot="edit" slot-scope="scope">
           <b-link class="icon-link">
@@ -100,7 +94,7 @@
   import LeaderMixin from '@/mixins/leader-mixin'
   import TableMixin from '@/mixins/table-mixin'
 
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'ListToConfirm',
@@ -123,14 +117,10 @@
       leadersConfirmed () {
         return this.$store.getters.leadersConfirmed
       },
-      leadersFilteredFixFromComponent () {
-        console.log(this.leadersFiltered)
-        return this.leadersFiltered
-      },
       leaders () {
         let leadersPassedByIds = []
         let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
-        : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
+          : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
 
         let filteredLeaders = []
         for (let leaderIndex in storeLeaders) {
@@ -165,19 +155,14 @@
     },
     methods: {
       changeLeaderStatus (id, status) {
-        console.log(this.statusSlot)
-        console.log(status)
-
-        // todo change leader status in system
-        // if (undefined === this.statusSlot) {
-        //   this.$store.dispatch('putLeader', {
-        //     id: id,
-        //     active: status,
-        //     schoolId: this.$route.params.id,
-        //     actionType: 'putSchoolStatus'
-        //   })
-        //   return
-        // }
+        if (undefined === this.statusSlot) {
+          this.$store.dispatch('putLeader', {
+            id: id,
+            active: status,
+            actionType: 'changeStatus'
+          })
+          return
+        }
 
         this.$emit(this.statusSlot.event, ({id: id, status: status}))
       },
@@ -186,7 +171,7 @@
 
         this.$router.push({
           name: 'leader',
-          params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': false }
+          params: {'tab': 'main-data', 'id': row.id, 'isConfirmed': false}
         })
         // this.$parent.rowRedirect(row.id, false)
       }
