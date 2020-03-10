@@ -106,27 +106,27 @@
   import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
 
   export default {
-    components: { Treeselect },
-    props: [ 'participantGroup', 'school' ],
-    mixins: [ EventBusEmit, ParticipantGroupMixin ],
-    data () {
+    components: {Treeselect},
+    props: ['participantGroup', 'school', 'schoolIds', 'participant'],
+    mixins: [EventBusEmit, ParticipantGroupMixin],
+    data() {
       return {
         fields: [
-          { key: 'title', label: 'Nazwa listy', sortable: true },
-          { key: 'discipline', label: 'Dyscyplina', sortable: true },
-          { key: 'sex', label: 'Płeć', sortable: true },
-          { key: 'lessonCategory', label: 'Kategoria', sortable: true },
-          { key: 'class', label: 'Klasa', sortable: true },
-          { key: 'status', label: 'Status w systemie', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'title', label: 'Nazwa listy', sortable: true},
+          {key: 'discipline', label: 'Dyscyplina', sortable: true},
+          {key: 'sex', label: 'Płeć', sortable: true},
+          {key: 'lessonCategory', label: 'Kategoria', sortable: true},
+          {key: 'class', label: 'Klasa', sortable: true},
+          {key: 'status', label: 'Status w systemie', sortable: true},
+          {key: 'edit', label: ''}
         ],
 
         search: '',
 
         selectedGender: [],
         genderOptions: [
-          { text: 'kobieta', value: 0 },
-          { text: 'mężczyzna', value: 1 }
+          {text: 'kobieta', value: 0},
+          {text: 'mężczyzna', value: 1}
         ],
 
         selectedDisciplines: [],
@@ -135,16 +135,16 @@
       }
     },
     computed: {
-      disciplines () {
+      disciplines() {
         return this.$store.getters.disciplines
       },
-      lessonCategories () {
+      lessonCategories() {
         return this.$store.getters.lessonCategories
       },
-      classes () {
+      classes() {
         return this.$store.getters.classes
       },
-      participantGroups () {
+      participantGroups() {
         let participantGroups = this.$store.getters.participantGroups
 
         let filteredParticipantGroups = []
@@ -165,8 +165,20 @@
           if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
 
-          // for school component
-          if ((this.school && this.school.id) && this.school.id !== participantGroups[index].school.id) continue
+          // for school & leader & participant component
+          if (this.participant && this.participant.id) {
+            let participantExists = participantGroups[index].participants && participantGroups[index].participants.find(x => {
+              return x.id === this.participant.id
+            })
+
+            if (undefined === participantExists) continue
+          }
+          if (this.school && this.school.id) {
+            if (this.school.id !== participantGroups[index].school.id) continue
+          }
+          if (this.schoolIds && this.schoolIds.length > 0) {
+            if (!this.schoolIds.includes(participantGroups[index].school.id)) continue
+          }
 
           filteredParticipantGroups.push(participantGroups[index])
         }
@@ -175,7 +187,7 @@
       }
     },
     methods: {
-      getSex (value) {
+      getSex(value) {
         if (!Array.isArray(value)) return ''
         let string = ''
         if (value.includes(1)) string += 'Mężczyzna'
@@ -183,42 +195,42 @@
         if (value.includes(0)) string += 'Kobieta'
         return string
       },
-      getDisciplineTitleById (id) {
+      getDisciplineTitleById(id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
         return this.disciplines.find((obj) => {
           return obj.id === id
         }).title
       },
-      getLessonCategoryTitleById (id) {
+      getLessonCategoryTitleById(id) {
         if (undefined === this.lessonCategories || this.lessonCategories === null || this.lessonCategories.length < 1) return ''
         return this.lessonCategories.find((obj) => {
           return obj.id === id
         }).title
       },
-      getClassTitleById (id) {
+      getClassTitleById(id) {
         if (undefined === this.classes || this.classes === null || this.classes.length < 1) return ''
         return this.classes.find((obj) => {
           return obj.id === id
         }).title
       },
-      rowRedirect (row) {
+      rowRedirect(row) {
         this.$router.push({
           name: 'participant.group',
-          params: { 'tab': 'main-data', 'id': row.id }
+          params: {'tab': 'main-data', 'id': row.id}
         })
       }
     },
-    created () {
+    created() {
       this.$store.dispatch('getParticipantGroups')
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'participant.group', params: { tab: 'main-data' } })
+      this.changeAdminNavbarButton({buttonLink: 'participant.group', params: {tab: 'main-data'}})
 
-      if (undefined === this.school || this.school === null) {
-        this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zawodników', active: true } ])
+      if (undefined === this.school && this.schoolIds === undefined && this.participant === undefined) {
+        this.changeAdminNavbarBreadcrumbs([{text: 'Lista zawodników', active: true}])
       }
     }
   }

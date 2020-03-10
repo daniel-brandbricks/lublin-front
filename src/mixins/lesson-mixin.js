@@ -97,10 +97,26 @@ export default {
         if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(lessons[index].lessonCategory.id))) continue
         if (classes.length > 0 && !classes.includes(parseInt(lessons[index].class.id))) continue
 
-        // for school component
-        if ((this.school && this.school.id) && this.school.id !== lessons[index].school.id) continue
-        // for school component
-        console.log(this.sportObject)
+        // for school & leader && participant group && participant component
+        if (this.participant && this.participant.id) {
+          console.log(lessons[index].participantGroup.id)
+          console.log(this.participant.participantGroups)
+          let participantGroupExists = this.participant.participantGroups.find(x => {
+            return x.participantGroup.id === lessons[index].participantGroup.id
+          })
+console.log(participantGroupExists)
+          if (undefined === participantGroupExists) continue
+        }
+        if (this.participantGroup && this.participantGroup.id) {
+          if (this.participantGroup.id !== lessons[index].participantGroup.id) continue
+        }
+        if (this.school && this.school.id) {
+          if (this.school.id !== lessons[index].school.id) continue
+        }
+        if ((this.schoolIds && this.schoolIds.length > 0)) {
+          if (!this.schoolIds.includes(lessons[index].school.id)) continue
+        }
+
         if ((this.sportObject && this.sportObject.id) && this.sportObject.id !== lessons[index].place.id) continue
 
         filteredLessons.push(lessons[index])

@@ -18,8 +18,8 @@
                             && $route.params.tab === 'participants'"/>
 
           <!--        Component for todo Entity isValidForm for ALL  -->
-          <FormActivities :participantGroup="participantGroup" @childSubmit="submit" ref="FormActivities"
-                          :key="$route.params.tab+'FormActivities'" v-show="$route.params.tab === 'activities'"/>
+          <FormLessons :participantGroup="participantGroup" @childSubmit="submit" ref="FormLessons"
+                          :key="$route.params.tab+'FormLessons'" v-show="$route.params.tab === 'lessons'"/>
           <!--        Component for todo Entity   -->
           <FormCalendar :participantGroup="participantGroup" @childSubmit="submit" ref="FormCalendar"
                         :key="$route.params.tab+'FormCalendar'" v-show="$route.params.tab === 'calendar'"/>
@@ -43,14 +43,14 @@
 
   import FormParticipants from '@/views/participant-groups/components/FormParticipants'
   import FormMainData from '@/views/participant-groups/components/FormMainData'
-  import FormActivities from '@/views/participant-groups/components/FormActivities'
+  import FormLessons from '@/views/participant-groups/components/FormLessons'
   import FormCalendar from '@/views/schools-and-clubs/components/FormCalendar'
   import FormFrequency from '@/views/schools-and-clubs/components/FormFrequency'
   import FormMTSF from '@/views/participant-groups/components/FormMTSF'
+  import ListParticipants from '@/views/participant-groups/components/ListParticipants'
 
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-  import ListParticipants from '@/views/participant-groups/components/ListParticipants'
 
   export default {
     name: 'ParticipantGroupsForm',
@@ -60,7 +60,7 @@
       Treeselect,
       FormMainData,
       FormParticipants,
-      FormActivities,
+      FormLessons,
       FormCalendar,
       FormFrequency,
       FormMTSF
@@ -236,9 +236,9 @@
               {
                 title: 'Zajęcia',
                 link: 'participant.group',
-                tab: 'activities',
+                tab: 'lessons',
                 method: 'checkValidMainForm',
-                methodParams: 'activities'
+                methodParams: 'lessons'
               },
               {
                 title: 'Kalendarz',

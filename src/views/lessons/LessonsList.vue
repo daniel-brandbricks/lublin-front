@@ -5,7 +5,7 @@
         <b-row class="justify-content-center align-items-center">
           <b-col cols="6">
             <b-form-group class="custom" v-if="undefined === sportObject">
-<!--              todo checkbox filter  -->
+              <!--              todo checkbox filter  -->
               <b-form-checkbox-group
                 id="checkbox-group-1"
                 v-model="selectedType"
@@ -112,29 +112,30 @@
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import LessonMixin from '@/mixins/lesson-mixin'
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'LessonList',
-    components: { Treeselect },
-    props: [ 'lesson', 'isConfirmed', 'school', 'sportObject' ],
-    mixins: [ EventBusEmit, LessonMixin ],
+    components: {Treeselect},
+    props: ['lesson', 'isConfirmed', 'school', 'participant',
+      'sportObject', 'schoolIds', 'participantGroup'],
+    mixins: [EventBusEmit, LessonMixin],
     data () {
       return {
         fields: [
-          { key: 'title', label: 'Nazwa zajęcia', sortable: true },
-          { key: 'disciplines', label: 'Dyscyplina', sortable: true },
-          { key: 'lessonCategories', label: 'Kategoria', sortable: true },
-          { key: 'classes', label: 'Klasa', sortable: true },
-          { key: 'leaders', label: 'Prowadzący', sortable: true },
-          { key: 'status', label: 'Status w systemie', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'title', label: 'Nazwa zajęcia', sortable: true},
+          {key: 'disciplines', label: 'Dyscyplina', sortable: true},
+          {key: 'lessonCategories', label: 'Kategoria', sortable: true},
+          {key: 'classes', label: 'Klasa', sortable: true},
+          {key: 'leaders', label: 'Prowadzący', sortable: true},
+          {key: 'status', label: 'Status w systemie', sortable: true},
+          {key: 'edit', label: ''}
         ],
 
         selectedType: [],
         typeOptions: [
-          { text: 'klub', value: 0 },
-          { text: 'szkola', value: 1 }
+          {text: 'klub', value: 0},
+          {text: 'szkola', value: 1}
         ],
         search: '',
         selectedDisciplines: [],
@@ -143,7 +144,7 @@
       }
     },
     computed: {
-      ...mapGetters([ 'leaderById', 'classes', 'lessonCategories', 'disciplines' ]),
+      ...mapGetters(['leaderById', 'classes', 'lessonCategories', 'disciplines']),
       leadersConfirmed () {
         return this.$store.getters.leadersConfirmed
       },
@@ -191,7 +192,7 @@
       rowRedirect (row) {
         this.$router.push({
           name: 'lesson',
-          params: { 'tab': 'main-data', 'id': row.id }
+          params: {'tab': 'main-data', 'id': row.id}
         })
       }
     },
@@ -212,10 +213,11 @@
       }
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })
-      if (undefined === this.school && this.sportObject === undefined) {
-        this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zajęć', active: true } ])
-      }
+      this.changeAdminNavbarButton({buttonLink: 'lesson', params: {tab: 'main-data'}})
+      if (undefined === this.school && this.sportObject === undefined && this.schoolIds === undefined &&
+        this.participantGroup === undefined && this.participant === undefined) {
+          this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
+        }
     }
   }
 </script>

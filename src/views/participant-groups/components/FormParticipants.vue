@@ -125,7 +125,7 @@
       participantsTreeselect (year, selectedParticipants) {
         let data = this.$store.getters.participants
         let prepared = []
-
+console.log(data)
         for (let participantIndex in data) {
           if (year && parseInt(data[participantIndex].year) === parseInt(year)) {
             if (this.selectedParticipants.indexOf(data[participantIndex].id) === -1) {
@@ -177,6 +177,8 @@
       }
     },
     created () {
+      // todo by school
+      this.$store.dispatch('getParticipants')
     }
   }
 </script>
