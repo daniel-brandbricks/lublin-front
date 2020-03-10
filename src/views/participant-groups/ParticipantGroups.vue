@@ -216,7 +216,10 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'participant.group', params: { tab: 'main-data' } })
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zawodników', active: true } ])
+
+      if (undefined === this.school || this.school === null) {
+        this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zawodników', active: true } ])
+      }
     }
   }
 </script>

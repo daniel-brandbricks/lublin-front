@@ -1,10 +1,16 @@
 <template>
-  <div class="wrap">FormCompetitors</div>
+  <div class="wrap">
+    <ParticipantList :school="school"/>
+  </div>
 </template>
 
 <script>
+  import ParticipantList from '@/views/participants/ParticipantList'
+
   export default {
-    name: 'FormParticipants'
+    name: 'FormParticipants',
+    components: { ParticipantList },
+    props: ['school']
   }
 </script>
 

@@ -11,7 +11,7 @@ export default {
 
       for (let schoolIndex in data) {
         if (parseInt(data[schoolIndex].type) === parseInt(this.orgType)) {
-          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+          preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
         }
       }
 
@@ -25,7 +25,7 @@ export default {
 
       for (let leaderIndex in data) {
         let fullName = data[leaderIndex].firstName + ' ' + data[leaderIndex].lastName
-        preparedLeaders.push({ id: data[leaderIndex].id, label: fullName })
+        preparedLeaders.push({id: data[leaderIndex].id, label: fullName})
       }
 
       return preparedLeaders
@@ -34,7 +34,7 @@ export default {
       let data = this.$store.getters.disciplines || []
       let preparedDisciplines = []
       for (let disciplineIndex in data) {
-        preparedDisciplines.push({ id: data[disciplineIndex].id, label: data[disciplineIndex].title })
+        preparedDisciplines.push({id: data[disciplineIndex].id, label: data[disciplineIndex].title})
       }
 
       return preparedDisciplines
@@ -44,7 +44,7 @@ export default {
       let preparedLessonCategories = []
 
       for (let lessonCategoryIndex in data) {
-        preparedLessonCategories.push({ id: data[lessonCategoryIndex].id, label: data[lessonCategoryIndex].title })
+        preparedLessonCategories.push({id: data[lessonCategoryIndex].id, label: data[lessonCategoryIndex].title})
       }
 
       return preparedLessonCategories
@@ -54,7 +54,7 @@ export default {
       let preparedClasses = []
 
       for (let classIndex in data) {
-        preparedClasses.push({ id: data[classIndex].id, label: data[classIndex].title })
+        preparedClasses.push({id: data[classIndex].id, label: data[classIndex].title})
       }
 
       return preparedClasses
@@ -64,7 +64,7 @@ export default {
       let preparedSchools = []
 
       for (let schoolIndex in data) {
-        preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
       }
 
       return preparedSchools
@@ -74,7 +74,7 @@ export default {
       let preparedPlaces = []
 
       for (let placeIndex in data) {
-        preparedPlaces.push({ id: data[placeIndex].id, label: data[placeIndex].title })
+        preparedPlaces.push({id: data[placeIndex].id, label: data[placeIndex].title})
       }
 
       return preparedPlaces
@@ -96,6 +96,13 @@ export default {
         if (disciplines.length > 0 && !disciplines.includes(parseInt(lessons[index].discipline.id))) continue
         if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(lessons[index].lessonCategory.id))) continue
         if (classes.length > 0 && !classes.includes(parseInt(lessons[index].class.id))) continue
+
+        // for school component
+        if ((this.school && this.school.id) && this.school.id !== lessons[index].school.id) continue
+        // for school component
+        console.log(this.sportObject)
+        if ((this.sportObject && this.sportObject.id) && this.sportObject.id !== lessons[index].place.id) continue
+
         filteredLessons.push(lessons[index])
       }
 

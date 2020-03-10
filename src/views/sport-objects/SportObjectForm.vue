@@ -6,33 +6,36 @@
       <!--   Component for PlaceEntity   -->
       <FormMainData :sportObject="sportObject" @childSubmit="submit" ref="FormMainData" :districts="districts"
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
-      <!--   Component for todo Entity   -->
-      <FormLeaders :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormLeaders"
-                   :key="$route.params.tab+'FormLeaders'" v-if="$route.params.tab === 'leaders'"/>
+<!--      &lt;!&ndash;   Component for todo Entity   &ndash;&gt;-->
+<!--      <FormLeaders :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormLeaders"-->
+<!--                   :key="$route.params.tab+'FormLeaders'" v-if="$route.params.tab === 'leaders'"/>-->
 
-      <!--   Component for GroupEntity   -->
-      <FormParticipantGroups :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroups"
-                             :key="$route.params.tab+'FormParticipantGroups'" v-if="$route.params.tab === 'participant-groups'"/>
+<!--      &lt;!&ndash;   Component for GroupEntity   &ndash;&gt;-->
+<!--      <FormParticipantGroups :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroups"-->
+<!--                             :key="$route.params.tab+'FormParticipantGroups'" v-if="$route.params.tab === 'participant-groups'"/>-->
 
-      <!--   Component for EventEntity   -->
-      <FormEvents :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"
-                  :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
+<!--      &lt;!&ndash;   Component for EventEntity   &ndash;&gt;-->
+<!--      <FormEvents :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"-->
+<!--                  :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>-->
 
-      <!--   Component for todo Entity   -->
-      <FormParticipants :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
-                       :key="$route.params.tab+'FormCompetitors'" v-if="$route.params.tab === 'competitors'"/>
+<!--      &lt;!&ndash;   Component for todo Entity   &ndash;&gt;-->
+<!--      <FormParticipants :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"-->
+<!--                       :key="$route.params.tab+'FormCompetitors'" v-if="$route.params.tab === 'competitors'"/>-->
 
       <!--   Component for todo Entity   -->
       <FormCalendar :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCalendar"
                     :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
 
-      <!--   Component for todo Entity   -->
-      <FormFrequency :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormFrequency"
-                     :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency'"/>
+      <FormLessons :sportObject="sportObject" ref="FormLessons"
+                   :key="$route.params.tab+'FormLessons'" v-if="$route.params.tab === 'activities'"/>
 
-      <!--   Component for todo Entity   -->
-      <FormMTSF :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMTSF"
-                :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
+<!--      &lt;!&ndash;   Component for todo Entity   &ndash;&gt;-->
+<!--      <FormFrequency :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormFrequency"-->
+<!--                     :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency'"/>-->
+
+<!--      &lt;!&ndash;   Component for todo Entity   &ndash;&gt;-->
+<!--      <FormMTSF :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMTSF"-->
+<!--                :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>-->
 
       <!--   Component for todo Entity   -->
       <FormEvents :sportObject="sportObject" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"
@@ -54,6 +57,7 @@
   import FormFrequency from '@/views/sport-objects/components/FormFrequency'
   import FormMTSF from '@/views/sport-objects/components/FormMTSF'
   import FormEvents from '@/views/sport-objects/components/FormEvents'
+  import FormLessons from '@/views/sport-objects/components/FormLessons'
 
   import { DISTRICTS } from '@/config/AppConfig'
 
@@ -69,6 +73,7 @@
       FormFrequency,
       FormMTSF,
       FormEvents,
+      FormLessons
     },
     mixins: [ EventBusEmit, FormMixin ],
     data () {
@@ -164,21 +169,21 @@
                 link: 'sport.object',
                 tab: 'main-data'
               },
-              {
-                title: 'Prowadzący',
-                link: 'sport.object',
-                tab: 'leaders'
-              },
-              {
-                title: 'Lista Zawodników',
-                link: 'sport.object',
-                tab: 'participant-groups'
-              },
-              {
-                title: 'Zawodnicy',
-                link: 'sport.object',
-                tab: 'competitors'
-              },
+              // {
+              //   title: 'Prowadzący',
+              //   link: 'sport.object',
+              //   tab: 'leaders'
+              // },
+              // {
+              //   title: 'Lista Zawodników',
+              //   link: 'sport.object',
+              //   tab: 'participant-groups'
+              // },
+              // {
+              //   title: 'Zawodnicy',
+              //   link: 'sport.object',
+              //   tab: 'competitors'
+              // },
               {
                 title: 'Zajęcia',
                 link: 'sport.object',
@@ -189,16 +194,16 @@
                 link: 'sport.object',
                 tab: 'calendar'
               },
-              {
-                title: 'Frekwencja',
-                link: 'sport.object',
-                tab: 'frequency'
-              },
-              {
-                title: 'MTSF',
-                link: 'sport.object',
-                tab: 'mtsf'
-              },
+              // {
+              //   title: 'Frekwencja',
+              //   link: 'sport.object',
+              //   tab: 'frequency'
+              // },
+              // {
+              //   title: 'MTSF',
+              //   link: 'sport.object',
+              //   tab: 'mtsf'
+              // },
               {
                 title: 'Wydarzenia',
                 link: 'sport.object',

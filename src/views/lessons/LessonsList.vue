@@ -4,7 +4,7 @@
       <b-col cols="8">
         <b-row class="justify-content-center align-items-center">
           <b-col cols="6">
-            <b-form-group class="custom">
+            <b-form-group class="custom" v-if="undefined === sportObject">
 <!--              todo checkbox filter  -->
               <b-form-checkbox-group
                 id="checkbox-group-1"
@@ -115,8 +115,9 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    name: 'LessonList',
     components: { Treeselect },
-    props: [ 'lesson', 'isConfirmed' ],
+    props: [ 'lesson', 'isConfirmed', 'school', 'sportObject' ],
     mixins: [ EventBusEmit, LessonMixin ],
     data () {
       return {
@@ -212,7 +213,9 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'lesson', params: { tab: 'main-data' } })
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zajęć', active: true } ])
+      if (undefined === this.school && this.sportObject === undefined) {
+        this.changeAdminNavbarBreadcrumbs([ { text: 'Lista zajęć', active: true } ])
+      }
     }
   }
 </script>

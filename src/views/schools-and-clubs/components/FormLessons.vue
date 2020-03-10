@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <lessonList :sportObject="sportObject"/>
+    <lessonList :school="school"/>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
   export default {
     name: 'FormLessons',
     components: { lessonList },
-    props: ['sportObject']
+    props: ['school']
   }
 </script>
 

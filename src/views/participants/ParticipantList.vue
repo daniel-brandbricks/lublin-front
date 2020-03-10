@@ -114,7 +114,7 @@
 
   export default {
     components: {Treeselect},
-    props: ['participant', 'statusSlot'],
+    props: ['participant', 'statusSlot', 'school'],
     mixins: [EventBusEmit, ParticipantMixin],
     data () {
       return {
@@ -166,6 +166,9 @@
           if (selectedGender.length > 0 && !selectedGender.includes(participants[index].sex)) continue
           if (yearValue.length > 0 && !yearValue.includes(parseInt(participants[index].year))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participants[index].class))) continue
+
+          // for school component
+          if ((this.school && this.school.id) && this.school.id !== participants[index].school.id) continue
 
           console.log(participants[index])
           if (this.statusSlot) {
@@ -224,7 +227,7 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: 'participant', params: {tab: 'main-data'}})
-      if (this.statusSlot === undefined) {
+      if (this.statusSlot === undefined && undefined === this.school) {
         this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])
       }
     }

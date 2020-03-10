@@ -12,8 +12,8 @@
                     :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
       <form-permissions :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="Permissions"
                         :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
-      <FormSportObjects :leader="leader" ref="SportObjects"
-                        :key="$route.params.tab+'SportObjects'" v-show="$route.params.tab === 'sport-objects'"/>
+<!--      <FormSportObjects :leader="leader" ref="SportObjects"-->
+<!--                        :key="$route.params.tab+'SportObjects'" v-show="$route.params.tab === 'sport-objects'"/>-->
     </template>
   </div>
 </template>
@@ -157,11 +157,11 @@
                 link: 'leader',
                 tab: 'permissions'
               },
-              {
-                title: 'Obiekty',
-                link: 'leader',
-                tab: 'sport-objects'
-              },
+              // {
+              //   title: 'Obiekty',
+              //   link: 'leader',
+              //   tab: 'sport-objects'
+              // },
               {
                 title: 'Lista Zawodników',
                 link: 'leader',

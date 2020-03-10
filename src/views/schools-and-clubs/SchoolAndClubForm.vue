@@ -19,17 +19,20 @@
       <FormParticipantGroups :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroups"
                   :key="$route.params.tab+'FormParticipantGroups'" v-if="$route.params.tab === 'participant-groups'"/>
 
-      <!--   Component for EventEntity   -->
-      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"
-                  :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
+<!--      &lt;!&ndash;   Component for EventEntity   &ndash;&gt;-->
+<!--      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"-->
+<!--                  :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>-->
 
       <!--   Component for todo Entity   -->
       <FormParticipants :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
                        :key="$route.params.tab+'FormCompetitors'" v-if="$route.params.tab === 'competitors'"/>
 
-      <!--   Component for todo Entity   -->
-      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"
-                      :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>
+<!--      &lt;!&ndash;   Component for todo Entity   &ndash;&gt;-->
+<!--      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"-->
+<!--                      :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>-->
+
+      <FormLessons :school="school" ref="FormLessons"
+                   :key="$route.params.tab+'FormLessons'" v-if="$route.params.tab === 'activities'"/>
 
       <!--   Component for todo Entity   -->
       <FormCalendar :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCalendar"
@@ -62,12 +65,14 @@
   import FormFrequency from '@/views/schools-and-clubs/components/FormFrequency'
   import FormMTSF from '@/views/schools-and-clubs/components/FormMTSF'
   import FormEvents from '@/views/schools-and-clubs/components/FormEvents'
+  import FormLessons from '@/views/schools-and-clubs/components/FormLessons'
 
   import { DISTRICTS } from '@/config/AppConfig'
 
   export default {
     name: 'SchoolAndClubForm',
     components: {
+      FormLessons,
       TabLinks,
       FormMainData,
       FormPlaces,
