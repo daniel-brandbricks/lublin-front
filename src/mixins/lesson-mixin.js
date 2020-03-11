@@ -99,12 +99,9 @@ export default {
 
         // for school & leader && participant group && participant component
         if (this.participant && this.participant.id) {
-          console.log(lessons[index].participantGroup.id)
-          console.log(this.participant.participantGroups)
           let participantGroupExists = this.participant.participantGroups.find(x => {
             return x.participantGroup.id === lessons[index].participantGroup.id
           })
-console.log(participantGroupExists)
           if (undefined === participantGroupExists) continue
         }
         if (this.participantGroup && this.participantGroup.id) {
@@ -112,6 +109,9 @@ console.log(participantGroupExists)
         }
         if (this.school && this.school.id) {
           if (this.school.id !== lessons[index].school.id) continue
+        }
+        if (this.leader && this.leader.id) {
+          if (this.leader.id !== lessons[index].leader.id) continue
         }
         if ((this.schoolIds && this.schoolIds.length > 0)) {
           if (!this.schoolIds.includes(lessons[index].school.id)) continue

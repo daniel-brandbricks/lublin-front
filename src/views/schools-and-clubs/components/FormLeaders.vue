@@ -81,10 +81,18 @@
       leadersTreeselect () {
         let leadersPrepared = []
         for (let index in this.leaders) {
-          leadersPrepared.push({
-            id: this.leaders[index].id,
-            label: this.leaders[index].email
-          })
+          let leaderExists = false
+          if (this.school.schoolsUsers && this.school.schoolsUsers.length > 0) {
+            leaderExists = this.school.schoolsUsers.find(x => {
+              return x.user.id === this.leaders[index].id
+            })
+          }
+          if (leaderExists === undefined || leaderExists === false) {
+            leadersPrepared.push({
+              id: this.leaders[index].id,
+              label: this.leaders[index].email
+            })
+          }
         }
         return leadersPrepared
       },
@@ -119,7 +127,7 @@
         }
 
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.selectedLeaders = [...ids]
+        // this.selectedLeaders = [...ids]
 
         return ids
       },
@@ -161,6 +169,7 @@
         this.$store.dispatch('putSchool', school)
           .then((response) => {
             this.$parent.updateSchool()
+            this.selectedLeaders = []
           })
         this.$refs.leaderModal.hide()
       }
@@ -170,6 +179,7 @@
       this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_LEADERS_MODAL'})
     },
     created () {
+      console.log(this.school)
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getSportObjects')
 

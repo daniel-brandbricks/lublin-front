@@ -118,7 +118,7 @@
     name: 'LessonList',
     components: {Treeselect},
     props: ['lesson', 'isConfirmed', 'school', 'participant',
-      'sportObject', 'schoolIds', 'participantGroup'],
+      'sportObject', 'schoolIds', 'participantGroup', 'leader'],
     mixins: [EventBusEmit, LessonMixin],
     data () {
       return {
@@ -215,7 +215,7 @@
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: 'lesson', params: {tab: 'main-data'}})
       if (undefined === this.school && this.sportObject === undefined && this.schoolIds === undefined &&
-        this.participantGroup === undefined && this.participant === undefined) {
+        this.participantGroup === undefined && this.participant === undefined && this.leader === undefined) {
           this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
         }
     }
