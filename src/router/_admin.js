@@ -30,6 +30,8 @@ import LeaderForm from '@/views/leaders/LeaderForm'
 import ParticipantForm from '@/views/participants/ParticipantForm'
 import CoAdministrator from '@/views/co-administrators/CoAdministrator'
 import Profile from '@/views/Profile'
+import CmsFormMainData from '@/views/www/components/CmsFormMainData'
+import MenuItemData from '@/views/www/components/MenuItemData'
 
 const adminRouter = {
   path: '/admin',
@@ -62,6 +64,16 @@ const adminRouter = {
       path: 'www/:tab?',
       name: 'www',
       component: Www
+    },
+    {
+      path: 'www/cms-section/:id?',
+      name: 'cms.section',
+      component: CmsFormMainData
+    },
+    {
+      path: 'www/menu/item-data/:id?',
+      name: 'menu.item.data',
+      component: MenuItemData
     },
 
     // Schools And Clubs

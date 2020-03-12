@@ -19,6 +19,11 @@ import leaderModule from './_leader'
 import lessonModule from './_lesson'
 import permissionModule from './_permission'
 import administratorModule from './_administrator'
+import sectionModule from './_section'
+import sectionDescriptionModule from './_section-description'
+import menuModule from './_menu'
+import menuItemModule from './_menu-item'
+import footerModule from './_footer'
 
 Vue.use(Vuex)
 
@@ -41,6 +46,11 @@ export default new Vuex.Store({
     skillModule,
     permissionModule,
     administratorModule,
-    lessonModule
+    lessonModule,
+    sectionModule,
+    sectionDescriptionModule,
+    menuModule,
+    menuItemModule,
+    footerModule
   }
 })

@@ -7,7 +7,7 @@
     </b-row>
 
     <Menu v-if="$route.params.tab === 'menu'"/>
-    <Home v-if="$route.params.tab === 'home'"/>
+    <Cms v-if="$route.params.tab === 'cms'"/>
     <Footer v-if="$route.params.tab === 'footer'"/>
   </div>
 </template>
@@ -17,12 +17,12 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
 
   import Menu from '@/views/www/components/Menu'
-  import Home from '@/views/www/components/Home'
+  import Cms from '@/views/www/components/Cms'
   import Footer from '@/views/www/components/Footer'
 
   export default {
     // eslint-disable-next-line standard/object-curly-even-spacing
-    components: { TabLinks, Menu, Home, Footer },
+    components: { TabLinks, Menu, Cms, Footer },
     mixins: [ EventBusEmit ],
     data () {
       return {
@@ -33,9 +33,9 @@
             tab: 'menu'
           },
           {
-            title: 'Home',
+            title: 'Cms',
             link: 'www',
-            tab: 'home'
+            tab: 'cms'
           },
           {
             title: 'Footer',

@@ -14,53 +14,41 @@
     <b-col cols="12" lg="5">
       <h2>Struktura menu</h2>
 
-      <b-form-group
-        class="custom"
-        label-for="input-1">
+      <b-form-group class="custom">
         <b-form-input id="input-1" class="custom"
                       placeholder="Adres"
-                      v-model="name"></b-form-input>
+                      :class="{'error-input-custom': veeErrors.has('footer.address')}"
+                      name="footer.address" key="footer.address" v-validate="{'required':true}"
+                      v-model="footer.address"/>
       </b-form-group>
-      <b-form-group
-        class="custom"
-        label-for="input-2">
+      <b-form-group class="custom">
         <b-form-input id="input-2" class="custom"
                       placeholder="E-mail"
-                      type="email"
-                      v-model="name"></b-form-input>
+                      :class="{'error-input-custom': veeErrors.has('footer.email')}"
+                      name="footer.email" key="footer.email" v-validate="{'required':true}"
+                      v-model="footer.email"/>
       </b-form-group>
-      <b-form-group
-        class="custom"
-        label-for="input-3">
+      <b-form-group class="custom">
         <b-form-input id="input-3" class="custom"
                       placeholder="Telefon"
-                      type="number"
-                      v-model="name"></b-form-input>
+                      :class="{'error-input-custom': veeErrors.has('footer.phone')}"
+                      name="footer.phone" key="footer.phone" v-validate="{'required':true}"
+                      v-model="footer.phone"/>
       </b-form-group>
-      <b-form-group
-        class="custom"
-        label-for="input-4">
+      <b-form-group class="custom">
         <b-form-input id="input-4" class="custom"
                       placeholder="Facebook"
-                      v-model="name"></b-form-input>
+                      :class="{'error-input-custom': veeErrors.has('footer.facebook')}"
+                      name="footer.facebook" key="footer.facebook" v-validate="{'required':true}"
+                      v-model="footer.facebook"/>
       </b-form-group>
-      <b-form-group
-        class="custom"
-        label-for="input-5">
+      <b-form-group class="custom">
         <b-form-input id="input-5" class="custom"
-                      placeholder="YouTube"
-                      v-model="name"></b-form-input>
+                      placeholder="Youtube"
+                      :class="{'error-input-custom': veeErrors.has('footer.youtube')}"
+                      name="footer.youtube" key="footer.youtube" v-validate="{'required':true}"
+                      v-model="footer.youtube"/>
       </b-form-group>
-
-      <b-row class="justify-content-center justify-content-sm-end">
-        <b-col cols="12" sm="4">
-          <b-btn variant="secondary" class="custom" block>Anuluj</b-btn>
-        </b-col>
-        <b-col cols="12" sm="4">
-          <b-btn variant="primary" class="custom" block>Zapisz</b-btn>
-        </b-col>
-
-      </b-row>
 
     </b-col>
   </b-row>
@@ -68,16 +56,17 @@
 
 <script>
   export default {
-    name: 'Home',
+    name: 'Footer',
     data () {
       return {
+        footer: {
+          address: '',
+          email: '',
+          phone: '',
+          facebook: '',
+          youtube: ''
+        },
         name: '',
-        fields: [
-          { key: 'last_name', sortable: true },
-          { key: 'first_name', sortable: true },
-          { key: 'age', sortable: false },
-          { key: 'isActive', sortable: false }
-        ],
         items: [
           { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
           { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
