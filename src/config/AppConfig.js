@@ -51,9 +51,9 @@ export const YEARS = [
 ]
 
 export const PERMISSIONS = [
-  // Done, test on prod, todo ask invite leader or participant, if 2 w kakoi sposob???
+  // Send self-invitation for school/club
   { id: 1, label: 'Składa zaproszenie do klubu/szkoły' },
-  // todo
+  // todo REMOVE
   { id: 2, label: 'Dodaje/aktualizuje kalendarz wydarzeń lub imprez' },
   // todo ask -> is it participant list or participants only?
   { id: 3, label: 'Dodaje/aktualizuje dziennik uczestników' },
@@ -61,9 +61,9 @@ export const PERMISSIONS = [
   { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
   // todo
   { id: 5, label: 'Generuje raporty' },
-  // Done, test on prod, todo ask about objects
+  // todo REMOVE
   { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
-  // Done, test on prod
+  // todo REMOVE
   { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
   // todo
   { id: 8, label: 'Wprowadza wyniki MTSF-u' },

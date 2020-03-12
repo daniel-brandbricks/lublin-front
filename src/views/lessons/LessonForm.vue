@@ -15,6 +15,8 @@
                                  ref="participants-list"
                                  :key="$route.params.tab+'FormParticipantGroupsList'"
                                  v-show="$route.params.tab === 'participants-list'"/>
+      <FormParticipants :lesson="lesson" ref="participants" :key="$route.params.tab+'FormParticipants'"
+                        v-show="$route.params.tab === 'participants'"/>
     </template>
   </div>
 </template>
@@ -31,6 +33,7 @@
   import FormObjects from '@/views/lessons/components/FormObjects'
   import ListObjects from '@/views/lessons/components/ListObjects'
   import FormParticipantGroupsList from '@/views/lessons/components/FormParticipantGroupsList'
+  import FormParticipants from '@/views/lessons/components/FormParticipants'
 
   import {mapGetters} from 'vuex'
 
@@ -42,6 +45,7 @@
       FormMainData,
       FormObjects,
       ListObjects,
+      FormParticipants,
       FormParticipantGroupsList
     },
     mixins: [EventBusEmit, FormMixin],
@@ -55,20 +59,6 @@
             method: 'changeTab',
             methodParams: 'main-data'
           }
-          // {
-          //   title: 'Obiekty',
-          //   link: 'lesson',
-          //   tab: 'objects',
-          //   method: 'changeTab',
-          //   methodParams: 'objects'
-          // },
-          // {
-          //   title: 'Lista Zawodników',
-          //   link: 'lesson',
-          //   tab: 'participant-group-list',
-          //   method: 'changeTab',
-          //   methodParams: 'participant-group-list'
-          // },
         ],
 
         lesson: {
@@ -126,7 +116,7 @@
               }
 
               // this.$refs[this.$route.params.tab].submit(tabToRedirect)
-              this.$router.push({name: 'lesson', params: {'tab': tabToRedirect}})
+              this.$router.push({name: 'lesson', params: {'tab': tabToRedirect, 'id': this.id}})
               resolve(response)
             })
             .catch(e => reject(e))

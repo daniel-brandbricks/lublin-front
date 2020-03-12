@@ -35,7 +35,7 @@
                   ref="leaderComponent"
                   :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"/>
 
-    <b-modal ref="leaderModal" centered title="Zapiąć/Odpiąć prowadzącego" hide-footer size="lg">
+    <b-modal ref="leaderModal" centered title="Dodaj prowadzącego" hide-footer size="lg">
       <treeselect class="custom"
                   v-model="selectedLeaders"
                   :multiple="true"

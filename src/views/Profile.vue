@@ -44,7 +44,8 @@
             <b-form-input id="password-1" class="custom m-0"
                           placeholder="Nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
                           :class="{'error-input-custom': veeErrors.has('user.newPassword')}"
-                          name="user.newPassword" key="user.newPassword" v-validate="{'required': user.id === undefined}"
+                          name="user.newPassword" key="user.newPassword"
+                          v-validate="{'required': user.id === undefined}"
                           v-model="newPassword"/>
           </b-form-group>
           <b-form-group class="custom mb-2">
@@ -68,18 +69,37 @@
 
     </b-row>
 
+    <b-modal ref="schoolInviteModal" centered title="Dodaj szkołę / klub" hide-footer size="lg">
+      <treeselect class="custom"
+                  v-model="selectedSchools"
+                  :multiple="true"
+                  placeholder="Szkoła / klub"
+                  :options="schoolsTreeselect"/>
+      <b-row class="mt-2">
+        <b-col>
+          <b-btn variant="primary" class="w-25 float-right" @click="sendInvite">Wyślij</b-btn>
+        </b-col>
+      </b-row>
+    </b-modal>
   </div>
 </template>
 
 <script>
   import FormMixin from '@/mixins/form-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
+  import EventBus from '@/event-bus'
+  // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
   export default {
     mixins: [EventBusEmit, FormMixin],
     name: 'Profile',
+    components: {Treeselect},
     data () {
       return {
+        selectedSchools: [],
+
         user: {
           role: 2,
           active: false,
@@ -94,12 +114,58 @@
         confirmPassword: ''
       }
     },
+    watch: {
+      authUser: function (val) {
+        if (this.authUser && this.authUser.role === 1 &&
+          (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
+          /** @buttonLink route name || false if button must be hidden */
+          this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_INVITE_MODAL'})
+        }
+      }
+    },
     computed: {
       authUser () {
         return this.$store.getters.authUser
+      },
+      schoolsTreeselect () {
+        let data = this.$store.getters.schools
+
+        if (undefined === this.authUser || this.authUser === null) {
+          return []
+        }
+
+        let existedSchoolsUsers = this.authUser.schoolsUsers
+        let preparedSchools = []
+
+        console.log(existedSchoolsUsers)
+        console.log(data)
+
+        for (let schoolIndex in data) {
+          if (existedSchoolsUsers.length > 1) {
+            let schoolExist = existedSchoolsUsers.find(x => {
+              return x.school.id === data[schoolIndex].id
+            })
+
+            if (undefined === schoolExist) {
+              preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+            }
+          } else {
+            preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+          }
+        }
+console.log(preparedSchools)
+        return preparedSchools
       }
     },
     methods: {
+      sendInvite () {
+        this.$store.dispatch('putLeader', {
+          id: this.authUser.id,
+          schools: this.selectedSchools,
+          actionType: 'sendSchoolInvitation'
+        })
+        this.$refs.schoolInviteModal.hide()
+      },
       submit () {
         this.$validator.validateScopes()
           .then((result) => {
@@ -143,9 +209,25 @@
           return false
         }
         return true
+      },
+      openSchoolsInviteModal () {
+        if (this.$refs.schoolInviteModal) this.$refs.schoolInviteModal.show()
+      }
+    },
+    mounted () {
+      if (this.authUser && this.authUser.role === 1 &&
+      (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
+        /** @buttonLink route name || false if button must be hidden */
+        this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_INVITE_MODAL'})
       }
     },
     created () {
+      EventBus.$on('OPEN_SCHOOLS_INVITE_MODAL', (params) => {
+        this.openSchoolsInviteModal()
+      })
+
+      this.$store.dispatch('getSchools', {getAll: true})
+
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
       this.changeAdminNavbarBreadcrumbs([{text: 'Mój profil', active: true}])

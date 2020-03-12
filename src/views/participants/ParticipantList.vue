@@ -77,11 +77,11 @@
                 </span>
               </template>
               <b-dropdown-item :disabled="undefined === statusSlot ? scope.item.active : scope.item.status"
-              @click="changeParticipantStatus(scope.item.id, 1)">
+                               @click="changeParticipantStatus(scope.item.id, 1)">
                 Aktywuj
               </b-dropdown-item>
               <b-dropdown-item :disabled="undefined === statusSlot ? !scope.item.active : !scope.item.status"
-              @click="changeParticipantStatus(scope.item.id, 0)">
+                               @click="changeParticipantStatus(scope.item.id, 0)">
                 Dezaktywuj
               </b-dropdown-item>
             </b-dropdown>
@@ -114,7 +114,7 @@
 
   export default {
     components: {Treeselect},
-    props: ['participant', 'statusSlot', 'school', 'schoolIds'],
+    props: ['participant', 'statusSlot', 'school', 'schoolIds', 'lesson'],
     mixins: [EventBusEmit, ParticipantMixin],
     data () {
       return {
@@ -145,7 +145,6 @@
         return this.$store.getters.classes
       },
       participantList () {
-        console.log(111)
         let participants = this.$store.getters.participants
         let filteredParticipants = []
         let search = this.search || ''
@@ -167,7 +166,15 @@
           if (yearValue.length > 0 && !yearValue.includes(parseInt(participants[index].year))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participants[index].class))) continue
 
-          // for school & leader component
+          // for school & leader & lesson component
+          if ((this.lesson && this.lesson.participantGroup && this.lesson.participantGroup.id)) {
+            if (participants[index].participantGroups.length < 1) continue
+            let lessonExists = participants[index].participantGroups.find(x => {
+              return x.participantGroup.id === this.lesson.participantGroup.id
+            })
+            console.log(lessonExists)
+            if (undefined === lessonExists) continue
+          }
           if ((this.school && this.school.id)) {
             if (this.school.id !== participants[index].school.id) continue
           }
@@ -175,7 +182,6 @@
             if (!this.schoolIds.includes(participants[index].school.id)) continue
           }
 
-          console.log(participants[index])
           if (this.statusSlot) {
             let ids = Object.keys(this.statusSlot.ids)
             let preparedParticipant = participants[index]
@@ -188,7 +194,6 @@
           }
         }
 
-        console.log(filteredParticipants)
         return filteredParticipants
       }
     },
@@ -232,9 +237,10 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: 'participant', params: {tab: 'main-data'}})
-      if (this.statusSlot === undefined && undefined === this.school && undefined === this.schoolIds) {
-        this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])
-      }
+      if (this.statusSlot === undefined && undefined === this.school && undefined === this.schoolIds &&
+        undefined === this.lesson) {
+          this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])
+        }
     }
   }
 </script>
