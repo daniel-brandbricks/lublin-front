@@ -71,6 +71,7 @@ export default {
             }
 
             context.commit('setSection', response)
+            context.commit('setSectionDescription', response)
             resolve(response)
           })
           .catch(error => {

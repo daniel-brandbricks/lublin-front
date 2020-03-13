@@ -16,7 +16,11 @@
           </b-link>
         </template>
       </b-table>
-
+      <b-row class="mt-8">
+        <b-col>
+          <b-link :to="{name: 'cms.section'}" class="btn custom btn-primary">nowa</b-link>
+        </b-col>
+      </b-row>
     </b-col>
   </b-row>
 </template>

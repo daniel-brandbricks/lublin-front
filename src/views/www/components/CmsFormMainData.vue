@@ -1,4 +1,4 @@
-<template>
+<template v-if="undefined!==section">
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6">
       <h1>CMS</h1>
@@ -10,26 +10,28 @@
                       v-model="section.adminTitle"/>
         <hr>
       </b-form-group>
-      <b-form-group class="custom">
-        <b-form-input id="input-2" class="custom"
-                      placeholder="Tytuł"
-                      :class="{'error-input-custom': veeErrors.has('sectionDescription.title')}"
-                      name="sectionDescription.title" key="sectionDescription.title" v-validate="{'required':true}"
-                      v-model="sectionDescription.title"/>
-      </b-form-group>
-      <textarea class="custom w-100" v-model="sectionDescription.description" placeholder="Opis"
-                :class="{'error-input-custom': veeErrors.has('sectionDescription.description')}"
-                name="sectionDescription.description" :key="'sectionDescription.description'" :v-validate="'required'"/>
-      <b-form-group>
-        <ImageInputAdvanced :imgPath="sectionDescription.imgPath" @afterCropImage="afterCropImage"
-                            :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                            :min-width="100" :max-height="1000" :max-width="1000"/>
-      </b-form-group>
-      <b-form-group>
-        <ImageInputAdvanced :imgPath="sectionDescription.bgPath" @afterCropImage="afterCropBackground"
-                            :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                            :min-width="100" :max-height="1000" :max-width="1000"/>
-      </b-form-group>
+      <div v-for="(sectionDescription, index) in section">
+        <b-form-group class="custom">
+          <b-form-input id="input-2" class="custom"
+                        placeholder="Tytuł"
+                        :class="{'error-input-custom': veeErrors.has('index.title')}"
+                        name="index.title" key="index.title" v-validate="{'required':true}"
+                        v-model="index.title"/>
+        </b-form-group>
+        <textarea class="custom w-100" v-model="index.description" placeholder="Opis"
+                  :class="{'error-input-custom': veeErrors.has('index.description')}"
+                  name="index.description" :key="'index.description'" :v-validate="'required'"/>
+        <b-form-group>
+          <ImageInputAdvanced :imgPath="index.imgPath" @afterCropImage="afterCropImage"
+                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                              :min-width="100" :max-height="1000" :max-width="1000"/>
+        </b-form-group>
+        <b-form-group>
+          <ImageInputAdvanced :imgPath="index.bgPath" @afterCropImage="afterCropBackground"
+                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                              :min-width="100" :max-height="1000" :max-width="1000"/>
+        </b-form-group>
+      </div>
       <b-row class="justify-content-center justify-content-sm-end">
         <b-col cols="12" sm="4">
           <b-btn block variant="primary" class="custom" @click="submit(1, true)">
@@ -55,26 +57,49 @@
       return {
         section: {
           id: this.id,
-          adminTitle: ''
-        },
-        sectionDescription: {
-          title: '',
-          description: '',
-          imgPath: null,
-          bgPath: null
+          adminTitle: '',
+          sectionDescriptions: []
         }
       }
     },
     methods: {
+      getSectionDescriptionBySection (id, index = null, arrayLength = null) {
+        if (undefined === this.section.sectionDescriptions || this.section.sectionDescriptions === null) return ''
+        let sectionDescription = this.section.sectionDescriptions.find((obj) => {
+          return obj.id === id
+        })
+
+        return undefined === sectionDescription ? '' : sectionDescription.title + ((index + 1) < arrayLength ? ',' : '')
+      },
       afterCropImage (base64) {
-        this.sectionDescription.imgPath = base64
+        this.index.imgPath = base64
       },
       afterCropBackground (base64) {
-        this.sectionDescription.bgPath = base64
+        this.index.bgPath = base64
       },
-      prepareCms (section, sectionDescription) {
+      prepareCms (section) {
         this.section = section
-        this.sectionDescription = sectionDescription
+      },
+      submit () {
+        let section = {...this.section}
+        if (undefined === this.id) {
+          const method = 'postSection'
+          this.$store.dispatch(method, section)
+            .then(() => {
+              this.postSubmitRedirect('wwww')
+            })
+            .catch((error) => {
+              this.postSubmitRedirect(error)
+            })
+        }
+        const method = 'putSection'
+        this.$store.dispatch(method, section)
+          .then(() => {
+            this.postSubmitRedirect('www')
+          })
+          .catch((error) => {
+            this.postSubmitRedirect(error)
+          })
       }
     },
     computed: {
@@ -87,6 +112,11 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
+      let breadcrumbs = [
+        {text: 'Strona www', to: {name: 'www', params: {'tab': 'cms'}}},
+        {text: 'Nowa', active: true}
+      ]
+      this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
       if (this.id) {
         this.$store.dispatch('getSection', {id: this.id})
@@ -94,7 +124,7 @@
             this.prepareCms(response)
 
             let breadcrumbs = [
-              {text: 'Strona www', to: {name: 'www'}},
+              {text: 'Strona www', to: {name: 'www', params: {'tab': 'cms'}}},
               {text: response.adminTitle, active: true}
             ]
             this.changeAdminNavbarBreadcrumbs(breadcrumbs)

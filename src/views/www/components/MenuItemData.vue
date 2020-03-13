@@ -76,8 +76,6 @@
         this.$store.dispatch('getMenuItem', {id: this.id})
           .then((response) => {
             this.prepareMenuItem(response)
-            console.log(response)
-            console.log(111)
             /** @buttonLink route name || false if button must be hidden */
             this.changeAdminNavbarButton({ buttonLink: false })
 
