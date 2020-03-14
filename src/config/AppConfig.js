@@ -52,19 +52,15 @@ export const YEARS = [
 
 export const PERMISSIONS = [
   // Send self-invitation for school/club
-  { id: 1, label: 'Składa zaproszenie do klubu/szkoły' },
-  // todo REMOVE
-  { id: 2, label: 'Dodaje/aktualizuje kalendarz wydarzeń lub imprez' },
-  // todo ask -> is it participant list or participants only?
+  // { id: 1, label: 'Składa zaproszenie do klubu/szkoły' },
+  // { id: 2, label: 'Dodaje/aktualizuje kalendarz wydarzeń lub imprez' },
   { id: 3, label: 'Dodaje/aktualizuje dziennik uczestników' },
   // todo
   { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
   // todo
   { id: 5, label: 'Generuje raporty' },
-  // todo REMOVE
-  { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
-  // todo REMOVE
-  { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
+  // { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
+  // { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
   // todo
   { id: 8, label: 'Wprowadza wyniki MTSF-u' },
   // todo

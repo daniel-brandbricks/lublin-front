@@ -19,6 +19,7 @@ import leaderModule from './_leader'
 import lessonModule from './_lesson'
 import permissionModule from './_permission'
 import administratorModule from './_administrator'
+import historyModule from './_history'
 
 Vue.use(Vuex)
 
@@ -41,6 +42,7 @@ export default new Vuex.Store({
     skillModule,
     permissionModule,
     administratorModule,
-    lessonModule
+    lessonModule,
+    historyModule
   }
 })

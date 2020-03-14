@@ -1,5 +1,28 @@
 <template>
   <div class="wrap">
+    <b-row class="justify-content-center mb-4"
+           v-if="school && school.invitations && school.invitations.length > 0">
+      <b-col cols="8">
+        <h5 v-b-toggle.collapse-invitations class="c-pointer">
+          <span class="mr-3">^</span>Aplikacje prowadzących
+        </h5>
+        <b-collapse id="collapse-invitations" class="mt-2">
+          <div :key="index" v-for="(invitation, index) in school.invitations"
+               class="row justify-content-between mb-2 align-items-center">
+            <div class="col-9">
+              <p class="mb-0">{{index + 1}}. {{invitation.leader.firstName}} {{invitation.leader.lastName}}
+                ({{invitation.leader.email}})</p>
+            </div>
+            <div class="col-3 text-right">
+              <b-btn v-if="invitation.active === false" variant="primary" class="custom mb-0" @click="acceptLeaderInvitation(invitation.leader.id)">
+                Zatwierdź
+              </b-btn>
+              <span v-else class="status active">zatwierdzony</span>
+            </div>
+          </div>
+        </b-collapse>
+      </b-col>
+    </b-row>
     <b-row class="justify-content-center">
       <b-col cols="8">
         <b-row class="align-items-center mb-3">
@@ -148,6 +171,19 @@
       }
     },
     methods: {
+      acceptLeaderInvitation (leaderId) {
+        let school = {
+          id: this.$route.params.id,
+          leaders: [leaderId]
+        }
+
+        this.$store.dispatch('putSchool', school)
+          .then((response) => {
+            this.$parent.updateSchool()
+            this.$store.dispatch('getLeaders', {confirmed: 0})
+            this.$store.dispatch('getLeaders', {confirmed: 1})
+          })
+      },
       // for FormLeaders to change field status (to use SchoolUser status)
       getStatusPersonInSchool (item) {
         let schoolUser = this.school.schoolsUsers.find(x => {

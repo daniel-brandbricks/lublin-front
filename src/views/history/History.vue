@@ -53,11 +53,21 @@
 
       <b-col cols="6">
         <h4>Wyniki</h4>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+        ></b-pagination>
         <b-row class="justify-content-center">
           <b-col cols="12">
             <b-table
               :items="historyData"
               :fields="historyFields"
+              :current-page="currentPage"
+              :per-page="perPage"
               striped
               sort-icon-left
               responsive="md"
@@ -89,6 +99,10 @@
     mixins: [ EventBusEmit ],
     data () {
       return {
+        currentPage: 1,
+        perPage: 5,
+        totalRows: 1,
+
         selectedYearFrom: null,
         selectedYearTo: null,
         // temp
@@ -202,8 +216,17 @@
         return preparedSchools
       }
     },
+    methods: {
+      filterResponse (response) {
+        console.log(response)
+      }
+    },
     created () {
       this.$store.dispatch('getSchools', {})
+      this.$store.dispatch('getLogs', {currentPage: this.currentPage, perPage: this.perPage})
+        .then(response => {
+          this.filterResponse(response)
+        })
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
