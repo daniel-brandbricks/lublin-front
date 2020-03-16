@@ -3,9 +3,9 @@
     <b-col cols="6">
       <div class="row mt-2" v-if="permissions"
            v-for="(schoolPermission,index) in permissions" :key="index">
-        <div class="col-2">
+        <div class="col-2" v-if="checkAccess(schoolPermission)">
           <div class="text-center _custom-css">
-            <p class="m-auto">{{index + 1}}</p>
+            <p class="m-auto">{{isAdmin ? index + 1 : 1}}</p>
           </div>
           <template v-if="permissions.length > 0">
             <!--            {{permissions[index].id}}-->
@@ -15,7 +15,7 @@
                v-else>usuń</p>
           </template>
         </div>
-        <div class="col-10">
+        <div class="col-10" v-if="checkAccess(schoolPermission)">
           <h5 class="mb-3">Dane ogólne</h5>
           <treeselect class="custom mb-3" v-if="permissions[index].schoolUser.school"
                       v-model="permissions[index].schoolUser.school.id"
@@ -95,9 +95,9 @@
 
         </div>
       </div>
-      <div class="row mt-4">
+      <div class="row mt-4" v-if="checkAccessToAdd(permissions)">
         <div class="col-2">
-          <div class="text-center _custom-css">
+          <div class="text-center _custom-css" v-if="isAdmin">
             <p class="m-auto">{{permissions.length + 1}}</p>
           </div>
         </div>
@@ -155,12 +155,16 @@
       }
     },
     computed: {
+      isAdmin () {
+        return this.$store.getters.isAdmin
+      },
+      isDirector () {
+        return this.$store.getters.isDirector
+      },
       permissions: {
         get () {
           console.log('get computed permissions')
           this.checkUniqSchools(this.$store.getters.permissions)
-          console.log(123)
-          console.log(this.$store.getters.permissions)
           return this.$store.getters.permissions
         },
         set (value) {
@@ -204,6 +208,41 @@
       }
     },
     methods: {
+      checkAccessToAdd (permissions) {
+        if (this.isAdmin) return true
+
+        if (this.isDirector) {
+          let user = this.$store.getters.authUser
+          if (undefined === user || user === null || user === false ||
+            user.schoolsUsers.length < 1) return false
+
+          if (permissions && permissions.length < 1) return true
+
+          let hasAccess = permissions.find(x => {
+            return x.id === -1
+          })
+          if (undefined === hasAccess) return true
+        }
+
+        return false
+      },
+      checkAccess (schoolPermission) {
+        if (schoolPermission.id === -1) return true
+        if (this.isAdmin) return true
+        if (this.isDirector) {
+          let user = this.$store.getters.authUser
+          if (undefined === user || user === null || user === false ||
+            user.schoolsUsers.length < 1) return false
+
+          let hasAccess = user.schoolsUsers.find(x => {
+            // eslint-disable-next-line no-unused-expressions
+            return x.school.id === schoolPermission.schoolUser.school.id
+          })
+
+          return undefined !== hasAccess
+        }
+        return false
+      },
       clearPermissionsSelected (permission) {
         if (![2, 3, 4, 6, 8].includes(permission.id)) {
           permission.selected = []
@@ -282,6 +321,8 @@
             this.$store.dispatch('putPermissions', {
               id: this.leader.id,
               permissions: data
+            }).then(res => {
+              this.showToast('Dane zostały zapisane', 'Uwaga', 'success')
             })
             this.loading = false
           })

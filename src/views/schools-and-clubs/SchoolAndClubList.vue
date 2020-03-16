@@ -2,11 +2,11 @@
   <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"></TabLinks>
+        <TabLinks :links="tabLinks"/>
       </b-col>
     </b-row>
 
-    <b-row class="justify-content-center">
+    <b-row class="justify-content-center" v-if="isAdmin">
       <b-col cols="8">
         <b-row class="align-items-center mb-3">
           <b-col>
@@ -16,7 +16,7 @@
                 v-model="selectedType"
                 :options="typeOptions"
                 name="flavour-1"
-              ></b-form-checkbox-group>
+              />
             </b-form-group>
           </b-col>
           <b-col cols="4">
@@ -31,7 +31,7 @@
               class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
-                            v-model="search"></b-form-input>
+                            v-model="search"/>
             </b-form-group>
           </b-col>
         </b-row>
@@ -96,11 +96,27 @@
     computed: {
       isDirector () {
         return this.$store.getters.isDirector
+      },
+      isAdmin () {
+        return this.$store.getters.isAdmin
       }
     },
     watch: {
+      isAdmin: function (val) {
+        this.checkNavButton(val)
+      },
       isDirector: function (val) {
         this.checkNavButton(val)
+
+        if (this.isAdmin === false) {
+          this.tabLinks = [
+            {
+              title: 'Zatwierdzone',
+              link: 'schools.and.clubs',
+              tab: 'confirmed'
+            }
+          ]
+        }
       }
     },
     methods: {
@@ -126,7 +142,7 @@
         this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
       }
 
-      this.checkNavButton(this.isDirector)
+      this.checkNavButton(this.isAdmin)
       this.changeAdminNavbarBreadcrumbs([ { text: 'Kłuby i szkoły', active: true } ])
     }
   }

@@ -18,6 +18,7 @@ export default {
       state.permissions = []
     },
     setPermissions (state, data) {
+      console.log(data)
       state.permissions = data
     },
     setPermission (state, data) {

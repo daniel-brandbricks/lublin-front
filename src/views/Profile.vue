@@ -17,7 +17,7 @@
                         name="user.lastName" key="user.lastName" v-validate="{'required':true}"
                         v-model="user.lastName"/>
         </b-form-group>
-        <b-form-group class="custom mb-2">
+         <b-form-group class="custom mb-2">
           <b-form-input id="phone-1" class="custom m-0"
                         placeholder="Telefon" type="number"
                         :class="{'error-input-custom': veeErrors.has('user.phone')}"

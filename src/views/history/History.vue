@@ -32,7 +32,7 @@
             :unchecked-value="false"
             value="false"
             name="flavour-1"
-          ></b-form-checkbox-group>
+          />
         </b-form-group>
 
         <lessons v-show="showLessons.length > 0" :lessons="lessons"/>
@@ -45,7 +45,7 @@
             :unchecked-value="false"
             value="false"
             name="checkbox-group-show-events"
-          ></b-form-checkbox-group>
+          />
         </b-form-group>
 
         <events v-show="showEvents.length > 0" :events="events"/>
@@ -60,10 +60,12 @@
           align="fill"
           size="sm"
           class="my-0"
-        ></b-pagination>
+          aria-controls="history-table"
+        />
         <b-row class="justify-content-center">
           <b-col cols="12">
             <b-table
+              id="history-table"
               :items="historyData"
               :fields="historyFields"
               :current-page="currentPage"

@@ -74,8 +74,15 @@ export default {
       state.authUser = data.user
       state.userRole = data.user.role
 
-      if (data.user.role === 2 || data.user.role === 3) state.isAdmin = true
-      if (data.user.role === 3) state.isSU = true
+      if (data.user.role === 2 || data.user.role === 3) {
+        state.isAdmin = true
+        state.isDirector = true
+      }
+      if (data.user.role === 3) {
+        state.isSU = true
+        state.isAdmin = true
+        state.isDirector = true
+      }
       if (data.user.schoolsUsers.length > 0 && data.user.schoolsUsers[0].role === 1) state.isDirector = true
       console.log(state.authUser)
     }
