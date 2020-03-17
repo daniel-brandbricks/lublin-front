@@ -119,7 +119,7 @@
                    id="lessonTimeRange" placeholder="" class="w-100 custom mb-3">
       </date-picker>
 
-      <b-form-group class="custom mb-4">
+      <b-form-group class="custom mb-4" v-if="lesson.id === undefined">
         <treeselect class="custom m-0"
                     id="lessonRepetition"
                     v-model="lesson.repetition"

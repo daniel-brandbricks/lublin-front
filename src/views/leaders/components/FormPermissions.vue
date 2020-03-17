@@ -251,7 +251,7 @@
       permissionOptions (permissionId) {
         if ([2, 3, 4, 8].includes(permissionId)) {
           return [
-            {text: 'czyta', value: '1'},
+            // {text: 'czyta', value: '1'},
             {text: 'tworzy', value: '2'},
             {text: 'zmienia', value: '3'}
           ]
