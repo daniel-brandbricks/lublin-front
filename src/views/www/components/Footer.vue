@@ -12,7 +12,7 @@
       </b-row>
     </b-col>
     <b-col cols="12" lg="5">
-      <h2>Struktura menu</h2>
+      <h2>Footer</h2>
 
       <b-form-group class="custom">
         <b-form-input id="input-1" class="custom"
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+
   export default {
     name: 'Footer',
     data () {
@@ -65,14 +67,19 @@
           phone: '',
           facebook: '',
           youtube: ''
-        },
-        name: '',
-        items: [
-          { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-          { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-          { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-          { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
-        ]
+        }
+      }
+    },
+    computed: {
+      ...mapGetters(['footers'])
+    },
+    methods: {
+      ...mapActions(['getFooters'])
+    },
+    created () {
+      this.footer = Object.assign(this.footer, this.$store.getters.footer(1))
+      if (this.$route.params.tab === 'footer') {
+        this.$store.dispatch('getFooter', {id: 1})
       }
     }
   }

@@ -1,4 +1,49 @@
-<template v-if="undefined!==section">
+<!--<template v-if="undefined!==section">-->
+<!--  <b-row class="justify-content-center">-->
+<!--    <b-col cols="12" lg="6">-->
+<!--      <h1>CMS</h1>-->
+<!--      <b-form-group class="custom">-->
+<!--        <b-form-input id="input-1" class="custom"-->
+<!--                      placeholder="Tytuł dla administratora"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('section.adminTitle')}"-->
+<!--                      name="section.adminTitle" key="section.adminTitle" v-validate="{'required':true}"-->
+<!--                      v-model="section.adminTitle"/>-->
+<!--        <hr>-->
+<!--      </b-form-group>-->
+<!--      <div v-for="(sectionDescription, index) in section">-->
+<!--        <b-form-group class="custom">-->
+<!--          <b-form-input id="input-2" class="custom"-->
+<!--                        placeholder="Tytuł"-->
+<!--                        :class="{'error-input-custom': veeErrors.has('index.title')}"-->
+<!--                        name="index.title" key="index.title" v-validate="{'required':true}"-->
+<!--                        v-model="index.title"/>-->
+<!--        </b-form-group>-->
+<!--        <textarea class="custom w-100" v-model="index.description" placeholder="Opis"-->
+<!--                  :class="{'error-input-custom': veeErrors.has('index.description')}"-->
+<!--                  name="index.description" :key="'index.description'" :v-validate="'required'"/>-->
+<!--        <b-form-group>-->
+<!--          <ImageInputAdvanced :imgPath="index.imgPath" @afterCropImage="afterCropImage"-->
+<!--                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"-->
+<!--                              :min-width="100" :max-height="1000" :max-width="1000"/>-->
+<!--        </b-form-group>-->
+<!--        <b-form-group>-->
+<!--          <ImageInputAdvanced :imgPath="index.bgPath" @afterCropImage="afterCropBackground"-->
+<!--                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"-->
+<!--                              :min-width="100" :max-height="1000" :max-width="1000"/>-->
+<!--        </b-form-group>-->
+<!--      </div>-->
+<!--      <b-row class="justify-content-center justify-content-sm-end">-->
+<!--        <b-col cols="12" sm="4">-->
+<!--          <b-btn block variant="primary" class="custom" @click="submit(1, true)">-->
+<!--            Zapisz-->
+<!--          </b-btn>-->
+<!--        </b-col>-->
+<!--      </b-row>-->
+<!--    </b-col>-->
+<!--  </b-row>-->
+<!--</template>-->
+
+<template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="6">
       <h1>CMS</h1>
@@ -10,28 +55,28 @@
                       v-model="section.adminTitle"/>
         <hr>
       </b-form-group>
-      <div v-for="(sectionDescription, index) in section">
-        <b-form-group class="custom">
-          <b-form-input id="input-2" class="custom"
-                        placeholder="Tytuł"
-                        :class="{'error-input-custom': veeErrors.has('index.title')}"
-                        name="index.title" key="index.title" v-validate="{'required':true}"
-                        v-model="index.title"/>
-        </b-form-group>
-        <textarea class="custom w-100" v-model="index.description" placeholder="Opis"
-                  :class="{'error-input-custom': veeErrors.has('index.description')}"
-                  name="index.description" :key="'index.description'" :v-validate="'required'"/>
-        <b-form-group>
-          <ImageInputAdvanced :imgPath="index.imgPath" @afterCropImage="afterCropImage"
-                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                              :min-width="100" :max-height="1000" :max-width="1000"/>
-        </b-form-group>
-        <b-form-group>
-          <ImageInputAdvanced :imgPath="index.bgPath" @afterCropImage="afterCropBackground"
-                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                              :min-width="100" :max-height="1000" :max-width="1000"/>
-        </b-form-group>
-      </div>
+<!--      todo maybe v-for on sectionDescription-->
+<!--      todo check Daniel-->
+      <b-form-group class="custom">
+        <b-form-input id="input-2" class="custom"
+                      placeholder="Tytuł"
+                      :class="{'error-input-custom': veeErrors.has('section.sectionDescriptions.title')}"
+                      name="section.sectionDescriptions.title" key="section.sectionDescriptions.title" v-validate="{'required':true}"
+                      v-model="section.sectionDescriptions.title"/>
+      </b-form-group>
+      <textarea class="custom w-100" v-model="section.sectionDescriptions.description" placeholder="Opis"
+                :class="{'error-input-custom': veeErrors.has('index.description')}"
+                name="section.sectionDescriptions.description" :key="'section.sectionDescriptions.description'" :v-validate="'required'"/>
+      <b-form-group>
+        <ImageInputAdvanced :imgPath="section.sectionDescriptions.imgPath" @afterCropImage="afterCropImage"
+                            :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                            :min-width="100" :max-height="1000" :max-width="1000"/>
+      </b-form-group>
+      <b-form-group>
+        <ImageInputAdvanced :imgPath="section.sectionDescriptions.bgPath" @afterCropBackground="afterCropBackground"
+                            :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                            :min-width="100" :max-height="1000" :max-width="1000"/>
+      </b-form-group>
       <b-row class="justify-content-center justify-content-sm-end">
         <b-col cols="12" sm="4">
           <b-btn block variant="primary" class="custom" @click="submit(1, true)">
@@ -58,7 +103,12 @@
         section: {
           id: this.id,
           adminTitle: '',
-          sectionDescriptions: []
+          sectionDescriptions: {
+            title: '',
+            description: '',
+            imgPath: null,
+            bgPath: null
+          }
         }
       }
     },
