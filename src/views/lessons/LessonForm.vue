@@ -17,6 +17,8 @@
                                  v-show="$route.params.tab === 'participants-list'"/>
       <FormParticipants :lesson="lesson" ref="participants" :key="$route.params.tab+'FormParticipants'"
                         v-show="$route.params.tab === 'participants'"/>
+      <FormFrequency :lesson-id="lesson.id" ref="frequency" :key="$route.params.tab+'Formfrequency'"
+                     v-if="$route.params.tab === 'frequency' && lesson && lesson.id"/>
     </template>
   </div>
 </template>
@@ -34,6 +36,7 @@
   import ListObjects from '@/views/lessons/components/ListObjects'
   import FormParticipantGroupsList from '@/views/lessons/components/FormParticipantGroupsList'
   import FormParticipants from '@/views/lessons/components/FormParticipants'
+  import FormFrequency from '@/views/lessons/components/FormFrequency'
 
   import {mapGetters} from 'vuex'
 
@@ -46,10 +49,11 @@
       FormObjects,
       ListObjects,
       FormParticipants,
+      FormFrequency,
       FormParticipantGroupsList
     },
     mixins: [EventBusEmit, FormMixin],
-    data () {
+    data() {
       return {
         tabLinks: [
           {
@@ -105,7 +109,7 @@
       ...mapGetters(['lessonSportObjects'])
     },
     methods: {
-      changeTab (tabToRedirect) {
+      changeTab(tabToRedirect) {
         console.log(tabToRedirect)
         return new Promise((resolve, reject) => {
           return this.$refs[this.$route.params.tab].$validator.validateScopes()
@@ -122,7 +126,7 @@
             .catch(e => reject(e))
         })
       },
-      submit (lesson, tabToRedirect) {
+      submit(lesson, tabToRedirect) {
         if (undefined === lesson) lesson = this.lesson
 
         const method = this.id === undefined ? 'postLesson' : 'putLesson'
@@ -146,7 +150,7 @@
             this.postSubmitError(error)
           })
       },
-      prepareLesson (lesson) {
+      prepareLesson(lesson) {
         // let leaderIds = []
         // for (let leaderIndex in lesson.leaders) {
         //   leaderIds.push(lesson.leaders[leaderIndex].id)
@@ -154,13 +158,13 @@
         // lesson.leaders = leaderIds
         this.lesson = lesson
       },
-      goToFormTab (tabName, params = {}) {
+      goToFormTab(tabName, params = {}) {
         this.checkValidMainForm()
         let defaultParams = {...{'tab': tabName, 'id': this.id}, ...params}
         this.$router.push({name: 'lesson', params: defaultParams})
       }
     },
-    created () {
+    created() {
       if (this.$route.params.tab === undefined) {
         this.$router.push({name: 'lesson', params: {'tab': 'main-data'}})
       }

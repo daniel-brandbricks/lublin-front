@@ -111,6 +111,7 @@
               :fields="historyFields"
               :per-page="perPage"
               striped
+              @sort-changed="sortingChanged"
               sort-icon-left
               responsive="md"
               class="custom table-responsive"
@@ -127,7 +128,8 @@
                 <span v-if="scope.item.school">{{scope.item.school.name}}</span>
               </template>
               <template slot="changes" slot-scope="scope">
-                <span v-show="scope.item.method !== 'DELETE'" class="c-pointer" @click="showChanges(scope.item.changes)">Zobać</span>
+                <span v-show="scope.item.method !== 'DELETE'" class="c-pointer"
+                      @click="showChanges(scope.item.changes)">Szczegóły</span>
               </template>
               <!--              @row-clicked="rowRedirect"-->
             </b-table>
@@ -182,7 +184,7 @@
         parsedChanges: {},
 
         currentPage: 1,
-        perPage: 5,
+        perPage: 20,
         totalRows: 0,
 
         lang: {
@@ -336,6 +338,9 @@
       }
     },
     methods: {
+      sortingChanged(ctx) {
+        console.log(ctx)
+      },
       hideModal() {
         this.$refs.modalChanges.hide()
       },
@@ -349,7 +354,7 @@
         })
         return undefined === namePrepared ? '' : namePrepared.label
       },
-      filter (currentPage = 1, reset = false) {
+      filter(currentPage = 1, reset = false) {
         let filters = {
           selectedYearFrom: this.selectedYearFrom,
           selectedYearTo: this.selectedYearTo,
@@ -357,7 +362,7 @@
           schoolsAndClubs: this.lessons.schoolsAndClubs
         }
 
-        this.$store.dispatch('getLogs', {filters: filters, currentPage: currentPage, perPage: 5})
+        this.$store.dispatch('getLogs', {filters: filters, currentPage: currentPage, perPage: this.perPage})
           .then(response => {
             this.filterResponse(response, reset)
           })

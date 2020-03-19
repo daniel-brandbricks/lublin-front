@@ -192,11 +192,11 @@
                 link: 'leader',
                 tab: 'calendar'
               },
-              {
-                title: 'Frekwencja',
-                link: 'leader',
-                tab: 'frequency'
-              },
+              // {
+              //   title: 'Frekwencja',
+              //   link: 'leader',
+              //   tab: 'frequency'
+              // },
               {
                 title: 'MTSF',
                 link: 'leader',
