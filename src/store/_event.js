@@ -2,23 +2,86 @@ import * as apiService from '@/services/apiService'
 
 export default {
   state: {
-    events: [],
+    events: {
+      confirmed: [],
+      toConfirm: []
+    },
     event: null
   },
   getters: {
-    events (state) {
-      return state.events
+    eventsConfirmed (state) {
+      return state.events.confirmed
     },
-    event (state) {
-      return state.event
+    eventsToConfirm (state) {
+      return state.events.toConfirm
+    },
+    events (state) {
+      return state.events.confirmed.concat(state.events.toConfirm)
+    },
+    event: (state) => (isConfirmed, id) => {
+      let events = []
+
+      if (undefined === isConfirmed) {
+        events = state.events.confirmed.concat(state.events.toConfirm)
+      } else {
+        events = isConfirmed ? state.events.confirmed : state.events.toConfirm
+      }
+      for (let i = 0; i < events.length; i++) {
+        const event = events[i]
+        if (undefined === event || event === null || event.length < 1) {
+          continue
+        }
+        if (parseInt(event.id) === parseInt(id)) {
+          return event
+        }
+      }
     }
   },
   mutations: {
+    setConfirmedEvents (state, data) {
+      state.events.confirmed = data
+    },
+    setEventsToConfirm (state, data) {
+      state.events.toConfirm = data
+    },
     setEvents (state, data) {
-      state.events = data.events
+      let eventsConfirmed = []
+      let eventsToConfirm = []
+
+      for (let eventIndex in data) {
+        if (data[eventIndex].confirmed) {
+          eventsConfirmed.push(data[eventIndex])
+        } else {
+          eventsToConfirm.push(data[eventIndex])
+        }
+      }
+
+      state.events.confirmed = eventsConfirmed
+      state.events.toConfirm = eventsToConfirm
     },
     setEvent (state, data) {
-      state.event = data
+      const id = data.id
+      const confirmed = data.confirmed
+      let events = []
+
+      if (undefined === id || id === null) {
+        return
+      }
+
+      events = confirmed ? state.events.confirmed : state.events.toConfirm
+
+      for (let i = 0; i < events.length; i++) {
+        const storeEvent = events[i]
+        if (parseInt(storeEvent.id) !== parseInt(id)) {
+          continue
+        }
+        events.splice(i, 1, data)
+        confirmed ? state.events.confirmed = events : state.events.toConfirm = events
+
+        return
+      }
+
+      confirmed ? state.events.confirmed.push(data) : state.events.toConfirm.push(data)
     },
     deleteEvent (state, data) {
       // todo
@@ -36,7 +99,7 @@ export default {
             }
 
             context.commit('setEvent', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)
@@ -46,14 +109,18 @@ export default {
     },
     getEvents (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/event', 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/event', 'get', true, data, data, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setEvents', response)
+            if (data && data.confirmed) {
+              data.confirmed === 1 ? context.commit('setConfirmedEvents', response) : context.commit('setEventsToConfirm', response)
+            } else {
+              context.commit('setEvents', response)
+            }
             resolve()
           })
           .catch(error => {
@@ -91,7 +158,7 @@ export default {
             }
 
             context.commit('setEvent', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

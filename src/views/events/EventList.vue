@@ -15,12 +15,13 @@
 <script>
   import EventBusEmit from '@/mixins/event-bus-emit'
   import TabLinks from '../../components/TabLinks'
+  import ListMixin from '@/mixins/list-mixin'
   import ListConfirmed from '@/views/events/components/ListConfirmed'
   import ListToConfirm from '@/views/events/components/ListToConfirm'
 
   export default {
     components: { TabLinks, ListConfirmed, ListToConfirm },
-    mixins: [ EventBusEmit ],
+    mixins: [ EventBusEmit, ListMixin ],
     data () {
       return {
         tabLinks: [
@@ -35,6 +36,14 @@
             tab: 'to-confirm'
           }
         ]
+      }
+    },
+    methods: {
+      rowRedirect (id, isConfirmed) {
+        this.$router.push({
+          name: 'event',
+          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+        })
       }
     },
     created () {
