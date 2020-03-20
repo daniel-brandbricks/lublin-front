@@ -54,6 +54,7 @@
         <h2 class="my-4">Organizator</h2>
         <b-form-group>
           <b-form-radio @change="event.school.id = null"
+                        v-if="event.id === undefined"
                         v-model="orgType" :value="element.value" class="d-inline-block mt-3 mr-3"
                         :class="{'error-input-custom': veeErrors.has('organizatorType')}"
                         name="organizatorType" :key="'organizatorType'+index" v-validate="{'required':true}"
@@ -63,6 +64,7 @@
         </b-form-group>
         <b-form-group v-if="event.school">
           <treeselect v-model="event.school.id"
+                      :disabled="event.id ==! undefined"
                       :multiple="false"
                       placeholder="Klub / Szkoła"
                       :options="schoolsAndClubsPrepared"
@@ -70,26 +72,54 @@
                       :class="{'error-input-custom': veeErrors.has('event.school')}"
                       name="event.school" key="event.school" v-validate="{'required':true}"/>
         </b-form-group>
-        <b-form-group class="custom mb-2" v-if="event.leader">
-          <treeselect class="custom m-0"
-                      v-model="event.leader.id"
-                      :multiple="false"
-                      placeholder="Prowadzący" :options="leadersTreeselect(event.school.id)"
-                      :class="{'error-input-custom': veeErrors.has('event.leaders')}"
-                      name="event.leaders" key="event.leaders" v-validate="{'required':true}"/>
+
+        <b-form-group class="custom">
+          <b-form-input id="input-4" class="custom"
+                        placeholder="Osoba kontaktowa"
+                        :class="{'error-input-custom': veeErrors.has('event.personToContact')}"
+                        name="event.personToContact" key="event.personToContact" v-validate="{'required':true}"
+                        v-model="event.personToContact"/>
         </b-form-group>
-<!--                    todo BTN-POSITION              -->
+
+        <h2 class="my-4">Lokalizacja i Data</h2>
+        <b-form-group>
+          <b-form-radio @change="event.school.id = null"
+                        v-if="event.id === undefined"
+                        v-model="addressType" :value="element.value" class="d-inline-block mt-3 mr-3"
+                        :class="{'error-input-custom': veeErrors.has('addressType')}"
+                        name="addressType" :key="'addressType'+index" v-validate="{'required':true}"
+                        v-for="(element,index) in [{title: 'Jeden adres', value: 0}, {title: '2 i więcej', value: 1}]">
+            {{ element.title }}
+          </b-form-radio>
+        </b-form-group>
+
+        <div v-if="addressType === 0">
+          <b-form-group class="custom">
+            <b-form-input id="input-address" class="custom"
+                          placeholder="Adres"
+                          :class="{'error-input-custom': veeErrors.has('event.address')}"
+                          name="event.address" key="event.address" v-validate="{'required':true}"
+                          v-model="event.address"/>
+          </b-form-group>
+        </div>
+        <div v-if="addressType === 1">
+          <textarea class="custom w-100 mb-3" v-model="event.addressDesc" placeholder="Opis miejscowości"
+                    :class="{'error-input-custom': veeErrors.has('event.addressDesc')}"
+                    name="event.addressDesc" :key="'event.addressDesc'" :v-validate="'required'"/>
+        </div>
+
         <b-row class="mt-4">
-          <div class="col">
+          <b-col>
             <b-btn variant="delete" class="custom"
                    @click="deleteFromForm('deleteEvent', event.id, undefined, 'events', {tab: 'confirmed'})">
               Usuń
             </b-btn>
-            <b-btn class="custom btn" :to="{ name: 'events', params: { 'tab': 'confirmed' } }">
+          </b-col>
+          <b-col>
+            <b-btn block class="custom btn" :to="{ name: 'events', params: { 'tab': 'confirmed' } }">
               Anuluj
             </b-btn>
-          </div>
-
+          </b-col>
           <b-col>
             <b-btn block variant="primary" class="custom btn" @click="submit(true)">
               Zapisz
@@ -121,7 +151,8 @@
     mixins: [ EventBusEmit, FormMixin, EventsMixin ],
     data () {
       return {
-        orgType: 0
+        orgType: 0,
+        addressType: 0
       }
     },
     computed: {
