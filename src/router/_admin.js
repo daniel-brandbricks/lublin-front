@@ -22,7 +22,8 @@ import CoAdministrators from '@/views/co-administrators/CoAdministrators'
 import Messages from '@/views/messages/Messages'
 import Dictionary from '@/views/dictionary/Dictionary'
 import MTSF from '@/views/MTSF/MTSF'
-import Events from '@/views/events/Events'
+import EventList from '@/views/events/EventList'
+import EventForm from '@/views/events/EventForm'
 import Reports from '@/views/reports/Reports'
 import ParticipantGroupsForm from '@/views/participant-groups/ParticipantGroupsForm'
 import History from '@/views/history/History'
@@ -160,14 +161,19 @@ const adminRouter = {
     {
       path: 'events/:tab?',
       name: 'events',
-      component: Events
+      component: EventList
     },
     {
-      path: 'event/:id?',
+      path: 'event/:tab?/:id?',
       name: 'event',
-      // todo
-      component: ParticipantGroups
+      component: EventForm
     },
+    // {
+    //   path: 'event/:id?',
+    //   name: 'event',
+    //   todo
+    // component: ParticipantGroups
+    // },
 
     // Reports
     {

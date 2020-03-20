@@ -37,14 +37,14 @@
 
       <h4 class="my-3">Wyniki</h4>
       <b-table
-        :items="tableItems"
+        :items="eventListFiltered"
         :fields="fields"
         striped
         sort-icon-left
         responsive="md"
         class="custom table-responsive"
+        @row-clicked="rowRedirect"
       >
-        <!--        @row-clicked="rowRedirect"-->
         <template slot="name" slot-scope="scope">
           <div class="d-flex align-items-center justify-content-between">
             <div class="wrap-img-type-table mr-3">
@@ -72,10 +72,12 @@
   import { DISTRICTS } from '@/config/AppConfig'
   import TabLinks from '@/components/TabLinks'
   import Calendar from '@/components/common-views/Calendar'
+  import EventsMixin from '@/mixins/event-mixin'
 
   export default {
     name: 'ListConfirmed',
     components: { Treeselect, Events, TabLinks, Calendar },
+    mixins: [ EventsMixin ],
     data () {
       return {
         tabLinks: [
@@ -123,23 +125,27 @@
             { id: 3, label: 'Basen' }
           ]
         },
-
+        //  table
         fields: [
-          { key: 'name', label: 'Nazwa', sortable: true },
-          { key: 'organizer', label: 'Organizator', sortable: true },
-          { key: 'location', label: 'Lokalizacja', sortable: true },
-          { key: 'duration', label: 'Czas trwania', sortable: true },
+          { key: 'title', label: 'Nazwa', sortable: true },
+          { key: 'description', label: 'Opis', sortable: true },
+          { key: 'phone', label: 'Telefon', sortable: true },
           { key: 'edit', label: '' }
-        ],
-        tableItems: [
-          { id: 1, name: 'Project X', organizer: 'Szkoła nr.4', location: 'Al. Jana Pawła II', duration: '6g.' },
-          { id: 2, name: 'AP', organizer: 'Kłub Piłek', location: 'Park LK', duration: '5g.' }
         ]
       }
     },
-    computed: {},
-    methods: {},
+    computed: {
+      eventsConfirmed () {
+        return this.$store.getters.eventsConfirmed
+      }
+    },
+    methods: {
+      rowRedirect (row) {
+        this.$parent.rowRedirect(row.id, true)
+      }
+    },
     created () {
+      this.$store.dispatch('getEvents', { confirmed: 1 })
     }
   }
 </script>
