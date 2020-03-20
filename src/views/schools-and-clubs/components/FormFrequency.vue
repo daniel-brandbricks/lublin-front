@@ -1,10 +1,14 @@
 <template>
-  <div class="wrap"></div>
+  <Frequency :schoolId="schoolId"/>
 </template>
 
 <script>
+  import Frequency from '@/views/fregucncy/Frequency'
+
   export default {
-    name: 'FormFrequency'
+    name: 'FormFrequency',
+    props: ['schoolId'],
+    components: { Frequency }
   }
 </script>
 

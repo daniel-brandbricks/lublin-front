@@ -114,7 +114,7 @@
 
   export default {
     components: {Treeselect},
-    props: ['participant', 'statusSlot', 'school', 'schoolIds', 'lesson'],
+    props: ['participant', 'statusSlot', 'school', 'schoolIds', 'lesson', 'disableNavButton'],
     mixins: [EventBusEmit, ParticipantMixin],
     data () {
       return {
@@ -231,12 +231,17 @@
       }
     },
     created () {
-      console.log(this.statusSlot)
-      this.$store.dispatch('getParticipants')
+      if (undefined === this.school) {
+        this.$store.dispatch('getParticipants')
+      } else {
+        this.$store.dispatch('getParticipants', {schools: this.school.id})
+      }
       this.$store.dispatch('getClasses')
 
+      if (undefined === this.disableNavButton) {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: 'participant', params: {tab: 'main-data'}})
+      }
       if (this.statusSlot === undefined && undefined === this.school && undefined === this.schoolIds &&
         undefined === this.lesson) {
           this.changeAdminNavbarBreadcrumbs([{text: 'Zawodnicy', active: true}])

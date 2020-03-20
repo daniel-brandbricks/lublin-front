@@ -15,20 +15,20 @@
           <ListParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" ref="ListParticipants"
                             :key="$route.params.tab+'ListParticipants'+dbParticipants.length"
                             v-if="participantGroup.id && dbParticipants.length > 0
-                            && $route.params.tab === 'participants'"/>
+                            && $route.params.tab === 'participants' && participantGroup.school && participantGroup.school.id"/>
 
           <!--        Component for todo Entity isValidForm for ALL  -->
           <FormLessons :participantGroup="participantGroup" @childSubmit="submit" ref="FormLessons"
-                          :key="$route.params.tab+'FormLessons'" v-show="$route.params.tab === 'lessons'"/>
+                          :key="$route.params.tab+'FormLessons'" v-if="$route.params.tab === 'lessons'"/>
           <!--        Component for todo Entity   -->
           <FormCalendar :participantGroup="participantGroup" @childSubmit="submit" ref="FormCalendar"
-                        :key="$route.params.tab+'FormCalendar'" v-show="$route.params.tab === 'calendar'"/>
+                        :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
           <!--        Component for todo Entity   -->
-          <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"
-                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>
+<!--          <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"-->
+<!--                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>-->
           <!--        Component for todo Entity   -->
           <FormMTSF :participantGroup="participantGroup" @childSubmit="submit" ref="FormMTSF"
-                    :key="$route.params.tab+'FormMTSF'" v-show="$route.params.tab === 'mtsf'"/>
+                    :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
         </template>
       </b-col>
     </b-row>
@@ -195,6 +195,14 @@
           this.participantGroup = response
           this.setDataFromExistedParticipantGroup(response)
         })
+      },
+      refreshParticipantGroup () {
+        this.$store.dispatch('getParticipantGroup', { id: this.id })
+          .then((response) => {
+            console.log(response)
+            this.participantGroup = response
+            this.setDataFromExistedParticipantGroup(response)
+          })
       }
     },
     created () {
@@ -247,13 +255,13 @@
                 method: 'checkValidMainForm',
                 methodParams: 'calendar'
               },
-              {
-                title: 'Frekwencja',
-                link: 'participant.group',
-                tab: 'frequency',
-                method: 'checkValidMainForm',
-                methodParams: 'frequency'
-              },
+              // {
+              //   title: 'Frekwencja',
+              //   link: 'participant.group',
+              //   tab: 'frequency',
+              //   method: 'checkValidMainForm',
+              //   methodParams: 'frequency'
+              // },
               {
                 title: 'MTSF',
                 link: 'participant.group',

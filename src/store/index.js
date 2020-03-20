@@ -20,6 +20,7 @@ import lessonModule from './_lesson'
 import permissionModule from './_permission'
 import administratorModule from './_administrator'
 import historyModule from './_history'
+import frequencyModule from './_frequency'
 
 Vue.use(Vuex)
 
@@ -43,6 +44,7 @@ export default new Vuex.Store({
     permissionModule,
     administratorModule,
     lessonModule,
+    frequencyModule,
     historyModule
   }
 })

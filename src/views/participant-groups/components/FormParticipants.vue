@@ -177,8 +177,7 @@ console.log(data)
       }
     },
     created () {
-      // todo by school
-      this.$store.dispatch('getParticipants')
+      this.$store.dispatch('getParticipants', {schools: this.participantGroup.school.id})
     }
   }
 </script>

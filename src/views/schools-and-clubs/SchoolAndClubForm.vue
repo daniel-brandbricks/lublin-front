@@ -39,8 +39,8 @@
                     :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
 
       <!--   Component for todo Entity   -->
-      <FormFrequency :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormFrequency"
-                     :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency'"/>
+      <FormFrequency :schoolId="school.id" :isValidForm="isValidForm" @childSubmit="submit" ref="FormFrequency"
+                     :key="$route.params.tab+'FormFrequency'" v-if="$route.params.tab === 'frequency' && school && school.id"/>
 
       <!--   Component for todo Entity   -->
       <FormMTSF :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMTSF"

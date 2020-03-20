@@ -162,7 +162,7 @@ export default {
             }
 
             context.commit('setParticipantGroup', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

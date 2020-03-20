@@ -170,11 +170,11 @@
                 link: 'participant',
                 tab: 'calendar'
               },
-              {
-                title: 'Frekwencja',
-                link: 'participant',
-                tab: 'frequency'
-              },
+              // {
+              //   title: 'Frekwencja',
+              //   link: 'participant',
+              //   tab: 'frequency'
+              // },
               {
                 title: 'MTSF',
                 link: 'participant',
