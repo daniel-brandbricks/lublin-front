@@ -2,31 +2,31 @@
   <div>
     <b-row class="justify-content-center">
       <b-col cols="8">
-        <h5 class="mb-3">Dane ogólne</h5>
-        <b-form-group class="custom mb-2">
+        <b-form-group class="custom mb-2"
+                      label="Imię">
           <b-form-input id="name-1" class="custom m-0"
-                        placeholder="Imię"
                         :class="{'error-input-custom': veeErrors.has('user.firstName')}"
                         name="user.firstName" key="user.firstName" v-validate="{'required':true}"
                         v-model="user.firstName"/>
         </b-form-group>
-        <b-form-group class="custom mb-2">
+        <b-form-group class="custom mb-2"
+                      label="Nazwisko">
           <b-form-input id="surname-1" class="custom m-0"
-                        placeholder="Nazwisko"
                         :class="{'error-input-custom': veeErrors.has('user.lastName')}"
                         name="user.lastName" key="user.lastName" v-validate="{'required':true}"
                         v-model="user.lastName"/>
         </b-form-group>
-         <b-form-group class="custom mb-2">
+         <b-form-group class="custom mb-2"
+                       label="Telefon">
           <b-form-input id="phone-1" class="custom m-0"
-                        placeholder="Telefon" type="number"
+                        type="number"
                         :class="{'error-input-custom': veeErrors.has('user.phone')}"
                         name="user.phone" key="user.phone" v-validate="{'required':true}"
                         v-model="user.phone"/>
         </b-form-group>
-        <b-form-group class="custom mb-2">
+        <b-form-group class="custom mb-2"
+                      label="E-mail">
           <b-form-input id="email-1" class="custom m-0"
-                        placeholder="E-mail"
                         :class="{'error-input-custom': veeErrors.has('user.email')}"
                         name="user.email" key="user.email" v-validate="{'required':true, 'email': true}"
                         v-model="user.email"/>
@@ -35,14 +35,14 @@
         <div class="mt-5">
           <b-form-group class="custom mb-2">
             <b-form-input id="password-1" class="custom m-0"
-                          placeholder="Stare hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          placeholder="Stare hasło (zostaw puste jeśli nie chcesz zmieniać)" type="password"
                           :class="{'error-input-custom': veeErrors.has('user.password')}"
                           name="user.password" key="user.password" v-validate="{'required': user.id === undefined}"
                           v-model="password"/>
           </b-form-group>
           <b-form-group class="custom mb-2">
             <b-form-input id="password-1" class="custom m-0"
-                          placeholder="Nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          placeholder="Nowe hasło (zostaw puste jeśli nie chcesz zmieniać)" type="password"
                           :class="{'error-input-custom': veeErrors.has('user.newPassword')}"
                           name="user.newPassword" key="user.newPassword"
                           v-validate="{'required': user.id === undefined}"
@@ -50,7 +50,7 @@
           </b-form-group>
           <b-form-group class="custom mb-2">
             <b-form-input id="password-1" class="custom m-0"
-                          placeholder="Powtórz nowe hasło (zostaw pustym jeśli nie chcesz zmieniać)" type="password"
+                          placeholder="Powtórz nowe hasło (zostaw puste jeśli nie chcesz zmieniać)" type="password"
                           :class="{'error-input-custom': veeErrors.has('user.confirmPassword')}"
                           name="confirmPassword" key="confirmPassword" v-validate="{'required': user.id === undefined}"
                           v-model="confirmPassword"/>
@@ -137,9 +137,6 @@
         let existedSchoolsUsers = this.authUser.schoolsUsers
         let preparedSchools = []
 
-        console.log(existedSchoolsUsers)
-        console.log(data)
-
         for (let schoolIndex in data) {
           if (existedSchoolsUsers.length > 1) {
             let schoolExist = existedSchoolsUsers.find(x => {
@@ -153,7 +150,6 @@
             preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
           }
         }
-console.log(preparedSchools)
         return preparedSchools
       }
     },
@@ -193,7 +189,6 @@ console.log(preparedSchools)
                 this.password = ''
                 this.newPassword = ''
                 this.confirmPassword = ''
-                console.log(error)
                 this.showToast((error && error.data && error.data.error)
                 ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
               })
@@ -235,7 +230,6 @@ console.log(preparedSchools)
       this.$store.dispatch('getCurrentUser')
         .then((response) => {
           this.user = response
-          console.log(response)
         })
     }
   }

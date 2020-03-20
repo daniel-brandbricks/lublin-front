@@ -33,9 +33,9 @@
       return {
         tabLinks: [
           {
-            title: 'Typy obiektów sportowych',
+            title: 'Kategorie zajęć',
             link: 'dictionary',
-            tab: 'sport-object-type'
+            tab: 'lesson-category'
           },
           {
             title: 'Dyscypliny',
@@ -43,17 +43,17 @@
             tab: 'disciplines'
           },
           {
-            title: 'Kategorie zajęć',
-            link: 'dictionary',
-            tab: 'lesson-category'
-          },
-          {
             title: 'Klasy',
             link: 'dictionary',
             tab: 'classes'
           },
           {
-            title: 'Sezony',
+            title: 'Typy obiektów sportowych',
+            link: 'dictionary',
+            tab: 'sport-object-type'
+          },
+          {
+            title: 'Czas trwania sezonu',
             link: 'dictionary',
             tab: 'seasons'
           }

@@ -22,6 +22,13 @@
             </b-form-group>
 
             <!--    treeselect    -->
+            <treeselect v-model="school.places[index].type.id" v-if="school.places[index].type"
+                        :multiple="false" class="custom mb-3"
+                        placeholder="Typ" :options="sportObjectTypesPrepared"
+                        :class="{'error-input-custom': veeErrors.has('sportObject.type')}"
+                        name="sportObject.type" key="sportObject.type" v-validate="{'required':true}"/>
+
+            <!--    treeselect    -->
             <treeselect v-model="place.district"
                         :multiple="false"
                         placeholder="Dzielnica"
@@ -132,7 +139,9 @@
         placeDefault: {
           active: 1,
           confirmed: null,
-          type: null,
+          type: {
+            id: null
+          },
           name: '',
           // school: {
           //   id: null
@@ -145,6 +154,19 @@
           // todo
           mapImg: ''
         }
+      }
+    },
+    computed: {
+      sportObjectTypesPrepared () {
+        let data = this.$store.getters.sportObjectTypes
+        let preparedTypes = []
+
+        for (let index in data) {
+          preparedTypes.push({id: data[index].id, label: data[index].title})
+        }
+
+        console.log(preparedTypes)
+        return preparedTypes
       }
     },
     methods: {
@@ -192,6 +214,10 @@
       }
     },
     created () {
+      this.$store.dispatch('getSportObjectTypes')
+
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
     }
   }
 </script>

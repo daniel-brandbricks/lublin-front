@@ -16,7 +16,7 @@
                :maxWidth="maxWidth"
                :maxHeight="maxHeight"
                :stencil-props="{minAspectRatio: minAspectRatio,maxAspectRatio: maxAspectRatio}"
-      ></cropper>
+      />
 
       <div class="modal-footer">
         <b-btn variant="primary" class="btn" @click="crop">
@@ -91,6 +91,7 @@
       }
     },
     created () {
+      console.log(this.imgPath)
       if (this.imgPath) {
         this.image = this.imgPath
       } else {

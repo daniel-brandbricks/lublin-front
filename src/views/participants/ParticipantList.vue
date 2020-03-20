@@ -15,22 +15,22 @@
           </b-col>
           <b-col cols="8">
             <b-row class="align-items-center">
-              <b-col cols="4">
+              <b-col cols="6">
                 <treeselect class="custom"
                             v-model="yearValue"
                             :multiple="true"
                             placeholder="Rocznik"
                             :options="years"/>
               </b-col>
-              <b-col cols="4">
-                <treeselect class="custom"
-                            v-model="selectedClasses" v-if="selectedClasses"
-                            :multiple="true"
-                            placeholder="Klasa"
-                            :options="classesTreeselect"
-                />
-              </b-col>
-              <b-col cols="4">
+<!--              <b-col cols="4">-->
+<!--                <treeselect class="custom"-->
+<!--                            v-model="selectedClasses" v-if="selectedClasses"-->
+<!--                            :multiple="true"-->
+<!--                            placeholder="Klasa"-->
+<!--                            :options="classesTreeselect"-->
+<!--                />-->
+<!--              </b-col>-->
+              <b-col cols="6">
                 <b-form-group class="custom">
                   <b-form-input id="input-1" class="custom m-0"
                                 placeholder="Szukaj"
@@ -123,7 +123,7 @@
           {key: 'lastName', label: 'Nazwisko', sortable: true},
           {key: 'sex', label: 'Płeć', sortable: true},
           {key: 'year', label: 'Rocznik', sortable: true},
-          {key: 'class', label: 'Klasa', sortable: true},
+          // {key: 'class', label: 'Klasa', sortable: true},
           {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
           {key: 'edit', label: ''}
         ],

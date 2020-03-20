@@ -167,6 +167,8 @@
         data['ids'] = leaderIds
         data['columnWord'] = 'Status dla szkoły / klubu'
         data['event'] = 'school-leader-change-status'
+        data['schoolName'] = this.school.name
+        data['schoolId'] = this.school.id
         return data
       }
     },

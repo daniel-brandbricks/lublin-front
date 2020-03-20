@@ -10,7 +10,9 @@ export default {
       let preparedSchools = []
 
       for (let schoolIndex in data) {
-        if (parseInt(data[schoolIndex].type) === parseInt(this.orgType)) {
+        if (this.lesson.id !== null && this.lesson.id !== undefined) {
+          preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
+        } else if (parseInt(data[schoolIndex].type) === parseInt(this.orgType)) {
           preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
         }
       }

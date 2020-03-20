@@ -34,19 +34,17 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
       })
     })
       .then((response) => {
+        console.log(response)
         if (undefined === response) {
-          console.log('test')
           resolve('error')
           return
         }
         if (checkResponse(response, responseStatusToCheck) === false) {
-          console.log('test')
           resolve('error')
         }
 
         let data = response.data
         if (responseKeysToCheck.length < 1 && checkEmptyObject(data, responseKeysToCheck) === false) {
-          console.log('test')
           resolve('error')
         }
         resolve(data)

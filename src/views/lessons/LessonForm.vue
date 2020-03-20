@@ -14,9 +14,9 @@
       <FormParticipantGroupsList :lesson="lesson" :isValidForm="isValidForm" @submit="submit"
                                  ref="participants-list"
                                  :key="$route.params.tab+'FormParticipantGroupsList'"
-                                 v-show="$route.params.tab === 'participants-list'"/>
+                                 v-if="$route.params.tab === 'participants-list'"/>
       <FormParticipants :lesson="lesson" ref="participants" :key="$route.params.tab+'FormParticipants'"
-                        v-show="$route.params.tab === 'participants'"/>
+                        v-if="$route.params.tab === 'participants'"/>
       <FormFrequency :lesson-id="lesson.id" ref="frequency" :key="$route.params.tab+'Formfrequency'"
                      v-if="$route.params.tab === 'frequency' && lesson && lesson.id"/>
     </template>
@@ -213,18 +213,18 @@
                 methodParams: 'participants'
               },
               {
-                title: 'Kalendarz',
-                link: 'lesson',
-                tab: 'calendar',
-                method: 'changeTab',
-                methodParams: 'calendar'
-              },
-              {
                 title: 'Frekwencja',
                 link: 'lesson',
                 tab: 'frequency',
                 method: 'changeTab',
                 methodParams: 'frequency'
+              },
+              {
+                title: 'Kalendarz',
+                link: 'lesson',
+                tab: 'calendar',
+                method: 'changeTab',
+                methodParams: 'calendar'
               },
               {
                 title: 'MTSF',

@@ -62,7 +62,7 @@
         />
       </b-form-group>
 
-      <h5 class="my-3">Dyscipliny</h5>
+      <h5 class="my-3">Dyscypliny</h5>
       <div class="row" v-if="participant.disciplines"
            v-for="(discipline, index) in participant.disciplines" :key="index">
         <div class="col-2">
@@ -241,6 +241,9 @@
       }
     },
     created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
+
       for (let index in this.participant.disciplines) {
         if (this.participant.disciplines[index] && this.participant.disciplines[index].id &&
           this.selectedDisciplinesIds.indexOf(this.participant.disciplines[index].id) === -1) {

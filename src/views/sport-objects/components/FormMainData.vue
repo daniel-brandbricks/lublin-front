@@ -184,6 +184,9 @@
       }
     },
     created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
+
       this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getSportObjectTypes')
     }

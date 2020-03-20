@@ -55,6 +55,7 @@
       <h5>Organizator</h5>
       <b-form-group>
         <b-form-radio @change="lesson.school.id = null"
+                      v-if="lesson.id === undefined"
                       v-model="orgType" :value="element.value" class="d-inline-block mt-3 mr-3"
                       :class="{'error-input-custom': veeErrors.has('organizatorType')}"
                       name="organizatorType" :key="'organizatorType'+index" v-validate="{'required':true}"
@@ -65,6 +66,7 @@
       <b-form-group v-if="lesson.school">
         <treeselect v-model="lesson.school.id"
                     :multiple="false"
+                    :disabled="lesson.school.id !== null && lesson.id !== undefined"
                     placeholder="Klub / Szkoła"
                     :options="schoolsAndClubsPrepared"
                     class="custom mb-2"
@@ -163,10 +165,15 @@
       <!--      buttons   -->
       <b-row class="mt-4">
         <b-col>
-          <b-btn variant="delete" class="custom" :disabled="lesson.id === undefined"
-                 @click="deleteFromForm('deleteLesson', lesson.id, undefined, 'lessons')">
+          <b-btn variant="delete" class="custom" v-if="lesson.active == 1"
+                 @click="deleteFromForm('deleteLesson', lesson.id, undefined, 'lessons', {})">
             <!-- todo Vetal' -->
             Usuń
+          </b-btn>
+          <b-btn variant="delete" class="custom" v-else
+                 @click="activateLesson">
+            <!-- todo Vetal' -->
+            Przywróć
           </b-btn>
         </b-col>
         <b-col>
@@ -260,6 +267,10 @@
             this.$parent.submit()
           })
       },
+      activateLesson () {
+        this.lesson.active = true
+        this.submit()
+      },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
       },
@@ -273,6 +284,9 @@
       }
     },
     created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
+
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getSportObjects', {confirmed: 1})

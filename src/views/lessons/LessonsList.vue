@@ -4,7 +4,10 @@
       <b-col cols="8">
         <b-row class="justify-content-center align-items-center">
           <b-col cols="6">
-            <b-form-group class="custom" v-if="undefined === sportObject">
+            <b-form-group class="custom"
+                          v-if="undefined === sportObject &&
+                          undefined === participantGroup &&
+                          undefined === school && undefined === participant">
               <!--              todo checkbox filter  -->
               <b-form-checkbox-group
                 id="checkbox-group-1"
@@ -118,17 +121,17 @@
     name: 'LessonList',
     components: {Treeselect},
     props: ['lesson', 'isConfirmed', 'school', 'participant',
-      'sportObject', 'schoolIds', 'participantGroup', 'leader'],
+            'sportObject', 'schoolIds', 'participantGroup', 'leader'],
     mixins: [EventBusEmit, LessonMixin],
     data () {
       return {
         fields: [
           {key: 'title', label: 'Nazwa zajęcia', sortable: true},
-          {key: 'disciplines', label: 'Dyscyplina', sortable: true},
-          {key: 'lessonCategories', label: 'Kategoria', sortable: true},
-          {key: 'classes', label: 'Klasa', sortable: true},
-          {key: 'leaders', label: 'Prowadzący', sortable: true},
-          {key: 'status', label: 'Status w systemie', sortable: true},
+          {key: 'disciplines', label: 'Dyscyplina', sortable: false},
+          {key: 'lessonCategories', label: 'Kategoria', sortable: false},
+          {key: 'classes', label: 'Klasa', sortable: false},
+          {key: 'leaders', label: 'Prowadzący', sortable: false},
+          {key: 'status', label: 'Status w systemie', sortable: false},
           {key: 'edit', label: ''}
         ],
 

@@ -51,6 +51,8 @@
                         { key: 'data', label: 'Data dodania', toInsert: true },
                         { key: 'btnTable', label: '', toInsert: true }
                         ]"/>
+
+    <p class="d-none">{{sportObjectsToConfirm}}</p>
   </div>
 </template>
 
@@ -106,6 +108,21 @@
       }
     },
     computed: {
+      sportObjectsToConfirm () {
+        this.tabLinks = [
+          {
+            title: 'Zatwierdzone',
+            link: 'sport.objects',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia (' + this.$store.getters.sportObjectsToConfirm.length + ')',
+            link: 'sport.objects',
+            tab: 'to-confirm'
+          }
+        ]
+        return this.$store.getters.sportObjectsToConfirm
+      },
       isDirector () {
         return this.$store.getters.isDirector
       },
@@ -132,6 +149,8 @@
       }
     },
     created () {
+      this.$store.dispatch('getSportObjects', {confirmed: 0})
+
       if (this.$route.params.tab === undefined) {
         this.$router.push({name: 'sport.objects', params: {'tab': 'confirmed'}})
       }

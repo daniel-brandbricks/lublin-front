@@ -26,7 +26,19 @@
     methods: {
       // call method on click tab (needs param 'method' in 'links' prop)
       callParentMethod (item, index) {
+        console.log(item)
+        console.log(index)
+        console.log(this.links)
+        if (this.$route.params.tab !== 'main-data' && item.link === 'school.or.club') {
+          this.$router.push({
+            name: item.link,
+            params: {'tab': item.tab, id: this.id}
+          })
+          return
+        }
+
         if (!this.links[index].method || typeof this.$parent[this.links[index].method] !== 'function') {
+          console.log(111)
           if (this.$route.params.tab !== item.tab) {
             this.$router.push({
               name: item.link,

@@ -13,13 +13,13 @@
 
       <b-row class="justify-content-center px-2 mt-5">
         <!--   image   -->
-        <b-col cols="12" lg="4" md="5" sm="10" class="">
-          <h2>Zdjęcie</h2>
-          <!--      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">-->
-          <ImageInputAdvanced :imgPath="school.image" @afterCropImage="afterCropImage"
-                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                              :min-width="100" :max-height="1000" :max-width="1000"/>
-        </b-col>
+<!--        <b-col cols="12" lg="4" md="5" sm="10" class="">-->
+<!--          <h2>Zdjęcie</h2>-->
+<!--          &lt;!&ndash;      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">&ndash;&gt;-->
+<!--          <ImageInputAdvanced :imgPath="school.image" @afterCropImage="afterCropImage"-->
+<!--                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"-->
+<!--                              :min-width="100" :max-height="1000" :max-width="1000"/>-->
+<!--        </b-col>-->
 
         <b-col cols="12" lg="4" md="5" sm="10" class="">
 

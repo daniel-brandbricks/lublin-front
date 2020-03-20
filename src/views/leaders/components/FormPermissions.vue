@@ -26,13 +26,13 @@
                       @input="permissions[index].places = []"
                       :options="schoolsTreeselect"/>
 
-          <treeselect class="custom"
-                      v-model="permissions[index].places"
-                      :multiple="true"
-                      :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.places'+index)}"
-                      :name="'leader.schoolPermissions.places'+index" :key="'leader.schoolPermissions.places'+index"
-                      v-validate="{'required':true}" placeholder="Obiekt"
-                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>
+<!--          <treeselect class="custom"-->
+<!--                      v-model="permissions[index].places"-->
+<!--                      :multiple="true"-->
+<!--                      :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.places'+index)}"-->
+<!--                      :name="'leader.schoolPermissions.places'+index" :key="'leader.schoolPermissions.places'+index"-->
+<!--                      v-validate="{'required':true}" placeholder="Obiekt"-->
+<!--                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>-->
 
           <h5 class="my-4">Status</h5>
           <b-form-group>
@@ -138,12 +138,13 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import FormMixin from '@/mixins/form-mixin'
   import {PERMISSIONS} from '@/config/AppConfig'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
   export default {
     name: 'FormMainData',
     props: ['leader', 'schoolIds'],
     components: {Treeselect},
-    mixins: [FormMixin],
+    mixins: [EventBusEmit, FormMixin],
     data () {
       return {
         isPlacesAreAnArray: false,
@@ -227,10 +228,14 @@
         return false
       },
       checkAccess (schoolPermission) {
+        console.log(schoolPermission)
+        console.log(this.isAdmin)
+        console.log(this.isDirector)
         if (schoolPermission.id === -1) return true
         if (this.isAdmin) return true
         if (this.isDirector) {
           let user = this.$store.getters.authUser
+          console.log(user)
           if (undefined === user || user === null || user === false ||
             user.schoolsUsers.length < 1) return false
 
@@ -329,6 +334,9 @@
       }
     },
     created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
+
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getSportObjects', {confirmed: 0})
       this.$store.dispatch('getSportObjects', {confirmed: 1})

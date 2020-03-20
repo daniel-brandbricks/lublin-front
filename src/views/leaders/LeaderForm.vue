@@ -9,16 +9,16 @@
     <template>
       <!--   Component for UserEntity   -->
       <FormMainData :leader="leader" @childSubmit="submit" ref="FormMainData"
-                    :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+                    :key="$route.params.tab+'FormMainData'" v-if="$route.params.tab === 'main-data'"/>
       <form-permissions :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="Permissions"
-                        :key="$route.params.tab+'Permissions'" v-show="$route.params.tab === 'permissions'"/>
+                        :key="$route.params.tab+'Permissions'" v-if="$route.params.tab === 'permissions'"/>
       <FormParticipantGroups :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="ParticipantList"
                              :key="$route.params.tab+'ParticipantList'"
-                             v-show="$route.params.tab === 'participant-list'"/>
+                             v-if="$route.params.tab === 'participant-list'"/>
       <FormParticipants :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="Participants"
-                        :key="$route.params.tab+'Participants'" v-show="$route.params.tab === 'participants'"/>
+                        :key="$route.params.tab+'Participants'" v-if="$route.params.tab === 'participants'"/>
       <FormLessons :leader="leader" :schoolIds="schoolIds" @childSubmit="submit" ref="Lessons"
-                   :key="$route.params.tab+'Lessons'" v-show="$route.params.tab === 'lessons'"/>
+                   :key="$route.params.tab+'Lessons'" v-if="$route.params.tab === 'lessons'"/>
       <!--      <FormSportObjects :leader="leader" ref="SportObjects"-->
       <!--                        :key="$route.params.tab+'SportObjects'" v-show="$route.params.tab === 'sport-objects'"/>-->
     </template>
@@ -43,7 +43,7 @@
       TabLinks, FormParticipants, FormLessons, FormMainData, FormPermissions, FormSportObjects, FormParticipantGroups
     },
     mixins: [EventBusEmit, FormMixin, LeaderMixin],
-    data() {
+    data () {
       return {
         tabLinks: [],
 
@@ -73,18 +73,27 @@
       leader: function (val) {
         console.log(val)
         if (val.id) {
-          let breadcrumbs = [
-            {text: 'Prowadzący', to: {name: 'leaders', params: {'tab': 'confirmed'}}},
-            {text: this.leader.firstName + ' ' + this.leader.lastName, active: true}
-          ]
-          console.log(breadcrumbs)
+          let breadcrumbs = []
+          if (this.$route.params.schoolName === undefined || this.$route.params.schoolName === null) {
+            breadcrumbs = [
+              {text: 'Prowadzący', to: {name: 'leaders', params: {'tab': 'confirmed'}}},
+              {text: this.leader.firstName + ' ' + this.leader.lastName, active: true}
+            ]
+          } else {
+            breadcrumbs = [
+              {text: this.$route.params.schoolName,
+               to: {name: 'school.or.club',
+                    params: {'tab': 'leaders', 'id': this.$route.params.schoolId}}},
+              {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
+            ]
+          }
           this.changeAdminNavbarBreadcrumbs(breadcrumbs)
         }
       }
     },
     methods: {
       // todo maybe for mixin?
-      prepareToSubmit(leader) {
+      prepareToSubmit (leader) {
         let disciplines = leader.disciplines
         let disciplinesPrepared = []
 
@@ -93,7 +102,7 @@
         }
         leader.disciplines = disciplinesPrepared
       },
-      submit() {
+      submit () {
         let leader = {...this.leader}
         this.prepareToSubmit(leader)
         console.log(leader)
@@ -108,13 +117,13 @@
             this.postSubmitError(error)
           })
       },
-      addDiscipline() {
+      addDiscipline () {
         this.leader.disciplines.push({})
       },
-      removeDiscipline(index) {
+      removeDiscipline (index) {
         this.leader.disciplines.splice(index, 1)
       },
-      prepareLeader(leader) {
+      prepareLeader (leader) {
         let schoolsIds = []
         for (let schoolIndex in leader.schoolsUsers) {
           schoolsIds.push(leader.schoolsUsers[schoolIndex].school.id)
@@ -126,7 +135,7 @@
         console.log(this.leader)
       }
     },
-    created() {
+    created () {
       // init leader
       this.leader = Object.assign(this.leader, this.$store.getters.leader(this.id, this.isConfirmed))
 
@@ -149,7 +158,7 @@
             this.$store.dispatch('getPermissionsByIds', !Array.isArray(response.schoolsUsers)
               ? false : response.schoolsUsers.map(obj => {
                 if (obj.permission && obj.permission.hasOwnProperty('id')) return obj.permission.id
-              }))
+            }))
 
             // this.$store.dispatch('getPermissionsByIds', !Array.isArray(response.schoolsUsers)
             //   ? false : response.schoolsUsers.map(obj => {
@@ -216,13 +225,23 @@
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
 
-      let breadcrumbs = [
-        {text: 'Prowadzący', to: {name: 'leaders', params: {'tab': 'confirmed'}}},
-        {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
-      ]
+      let breadcrumbs = []
+      if (this.$route.params.schoolName === undefined || this.$route.params.schoolName === null) {
+        breadcrumbs = [
+          {text: 'Prowadzący', to: {name: 'leaders', params: {'tab': 'confirmed'}}},
+          {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
+        ]
+      } else {
+        breadcrumbs = [
+          {text: this.$route.params.schoolName,
+           to: {name: 'school.or.club',
+                params: {'tab': 'leaders', 'id': this.$route.params.schoolId}}},
+          {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
+        ]
+      }
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
     },
-    destroyed() {
+    destroyed () {
       this.$store.dispatch('clearPermissions')
     }
   }

@@ -15,19 +15,19 @@
         </template>
 
         <template slot="type" slot-scope="scope">
-          <span>{{getSportObjectTypeNameById(scope.item.type)}}</span>
+          <span v-if="scope.item">{{getSportObjectTypeNameById(scope.item.type)}}</span>
         </template>
 
         <template slot="object" slot-scope="scope">
-          <span>{{scope.item.places.length}}</span>
+          <span v-if="scope.item">{{scope.item.places.length}}</span>
         </template>
 
         <template slot="lessons" slot-scope="scope">
-          <span class="status active">aktywny</span>
+          <span v-if="scope.item">{{scope.item.lessons.length}}</span>
         </template>
 
         <template slot="status" slot-scope="scope">
-          <span class="status inactive"
+          <span class="status inactive" v-if="scope.item"
                 :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
@@ -36,7 +36,7 @@
 <!--        </template>-->
 
         <template slot="data" slot-scope="scope">
-          <span>{{scope.item.created}}</span>
+          <span v-if="scope.item">{{scope.item.created}}</span>
         </template>
 
         <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isDirector">

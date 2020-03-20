@@ -83,7 +83,9 @@ export default {
         state.isAdmin = true
         state.isDirector = true
       }
-      if (data.user.schoolsUsers.length > 0 && data.user.schoolsUsers[0].role === 1) state.isDirector = true
+      if (data.user.schoolsUsers.length > 0 && data.user.schoolsUsers[0].role === 1) {
+        state.isDirector = true
+      }
       console.log(state.authUser)
     }
   },
@@ -145,8 +147,9 @@ export default {
     },
     getCurrentUser (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('me/', 'get', true, null, null, 200)
+        apiService.makeApiCall('me/', 'get', true, null, null)
           .then(response => {
+            console.log(response)
             if (response === 'error') {
               resolve('error')
               return
@@ -156,7 +159,7 @@ export default {
             resolve(response)
           })
           .catch(error => {
-            console.log(error.response)
+            console.log(error)
             reject(error.response)
           })
       })

@@ -62,7 +62,7 @@
             <treeselect v-model="lessons.schoolsAndClubs"
                         :multiple="true"
                         :searchable="false"
-                        placeholder="Nazwa klubu/Szkoły"
+                        placeholder="Kto wprowadził zmianę"
                         :options="schoolsAndClubsPrepared"
                         :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"
                         name="sportObject.schools" key="sportObject.schools"
@@ -184,7 +184,7 @@
         parsedChanges: {},
 
         currentPage: 1,
-        perPage: 20,
+        perPage: 100,
         totalRows: 0,
 
         lang: {
@@ -302,13 +302,13 @@
         showEvents: [1],
 
         historyFields: [
-          {key: 'id', label: 'id', sortable: true},
+          {key: 'createdLog', label: 'Kiedy', sortable: true},
           {key: 'user', label: 'Kto', sortable: true},
-          {key: 'object', label: 'Obiekt', sortable: true},
-          {key: 'method', label: 'Typ', sortable: true},
+          {key: 'method', label: 'Rodzaj akcji', sortable: true},
+          {key: 'object', label: 'Gdzie', sortable: true},
           {key: 'school', label: 'szkoła / klub', sortable: true},
           {key: 'changes', label: 'Zmiana', sortable: true},
-          {key: 'createdLog', label: 'Data', sortable: true}
+          {key: 'id', label: 'id', sortable: true}
         ],
         historyData: [
           {id: 1, name: 'Admin', date: '11/10/19', changes: 'Nazwa Kłubu "Lead" -> "Moc"'},
@@ -383,7 +383,7 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
-      this.changeAdminNavbarBreadcrumbs([{text: 'Historia', active: true}])
+      this.changeAdminNavbarBreadcrumbs([{text: 'Logi', active: true}])
     }
   }
 </script>

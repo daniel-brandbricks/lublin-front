@@ -35,36 +35,44 @@
         </template>
 
         <template slot="status" slot-scope="scope">
-          <b-dropdown class="status-dropdown">
-            <template v-if="undefined === statusSlot" v-slot:button-content>
+          <template v-if="$store.getters.isAdmin || $store.getters.isDirector">
+            <b-dropdown class="status-dropdown">
+              <template v-if="undefined === statusSlot" v-slot:button-content>
               <span class="status c-pointer"
                     :class="{'active': scope.item.active}">
                   {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
                 </span>
-            </template>
-            <template v-else v-slot:button-content>
+              </template>
+              <template v-else v-slot:button-content>
               <span class="status c-pointer"
                     :class="{'active': scope.item.schoolStatus}">
                   {{scope.item.schoolStatus === true ? 'aktywny' : 'nieaktywny'}}
                 </span>
-            </template>
-            <b-dropdown-item :disabled="undefined === statusSlot ? scope.item.active : scope.item.schoolStatus"
-                             @click="changeLeaderStatus(scope.item.id, 1)">
-              Aktywuj
-            </b-dropdown-item>
-            <b-dropdown-item :disabled="undefined === statusSlot ? !scope.item.active : !scope.item.schoolStatus"
-                             @click="changeLeaderStatus(scope.item.id, 0)">
-              Dezaktywuj
-            </b-dropdown-item>
-          </b-dropdown>
+              </template>
+              <b-dropdown-item :disabled="undefined === statusSlot ? scope.item.active : scope.item.schoolStatus"
+                               @click="changeLeaderStatus(scope.item.id, 1)">
+                Aktywuj
+              </b-dropdown-item>
+              <b-dropdown-item :disabled="undefined === statusSlot ? !scope.item.active : !scope.item.schoolStatus"
+                               @click="changeLeaderStatus(scope.item.id, 0)">
+                Dezaktywuj
+              </b-dropdown-item>
+            </b-dropdown>
 
-          <div v-if="undefined !== statusSlot" class="mt-1">
-            <span>Status w systemie: </span>
-            <br>
-          <span class="status mb-2" :class="{'active': scope.item.active}">
+            <div v-if="undefined !== statusSlot" class="mt-1">
+              <span>Status w systemie: </span>
+              <br>
+              <span class="status mb-2" :class="{'active': scope.item.active}">
             {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
           </span>
-          </div>
+            </div>
+          </template>
+          <template v-else>
+          <span class="status c-pointer"
+                :class="{'active': scope.item.active}">
+                  {{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}
+                </span>
+          </template>
         </template>
 
         <!--        <template slot="status" slot-scope="scope">-->
@@ -120,7 +128,7 @@
       leaders () {
         let leadersPassedByIds = []
         let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
-          : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
+        : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
 
         let filteredLeaders = []
         for (let leaderIndex in storeLeaders) {
@@ -171,7 +179,11 @@
 
         this.$router.push({
           name: 'leader',
-          params: {'tab': 'main-data', 'id': row.id, 'isConfirmed': false}
+          params: {'tab': 'main-data',
+                   'id': row.id,
+                   'isConfirmed': false,
+                   'schoolName': undefined === this.statusSlot ? null : this.statusSlot.schoolName,
+                   'schoolId': undefined === this.statusSlot ? null : this.statusSlot.schoolId}
         })
         // this.$parent.rowRedirect(row.id, false)
       }

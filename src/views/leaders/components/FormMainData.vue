@@ -104,7 +104,7 @@
       </div>
 
       <!--buttons-->
-      <b-row class="mt-4">
+      <b-row class="mt-4" v-if="$store.getters.isAdmin">
         <b-col>
           <b-btn variant="delete" class="custom" :disabled="leader.id === undefined"
                  @click="deleteFromForm('deleteLeader', leader.id, undefined, 'leaders', {tab: 'confirmed'})"> <!-- todo Vetal' -->
@@ -121,14 +121,14 @@
             Zapisz
           </b-btn>
         </b-col>
-        <b-col>
-          <b-btn v-if="leader.confirmed" block variant="primary" class="custom" @click="submit(0)">
-            Odtwierdz
-          </b-btn>
-          <b-btn block v-else variant="primary" class="custom" @click="submit(1, true)">
-            Zatwierdź
-          </b-btn>
-        </b-col>
+<!--        <b-col>-->
+<!--          <b-btn v-if="leader.confirmed" block variant="primary" class="custom" @click="submit(0)">-->
+<!--            Odtwierdz-->
+<!--          </b-btn>-->
+<!--          <b-btn block v-else variant="primary" class="custom" @click="submit(1, true)">-->
+<!--            Zatwierdź-->
+<!--          </b-btn>-->
+<!--        </b-col>-->
       </b-row>
 
     </b-col>
@@ -140,12 +140,13 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import FormMixin from '@/mixins/form-mixin'
+  import EventBusEmit from '@/mixins/event-bus-emit'
 
   export default {
     name: 'FormMainData',
     props: [ 'leader' ],
     components: { Treeselect },
-    mixins: [ FormMixin ],
+    mixins: [ EventBusEmit, FormMixin ],
     data () {
       return {
         selectedDisciplinesIds: [],
@@ -229,6 +230,9 @@
       }
     },
     created () {
+      /** @buttonLink route name || false if button must be hidden */
+      this.changeAdminNavbarButton({buttonLink: false})
+
       // need for making disciplines in select unique
       for (let index in this.leader.disciplines) {
         if (this.leader.disciplines[index] && this.leader.disciplines[index].id &&

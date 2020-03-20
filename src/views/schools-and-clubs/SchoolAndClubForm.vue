@@ -4,7 +4,7 @@
     <template>
       <!--   Component for SchoolEntity   -->
       <FormMainData :school="school" @childSubmit="submit" ref="FormMainData" :districts="districts"
-                    :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+                    :key="$route.params.tab+'FormMainData'" v-if="$route.params.tab === 'main-data'"/>
 
       <!--   Component for PlaceEntity   -->
       <FormPlaces :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormPlaces"
@@ -252,14 +252,14 @@
                 tab: 'activities'
               },
               {
-                title: 'Kalendarz',
-                link: 'school.or.club',
-                tab: 'calendar'
-              },
-              {
                 title: 'Frekwencja',
                 link: 'school.or.club',
                 tab: 'frequency'
+              },
+              {
+                title: 'Kalendarz',
+                link: 'school.or.club',
+                tab: 'calendar'
               },
               {
                 title: 'MTSF',

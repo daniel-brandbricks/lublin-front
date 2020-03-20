@@ -193,7 +193,7 @@
                 title: 'Kalendarz',
                 link: 'sport.object',
                 tab: 'calendar'
-              },
+              }
               // {
               //   title: 'Frekwencja',
               //   link: 'sport.object',
@@ -204,11 +204,11 @@
               //   link: 'sport.object',
               //   tab: 'mtsf'
               // },
-              {
-                title: 'Wydarzenia',
-                link: 'sport.object',
-                tab: 'events'
-              }
+              // {
+              //   title: 'Wydarzenia',
+              //   link: 'sport.object',
+              //   tab: 'events'
+              // }
             ]
 
             let breadcrumbs = [

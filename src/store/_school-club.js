@@ -124,7 +124,7 @@ export default {
             } else {
               context.commit('setSchools', response)
             }
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error)

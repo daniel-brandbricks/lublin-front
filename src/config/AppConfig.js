@@ -57,7 +57,6 @@ export const PERMISSIONS = [
 
   // CRUD lessons, participants & p.lists - done
   { id: 3, label: 'Dodaje/aktualizuje dziennik uczestników' },
-  // todo
   { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
   // todo
   { id: 5, label: 'Generuje raporty' },

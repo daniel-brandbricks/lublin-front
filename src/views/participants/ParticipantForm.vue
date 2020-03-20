@@ -10,9 +10,9 @@
                   :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
     <FormParticipantGroups :participant="participant" ref="ParticipantList"
                            :key="$route.params.tab+'ParticipantList'"
-                           v-show="$route.params.tab === 'participants-list'"/>
+                           v-if="$route.params.tab === 'participants-list'"/>
     <FormLessons :participant="participant" ref="LessonForm"
-                 :key="$route.params.tab+'LessonForm'" v-show="$route.params.tab === 'lessons'"/>
+                 :key="$route.params.tab+'LessonForm'" v-if="$route.params.tab === 'lessons'"/>
   </div>
 </template>
 
