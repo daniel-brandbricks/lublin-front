@@ -27,13 +27,13 @@
 
     </b-col>
     <b-col>
-      <b-row class="justify-content-center">
-        <b-col cols="12">
-          <TabLinks :links="tabLinks"></TabLinks>
-        </b-col>
-      </b-row>
+<!--      <b-row class="justify-content-center">-->
+<!--        <b-col cols="12">-->
+<!--          <TabLinks :links="tabLinks"></TabLinks>-->
+<!--        </b-col>-->
+<!--      </b-row>-->
 
-      <calendar :key="$route.params.tab"/>
+<!--      <calendar :key="$route.params.tab"/>-->
 
       <h4 class="my-3">Wyniki</h4>
       <b-table

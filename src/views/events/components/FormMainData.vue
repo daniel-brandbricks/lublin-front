@@ -1,20 +1,26 @@
 <template>
   <div class="container">
+    {{event}}
     <b-row class="justify-content-center">
       <b-col cols="12" lg="5">
         <h2>Zdjęcie</h2>
-        <ImageInputAdvanced :imgPath="event.image" @afterCropImage="afterCropImage"
-                            :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                            :min-width="100" :max-height="1000" :max-width="1000"/>
+        <div :key="image.id" v-for="(image,index) in event.images">
+          <ImageInputAdvanced :imgPath="event.images[index].path" @afterCropImage="afterCropImage"
+                              :image-multiple="true" :imageId="image.id"
+                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                              :min-width="100" :max-height="1000" :max-width="1000"/>
+        </div>
+
+        <b-btn variant="primary" class="custom mt-4" @click="addImage" block>Dodaj kolejne</b-btn>
       </b-col>
       <b-col class="justify-content-center justify-content-md-end">
         <h2 class="my-4">Dane ogólne</h2>
         <b-form-group class="custom">
           <b-form-input id="input-1" class="custom mb-3"
-            placeholder="Nazwa Imprezy"
-            :class="{'error-input-custom': veeErrors.has('event.title')}"
-            name="event.title" key="event.title" v-validate="{'required':true}"
-            v-model="event.title"/>
+                        placeholder="Nazwa Imprezy"
+                        :class="{'error-input-custom': veeErrors.has('event.title')}"
+                        name="event.title" key="event.title" v-validate="{'required':true}"
+                        v-model="event.title"/>
         </b-form-group>
         <textarea class="custom w-100 mb-3" v-model="event.description" placeholder="Opis"
                   :class="{'error-input-custom': veeErrors.has('event.description')}"
@@ -146,10 +152,10 @@
 
   export default {
     name: 'FormMainData',
-    props: [ 'event' ],
-    components: { Treeselect, ImageInputAdvanced },
-    mixins: [ EventBusEmit, FormMixin, EventsMixin ],
-    data () {
+    props: ['event'],
+    components: {Treeselect, ImageInputAdvanced},
+    mixins: [EventBusEmit, FormMixin, EventsMixin],
+    data() {
       return {
         orgType: 0,
         addressType: 0
@@ -157,7 +163,7 @@
     },
     computed: {
       ...mapGetters(['schools']),
-      leadersTreeselect () {
+      leadersTreeselect() {
         return eventId => {
           let leadersConfirmed = this.leadersConfirmed
           let prepared = []
@@ -166,7 +172,7 @@
             if (!Array.isArray(leadersConfirmed[index].eventsUsers) ||
               undefined === leadersConfirmed[index].eventsUsers.find(x => {
                 return parseInt(x.school.id) === eventId
-            })) {
+              })) {
               continue
             }
             prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
@@ -176,6 +182,19 @@
       }
     },
     methods: {
+      addImage () {
+        let imageId = -1
+        for (let index in this.$parent.event.images) {
+          if (this.$parent.event.images[index].id && this.$parent.event.images[index].id <= imageId) {
+            imageId = this.$parent.event.images[index].id - 1
+          }
+        }
+        this.$parent.event.images.push({path: null, id: imageId})
+      },
+      removeImage (imageId) {
+        let index = this.$parent.event.images.findIndex(x => x.id === imageId)
+        this.$parent.event.images.splice(index, 1)
+      },
       submit (validRequired) {
         if (validRequired) {
           this.preSubmit()
@@ -192,20 +211,26 @@
           this.$parent.submit()
         }
       },
-      afterCropImage (base64) {
-        this.school.image = base64
+      afterCropImage (data) {
+        console.log(data)
+        for (let index in this.$parent.event.images) {
+          if (this.$parent.event.images[index].id === data.id) {
+            this.$parent.event.images[index].path = data.image
+          }
+        }
+        // this.school.image = base64
       }
     },
-    mounted () {
+    mounted() {
       // validate form after redirect from another tab (component)
       if (this.$route.params.validateForm) {
         this.checkValidForm()
       }
     },
-    created () {
+    created() {
       this.$store.dispatch('getSchools')
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarButton({buttonLink: false})
     }
   }
 </script>

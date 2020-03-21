@@ -3,7 +3,15 @@
     <div class="wrap-img-input mb-3 mt-4">
       <img :src="image" alt="img">
     </div>
-    <b-btn variant="primary" v-if="!hideImage" class="custom" block @click="showModal">Zmień</b-btn>
+    <b-row>
+      <b-col v-if="imageMultiple">
+        <b-btn variant="delete" v-if="!hideImage" class="custom" block @click="$parent.removeImage(imageId)">Usuń
+        </b-btn>
+      </b-col>
+      <b-col>
+        <b-btn variant="primary" v-if="!hideImage" class="custom" block @click="showModal">Zmień</b-btn>
+      </b-col>
+    </b-row>
 
     <b-modal ref="advancedCropperModal" hide-footer size="xl"
              no-close-on-backdrop>
@@ -34,27 +42,28 @@
 
 <script>
   // import imageIcon from '../icons/image';
-  import { Cropper } from 'vue-advanced-cropper'
+  import {Cropper} from 'vue-advanced-cropper'
   import ToastMixin from '@/mixins/toast-mixin'
 
   export default {
     name: 'ImageInputAdvanced',
-    mixins: [ ToastMixin ],
+    mixins: [ToastMixin],
     props: [
       'minAspectRatio', 'maxAspectRatio', 'hideImage',
-      'minHeight', 'minWidth', 'maxWidth', 'maxHeight', 'imgPath'
+      'minHeight', 'minWidth', 'maxWidth', 'maxHeight', 'imgPath',
+      'imageMultiple', 'imageId'
     ],
-    components: { Cropper },
-    data () {
+    components: {Cropper},
+    data() {
       return {
         image: ''
       }
     },
     methods: {
-      showModal () {
+      showModal() {
         this.$refs.advancedCropperModal.show()
       },
-      pixelsRestriction (minWidth, minHeight, maxWidth, maxHeight, imageWidth, imageHeight) {
+      pixelsRestriction(minWidth, minHeight, maxWidth, maxHeight, imageWidth, imageHeight) {
         return {
           minWidth: minWidth,
           minHeight: minHeight,
@@ -62,7 +71,7 @@
           maxHeight: maxHeight
         }
       },
-      uploadImage (event) {
+      uploadImage(event) {
         // Reference to the DOM input element
         var input = event.target
         // Ensure that you have a file before attempting to read it
@@ -79,18 +88,24 @@
           reader.readAsDataURL(input.files[0])
         }
       },
-      crop () {
-        const { coordinates, canvas } = this.$refs.cropper.getResult()
+      crop() {
+        const {coordinates, canvas} = this.$refs.cropper.getResult()
         this.coordinates = coordinates
         // You able to do different manipulations at a canvas
         // but there we just get a cropped image
         this.image = canvas.toDataURL()
 
-        this.$emit('afterCropImage', this.image)
-        this.$refs.advancedCropperModal.hide()
+        if (this.imageMultiple) {
+          console.log(this.imageId)
+          this.$emit('afterCropImage', {image: this.image, id: this.imageId})
+          this.$refs.advancedCropperModal.hide()
+        } else {
+          this.$emit('afterCropImage', this.image)
+          this.$refs.advancedCropperModal.hide()
+        }
       }
     },
-    created () {
+    created() {
       console.log(this.imgPath)
       if (this.imgPath) {
         this.image = this.imgPath
