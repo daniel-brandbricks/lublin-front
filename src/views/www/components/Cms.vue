@@ -15,11 +15,11 @@
             Szczegóły
           </b-link>
         </template>
-<!--        <template v-slot:cell(actions)="data">-->
-<!--          <b-link :to="{name:'cms.section', params: {'id': data.item.id}}" class="btn custom btn-primary">-->
-<!--            Szczegóły-->
-<!--          </b-link>-->
-<!--        </template>-->
+        <template v-slot:cell(actions)="data">
+          <b-link :to="{name:'cms.section', params: {'id': data.item.id}}" class="btn custom btn-primary">
+            Szczegóły
+          </b-link>
+        </template>
       </b-table>
       <b-row class="mt-8">
         <b-col>

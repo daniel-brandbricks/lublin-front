@@ -90,6 +90,7 @@ export default {
             }
 
             context.commit('setSections', response)
+            context.commit('setSectionDescriptions', response)
             resolve()
           })
           .catch(error => {
@@ -108,6 +109,7 @@ export default {
             }
 
             context.commit('setSection', response)
+            context.commit('setSectionDescription', response)
             resolve(response)
           })
           .catch(error => {
@@ -127,6 +129,7 @@ export default {
             }
 
             context.commit('setSection', response)
+            context.commit('setSectionDescription', response)
             resolve()
           })
           .catch(error => {
@@ -146,6 +149,7 @@ export default {
             }
 
             context.commit('deleteSection', id)
+            context.commit('deleteSectionDescription', id)
             resolve()
           })
           .catch(error => {
