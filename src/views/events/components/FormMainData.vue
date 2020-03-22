@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    {{event}}
     <b-row class="justify-content-center">
       <b-col cols="12" lg="5">
         <h2>Zdjęcie</h2>
@@ -89,7 +88,7 @@
 
         <h2 class="my-4">Lokalizacja i Data</h2>
         <b-form-group>
-          <b-form-radio @change="event.school.id = null"
+          <b-form-radio @click="clearAddress"
                         v-if="event.id === undefined"
                         v-model="addressType" :value="element.value" class="d-inline-block mt-3 mr-3"
                         :class="{'error-input-custom': veeErrors.has('addressType')}"
@@ -99,7 +98,8 @@
           </b-form-radio>
         </b-form-group>
 
-        <div v-if="addressType === 0">
+        <div v-if="(addressType === 0 && event.id === undefined) ||
+        (event.id !== undefined && (event.addressDesc === null || event.addressDesc.length < 1))">
           <b-form-group class="custom">
             <b-form-input id="input-address" class="custom"
                           placeholder="Adres"
@@ -108,11 +108,43 @@
                           v-model="event.address"/>
           </b-form-group>
         </div>
-        <div v-if="addressType === 1">
+        <div v-if="(addressType === 1 && event.id === undefined) ||
+        (event.id !== undefined && (event.address === null || event.address.length < 1))">
           <textarea class="custom w-100 mb-3" v-model="event.addressDesc" placeholder="Opis miejscowości"
                     :class="{'error-input-custom': veeErrors.has('event.addressDesc')}"
                     name="event.addressDesc" :key="'event.addressDesc'" :v-validate="'required'"/>
         </div>
+
+        <div :key="date.id" v-for="(date,index) in event.dates">
+          <b-row>
+            <b-col>
+              <date-picker v-model="event.dates[index].date" :lang="'pl'"
+                           :class="{'error-input-custom': veeErrors.has('event.date'+date.id)}"
+                           :name="'event.date'+date.id" :key="'event.date'+date.id"
+                           value-type="format" format="YYYY-MM-DD"
+                           type="date"
+                           v-validate="{'required': true}"
+                           :id="'event.date'+date.id" placeholder="" class="w-100 custom mb-3">
+              </date-picker>
+            </b-col>
+            <b-col>
+              <date-picker v-model="event.dates[index].timeRange" :lang="'pl'"
+                           :class="{'error-input-custom': veeErrors.has('event.timeRange'+date.id)}"
+                           :name="'event.timeRange'+date.id" :key="'event.timeRange'+date.id"
+                           type="time"
+                           range @clear="event.dates[index].timeRange = []"
+                           :show-second="false"
+                           value-type="format"
+                           format="HH:mm"
+                           v-validate="{'required': true}"
+                           :id="'event.timeRange'+date.id" placeholder="" class="w-100 custom mb-3">
+              </date-picker>
+            </b-col>
+          </b-row>
+          <b-btn variant="delete" class="custom" @click="removeDate(date.id)">Usuń datę
+          </b-btn>
+        </div>
+        <b-btn variant="primary" class="custom mt-4" @click="addDate" block>Dodaj datę</b-btn>
 
         <b-row class="mt-4">
           <b-col>
@@ -149,11 +181,12 @@
   import EventsMixin from '@/mixins/event-mixin'
 
   import {mapGetters} from 'vuex'
+  import DatePicker from "vue2-datepicker";
 
   export default {
     name: 'FormMainData',
     props: ['event'],
-    components: {Treeselect, ImageInputAdvanced},
+    components: {Treeselect, ImageInputAdvanced, DatePicker},
     mixins: [EventBusEmit, FormMixin, EventsMixin],
     data() {
       return {
@@ -182,7 +215,25 @@
       }
     },
     methods: {
-      addImage () {
+      removeDate(dateId) {
+        let index = this.$parent.event.dates.findIndex(x => x.id === dateId)
+        this.$parent.event.dates.splice(index, 1)
+      },
+      addDate() {
+        let dateId = -1
+
+        for (let index in this.$parent.event.dates) {
+          if (this.$parent.event.dates[index].id && this.$parent.event.dates[index].id <= dateId) {
+            dateId = this.$parent.event.dates[index].id - 1
+          }
+        }
+        this.$parent.event.dates.push({date: null, timeRange: '', id: dateId})
+      },
+      clearAddress() {
+        this.event.addressDesc = ''
+        this.event.address = ''
+      },
+      addImage() {
         let imageId = -1
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id && this.$parent.event.images[index].id <= imageId) {
@@ -191,11 +242,11 @@
         }
         this.$parent.event.images.push({path: null, id: imageId})
       },
-      removeImage (imageId) {
+      removeImage(imageId) {
         let index = this.$parent.event.images.findIndex(x => x.id === imageId)
         this.$parent.event.images.splice(index, 1)
       },
-      submit (validRequired) {
+      submit(validRequired) {
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -211,7 +262,7 @@
           this.$parent.submit()
         }
       },
-      afterCropImage (data) {
+      afterCropImage(data) {
         console.log(data)
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id === data.id) {

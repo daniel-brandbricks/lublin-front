@@ -22,8 +22,12 @@
         event: {
           id: this.id,
           image: null,
+          images: [],
+          dates: [],
           title: '',
           description: '',
+          address: '',
+          addressDesc: '',
           email: '',
           phone: '',
           facebook: '',
