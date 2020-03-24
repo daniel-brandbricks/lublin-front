@@ -54,7 +54,7 @@
     data () {
       return {
         fields: [
-          { key: 'type', label: 'Typ', sortable: true },
+          { key: 'type', label: 'Szkoła / Klub', sortable: true },
           { key: 'name', label: 'Nazwa', sortable: true },
           { key: 'object', label: 'Obiekty sportowe', sortable: true },
           { key: 'data', label: 'Data dodania', sortable: true },

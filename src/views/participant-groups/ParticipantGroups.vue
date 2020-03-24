@@ -35,19 +35,25 @@
 
       <b-col cols="8" class="mt-4">
         <b-row class="justify-content-between align-items-center">
-          <b-col cols="4">
+          <b-col cols="6">
+            <treeselect v-model="selectedSchools" v-if="selectedSchools"
+                        :multiple="true" class="custom"
+                        placeholder="Szkoła / Klub" :options="schoolsTreeselect"
+            />
+          </b-col>
+          <b-col cols="6">
             <treeselect v-model="selectedDisciplines" v-if="selectedDisciplines"
                         :multiple="true" class="custom"
                         placeholder="Dyscyplina" :options="participantGroupDiscipline"
             />
           </b-col>
-          <b-col cols="4">
+          <b-col cols="6" class="mt-3">
             <treeselect v-model="selectedLessonCategories" v-if="selectedLessonCategories"
                         :multiple="true" class="custom"
                         placeholder="Kategoria" :options="participantGroupLessonCategory"
             />
           </b-col>
-          <b-col cols="4">
+          <b-col cols="6" class="mt-3">
             <treeselect v-model="selectedClasses" v-if="selectedClasses"
                         :multiple="true" class="custom"
                         placeholder="Klasa" :options="participantGroupClass"
@@ -79,6 +85,9 @@
           </template>
           <template slot="class" slot-scope="scope">
             <span>{{getClassTitleById(scope.item.class.id)}}</span>
+          </template>
+          <template slot="school" slot-scope="scope">
+            <span>{{getSchoolNameById(scope.item.school.id)}}</span>
           </template>
 
           <template slot="status" slot-scope="scope">
@@ -117,6 +126,7 @@
           {key: 'sex', label: 'Płeć', sortable: true},
           {key: 'lessonCategory', label: 'Kategoria', sortable: true},
           {key: 'class', label: 'Klasa', sortable: true},
+          {key: 'school', label: 'Szkoła / Klub', sortable: true},
           {key: 'status', label: 'Status w systemie', sortable: true},
           {key: 'edit', label: ''}
         ],
@@ -131,10 +141,21 @@
 
         selectedDisciplines: [],
         selectedLessonCategories: [],
-        selectedClasses: []
+        selectedClasses: [],
+        selectedSchools: []
       }
     },
     computed: {
+      schoolsTreeselect() {
+        let data = this.$store.getters.schools
+        let preparedSchools = []
+
+        for (let schoolIndex in data) {
+          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+        }
+
+        return preparedSchools
+      },
       disciplines() {
         return this.$store.getters.disciplines
       },
@@ -153,6 +174,7 @@
         let disciplines = this.selectedDisciplines || []
         let lessonCategories = this.selectedLessonCategories || []
         let classes = this.selectedClasses || []
+        let selectedSchools = this.selectedSchools || []
 
         console.log(selectedGender)
         // todo continue here + teest filtration
@@ -164,6 +186,7 @@
           if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
           if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
           if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
+          if (selectedSchools.length > 0 && !selectedSchools.includes(parseInt(participantGroups[index].school.id))) continue
 
           // for school & leader & participant component
           if (this.participant && this.participant.id) {
@@ -187,6 +210,14 @@
       }
     },
     methods: {
+      getSchoolNameById (id) {
+        let schools = this.$store.getters.schools
+        if (undefined === schools || schools === null || schools.length < 1) return ''
+        let school = schools.find((obj) => {
+          return obj.id === id
+        })
+        return undefined === school ? '' : school.name
+      },
       getSex(value) {
         if (!Array.isArray(value)) return ''
         let string = ''
@@ -225,6 +256,7 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
+      this.$store.dispatch('getSchools', {})
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: 'participant.group', params: {tab: 'main-data'}})

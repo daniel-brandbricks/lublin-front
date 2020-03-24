@@ -72,7 +72,7 @@
             tab: 'confirmed'
           },
           {
-            title: 'Do zatwierdzenia',
+            title: 'Do zatwierdzenia (' + this.$store.getters.schoolsToConfirm.length + ')',
             link: 'schools.and.clubs',
             tab: 'to-confirm'
           }
@@ -143,7 +143,7 @@
       }
 
       this.checkNavButton(this.isAdmin)
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Kłuby i szkoły', active: true } ])
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Kluby i szkoły', active: true } ])
     }
   }
 </script>

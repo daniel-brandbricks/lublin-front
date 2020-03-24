@@ -101,24 +101,50 @@
       </b-form-group>
 
       <h5 class="my-4">Czas</h5>
-      <date-picker v-model="lesson.date" :lang="'pl'"
+      <date-picker v-model="lesson.date" :lang="lang"
                    :class="{'error-input-custom': veeErrors.has('lesson.date')}"
                    :name="'lesson.date'" :key="'lesson.date'"
                    value-type="format" format="YYYY-MM-DD"
                    type="date"
+                   placeholder="Data"
                    v-validate="{'required': true}"
-                   id="lessonDate" placeholder="" class="w-100 custom mb-3">
+                   id="lessonDate" class="w-100 custom mb-3">
       </date-picker>
-      <date-picker v-model="lesson.timeRange" :lang="'pl'"
-                   :class="{'error-input-custom': veeErrors.has('lesson.timeRange')}"
-                   :name="'lesson.timeRange'" :key="'lesson.timeRange'"
-                   type="time"
-                   range @clear="lesson.timeRange = []"
-                   :show-second="false"
-                   value-type="format"
+
+
+
+<!--      range @clear="lesson.timeRange = []"-->
+<!--      format="HH:mm a"-->
+<!--      value-type="format"-->
+<!--      type="time"-->
+<!--      placeholder="HH:mm"-->
+
+      <date-picker v-model="lesson.timeRange" :lang="lang"
+                   :minute-step="5"
+                   :hour-options="hours"
                    format="HH:mm"
+                   value-type="format"
+                   type="time"
+                   placeholder="Godziny / minuty"
+                   range
+
+
+
+                   :name="'lesson.timeRange'" :key="'lesson.timeRange'"
+                   :class="{'error-input-custom': veeErrors.has('lesson.timeRange')}"
                    v-validate="{'required': true}"
-                   id="lessonTimeRange" placeholder="" class="w-100 custom mb-3">
+                   id="lessonTimeRange" class="w-100 custom mb-3">
+
+        <template v-slot:header="{ emit }">
+          <b-row class="mt-1 justify-content-center">
+            <b-col class="text-center">
+              <p class="">Godz:min</p>
+            </b-col>
+            <b-col class="text-center">
+              <p class="">Godz:min</p>
+            </b-col>
+          </b-row>
+        </template>
       </date-picker>
 
       <b-form-group class="custom mb-4" v-if="lesson.id === undefined">
@@ -141,7 +167,7 @@
       </b-form-group>
 
       <template v-if="undefined !== id && lesson.canceled">
-        <date-picker v-model="lesson.newDate" :lang="'pl'"
+        <date-picker v-model="lesson.newDate" :lang="lang"
                      :class="{'error-input-custom': veeErrors.has('lesson.newDate')}"
                      :name="'lesson.newDate'" :key="'lesson.newDate'"
                      value-type="format" format="YYYY-MM-DD"
@@ -152,13 +178,13 @@
         <date-picker v-model="lesson.newTimeRange" :lang="'pl'"
                      :class="{'error-input-custom': veeErrors.has('lesson.newTimeRange')}"
                      :name="'lesson.newTimeRange'" :key="'lesson.newTimeRange'"
-                     type="time"
                      range @clear="lesson.newTimeRange = []"
-                     :show-second="false"
+                     format="HH:mm a"
                      value-type="format"
-                     format="HH:mm"
+                     type="time"
+                     placeholder="HH:mm"
                      v-validate="{'required': true}"
-                     id="lessonNewTimeRange" placeholder="" class="w-100 custom mb-3">
+                     id="lessonNewTimeRange" class="w-100 custom mb-3">
         </date-picker>
       </template>
 
@@ -210,8 +236,20 @@
     mixins: [EventBusEmit, FormMixin, LessonMixin],
     data () {
       return {
+        hours: Array.from({ length: 10 }).map((_, i) => i + 8),
+
         orgType: 0,
-        lessonRepeat: LESSON_REPEAT
+        lessonRepeat: LESSON_REPEAT,
+
+        lang: {
+          days: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+          months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
+          placeholder: {
+            date: 'Wybierz datę',
+            dateRange: 'Select Date Range'
+          }
+        },
       }
     },
     computed: {

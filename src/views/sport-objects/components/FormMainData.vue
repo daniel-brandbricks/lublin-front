@@ -6,13 +6,15 @@
       <!--    treeselect    -->
       <template v-if="sportObject.school">
         <treeselect v-model="sportObject.school.id"
+                    @input="checkSchoolAddressForObject"
                     :multiple="false"
                     :searchable="false"
                     placeholder="Klub / Szkoła"
                     :options="schoolsAndClubsPrepared"
                     class="custom"/>
 
-        <ImageInputAdvanced :key="sportObject.school.id" :imgPath="getSchoolImageById(sportObject.school.id)" :hideImage="true"/>
+        <ImageInputAdvanced :key="sportObject.school.id" :imgPath="getSchoolImageById(sportObject.school.id)"
+                            :hideImage="true"/>
       </template>
     </b-col>
 
@@ -44,7 +46,22 @@
                   :class="{'error-input-custom': veeErrors.has('sportObject.type')}"
                   name="sportObject.type" key="sportObject.type" v-validate="{'required':true}"/>
 
-      <h2 class="my-4">Lokalizacja</h2>
+      <b-row>
+        <b-col>
+          <h2 class="my-4">Lokalizacja</h2>
+        </b-col>
+        <b-col>
+          <b-form-group class="custom mt-4 mb-3" v-if="sportObject.school.id">
+            <b-form-checkbox-group
+              @change="setSchoolAddressToObject"
+              v-model="onSchoolTerritory"
+              id="checkbox-group-type"
+              :options="[ { text: 'Na terenie szkoły', value: 1 } ]"
+              name="checkbox-group-type"
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
 
       <!--    treeselect    -->
       <treeselect v-model="sportObject.district"
@@ -93,7 +110,7 @@
           <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
             Odtwierdz
           </b-btn>
-          <b-btn block v-else variant="primary" class="custom" @click="submitSetConfirm(1, true)">
+          <b-btn block v-else variant="primary" class="custom mt-2" @click="submitSetConfirm(1, true)">
             Zatwierdź
           </b-btn>
         </b-col>
@@ -115,12 +132,14 @@
     props: ['sportObject', 'districts'],
     components: {Treeselect, ImageInputAdvanced},
     mixins: [EventBusEmit, FormMixin],
-    data () {
-      return {}
+    data() {
+      return {
+        onSchoolTerritory: []
+      }
     },
     computed: {
       // copied in Calendar.vue -> LessonsList.vue
-      schoolsAndClubsPrepared () {
+      schoolsAndClubsPrepared() {
         let data = this.$store.getters.schools
         let preparedSchools = []
         console.log(data)
@@ -135,7 +154,7 @@
 
         return preparedSchools
       },
-      sportObjectTypesPrepared () {
+      sportObjectTypesPrepared() {
         let data = this.$store.getters.sportObjectTypes
         let preparedSchools = []
 
@@ -147,12 +166,31 @@
       }
     },
     methods: {
-      getSchoolImageById (id) {
+      checkSchoolAddressForObject () {
+        if (this.onSchoolTerritory.length < 1) return
+        this.setSchoolAddressToObject(this.onSchoolTerritory)
+      },
+      setSchoolAddressToObject(val) {
+        if (val.length < 1) return
+
+        let schools = this.$store.getters.schools
+        for (let index in schools) {
+          if (schools[index].id === this.sportObject.school.id) {
+            console.log(schools[index])
+            this.sportObject.district = schools[index].district
+            this.sportObject.address = schools[index].address
+            this.sportObject.postcode = schools[index].postcode
+          }
+        }
+
+        console.log(this.sportObject.school.id)
+      },
+      getSchoolImageById(id) {
         let schools = this.schoolsAndClubsPrepared
         let school = schools.find(obj => parseInt(obj.id) === parseInt(id))
         return undefined === school ? '' : (school.image && school.image.length > 0 ? school.image : '')
       },
-      submit (validRequired) {
+      submit(validRequired) {
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -168,7 +206,7 @@
           this.$parent.submit()
         }
       },
-      submitSetConfirm (isConfirmed, validRequired = true) {
+      submitSetConfirm(isConfirmed, validRequired = true) {
         console.log(this.isValidForm)
         if (validRequired) {
           if (this.checkValidForm()) {
@@ -183,7 +221,7 @@
         }
       }
     },
-    created () {
+    created() {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
 

@@ -65,6 +65,12 @@
           @row-clicked="rowRedirect"
         >
 
+          <template slot="school" slot-scope="scope">
+            <span v-if="scope.item && scope.item.school">
+              {{getSchoolNameById(scope.item.school.id)}}
+            </span>
+          </template>
+
           <template slot="disciplines" slot-scope="scope">
             <span v-if="scope.item && scope.item.discipline">
               {{getDisciplineTitleById(scope.item.discipline.id)}}
@@ -126,6 +132,7 @@
     data () {
       return {
         fields: [
+          {key: 'school', label: 'Szkoła / Klub', sortable: true},
           {key: 'title', label: 'Nazwa zajęcia', sortable: true},
           {key: 'disciplines', label: 'Dyscyplina', sortable: false},
           {key: 'lessonCategories', label: 'Kategoria', sortable: false},
@@ -151,6 +158,9 @@
       leadersConfirmed () {
         return this.$store.getters.leadersConfirmed
       },
+      schoolsAndClubs () {
+        return this.$store.getters.schools
+      },
       buildUserNames: () => (user) => {
         if (undefined === user || user === null) {
           return null
@@ -174,6 +184,12 @@
       // }
     },
     methods: {
+      getSchoolNameById (id) {
+        if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
+        return this.schoolsAndClubs.find((obj) => {
+          return obj.id === id
+        }).name
+      },
       getDisciplineTitleById (id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
         return this.disciplines.find((obj) => {
@@ -201,6 +217,7 @@
     },
     created () {
       this.$store.dispatch('getLessons')
+      this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')

@@ -39,10 +39,10 @@
         <b-row class="justify-content-between">
           <b-col cols="6" class="mt-3">
             <treeselect v-model="schoolsAndClubs"
-                        :multiple="true"
+                        :multiple="false"
                         :disabled="schoolId !== undefined || lessonId !== undefined"
                         :searchable="false"
-                        placeholder="Szkoły / kluby"
+                        placeholder="Szkoła / klub"
                         :options="schoolsAndClubsPrepared"
                         class="custom"/>
 
@@ -105,7 +105,8 @@
           </template>
           <template slot="frequency" slot-scope="scope">
             <span class="c-pointer" v-if="scope.item"
-                  @click="showFrequency(scope.item.frequencyParticipants, scope.item.id)">Szczegóły</span>
+                  @click="showFrequency(scope.item.frequencyParticipants, scope.item.id)">Szczegóły
+              ({{getFrequencyCount(scope.item.frequencyParticipants)}})</span>
           </template>
 
         </b-table>
@@ -288,6 +289,17 @@
       }
     },
     methods: {
+      getFrequencyCount (participants) {
+        if (!participants) return
+        let data = JSON.parse(participants)
+        let totalCount = data.length
+        let activeCount = 0
+        for (let index in data) {
+          if (data[index].active) activeCount += 1
+        }
+
+        return activeCount + '/' + totalCount
+      },
       saveFrequency() {
         console.log(this.parsedFrequency)
         console.log(this.frequencyId)

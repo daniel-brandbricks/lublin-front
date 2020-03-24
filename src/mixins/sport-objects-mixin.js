@@ -12,9 +12,19 @@ export default {
       })
       if (sportObjType) return sportObjType.title
       return ''
+    },
+    getSchoolNameById (id) {
+      if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
+      let school = this.schoolsAndClubs.find((obj) => {
+        return obj.id === id
+      })
+      return undefined === school ? '' : school.name
     }
   },
   computed: {
+    schoolsAndClubs () {
+      return this.$store.getters.schools
+    },
     sportObjectsListFiltered () {
       let sportObjects = this.sportObjects /* Confirmed || this.sportObjectsToConfirm */ || []
       let filteredSportObjects = []

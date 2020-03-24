@@ -22,6 +22,13 @@ import administratorModule from './_administrator'
 import historyModule from './_history'
 import frequencyModule from './_frequency'
 
+// cms
+import sectionModule from './_section'
+import sectionDescriptionModule from './_section-description'
+import menuModule from './_menu'
+import menuItemModule from './_menu-item'
+import footerModule from './_footer'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -45,6 +52,13 @@ export default new Vuex.Store({
     administratorModule,
     lessonModule,
     frequencyModule,
-    historyModule
+    historyModule,
+
+    // cms
+    sectionModule,
+    sectionDescriptionModule,
+    menuModule,
+    menuItemModule,
+    footerModule
   }
 })

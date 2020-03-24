@@ -22,6 +22,10 @@
           <span v-if="scope.item">{{scope.item.places.length}}</span>
         </template>
 
+        <template slot="schoolOrClub" slot-scope="scope">
+          <span v-if="scope.item">{{getSchoolNameById(scope.item.school.id)}}</span>
+        </template>
+
         <template slot="lessons" slot-scope="scope">
           <span v-if="scope.item">{{scope.item.lessons.length}}</span>
         </template>
@@ -70,7 +74,7 @@
         fields: [
           { key: 'title', label: 'Nazwa obiektu', sortable: true },
           { key: 'type', label: 'Typ obiektu', sortable: true },
-          // { key: 'schoolOrClub', label: 'Nazwa Klubu/Szkoły', sortable: true },
+          { key: 'schoolOrClub', label: 'Nazwa Klubu/Szkoły', sortable: true },
           // { key: 'lessons', label: 'Zajęcia', sortable: true },
           // { key: 'status', label: 'Status w systemie', sortable: true },
           // { key: 'data', label: 'Data dodania', sortable: true },
@@ -123,6 +127,7 @@
         this.$store.dispatch('getSportObjects', {confirmed: this.isConfirmed ? 1 : 0})
       }
 
+      this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getSportObjectTypes')
     }
   }

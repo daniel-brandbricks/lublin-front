@@ -86,7 +86,7 @@
               </b-dropdown-item>
             </b-dropdown>
 
-            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">GOTO</span>
+            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>
           </template>
 
           <template slot="edit" slot-scope="scope">

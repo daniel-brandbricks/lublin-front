@@ -48,4 +48,7 @@
 </script>
 
 <style lang="scss">
+  .mx-calendar-header {
+    display: none;
+  }
 </style>

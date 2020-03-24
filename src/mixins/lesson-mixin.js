@@ -83,10 +83,11 @@ export default {
     },
     lessonsList () {
       let lessons = this.$store.getters.lessons
+      let schools = this.$store.getters.schools
 
       let filteredLessons = []
       let search = this.search || ''
-      // let selectedType = this.selectedType || []
+      let selectedType = this.selectedType || []
       let disciplines = this.selectedDisciplines || []
       let lessonCategories = this.selectedLessonCategories || []
       let classes = this.selectedClasses || []
@@ -94,7 +95,12 @@ export default {
       for (let index in lessons) {
         if (search.length > 0 && lessons[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
         // if (selectedType.length > 0 && !selectedType.includes(lessons[index].school)) continue
-        // if (selectedType.length > 0 && !selectedType.includes(parseInt(lessons[index].schoolsOrClubs.type))) continue
+
+        if (selectedType.length > 0) {
+          let school = schools.find(x => { return x.id === lessons[index].school.id})
+          if (!selectedType.includes(school.type)) continue
+        }
+
         if (disciplines.length > 0 && !disciplines.includes(parseInt(lessons[index].discipline.id))) continue
         if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(lessons[index].lessonCategory.id))) continue
         if (classes.length > 0 && !classes.includes(parseInt(lessons[index].class.id))) continue

@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-<!--    <b-row class="justify-content-center">-->
-<!--      <b-col cols="12">-->
-<!--        <TabLinks :links="tabLinks"/>-->
-<!--      </b-col>-->
-<!--    </b-row>-->
+    <b-row class="justify-content-center">
+      <b-col cols="12">
+        <TabLinks :links="tabLinks"/>
+      </b-col>
+    </b-row>
 
     <b-row class="justify-content-center">
       <b-col cols="8">
@@ -70,7 +70,7 @@
             tab: 'confirmed'
           },
           {
-            title: 'Do zatwierdzenia',
+            title: 'Do zatwierdzenia (' + this.$store.getters.leadersToConfirm.length + ')',
             link: 'leaders',
             tab: 'to-confirm'
           }
@@ -132,6 +132,8 @@
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'leaders', params: { 'tab': 'confirmed' } })
       }
+
+      this.$store.dispatch('getLeaders', {confirmed: 0})
 
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getSportObjects')
