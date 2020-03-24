@@ -2,14 +2,9 @@
   <b-row class="justify-content-center">
     <b-col cols="12" lg="3" class="">
       <h2>Logo</h2>
-      <div class="wrap-img-input mb-3">
-        <img src="https://placeimg.com/200/200/any" alt="img">
-      </div>
-      <b-row class="justify-content-center justify-content-md-end">
-        <b-col cols="12" sm="6" md="4" lg="12">
-          <b-btn variant="primary" class="custom" block>Zmień</b-btn>
-        </b-col>
-      </b-row>
+      <ImageInputAdvanced :imgPath="menu.logo" @afterCropImage="afterCropImage"
+                          :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                          :min-width="100" :max-height="1000" :max-width="1000"/>
     </b-col>
     <b-col cols="12" lg="5">
       <h2>Footer</h2>
@@ -56,9 +51,11 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
   export default {
     name: 'Footer',
+    components: { ImageInputAdvanced },
     data () {
       return {
         footer: {
@@ -67,6 +64,9 @@
           phone: '',
           facebook: '',
           youtube: ''
+        },
+        menu: {
+          logo: null
         }
       }
     },
@@ -74,7 +74,10 @@
       ...mapGetters(['footers'])
     },
     methods: {
-      ...mapActions(['getFooters'])
+      ...mapActions(['getFooters']),
+      afterCropImage (base64) {
+        this.menu.logo = base64
+      }
     },
     created () {
       this.footer = Object.assign(this.footer, this.$store.getters.footer(1))
