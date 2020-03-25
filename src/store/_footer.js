@@ -9,16 +9,17 @@ export default {
     footers (state) {
       return state.footers
     },
-    footer: (state) => (id) => {
-      for (let i = 0; i < state.footers.length; i++) {
-        const footer = state.footers[i]
-        if (undefined === footer || footer === null || footer.length < 1) {
-          continue
-        }
-        if (parseInt(footer.id) === parseInt(id)) {
-          return footer
-        }
-      }
+    footer (state) {
+      return state.footer
+      // for (let i = 0; i < state.footers.length; i++) {
+      //   const footer = state.footers[i]
+      //   if (undefined === footer || footer === null || footer.length < 1) {
+      //     continue
+      //   }
+      //   if (parseInt(footer.id) === parseInt(id)) {
+      //     return footer
+      //   }
+      // }
     }
   },
   mutations: {
@@ -26,25 +27,27 @@ export default {
       state.footers = data
     },
     setFooter (state, data) {
-      const id = data.id
-      let footers = [ ...state.footers ]
-
-      if (undefined === id || id === null) {
-        return
-      }
-
-      for (let i = 0; i < footers.length; i++) {
-        const storeFooters = footers[i]
-        if (storeFooters.id !== id) {
-          continue
-        }
-        footers.splice(i, 1, data)
-
-        state.footers = footers
-        return
-      }
-
-      state.footers.push(data)
+      console.log(data)
+      state.footer = data
+      // const id = data.id
+      // let footers = [ ...state.footers ]
+      //
+      // if (undefined === id || id === null) {
+      //   return
+      // }
+      //
+      // for (let i = 0; i < footers.length; i++) {
+      //   const storeFooters = footers[i]
+      //   if (storeFooters.id !== id) {
+      //     continue
+      //   }
+      //   footers.splice(i, 1, data)
+      //
+      //   state.footers = footers
+      //   return
+      // }
+      //
+      // state.footers.push(data)
     },
     deleteFooter (state, id) {
       let footers = [ ...state.footers ]
@@ -116,7 +119,7 @@ export default {
       })
     },
     putFooter (context, data) {
-      const id = data.id
+      const id = 1
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/footer/' + id, 'put', true, data, null, 200)
           .then(response => {

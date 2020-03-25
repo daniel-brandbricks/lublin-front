@@ -33,6 +33,7 @@ import CoAdministrator from '@/views/co-administrators/CoAdministrator'
 import Profile from '@/views/Profile'
 import CmsFormMainData from '@/views/www/components/CmsFormMainData'
 import MenuItemData from '@/views/www/components/MenuItemData'
+import SportProjectForm from "@/views/www/components/SportProjectForm";
 
 const adminRouter = {
   path: '/admin',
@@ -75,6 +76,11 @@ const adminRouter = {
       path: 'www/menu/item-data/:id?',
       name: 'menu.item.data',
       component: MenuItemData
+    },
+    {
+      path: 'www/cms-section/sport-project/:id?',
+      name: 'menu.section.sport.project',
+      component: SportProjectForm
     },
 
     // Schools And Clubs

@@ -28,6 +28,7 @@ import sectionDescriptionModule from './_section-description'
 import menuModule from './_menu'
 import menuItemModule from './_menu-item'
 import footerModule from './_footer'
+import sportProjectModule from './_sport-project'
 
 Vue.use(Vuex)
 
@@ -59,6 +60,7 @@ export default new Vuex.Store({
     sectionDescriptionModule,
     menuModule,
     menuItemModule,
+    sportProjectModule,
     footerModule
   }
 })

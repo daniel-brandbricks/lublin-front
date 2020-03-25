@@ -2,7 +2,7 @@
   <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"></TabLinks>
+        <TabLinks :links="tabLinks"/>
       </b-col>
     </b-row>
 
@@ -33,7 +33,7 @@
             tab: 'menu'
           },
           {
-            title: 'Cms',
+            title: 'Home',
             link: 'www',
             tab: 'cms'
           },

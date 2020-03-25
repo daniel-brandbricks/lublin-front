@@ -2,75 +2,75 @@ import * as apiService from '@/services/apiService'
 
 export default {
   state: {
-    menus: [],
-    menu: null
+    sportProjects: [],
+    sportProject: null
   },
   getters: {
-    menus (state) {
-      return state.menus
+    sportProjects (state) {
+      return state.sportProjects
     },
-    menu: (state) => (id) => {
-      for (let i = 0; i < state.menus.length; i++) {
-        const menu = state.menus[i]
-        if (undefined === menu || menu === null || menu.length < 1) {
+    sportProject: (state) => (id) => {
+      for (let i = 0; i < state.sportProjects.length; i++) {
+        const sportProject = state.sportProjects[i]
+        if (undefined === sportProject || sportProject === null || sportProject.length < 1) {
           continue
         }
-        if (parseInt(menu.id) === parseInt(id)) {
-          return menu
+        if (parseInt(sportProject.id) === parseInt(id)) {
+          return sportProject
         }
       }
     }
   },
   mutations: {
-    setMenus (state, data) {
-      state.menus = data
+    setSportProjects (state, data) {
+      state.sportProjects = data
     },
-    setMenu (state, data) {
+    setSportProject (state, data) {
       const id = data.id
-      let menus = [ ...state.menus ]
+      let sportProjects = [ ...state.sportProjects ]
 
       if (undefined === id || id === null) {
         return
       }
 
-      for (let i = 0; i < menus.length; i++) {
-        const storeMenu = menus[i]
-        if (storeMenu.id !== id) {
+      for (let i = 0; i < sportProjects.length; i++) {
+        const storeSportProject = sportProjects[i]
+        if (storeSportProject.id !== id) {
           continue
         }
-        menus.splice(i, 1, data)
+        sportProjects.splice(i, 1, data)
 
-        state.menus = menus
+        state.sportProjects = sportProjects
         return
       }
 
-      state.menus.push(data)
+      state.sportProjects.push(data)
     },
-    deleteMenu (state, id) {
-      let menus = [ ...state.menus ]
-      for (let i = 0; i < menus.length; i++) {
-        const storeMenu = menus[i]
-        if (storeMenu.id !== id) {
+    deleteSportProject (state, id) {
+      let sportProjects = [ ...state.sportProjects ]
+      for (let i = 0; i < sportProjects.length; i++) {
+        const storeSportProject = sportProjects[i]
+        if (storeSportProject.id !== id) {
           continue
         }
-        menus.splice(i, 1)
-        state.menus = menus
+        sportProjects.splice(i, 1)
+        state.sportProjects = sportProjects
         return
       }
     }
   },
   actions: {
-    getMenu (context, data) {
+    getSportProject (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/menu/' + id, 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/sport-project/' + id, 'get', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setMenu', response)
+            context.commit('setSportProjects', response)
             resolve(response)
           })
           .catch(error => {
@@ -79,16 +79,16 @@ export default {
           })
       })
     },
-    getMenus (context, data) {
+    getSportProjects (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/menu', 'get', true, data, null, 200)
+        apiService.makeApiCall('resource/sport-project', 'get', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setMenus', response)
+            context.commit('setSportProject', response)
             resolve()
           })
           .catch(error => {
@@ -97,16 +97,16 @@ export default {
           })
       })
     },
-    postMenu (context, data) {
+    postSportProject (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/menu', 'post', true, data, null, 200)
+        apiService.makeApiCall('resource/sport-project', 'post', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setMenu', response)
+            context.commit('setSportProject', response)
             resolve(response)
           })
           .catch(error => {
@@ -115,18 +115,18 @@ export default {
           })
       })
     },
-    putMenu (context, data) {
+    putSportProject (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/menu/' + id, 'put', true, data, null, 200)
+        apiService.makeApiCall('resource/sport-project/' + id, 'put', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('setMenu', response)
-            resolve()
+            context.commit('setSportProject', response)
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)
@@ -134,17 +134,17 @@ export default {
           })
       })
     },
-    deleteMenu (context, data) {
+    deleteSportProject (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/menu/' + id, 'delete', true, data, null, 200)
+        apiService.makeApiCall('resource/sport-project/' + id, 'delete', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
               return
             }
 
-            context.commit('deleteMenu', id)
+            context.commit('deleteSportProject', id)
             resolve()
           })
           .catch(error => {

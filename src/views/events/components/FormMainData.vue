@@ -232,8 +232,7 @@
       clearAddress() {
         this.event.addressDesc = ''
         this.event.address = ''
-      },
-      addImage() {
+      },addImage() {
         let imageId = -1
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id && this.$parent.event.images[index].id <= imageId) {
@@ -246,6 +245,7 @@
         let index = this.$parent.event.images.findIndex(x => x.id === imageId)
         this.$parent.event.images.splice(index, 1)
       },
+
       submit(validRequired) {
         if (validRequired) {
           this.preSubmit()

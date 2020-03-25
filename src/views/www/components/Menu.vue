@@ -2,7 +2,7 @@
   <b-row class="justify-content-center">
     <b-col cols="12" lg="3" class="">
       <h2>Logo</h2>
-      <ImageInputAdvanced :imgPath="menu.logo" @afterCropImage="afterCropImage"
+      <ImageInputAdvanced :imgPath="menu.logo" @afterCropImage="afterCropImage" v-if="menu"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
                           :min-width="100" :max-height="1000" :max-width="1000"/>
     </b-col>
@@ -36,13 +36,17 @@
           { key: 'title', label: 'Tytuł', sortable: true },
           { key: 'link', label: 'Link', sortable: true }
         ],
-        menu: {
-          logo: null
-        }
+        menu: null
       }
     },
     computed: {
       ...mapGetters(['menuItems'])
+    },
+    watch: {
+      'menu.logo': function (val) {
+        if (val.substring(0, 4) !== 'data') return
+        this.$store.dispatch('putMenu', {id: 1, image: this.menu.logo})
+      }
     },
     methods: {
       ...mapActions(['getMenuItems']),
@@ -58,6 +62,13 @@
     },
     created () {
       this.getMenuItems()
+      this.$store.dispatch('getMenu', {id: 1})
+        .then(res => {
+          console.log(res.image)
+          this.menu = {
+            logo: res.image
+          }
+        })
     }
   }
 </script>

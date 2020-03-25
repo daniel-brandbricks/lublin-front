@@ -2,13 +2,12 @@
   <b-row class="justify-content-center">
     <b-col cols="12" lg="3" class="">
       <h2>Logo</h2>
-      <ImageInputAdvanced :imgPath="menu.logo" @afterCropImage="afterCropImage"
+      <ImageInputAdvanced :imgPath="footer.image" @afterCropImage="afterCropImage" v-if="loaded"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
                           :min-width="100" :max-height="1000" :max-width="1000"/>
     </b-col>
-    <b-col cols="12" lg="5">
+    <b-col cols="12" lg="5" v-if="footer">
       <h2>Footer</h2>
-
       <b-form-group class="custom">
         <b-form-input id="input-1" class="custom"
                       placeholder="Adres"
@@ -45,45 +44,60 @@
                       v-model="footer.youtube"/>
       </b-form-group>
 
+      <b-btn variant="primary" @click="putFooter" class="w-25 float-right">Zapisz</b-btn>
     </b-col>
+
+    <p class="invisible">{{footerComputed}}</p>
   </b-row>
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
 
   export default {
     name: 'Footer',
-    components: { ImageInputAdvanced },
-    data () {
+    components: {ImageInputAdvanced},
+    data() {
       return {
         footer: {
           address: '',
           email: '',
           phone: '',
           facebook: '',
-          youtube: ''
+          youtube: '',
+          image: null
         },
-        menu: {
-          logo: null
-        }
+        loaded: false,
       }
     },
     computed: {
-      ...mapGetters(['footers'])
+      footerComputed () {
+        if (null !== this.$store.getters.footer) {
+          this.loaded = true
+          this.footer = this.$store.getters.footer
+        }
+        return this.$store.getters.footer
+      }
     },
     methods: {
       ...mapActions(['getFooters']),
-      afterCropImage (base64) {
-        this.menu.logo = base64
+      afterCropImage(base64) {
+        this.footer.image = base64
+      },
+      putFooter () {
+        this.$store.dispatch('putFooter', this.footer)
       }
     },
-    created () {
-      this.footer = Object.assign(this.footer, this.$store.getters.footer(1))
-      if (this.$route.params.tab === 'footer') {
-        this.$store.dispatch('getFooter', {id: 1})
-      }
+    created() {
+      // this.footer = Object.assign(this.footer, this.$store.getters.footer(1))
+      // if (this.$route.params.tab === 'footer') {
+      this.$store.dispatch('getFooter', {id: 1})
+        // .then(res => {
+        //   console.log(res)
+        //   this.footer = res
+        // })
+      // }
     }
   }
 </script>
