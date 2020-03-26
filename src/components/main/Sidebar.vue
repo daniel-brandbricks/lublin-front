@@ -22,7 +22,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Mój profil<span class="pl-4"></span>
+            Mój profil ({{(isDirector && !isAdmin) ? 'Dyrektor' : (isAdmin ? 'Admin' : 'Prowadzący')}})<span class="pl-4"></span>
           </b-link>
           <b-link :to="{name:'www', params: {'tab': 'menu'}}"
                   v-if="$store.getters.isAdmin"
@@ -167,6 +167,14 @@
     name: 'Sidebar',
     data () {
       return {}
+    },
+    computed: {
+      isDirector () {
+        return this.$store.getters.isDirector
+      },
+      isAdmin () {
+        return this.$store.getters.isAdmin
+      }
     },
     methods: {
       logout () {

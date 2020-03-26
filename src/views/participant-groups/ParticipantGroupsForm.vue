@@ -93,6 +93,9 @@
           class: {
             id: null
           },
+          season: {
+            id: null
+          },
           lessonCategory: {
             id: null
           },
@@ -226,6 +229,7 @@
           .then((response) => {
             console.log(response)
             this.participantGroup = response
+            if (response.season === null) this.participantGroup.season = {id: null}
             this.setDataFromExistedParticipantGroup(response)
 
             this.tabLinks = [

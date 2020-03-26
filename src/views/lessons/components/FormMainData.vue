@@ -127,9 +127,6 @@
                    type="time"
                    placeholder="Godziny / minuty"
                    range
-
-
-
                    :name="'lesson.timeRange'" :key="'lesson.timeRange'"
                    :class="{'error-input-custom': veeErrors.has('lesson.timeRange')}"
                    v-validate="{'required': true}"
@@ -159,33 +156,89 @@
         <b-form-checkbox-group
           id="lessonCanceled"
           v-model="lesson.canceled"
-          :options="[{text: 'Zajęcia odwołane', value: 1}]"
+          :options="[{text: 'Zajęcia odwołane', value: true}]"
           :unchecked-value="false"
-          value="false"
+          :value="true"
           name="flavour-1"
         />
       </b-form-group>
 
-      <template v-if="undefined !== id && lesson.canceled">
+      <template v-if="undefined !== id && (lesson.canceled.length > 0 || lesson.canceled)">
         <date-picker v-model="lesson.newDate" :lang="lang"
                      :class="{'error-input-custom': veeErrors.has('lesson.newDate')}"
                      :name="'lesson.newDate'" :key="'lesson.newDate'"
                      value-type="format" format="YYYY-MM-DD"
                      type="date"
+                     placeholder="Nowa data"
                      v-validate="{'required': true}"
-                     id="lessonNewDate" placeholder="" class="w-100 custom mb-3">
+                     id="lessonNewDate" class="w-100 custom mb-3">
         </date-picker>
-        <date-picker v-model="lesson.newTimeRange" :lang="'pl'"
-                     :class="{'error-input-custom': veeErrors.has('lesson.newTimeRange')}"
-                     :name="'lesson.newTimeRange'" :key="'lesson.newTimeRange'"
-                     range @clear="lesson.newTimeRange = []"
-                     format="HH:mm a"
+        <date-picker v-model="lesson.newTimeRange" :lang="lang"
+                     @clear="lesson.newTimeRange = []"
+                     :minute-step="5"
+                     :hour-options="hours"
+                     format="HH:mm"
                      value-type="format"
                      type="time"
-                     placeholder="HH:mm"
+                     placeholder="Godziny / minuty"
+                     range
+                     :class="{'error-input-custom': veeErrors.has('lesson.newTimeRange')}"
+                     :name="'lesson.newTimeRange'" :key="'lesson.newTimeRange'"
                      v-validate="{'required': true}"
                      id="lessonNewTimeRange" class="w-100 custom mb-3">
+          <template v-slot:header="{ emit }">
+            <b-row class="mt-1 justify-content-center">
+              <b-col class="text-center">
+                <p class="">Godz:min</p>
+              </b-col>
+              <b-col class="text-center">
+                <p class="">Godz:min</p>
+              </b-col>
+            </b-row>
+          </template>
         </date-picker>
+      </template>
+
+      <b-form-group class="custom checkbox-big-span mb-3" v-if="undefined !== id">
+        <b-form-checkbox-group
+          id="lessonReplaced"
+          v-model="lesson.replaced"
+          :options="[{text: 'Zastępstwa', value: true}]"
+          :unchecked-value="false"
+          :disabled="lesson.replacementLeaders && lesson.replacementLeaders.length > 0
+          && !!lesson.replacementLeaders[0].id"
+          :value="true"
+          name="flavour-1"
+        />
+      </b-form-group>
+
+      <template v-if="undefined !== id && lesson.replaced">
+        <div :key="index" v-for="(leader,index) in lesson.replacementLeaders">
+
+          <h6 class="mb-2">Aktywuj</h6>
+          <b-form-group>
+            <b-form-radio v-model="lesson.replacementLeaders[index].active" :value="element.value" class="d-inline-block mr-3"
+                          :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
+                          :name="'lesson.replacementLeaders.active'+index"
+                          v-validate="{'required':true}"
+                          v-for="(element,index2) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
+              {{ element.title }}
+            </b-form-radio>
+          </b-form-group>
+
+          <b-form-group class="custom my-2" v-if="lesson.replacementLeaders[index].leader">
+            <treeselect class="custom mb-3"
+                        v-model="lesson.replacementLeaders[index].leader.id"
+                        :multiple="false"
+                        placeholder="Prowadzący" :options="leadersTreeselect(lesson.school.id)"
+                        :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.leaders'+index)}"
+                        :name="'lesson.replacementLeaders.leaders'+index"
+                        :key="'lesson.replacementLeaders.leaders'+index" v-validate="{'required':true}"/>
+          </b-form-group>
+
+        </div>
+
+        <b-btn variant="primary" class="custom d-block mr-auto" @click="addReplacedLeader" size="sm">Dodaj</b-btn>
       </template>
 
       <!--      buttons   -->
@@ -252,9 +305,21 @@
         },
       }
     },
+    watch: {
+      'lesson.canceled': function (val) {
+        console.log(val)
+        if (val.length < 1 || val === false) {
+          this.lesson.newDate = null
+          this.lesson.newTimeRange = null
+        }
+      }
+    },
     computed: {
       ...mapGetters(['schools', 'disciplines', 'participantGroups', 'sportObjectsConfirmed',
                      'leadersConfirmed', 'classes', 'lessonCategories']),
+      authUser () {
+        return this.$store.getters.authUser
+      },
       sportObjectsTreeselect () {
         return schoolId => {
           let sportObjects = this.sportObjectsConfirmed
@@ -298,6 +363,17 @@
       }
     },
     methods: {
+      addReplacedLeader () {
+        this.lesson.replacementLeaders.push({
+          lesson: {
+            id: this.id
+          },
+          active: true,
+          leader: {
+            id: null
+          }
+        })
+      },
       submit (tabToRedirect) {
         this.$validator.validateScopes()
           .then((result) => {

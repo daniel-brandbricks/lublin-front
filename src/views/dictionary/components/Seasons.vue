@@ -21,7 +21,6 @@
             <b-col cols="5">
               <date-picker v-model="computedList[index].from" :lang="lang"
                            @focus="editInput(index)"
-                           :disabled="true"
                            :class="{'error-input-custom': veeErrors.has('season.from'+index)}"
                            :name="'season.from'+index" :key="'season.from'+index"
                            v-validate="{'required': true}"
@@ -34,7 +33,6 @@
             <b-col cols="5">
               <date-picker v-model="computedList[index].to" :lang="lang"
                            @focus="editInput(index)"
-                           :disabled="true"
                            :class="{'error-input-custom': veeErrors.has('season.to'+index)}"
                            :name="'season.to'+index" :key="'season.to'+index"
                            v-validate="{'required': true}"
@@ -50,11 +48,11 @@
 
         </div>
       </div>
-<!--      <b-row class=" mt-3">-->
-<!--        <b-col cols="10" class="offset-2 pl-2">-->
-<!--          <b-btn variant="primary" @click="addEmptySeason()" block>+ Dodaj Kolejne</b-btn>-->
-<!--        </b-col>-->
-<!--      </b-row>-->
+      <b-row class=" mt-3">
+        <b-col cols="10" class="offset-2 pl-2">
+          <b-btn variant="primary" @click="addEmptySeason()" block>+ Dodaj Kolejne</b-btn>
+        </b-col>
+      </b-row>
     </b-col>
   </b-row>
 </template>

@@ -64,6 +64,14 @@
                     :class="{'error-input-custom': veeErrors.has('participantGroup.class')}"
                     name="participantGroup.class" key="participantGroup.class" v-validate="{'required':true}"/>
       </b-form-group>
+      <b-form-group  class="custom mb-2">
+        <treeselect class="custom m-0"
+                    v-model="participantGroup.season.id"
+                    :multiple="false"
+                    placeholder="Sezon" :options="participantGroupSeason"
+                    :class="{'error-input-custom': veeErrors.has('participantGroup.season')}"
+                    name="participantGroup.season" key="participantGroup.season" v-validate="{'required':true}"/>
+      </b-form-group>
 
       <b-row class="mt-4 justify-content-end">
         <b-col cols="4" v-if="this.id">
@@ -132,6 +140,9 @@
       },
       lessonCategories () {
         return this.$store.getters.lessonCategories
+      },
+      seasons () {
+        return this.$store.getters.seasons
       }
     },
     watch: {
@@ -171,6 +182,7 @@
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
 
+      this.$store.dispatch('getSeasons')
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getParticipantGroups')
       this.$store.dispatch('getDisciplines')

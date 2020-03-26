@@ -73,6 +73,7 @@
           newTimeRange: [],
           active: true,
           canceled: false,
+          replaced: false,
           sex: 1,
           title: '',
           participantGroup: {
@@ -95,8 +96,8 @@
           },
           class: {
             id: null
-          }
-          // sportObjects: [],
+          },
+          replacementLeaders: []
           // participantGroups: []
         },
 
@@ -138,7 +139,7 @@
 
         this.$store.dispatch(method, lesson)
           .then((response) => {
-            this.$router.push({name: 'lessons'})
+            this.$router.push({name: 'lessons', params: {filters: this.$route.params.filters}})
           })
           // .then((response) => {
           //   this.prepareLesson(response)
@@ -157,6 +158,8 @@
         // }
         // lesson.leaders = leaderIds
         this.lesson = lesson
+        if (lesson.replacementLeaders && lesson.replacementLeaders.length > 0) this.lesson.replaced = true
+        if (lesson.newDate && lesson.newTimeRange.length > 0) this.lesson.canceled = true
       },
       goToFormTab(tabName, params = {}) {
         this.checkValidMainForm()

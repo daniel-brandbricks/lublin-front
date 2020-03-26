@@ -10,11 +10,12 @@
                     :multiple="false"
                     :searchable="false"
                     placeholder="Klub / Szkoła"
+                    :disabled="!!sportObject.id"
                     :options="schoolsAndClubsPrepared"
                     class="custom"/>
 
-        <ImageInputAdvanced :key="sportObject.school.id" :imgPath="getSchoolImageById(sportObject.school.id)"
-                            :hideImage="true"/>
+<!--        <ImageInputAdvanced :key="sportObject.school.id" :imgPath="getSchoolImageById(sportObject.school.id)"-->
+<!--                            :hideImage="true"/>-->
       </template>
     </b-col>
 

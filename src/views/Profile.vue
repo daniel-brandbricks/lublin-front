@@ -2,22 +2,29 @@
   <div>
     <b-row class="justify-content-center">
       <b-col cols="8">
-        <b-form-group class="custom mb-2"
+        <b-form-group class="custom mb-2" v-if="isDirector"
+                      label="Szkoła / Klub">
+          <b-form-input id="name-1" class="custom m-0"
+                        :disabled="true"
+                        v-model="schoolName"/>
+        </b-form-group>
+
+        <b-form-group class="custom mb-2" v-if="!isDirector"
                       label="Imię">
           <b-form-input id="name-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.firstName')}"
                         name="user.firstName" key="user.firstName" v-validate="{'required':true}"
                         v-model="user.firstName"/>
         </b-form-group>
-        <b-form-group class="custom mb-2"
+        <b-form-group class="custom mb-2" v-if="!isDirector"
                       label="Nazwisko">
           <b-form-input id="surname-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.lastName')}"
                         name="user.lastName" key="user.lastName" v-validate="{'required':true}"
                         v-model="user.lastName"/>
         </b-form-group>
-         <b-form-group class="custom mb-2"
-                       label="Telefon">
+        <b-form-group class="custom mb-2" v-if="!isDirector"
+                      label="Telefon">
           <b-form-input id="phone-1" class="custom m-0"
                         type="number"
                         :class="{'error-input-custom': veeErrors.has('user.phone')}"
@@ -65,6 +72,31 @@
             </b-btn>
           </b-col>
         </b-row>
+
+        <div class="mt-2" v-if="authUser && authUser.replacements.length > 0">
+          <h4>Zastępstwa</h4>
+          <div v-if="item.checked === false" v-for="(item,index) in authUser.replacements" class="mb-1">
+            <b-row class="justify-content-end">
+              <b-col>
+                {{item.lesson.title}}
+              </b-col>
+              <b-col>
+                <b-link :to="{ name: 'lesson', params: { tab: 'main-data', id: item.lesson.id } }"
+                        active-class="active"
+                        event=""
+                        class="tab-link-item">
+                  Zobacz
+                </b-link>
+              </b-col>
+              <b-col>
+                <b-btn variant="primary" class="custom" @click="submitReplacement(item.id)">
+                  Zatwierdż
+                </b-btn>
+              </b-col>
+            </b-row>
+          </div>
+        </div>
+
       </b-col>
 
     </b-row>
@@ -96,7 +128,7 @@
     mixins: [EventBusEmit, FormMixin],
     name: 'Profile',
     components: {Treeselect},
-    data () {
+    data() {
       return {
         selectedSchools: [],
 
@@ -111,7 +143,9 @@
 
         password: '',
         newPassword: '',
-        confirmPassword: ''
+        confirmPassword: '',
+
+        schoolName: ''
       }
     },
     watch: {
@@ -121,13 +155,23 @@
           /** @buttonLink route name || false if button must be hidden */
           this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_INVITE_MODAL'})
         }
+        if (this.authUser && this.authUser.role === 1 &&
+          (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 1)) {
+          this.$store.dispatch('getSchool', {id: this.authUser.schoolsUsers[0].school.id})
+            .then(response => {
+              this.schoolName = response.name
+            })
+        }
       }
     },
     computed: {
-      authUser () {
+      authUser() {
         return this.$store.getters.authUser
       },
-      schoolsTreeselect () {
+      isDirector() {
+        return this.$store.getters.isDirector
+      },
+      schoolsTreeselect() {
         let data = this.$store.getters.schools
 
         if (undefined === this.authUser || this.authUser === null) {
@@ -144,17 +188,26 @@
             })
 
             if (undefined === schoolExist) {
-              preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+              preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
             }
           } else {
-            preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+            preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
           }
         }
         return preparedSchools
       }
     },
     methods: {
-      sendInvite () {
+      submitReplacement(id) {
+        this.$store.dispatch('putLeader', {
+          id: this.authUser.id,
+          replacementId: id,
+          actionType: 'acceptReplacement'
+        }).then(res => {
+          this.$store.dispatch('getCurrentUser')
+        })
+      },
+      sendInvite() {
         this.$store.dispatch('putLeader', {
           id: this.authUser.id,
           schools: this.selectedSchools,
@@ -162,7 +215,7 @@
         })
         this.$refs.schoolInviteModal.hide()
       },
-      submit () {
+      submit() {
         this.$validator.validateScopes()
           .then((result) => {
             if (result === false) return
@@ -190,11 +243,11 @@
                 this.newPassword = ''
                 this.confirmPassword = ''
                 this.showToast((error && error.data && error.data.error)
-                ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
+                  ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
               })
           })
       },
-      checkPassword () {
+      checkPassword() {
         if (this.confirmPassword !== this.newPassword) {
           this.showToast('Hasła nie są identyczne', 'Uwaga', 'danger')
           return false
@@ -205,18 +258,18 @@
         }
         return true
       },
-      openSchoolsInviteModal () {
+      openSchoolsInviteModal() {
         if (this.$refs.schoolInviteModal) this.$refs.schoolInviteModal.show()
       }
     },
-    mounted () {
+    mounted() {
       if (this.authUser && this.authUser.role === 1 &&
-      (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
+        (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
         /** @buttonLink route name || false if button must be hidden */
         this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_INVITE_MODAL'})
       }
     },
-    created () {
+    created() {
       EventBus.$on('OPEN_SCHOOLS_INVITE_MODAL', (params) => {
         this.openSchoolsInviteModal()
       })

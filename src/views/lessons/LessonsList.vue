@@ -209,13 +209,35 @@
         }).title
       },
       rowRedirect (row) {
+        let filters = {
+          selectedType: this.selectedType,
+          search: this.search,
+          selectedDisciplines: this.selectedDisciplines,
+          selectedLessonCategories: this.selectedLessonCategories,
+          selectedClasses: this.selectedClasses,
+        }
+        let filtersJSON = JSON.stringify(filters)
+        console.log(filtersJSON)
         this.$router.push({
           name: 'lesson',
-          params: {'tab': 'main-data', 'id': row.id}
+          params: {'tab': 'main-data', 'id': row.id, 'filters': filtersJSON}
         })
+      },
+      changeFilters(filters) {
+        let filtersParsed = JSON.parse(filters)
+
+        this.selectedType = filtersParsed.selectedType
+        this.search = filtersParsed.search
+        this.selectedDisciplines = filtersParsed.selectedDisciplines
+        this.selectedLessonCategories = filtersParsed.selectedLessonCategories
+        this.selectedClasses = filtersParsed.selectedClasses
       }
     },
     created () {
+      if (this.$route.params.filters) {
+        this.changeFilters(this.$route.params.filters)
+      }
+
       this.$store.dispatch('getLessons')
       this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getDisciplines')

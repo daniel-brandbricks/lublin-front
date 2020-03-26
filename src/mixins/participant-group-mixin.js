@@ -33,6 +33,16 @@ export default {
 
       return preparedLessonCategories
     },
+    participantGroupSeason () {
+      let data = this.$store.getters.seasons
+      let preparedSeasons = []
+
+      for (let classIndex in data) {
+        preparedSeasons.push({ id: data[classIndex].id, label: data[classIndex].title })
+      }
+
+      return preparedSeasons
+    },
     participantGroupClass () {
       let data = this.$store.getters.classes
       let preparedClasses = []
