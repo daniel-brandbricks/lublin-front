@@ -101,7 +101,7 @@
       </b-form-group>
 
       <h5 class="my-4">Czas</h5>
-      <date-picker v-model="lesson.date" :lang="lang"
+      <date-picker v-model="lesson.date" :lang="datepickerParams.lang"
                    :class="{'error-input-custom': veeErrors.has('lesson.date')}"
                    :name="'lesson.date'" :key="'lesson.date'"
                    value-type="format" format="YYYY-MM-DD"
@@ -119,9 +119,9 @@
 <!--      type="time"-->
 <!--      placeholder="HH:mm"-->
 
-      <date-picker v-model="lesson.timeRange" :lang="lang"
+      <date-picker v-model="lesson.timeRange" :lang="datepickerParams.lang"
                    :minute-step="5"
-                   :hour-options="hours"
+                   :hour-options="datepickerParams.hours"
                    format="HH:mm"
                    value-type="format"
                    type="time"
@@ -164,7 +164,7 @@
       </b-form-group>
 
       <template v-if="undefined !== id && (lesson.canceled.length > 0 || lesson.canceled)">
-        <date-picker v-model="lesson.newDate" :lang="lang"
+        <date-picker v-model="lesson.newDate" :lang="datepickerParams.lang"
                      :class="{'error-input-custom': veeErrors.has('lesson.newDate')}"
                      :name="'lesson.newDate'" :key="'lesson.newDate'"
                      value-type="format" format="YYYY-MM-DD"
@@ -173,10 +173,10 @@
                      v-validate="{'required': true}"
                      id="lessonNewDate" class="w-100 custom mb-3">
         </date-picker>
-        <date-picker v-model="lesson.newTimeRange" :lang="lang"
+        <date-picker v-model="lesson.newTimeRange" :lang="datepickerParams.lang"
                      @clear="lesson.newTimeRange = []"
                      :minute-step="5"
-                     :hour-options="hours"
+                     :hour-options="datepickerParams.hours"
                      format="HH:mm"
                      value-type="format"
                      type="time"
@@ -274,7 +274,7 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import {LESSON_REPEAT} from '@/config/AppConfig'
+  import {LESSON_REPEAT, DATEPICKER_PARAMS} from '@/config/AppConfig'
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
@@ -289,20 +289,9 @@
     mixins: [EventBusEmit, FormMixin, LessonMixin],
     data () {
       return {
-        hours: Array.from({ length: 10 }).map((_, i) => i + 8),
-
         orgType: 0,
         lessonRepeat: LESSON_REPEAT,
-
-        lang: {
-          days: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
-          months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-          placeholder: {
-            date: 'Wybierz datę',
-            dateRange: 'Select Date Range'
-          }
-        },
+        datepickerParams: DATEPICKER_PARAMS
       }
     },
     watch: {

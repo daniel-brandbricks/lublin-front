@@ -37,8 +37,12 @@ export default {
       let data = this.$store.getters.seasons
       let preparedSeasons = []
 
-      for (let classIndex in data) {
-        preparedSeasons.push({ id: data[classIndex].id, label: data[classIndex].title })
+      for (let seasonIndex in data) {
+        if (this.selectedSeason && data[seasonIndex].id === this.selectedSeason) {
+          preparedSeasons.push({ id: data[seasonIndex].id, label: data[seasonIndex].title, isDisabled: true })
+        } else {
+          preparedSeasons.push({ id: data[seasonIndex].id, label: data[seasonIndex].title })
+        }
       }
 
       return preparedSeasons

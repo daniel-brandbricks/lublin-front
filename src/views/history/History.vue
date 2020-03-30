@@ -8,7 +8,7 @@
           <b-col cols="6">
             <b-row class="my-2">
               <b-col cols="5">
-                <date-picker v-model="selectedYearFrom" :lang="lang"
+                <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
                              :class="{'error-input-custom': veeErrors.has('history.from')}"
                              :name="'history.from'" :key="'history.from'"
                              id="inputDatapicFrom" placeholder="" class="w-100 custom mb-3">
@@ -18,7 +18,7 @@
                 <hr class="mt-4">
               </b-col>
               <b-col cols="5">
-                <date-picker v-model="selectedYearTo" :lang="lang"
+                <date-picker v-model="selectedYearTo" :lang="datepickerParams.lang"
                              :class="{'error-input-custom': veeErrors.has('history.to')}"
                              :name="'history.to'" :key="'history.to'"
                              id="inputDatapicTo" placeholder="" class="w-100 custom mb-3">
@@ -169,7 +169,7 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import EventBusEmit from '@/mixins/event-bus-emit'
 
-  import {DISTRICTS} from '@/config/AppConfig'
+  import {DISTRICTS, DATEPICKER_PARAMS} from '@/config/AppConfig'
 
   import Lessons from '@/views/calendar/components/Lessons'
   import Events from '@/components/common-views/Events'
@@ -181,21 +181,13 @@
     mixins: [EventBusEmit],
     data() {
       return {
+        datepickerParams: DATEPICKER_PARAMS,
+
         parsedChanges: {},
 
         currentPage: 1,
         perPage: 100,
         totalRows: 0,
-
-        lang: {
-          days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-          placeholder: {
-            date: 'Select Date',
-            dateRange: 'Select Date Range'
-          }
-        },
 
         selectedAction: null,
         selectedYearFrom: null,

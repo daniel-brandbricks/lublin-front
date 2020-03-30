@@ -8,7 +8,7 @@
           <b-col cols="6">
             <b-row>
               <b-col cols="5">
-                <date-picker v-model="selectedYearFrom" :lang="lang"
+                <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
                              :class="{'error-input-custom': veeErrors.has('freq.from')}"
                              :name="'freq.from'" :key="'freq.from'"
                              id="inputDatapicFromfreq" placeholder="" class="w-100 custom mb-3">
@@ -18,7 +18,7 @@
                 <hr class="mt-3">
               </b-col>
               <b-col cols="5">
-                <date-picker v-model="selectedYearTo" :lang="lang"
+                <date-picker v-model="selectedYearTo" :lang="datepickerParams.lang"
                              :class="{'error-input-custom': veeErrors.has('freq.to')}"
                              :name="'freq.to'" :key="'freq.to'"
                              id="inputDatapicTofreq" placeholder="" class="w-100 custom mb-3">
@@ -163,7 +163,7 @@
   // todo in common component (using in Calendar.vue)
   import Lessons from '@/views/calendar/components/Lessons'
 
-  import {DISTRICTS} from '@/config/AppConfig'
+  import {DISTRICTS, DATEPICKER_PARAMS} from '@/config/AppConfig'
   import DatePicker from 'vue2-datepicker'
 
   export default {
@@ -173,6 +173,8 @@
     mixins: [EventBusEmit, ToastMixin],
     data() {
       return {
+        datepickerParams: DATEPICKER_PARAMS,
+
         parsedFrequency: {},
         frequencyId: null,
 
@@ -196,15 +198,6 @@
           {text: 'klub', value: 0},
           {text: 'szkola', value: 1}
         ],
-        lang: {
-          days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-          placeholder: {
-            date: 'Select Date',
-            dateRange: 'Select Date Range'
-          }
-        },
 
         fields: [
           {key: 'day', label: 'Dzień', sortable: true},

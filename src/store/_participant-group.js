@@ -209,6 +209,28 @@ export default {
             reject(error.response)
           })
       })
+    },
+
+    cloneParticipantGroup (context, data) {
+      const id = data.id
+      data.actionType = 'cloneGroupWithParticipants'
+
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/participant-group/' + id, 'post', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setParticipantGroup', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
     }
   }
 }

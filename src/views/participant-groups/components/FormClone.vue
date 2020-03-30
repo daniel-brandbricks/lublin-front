@@ -12,7 +12,7 @@
       </b-form-group>
 
       <h2 class="mb-4">Płeć</h2>
-<!--      todo maybe checkbox like in invisionapp-->
+      <!--      todo maybe checkbox like in invisionapp-->
       <b-form-checkbox-group
         id="checkbox-group-1" class="mr-3 mb-3"
         v-model="participantGroup.sex"
@@ -33,6 +33,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.school"
                     v-model="participantGroup.school.id"
                     :multiple="false"
                     :disabled="participantGroup.id && participantGroup.school.id !== null"
@@ -42,6 +43,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.discipline"
                     v-model="participantGroup.discipline.id"
                     :multiple="false"
                     placeholder="Dyscyplina" :options="participantGroupDiscipline"
@@ -50,6 +52,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.lessonCategory"
                     v-model="participantGroup.lessonCategory.id"
                     :multiple="false"
                     placeholder="Kategoria" :options="participantGroupLessonCategory"
@@ -58,6 +61,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.class"
                     v-model="participantGroup.class.id"
                     :multiple="false"
                     placeholder="Klasa" :options="participantGroupClass"
@@ -66,8 +70,8 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.season"
                     v-model="participantGroup.season.id"
-                    :disabled="participantGroup.id && participantGroup.season.id !== null"
                     :multiple="false"
                     placeholder="Sezon" :options="participantGroupSeason"
                     :class="{'error-input-custom': veeErrors.has('participantGroup.season')}"
@@ -75,32 +79,14 @@
       </b-form-group>
 
       <b-row class="mt-4 justify-content-end">
-        <b-col cols="4" v-if="this.id">
-          <b-btn variant="delete" class="custom"
-                 @click="deleteFromForm('deleteParticipantGroup', participantGroup.id, undefined, 'participant.groups', {})"> <!-- todo Vetal' -->
-            Usuń
-          </b-btn>
-        </b-col>
         <b-col cols="4">
           <b-btn block class="custom btn" :to="{ name: 'participant.groups' }">
             Anuluj
           </b-btn>
         </b-col>
         <b-col cols="4">
-          <b-btn v-if="participantGroup.id"
-                 variant="primary" block class="custom" @click="submit(true)">
+          <b-btn variant="primary" block class="custom" @click="submit(true)">
             Zapisz
-          </b-btn>
-          <b-btn v-else
-                 variant="primary" block class="custom" @click="goToFormTab('participants')">
-            Dalej
-          </b-btn>
-        </b-col>
-        <b-col cols="4" class="mt-3">
-          <b-btn v-if="participantGroup.id"
-                 variant="primary" block class="custom" @click="$router.push({name: 'participant.group',
-                 params: {'tab': 'clone', 'id': id}})">
-            Klonuj
           </b-btn>
         </b-col>
       </b-row>
@@ -119,12 +105,14 @@
   import EventBus from "@/event-bus";
 
   export default {
-    name: 'FormMainData',
+    name: 'FormClone',
     props: [ 'participantGroup' ],
     components: { Treeselect },
     mixins: [ EventBusEmit, FormMixin, ParticipantGroupMixin ],
     data () {
       return {
+        selectedSeason: null,
+
         participants: [],
         participantGroupDefault: {
           active: 1,
@@ -173,10 +161,15 @@
               }
 
               this.loading = false
-              this.$parent.submit()
+              let participantGroup = {...this.participantGroup}
+              this.$store.dispatch('cloneParticipantGroup', participantGroup)
+                .then(() => {
+                  this.postSubmitRedirect('participant.groups')
+                })
+                .catch((error) => {
+                  this.postSubmitError(error)
+                })
             })
-        } else {
-          this.$parent.submit()
         }
       },
       goToFormTab (tabName) {
@@ -189,8 +182,29 @@
       }
     },
     created () {
+      if (this.id === undefined) {
+        this.$router.push({name: 'participant.group', params: {'tab': 'main-data'}})
+      }
+
+      this.$store.dispatch('getParticipantGroup', {id: this.id})
+        .then((response) => {
+          console.log(response)
+
+          this.selectedSeason = response.season.id
+          this.$parent.participantGroup = response
+          this.$parent.participantGroup.season = {id: null}
+          this.$parent.setDataFromExistedParticipantGroup(response)
+
+          let breadcrumbs = [
+            {text: 'Lista zawodników', to: {name: 'participant.groups'}},
+            {text: 'Klonowanie', to: {name: 'participant.groups'}},
+            {text: response.title, active: true}
+          ]
+          this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+        })
+
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({eventBusMethod: false})
+      this.changeAdminNavbarButton({buttonLink: false})
 
       this.$store.dispatch('getSeasons')
       this.$store.dispatch('getSchools')

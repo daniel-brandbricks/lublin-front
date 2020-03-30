@@ -2,10 +2,12 @@
   <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="12">
-        <TabLinks :links="tabLinks"/>
+        <TabLinks v-if="$route.params.tab !== 'clone'" :links="tabLinks"/>
         <template>
           <FormMainData :participantGroup="participantGroup" @childSubmit="submit" ref="FormMainData"
-                        :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+                        :key="$route.params.tab+'FormMainData'" v-if="$route.params.tab === 'main-data'"/>
+          <FormClone :participantGroup="participantGroup" @childSubmit="submit" ref="FormClone"
+                     :key="$route.params.tab+'FormClone'" v-if="$route.params.tab === 'clone'"/>
           <!--        Component for ParticipantEntity   -->
           <FormParticipants :participantGroup="participantGroup" :isValidForm="isValidForm" @childSubmit="submit"
                             ref="FormParticipants" :participantYearsSelected="participantYearsSelected"
@@ -19,13 +21,13 @@
 
           <!--        Component for todo Entity isValidForm for ALL  -->
           <FormLessons :participantGroup="participantGroup" @childSubmit="submit" ref="FormLessons"
-                          :key="$route.params.tab+'FormLessons'" v-if="$route.params.tab === 'lessons'"/>
+                       :key="$route.params.tab+'FormLessons'" v-if="$route.params.tab === 'lessons'"/>
           <!--        Component for todo Entity   -->
           <FormCalendar :participantGroup="participantGroup" @childSubmit="submit" ref="FormCalendar"
                         :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
           <!--        Component for todo Entity   -->
-<!--          <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"-->
-<!--                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>-->
+          <!--          <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"-->
+          <!--                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>-->
           <!--        Component for todo Entity   -->
           <FormMTSF :participantGroup="participantGroup" @childSubmit="submit" ref="FormMTSF"
                     :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
@@ -51,10 +53,12 @@
 
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import FormClone from "@/views/participant-groups/components/FormClone";
 
   export default {
     name: 'ParticipantGroupsForm',
     components: {
+      FormClone,
       ListParticipants,
       TabLinks,
       Treeselect,
@@ -65,8 +69,8 @@
       FormFrequency,
       FormMTSF
     },
-    mixins: [ EventBusEmit, FormMixin ],
-    data () {
+    mixins: [EventBusEmit, FormMixin],
+    data() {
       return {
         tabLinks: [
           {
@@ -108,8 +112,8 @@
 
         participantYearsSelected: [],
         genderOptions: [
-          { text: 'kobieta', value: 0 },
-          { text: 'mężczyzna', value: 1 }
+          {text: 'kobieta', value: 0},
+          {text: 'mężczyzna', value: 1}
         ],
 
         isValidForm: false,
@@ -119,7 +123,7 @@
     },
     computed: {},
     methods: {
-      clearParticipants (schoolId) {
+      clearParticipants(schoolId) {
         if (parseInt(schoolId) !== this.dbSchoolId) {
           this.participantGroup.participants = []
           this.participantYearsSelected = []
@@ -127,7 +131,7 @@
 
         if (this.dbSchoolId !== null) this.dbSchoolId = null
       },
-      setDataFromExistedParticipantGroup (participantGroup) {
+      setDataFromExistedParticipantGroup(participantGroup) {
         this.dbSchoolId = participantGroup.school.id
         this.dbParticipants = JSON.parse(JSON.stringify(participantGroup.participants))
 
@@ -137,7 +141,7 @@
           this.participantYearsSelected.push({year: participants[index].year})
         }
       },
-      prepareParticipantGroupToSubmit (participantGroup) {
+      prepareParticipantGroupToSubmit(participantGroup) {
         let participants = participantGroup.participants || []
         let preparedParticipants = []
         for (let index in participants) {
@@ -146,7 +150,7 @@
 
         participantGroup.participants = preparedParticipants
       },
-      checkValidMainForm (params) {
+      checkValidMainForm(params) {
         return this.$refs.FormMainData.checkValidForm()
           .then((result) => {
             this.isValidForm = result
@@ -158,18 +162,18 @@
             }
           })
       },
-      addParticipant () {
+      addParticipant() {
         this.participantGroup.participants.push({id: null})
         this.participantYearsSelected.push({year: null})
       },
       // addParticipant () {
       //   this.participantGroup.participants.push({})
       // },
-      removeParticipant (index) {
+      removeParticipant(index) {
         this.participantGroup.participants.splice(index, 1)
         this.participantYearsSelected.splice(index, 1)
       },
-      submit () {
+      submit() {
         let participantGroup = {...this.participantGroup}
         console.log(this.participantGroup)
 
@@ -183,12 +187,12 @@
             this.postSubmitError(error)
           })
       },
-      goToFormTab (tabName, params = {}) {
+      goToFormTab(tabName, params = {}) {
         this.checkValidMainForm(tabName)
         // let defaultParams = { ...{ 'tab': tabName, 'id': this.id }, ...params }
         // this.$router.push({ name: 'participant.group', params: defaultParams })
       },
-      changeParticipantStatusInList (params) {
+      changeParticipantStatusInList(params) {
         this.$store.dispatch('changeParticipantStatusInList', {
           listId: this.id,
           participantId: params.id,
@@ -199,8 +203,8 @@
           this.setDataFromExistedParticipantGroup(response)
         })
       },
-      refreshParticipantGroup () {
-        this.$store.dispatch('getParticipantGroup', { id: this.id })
+      refreshParticipantGroup() {
+        this.$store.dispatch('getParticipantGroup', {id: this.id})
           .then((response) => {
             console.log(response)
             this.participantGroup = response
@@ -208,24 +212,24 @@
           })
       }
     },
-    created () {
+    created() {
       // init participantGroup
       // this.participantGroup = Object.assign(this.participantGroup, this.$store.getters.participantGroup(this.id))
 
       if (this.$route.params.tab === undefined) {
-        this.$router.push({ name: 'participant.group', params: { 'tab': 'main-data' } })
+        this.$router.push({name: 'participant.group', params: {'tab': 'main-data'}})
       }
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarButton({buttonLink: false})
       let breadcrumbs = [
-        { text: 'Lista zawodników', to: { name: 'participant.groups' } },
-        { text: 'Nowa', active: true }
+        {text: 'Lista zawodników', to: {name: 'participant.groups'}},
+        {text: 'Nowa', active: true}
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
       if (this.id) {
-        this.$store.dispatch('getParticipantGroup', { id: this.id })
+        this.$store.dispatch('getParticipantGroup', {id: this.id})
           .then((response) => {
             console.log(response)
             this.participantGroup = response
@@ -276,8 +280,8 @@
             ]
 
             let breadcrumbs = [
-              { text: 'Lista zawodników', to: { name: 'participant.groups' } },
-              { text: response.title, active: true }
+              {text: 'Lista zawodników', to: {name: 'participant.groups'}},
+              {text: response.title, active: true}
             ]
             this.changeAdminNavbarBreadcrumbs(breadcrumbs)
           })

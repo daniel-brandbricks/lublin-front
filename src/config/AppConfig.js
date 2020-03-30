@@ -97,3 +97,16 @@ export const LESSON_REPEAT = [
   { id: 24, label: '24 tyg.' },
   { id: 25, label: '25 tyg.' }
 ]
+
+export const DATEPICKER_PARAMS = {
+  lang: {
+    days: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+    months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+    pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
+    placeholder: {
+      date: 'Wybierz datę',
+      dateRange: 'Select Date Range'
+    }
+  },
+  hours: Array.from({ length: 10 }).map((_, i) => i + 8)
+}

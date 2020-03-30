@@ -19,7 +19,7 @@
           </b-form-group>
           <b-row class="mt-3">
             <b-col cols="5">
-              <date-picker v-model="computedList[index].from" :lang="lang"
+              <date-picker v-model="computedList[index].from" :lang="datepickerParams.lang"
                            @focus="editInput(index)"
                            :class="{'error-input-custom': veeErrors.has('season.from'+index)}"
                            :name="'season.from'+index" :key="'season.from'+index"
@@ -31,7 +31,7 @@
               <hr>
             </b-col>
             <b-col cols="5">
-              <date-picker v-model="computedList[index].to" :lang="lang"
+              <date-picker v-model="computedList[index].to" :lang="datepickerParams.lang"
                            @focus="editInput(index)"
                            :class="{'error-input-custom': veeErrors.has('season.to'+index)}"
                            :name="'season.to'+index" :key="'season.to'+index"
@@ -67,6 +67,7 @@
   import DictionaryMixin from '@/mixins/dictionary-mixin'
   import DatePicker from 'vue2-datepicker'
   import {mapActions} from 'vuex'
+  import {DATEPICKER_PARAMS} from '@/config/AppConfig';
 
   export default {
     name: 'Seasons',
@@ -74,20 +75,12 @@
     mixins: [EventBusEmit, FormMixin, DictionaryMixin],
     data () {
       return {
+        datepickerParams: DATEPICKER_PARAMS,
+
         getter: 'seasons',
         dispatchDelete: 'deleteSeason',
         dispatchPost: 'postSeason',
         dispatchPut: 'putSeason',
-
-        lang: {
-          days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
-          placeholder: {
-            date: 'Select Date',
-            dateRange: 'Select Date Range'
-          }
-        },
 
         // temp
         years: [
