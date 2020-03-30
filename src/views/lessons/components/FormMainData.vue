@@ -111,13 +111,11 @@
                    id="lessonDate" class="w-100 custom mb-3">
       </date-picker>
 
-
-
-<!--      range @clear="lesson.timeRange = []"-->
-<!--      format="HH:mm a"-->
-<!--      value-type="format"-->
-<!--      type="time"-->
-<!--      placeholder="HH:mm"-->
+      <!--      range @clear="lesson.timeRange = []"-->
+      <!--      format="HH:mm a"-->
+      <!--      value-type="format"-->
+      <!--      type="time"-->
+      <!--      placeholder="HH:mm"-->
 
       <date-picker v-model="lesson.timeRange" :lang="datepickerParams.lang"
                    :minute-step="5"
@@ -144,13 +142,20 @@
         </template>
       </date-picker>
 
-      <b-form-group class="custom mb-4" v-if="lesson.id === undefined">
+      <b-form-group class="custom mb-4" v-if="lesson.id === undefined && lesson.date">
         <treeselect class="custom m-0"
                     id="lessonRepetition"
                     v-model="lesson.repetition"
                     :multiple="false"
                     placeholder="Powtarzaj przez.." :options="lessonRepeat"/>
       </b-form-group>
+
+      <h6 v-b-toggle.collapse-repetitions v-if="lesson.id === undefined && lesson.date"><span class="mr-3">^</span>Daty powtórzeń</h6>
+      <b-collapse visible id="collapse-repetitions" class="mt-2">
+        <div :key="index" v-for="(item,index) in lesson.repetition">
+          {{item}}. {{getRepetitionDate(item)}}
+        </div>
+      </b-collapse>
 
       <b-form-group class="custom checkbox-big-span mb-3" v-if="undefined !== id">
         <b-form-checkbox-group
@@ -217,7 +222,8 @@
 
           <h6 class="mb-2">Aktywuj</h6>
           <b-form-group>
-            <b-form-radio v-model="lesson.replacementLeaders[index].active" :value="element.value" class="d-inline-block mr-3"
+            <b-form-radio v-model="lesson.replacementLeaders[index].active" :value="element.value"
+                          class="d-inline-block mr-3"
                           :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
                           :name="'lesson.replacementLeaders.active'+index"
                           v-validate="{'required':true}"
@@ -274,7 +280,7 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-  import {LESSON_REPEAT, DATEPICKER_PARAMS} from '@/config/AppConfig'
+  import {DATEPICKER_PARAMS, LESSON_REPEAT} from '@/config/AppConfig'
 
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
@@ -352,6 +358,13 @@
       }
     },
     methods: {
+      getRepetitionDate (repetition) {
+        let selectedDate = new Date(this.lesson.date)
+        let newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + (7 * repetition))
+        return newDate.getFullYear() + '-' +
+          ((newDate.getMonth() + 1) < 10 ? ('0' + (newDate.getMonth() + 1)) : (newDate.getMonth() + 1)) +
+          '-' + ((newDate.getDate()) < 10 ? ('0' + (newDate.getDate())) : (newDate.getDate()))
+      },
       addReplacedLeader () {
         this.lesson.replacementLeaders.push({
           lesson: {
