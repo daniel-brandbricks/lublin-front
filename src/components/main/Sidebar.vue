@@ -104,7 +104,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Lista imprez
+            Lista imprez sportowych
           </b-link>
 
           <b-link :to="{name:'reports', params: {'tab': 'reporting'}}"

@@ -53,7 +53,7 @@
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'event' })
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista imprez', active: true } ])
+      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista imprez sportowych', active: true } ])
     }
   }
 </script>

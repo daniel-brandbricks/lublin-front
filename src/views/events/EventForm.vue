@@ -15,8 +15,8 @@
   import FormMainData from '@/views/events/components/FormMainData'
 
   export default {
-    components: { FormMainData },
-    mixins: [ EventBusEmit, FormMixin ],
+    components: {FormMainData},
+    mixins: [EventBusEmit, FormMixin],
     data () {
       return {
         event: {
@@ -32,8 +32,16 @@
           phone: '',
           facebook: '',
           youtube: '',
+          www: '',
+          organization: '',
+          personToContact: '',
+          dateStart: null,
+          dateEnd: null,
           confirmed: false,
           school: {
+            id: null
+          },
+          discipline: {
             id: null
           }
         },
@@ -46,6 +54,7 @@
     methods: {
       submit () {
         let event = this.event
+        if (event.discipline.id === null) delete event.discipline
 
         const method = this.id === undefined ? 'postEvent' : 'putEvent'
         this.$store.dispatch(method, event)
@@ -64,6 +73,8 @@
       },
       prepareEvent (response) {
         this.event = response
+        if (response.discipline === null) this.event.discipline = {id: null}
+        if (response.school === null) this.event.school = {id: null}
       }
     },
     created () {
@@ -77,31 +88,31 @@
 
       // auto redirect if url is without 'tab' param
       if (this.$route.params.tab === undefined) {
-        this.$router.push({ name: 'event', params: { 'tab': 'main-data' } })
+        this.$router.push({name: 'event', params: {'tab': 'main-data'}})
       }
 
       let breadcrumbs = [
-        { text: 'Lista imprez', to: { name: 'events', params: { 'tab': 'confirmed' } } },
-        { text: this.id ? this.event.title : 'Nowa', active: true }
+        {text: 'Lista imprez sportowych', to: {name: 'events', params: {'tab': 'confirmed'}}},
+        {text: this.id ? this.event.title : 'Nowa', active: true}
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
 
       if (this.id) {
-        this.$store.dispatch('getEvent', { id: this.id })
+        this.$store.dispatch('getEvent', {id: this.id})
           .then((response) => {
             this.prepareEvent(response)
 
             console.log(response.title)
             let breadcrumbs = [
-              { text: 'Lista imprez', to: { name: 'events', params: { 'tab': 'confirmed' } } },
-              { text: this.id ? response.title : 'Nowa', active: true }
+              {text: 'Lista imprez', to: {name: 'events', params: {'tab': 'confirmed'}}},
+              {text: this.id ? response.title : 'Nowa', active: true}
             ]
             this.changeAdminNavbarBreadcrumbs(breadcrumbs)
           })
       }
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
+      this.changeAdminNavbarButton({buttonLink: false})
     }
   }
 </script>

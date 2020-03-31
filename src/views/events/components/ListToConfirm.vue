@@ -1,7 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="8">
-      <h5 class="mb-3">Data</h5>
+    <b-col cols="10">
       <b-table
         :items="eventListFiltered"
         :fields="fields"
@@ -11,23 +10,30 @@
         class="custom table-responsive"
         @row-clicked="rowRedirect"
       >
-        <template slot="name" slot-scope="scope">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="wrap-img-type-table mr-3">
-              <img :src="'https://placeimg.com/50/50/any'" alt="">
-            </div>
-            <span>{{scope.item.name}}</span>
-          </div>
+        <template slot="dateStart" slot-scope="scope">
+          <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
         </template>
+
+        <template slot="discipline" slot-scope="scope">
+          <span v-if="scope.item.discipline && scope.item.discipline.id">
+            {{getDisciplineTitleById(scope.item.discipline.id)}}
+          </span>
+        </template>
+
+        <template slot="organization" slot-scope="scope">
+          <span v-if="scope.item.organization">{{scope.item.organization}}</span>
+          <span v-else-if="scope.item.school && scope.item.school.id">
+            {{getSchoolNameById(scope.item.school.id)}}
+          </span>
+        </template>
+
         <template slot="btnTable" slot-scope="scope">
           <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
             Zatwierdź
           </b-btn>
         </template>
         <template slot="edit" slot-scope="scope">
-          <b-link class="icon-link">
-            <span class="icon icon-iconm_search"></span>
-          </b-link>
+          <span class="c-pointer">Szczegóły</span>
         </template>
 
       </b-table>
@@ -44,10 +50,10 @@
     data () {
       return {
         fields: [
+          { key: 'dateStart', label: 'Data rozpoczęcia', sortable: true },
           { key: 'title', label: 'Nazwa', sortable: true },
-          { key: 'description', label: 'Opis', sortable: true },
-          { key: 'phone', label: 'Telefon', sortable: true },
-          { key: 'phone', label: 'Telefon', sortable: true },
+          { key: 'discipline', label: 'Dyscyplina', sortable: true },
+          { key: 'organization', label: 'Organizator', sortable: true },
           { key: 'btnTable', label: '', sortable: true },
           { key: 'edit', label: '' }
         ]

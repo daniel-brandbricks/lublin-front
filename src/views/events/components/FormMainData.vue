@@ -22,40 +22,54 @@
                         v-model="event.title"/>
         </b-form-group>
         <textarea class="custom w-100 mb-3" v-model="event.description" placeholder="Opis"
-                  :class="{'error-input-custom': veeErrors.has('event.description')}"
-                  name="event.description" :key="'event.description'" :v-validate="'required'"/>
+                  name="event.description" :key="'event.description'"/>
         <b-form-group
           class="custom">
           <b-form-input id="input-2" class="custom"
                         placeholder="E-mail"
                         :class="{'error-input-custom': veeErrors.has('event.email')}"
-                        name="event.email" key="event.email" v-validate="{'required':true, 'email':true}"
+                        name="event.email" key="event.email" v-validate="{'email':true}"
                         v-model="event.email"/>
         </b-form-group>
         <b-form-group
           class="custom">
           <b-form-input id="input-3" class="custom"
                         placeholder="Telefon"
-                        :class="{'error-input-custom': veeErrors.has('event.phone')}"
-                        name="event.phone" key="event.phone" v-validate="{'required':true}"
+                        name="event.phone" key="event.phone"
                         v-model="event.phone"/>
         </b-form-group>
         <b-form-group
           class="custom">
           <b-form-input id="input-4" class="custom"
                         placeholder="Facebook"
-                        :class="{'error-input-custom': veeErrors.has('event.facebook')}"
-                        name="event.facebook" key="event.facebook" v-validate="{'required':true}"
+                        name="event.facebook" key="event.facebook"
                         v-model="event.facebook"/>
         </b-form-group>
         <b-form-group
           class="custom">
           <b-form-input id="input-4" class="custom"
                         placeholder="Youtube"
-                        :class="{'error-input-custom': veeErrors.has('event.youtube')}"
-                        name="event.youtube" key="event.youtube" v-validate="{'required':true}"
+                        name="event.youtube" key="event.youtube"
                         v-model="event.youtube"/>
         </b-form-group>
+        <b-form-group
+          class="custom">
+          <b-form-input id="input-4" class="custom"
+                        placeholder="WWW"
+                        name="event.www" key="event.www"
+                        v-model="event.www"/>
+        </b-form-group>
+        <b-form-group>
+          <b-form-group v-if="event.discipline">
+            <treeselect v-model="event.discipline.id"
+                        :multiple="false"
+                        placeholder="Dyscyplina"
+                        :options="disciplinesPrepared"
+                        class="custom mb-2"
+                        name="event.discipline" key="event.discipline"/>
+          </b-form-group>
+        </b-form-group>
+
         <h2 class="my-4">Organizator</h2>
         <b-form-group>
           <b-form-radio @change="event.school.id = null"
@@ -63,20 +77,32 @@
                         v-model="orgType" :value="element.value" class="d-inline-block mt-3 mr-3"
                         :class="{'error-input-custom': veeErrors.has('organizatorType')}"
                         name="organizatorType" :key="'organizatorType'+index" v-validate="{'required':true}"
-                        v-for="(element,index) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}]">
+                        v-for="(element,index) in [{title: 'Klub', value: 0}, {title: 'Szkoła', value: 1}, {title: 'Inny podmiot', value: 2}]">
             {{ element.title }}
           </b-form-radio>
         </b-form-group>
-        <b-form-group v-if="event.school">
-          <treeselect v-model="event.school.id"
-                      :disabled="event.id ==! undefined"
-                      :multiple="false"
-                      placeholder="Klub / Szkoła"
-                      :options="schoolsAndClubsPrepared"
-                      class="custom mb-2"
-                      :class="{'error-input-custom': veeErrors.has('event.school')}"
-                      name="event.school" key="event.school" v-validate="{'required':true}"/>
-        </b-form-group>
+
+        <div v-if="orgType !== 2">
+          <b-form-group v-if="event.school">
+            <treeselect v-model="event.school.id"
+                        :disabled="event.id ==! undefined"
+                        :multiple="false"
+                        placeholder="Klub / Szkoła"
+                        :options="schoolsAndClubsPrepared"
+                        class="custom mb-2"
+                        :class="{'error-input-custom': veeErrors.has('event.school')}"
+                        name="event.school" key="event.school" v-validate="{'required':true}"/>
+          </b-form-group>
+        </div>
+        <div v-else>
+          <b-form-group class="custom">
+            <b-form-input id="input-1" class="custom mb-3"
+                          placeholder="Nazwa organizatora"
+                          :class="{'error-input-custom': veeErrors.has('event.organization')}"
+                          name="event.organization" key="event.organization" v-validate="{'required':true}"
+                          v-model="event.organization"/>
+          </b-form-group>
+        </div>
 
         <b-form-group class="custom">
           <b-form-input id="input-4" class="custom"
@@ -86,7 +112,7 @@
                         v-model="event.personToContact"/>
         </b-form-group>
 
-        <h2 class="my-4">Lokalizacja i Data</h2>
+        <h2 class="my-4">Lokalizacja</h2>
         <b-form-group>
           <b-form-radio @click="clearAddress"
                         v-if="event.id === undefined"
@@ -115,29 +141,67 @@
                     name="event.addressDesc" :key="'event.addressDesc'" :v-validate="'required'"/>
         </div>
 
+        <h2 class="my-4">Data / Zakres dat</h2>
+        <b-row class="pb-0 mb-0">
+          <b-col>
+            <date-picker v-model="event.dateStart" :lang="datepickerParams.lang"
+                                        :class="{'error-input-custom': veeErrors.has('event.dateStart')}"
+                                        :name="'event.dateStart'" :key="'event.dateStart'"
+                                        value-type="format" format="YYYY-MM-DD"
+                                        type="date"
+                                        v-validate="{'required': true}"
+                                        :id="'event.dateStart'" placeholder="data rozpoczęcia" class="w-100 custom mt-3">
+            </date-picker>
+          </b-col>
+          <b-col>
+            <date-picker v-model="event.dateEnd" :lang="datepickerParams.lang"
+                         :class="{'error-input-custom': veeErrors.has('event.dateEnd')}"
+                         :name="'event.dateEnd'" :key="'event.dateEnd'"
+                         value-type="format" format="YYYY-MM-DD"
+                         type="date"
+                         v-validate="{'required': true}"
+                         :id="'event.dateEnd'" placeholder="data zakończenia" class="w-100 custom mt-3">
+            </date-picker>
+          </b-col>
+        </b-row>
+
+        <h6 class="mb-0 pb-0 mt-4" v-if="event.dates.length > 0">Harmonogram</h6>
         <div :key="date.id" v-for="(date,index) in event.dates">
-          <b-row>
+          <b-row class="pb-0 mb-0">
             <b-col>
-              <date-picker v-model="event.dates[index].date" :lang="'pl'"
+              <date-picker v-model="event.dates[index].date" :lang="datepickerParams.lang"
                            :class="{'error-input-custom': veeErrors.has('event.date'+date.id)}"
                            :name="'event.date'+date.id" :key="'event.date'+date.id"
                            value-type="format" format="YYYY-MM-DD"
                            type="date"
                            v-validate="{'required': true}"
-                           :id="'event.date'+date.id" placeholder="" class="w-100 custom mb-3">
+                           :id="'event.date'+date.id" placeholder="data" class="w-100 custom mt-3">
               </date-picker>
             </b-col>
             <b-col>
-              <date-picker v-model="event.dates[index].timeRange" :lang="'pl'"
+              <date-picker v-model="event.dates[index].timeRange" :lang="datepickerParams.lang"
+                           :minute-step="5"
+                           :hour-options="datepickerParams.hours"
+                           format="HH:mm"
+                           value-type="format"
+                           type="time"
+                           placeholder="Godziny / minuty"
+                           range
                            :class="{'error-input-custom': veeErrors.has('event.timeRange'+date.id)}"
                            :name="'event.timeRange'+date.id" :key="'event.timeRange'+date.id"
-                           type="time"
-                           range @clear="event.dates[index].timeRange = []"
-                           :show-second="false"
-                           value-type="format"
-                           format="HH:mm"
+                           @clear="event.dates[index].timeRange = []"
                            v-validate="{'required': true}"
-                           :id="'event.timeRange'+date.id" placeholder="" class="w-100 custom mb-3">
+                           :id="'event.timeRange'+date.id" class="w-100 custom mt-3">
+                <template v-slot:header="{ emit }">
+                  <b-row class="mt-1 justify-content-center">
+                    <b-col class="text-center">
+                      <p class="">Godz:min</p>
+                    </b-col>
+                    <b-col class="text-center">
+                      <p class="">Godz:min</p>
+                    </b-col>
+                  </b-row>
+                </template>
               </date-picker>
             </b-col>
           </b-row>
@@ -181,22 +245,44 @@
   import EventsMixin from '@/mixins/event-mixin'
 
   import {mapGetters} from 'vuex'
-  import DatePicker from "vue2-datepicker";
+  import DatePicker from 'vue2-datepicker'
+  import {DATEPICKER_PARAMS} from '@/config/AppConfig'
 
   export default {
     name: 'FormMainData',
     props: ['event'],
     components: {Treeselect, ImageInputAdvanced, DatePicker},
     mixins: [EventBusEmit, FormMixin, EventsMixin],
-    data() {
+    data () {
       return {
+        datepickerParams: DATEPICKER_PARAMS,
         orgType: 0,
         addressType: 0
       }
     },
+    watch: {
+      orgType: function (val) {
+        console.log(val)
+        if (val === 2) {
+          this.event.school.id = null
+        } else {
+          this.event.organization = ''
+        }
+      },
+      event: function (val) {
+        console.log(val)
+        if (val.id) {
+          if (val.school.id === null) {
+            this.event.organization = val.organization
+            this.orgType = 2
+          }
+        }
+        console.log(val)
+      }
+    },
     computed: {
       ...mapGetters(['schools']),
-      leadersTreeselect() {
+      leadersTreeselect () {
         return eventId => {
           let leadersConfirmed = this.leadersConfirmed
           let prepared = []
@@ -205,7 +291,7 @@
             if (!Array.isArray(leadersConfirmed[index].eventsUsers) ||
               undefined === leadersConfirmed[index].eventsUsers.find(x => {
                 return parseInt(x.school.id) === eventId
-              })) {
+            })) {
               continue
             }
             prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
@@ -215,11 +301,11 @@
       }
     },
     methods: {
-      removeDate(dateId) {
+      removeDate (dateId) {
         let index = this.$parent.event.dates.findIndex(x => x.id === dateId)
         this.$parent.event.dates.splice(index, 1)
       },
-      addDate() {
+      addDate () {
         let dateId = -1
 
         for (let index in this.$parent.event.dates) {
@@ -229,10 +315,11 @@
         }
         this.$parent.event.dates.push({date: null, timeRange: '', id: dateId})
       },
-      clearAddress() {
+      clearAddress () {
         this.event.addressDesc = ''
         this.event.address = ''
-      },addImage() {
+      },
+      addImage () {
         let imageId = -1
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id && this.$parent.event.images[index].id <= imageId) {
@@ -241,12 +328,12 @@
         }
         this.$parent.event.images.push({path: null, id: imageId})
       },
-      removeImage(imageId) {
+      removeImage (imageId) {
         let index = this.$parent.event.images.findIndex(x => x.id === imageId)
         this.$parent.event.images.splice(index, 1)
       },
 
-      submit(validRequired) {
+      submit (validRequired) {
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -262,7 +349,7 @@
           this.$parent.submit()
         }
       },
-      afterCropImage(data) {
+      afterCropImage (data) {
         console.log(data)
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id === data.id) {
@@ -272,14 +359,15 @@
         // this.school.image = base64
       }
     },
-    mounted() {
+    mounted () {
       // validate form after redirect from another tab (component)
       if (this.$route.params.validateForm) {
         this.checkValidForm()
       }
     },
-    created() {
-      this.$store.dispatch('getSchools')
+    created () {
+      this.$store.dispatch('getSchools', {})
+      this.$store.dispatch('getDisciplines')
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
     }
