@@ -13,12 +13,16 @@
       <!--          </b-form-group>-->
 
       <h5 class="mb-3">Płeć</h5>
-      <b-form-radio v-model="lesson.sex" :value="element.value" class="d-inline-block mr-3 mb-3"
-                    :class="{'error-input-custom': veeErrors.has('lesson.sex')}"
-                    name="lesson.sex" :key="'lesson.sex'+index" v-validate="{'required':true}"
-                    v-for="(element, index) in [{title:'mężczyzna', value: 1}, {title: 'kobieta', value: 0}]">
-        {{element.title}}
-      </b-form-radio>
+      <b-form-checkbox-group
+        v-model="lesson.sex"
+        id="checkbox-group-1" class="mr-3 mb-3"
+        :class="{'error-input-custom': veeErrors.has('lesson.sex')}"
+        name="lesson.sex" :key="'lesson.sex'" v-validate="{'required':true}"
+        :options="[
+            { text: 'kobieta', value: 0 },
+            { text: 'mężczyzna', value: 1 }
+          ]"
+      />
 
       <h5 class="mb-3">Dane ogólne</h5>
       <b-form-group class="custom mb-2">
@@ -73,9 +77,10 @@
                     :class="{'error-input-custom': veeErrors.has('lesson.school')}"
                     name="lesson.school" key="lesson.school" v-validate="{'required':true}"/>
       </b-form-group>
-      <b-form-group class="custom mb-2" v-if="lesson.leader">
+      <b-form-group class="custom mb-2" v-if="lesson.leader && !(authUser && authUser.role === 1 && !$store.getters.isDirector)">
         <treeselect class="custom m-0"
                     v-model="lesson.leader.id"
+                    :disabled="lesson.leader.id !== null && lesson.id !== undefined"
                     :multiple="false"
                     placeholder="Prowadzący" :options="leadersTreeselect(lesson.school.id)"
                     :class="{'error-input-custom': veeErrors.has('lesson.leaders')}"
@@ -150,7 +155,8 @@
                     placeholder="Powtarzaj przez.." :options="lessonRepeat"/>
       </b-form-group>
 
-      <h6 v-b-toggle.collapse-repetitions v-if="lesson.id === undefined && lesson.date"><span class="mr-3">^</span>Daty powtórzeń</h6>
+      <h6 v-b-toggle.collapse-repetitions v-if="lesson.id === undefined && lesson.date"><span class="mr-3">^</span>Daty
+        powtórzeń</h6>
       <b-collapse visible id="collapse-repetitions" class="mt-2">
         <div :key="index" v-for="(item,index) in lesson.repetition">
           {{item}}. {{getRepetitionDate(item)}}
@@ -220,10 +226,11 @@
       <template v-if="undefined !== id && lesson.replaced">
         <div :key="index" v-for="(leader,index) in lesson.replacementLeaders">
 
-          <h6 class="mb-2">Aktywuj</h6>
+          <h6 class="my-3">Aktywuj</h6>
           <b-form-group>
             <b-form-radio v-model="lesson.replacementLeaders[index].active" :value="element.value"
                           class="d-inline-block mr-3"
+                          :disabled="!!(authUser.id !== lesson.leader.id && lesson.id)"
                           :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
                           :name="'lesson.replacementLeaders.active'+index"
                           v-validate="{'required':true}"
@@ -232,19 +239,26 @@
             </b-form-radio>
           </b-form-group>
 
-          <b-form-group class="custom my-2" v-if="lesson.replacementLeaders[index].leader">
-            <treeselect class="custom mb-3"
+          <b-form-group class="custom mt-2" v-if="lesson.replacementLeaders[index].leader">
+            <treeselect class="custom"
                         v-model="lesson.replacementLeaders[index].leader.id"
                         :multiple="false"
-                        placeholder="Prowadzący" :options="leadersTreeselect(lesson.school.id)"
+                        :disabled="!!(authUser.id !== lesson.leader.id && lesson.id)"
+                        placeholder="Prowadzący" :options="leadersReplaceTreeselect(lesson.school.id)"
                         :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.leaders'+index)}"
                         :name="'lesson.replacementLeaders.leaders'+index"
                         :key="'lesson.replacementLeaders.leaders'+index" v-validate="{'required':true}"/>
           </b-form-group>
 
+          <b-btn
+            v-if="lesson.replacementLeaders[index].leader.id === null || lesson.replacementLeaders[index].leader.id === undefined"
+            variant="delete" class="custom d-block mr-auto mb-2" @click="removeReplacedLeader(index)" size="sm">Usuń
+          </b-btn>
         </div>
 
-        <b-btn variant="primary" class="custom d-block mr-auto" @click="addReplacedLeader" size="sm">Dodaj</b-btn>
+        <b-btn :disabled="!!(authUser.id !== lesson.leader.id && lesson.id)"
+               variant="primary" class="custom d-block ml-auto my-3" @click="addReplacedLeader" size="sm">Dodaj
+        </b-btn>
       </template>
 
       <!--      buttons   -->
@@ -293,7 +307,7 @@
     props: ['lesson'],
     components: {Treeselect, DatePicker},
     mixins: [EventBusEmit, FormMixin, LessonMixin],
-    data () {
+    data() {
       return {
         orgType: 0,
         lessonRepeat: LESSON_REPEAT,
@@ -311,11 +325,11 @@
     },
     computed: {
       ...mapGetters(['schools', 'disciplines', 'participantGroups', 'sportObjectsConfirmed',
-                     'leadersConfirmed', 'classes', 'lessonCategories']),
-      authUser () {
+        'leadersConfirmed', 'classes', 'lessonCategories']),
+      authUser() {
         return this.$store.getters.authUser
       },
-      sportObjectsTreeselect () {
+      sportObjectsTreeselect() {
         return schoolId => {
           let sportObjects = this.sportObjectsConfirmed
           let prepared = []
@@ -327,7 +341,7 @@
           return prepared
         }
       },
-      participantGroupsTreeselect () {
+      participantGroupsTreeselect() {
         return schoolId => {
           let participantGroups = this.participantGroups
           let prepared = []
@@ -339,7 +353,7 @@
           return prepared
         }
       },
-      leadersTreeselect () {
+      leadersTreeselect() {
         return schoolId => {
           let leadersConfirmed = this.leadersConfirmed
           let prepared = []
@@ -348,24 +362,55 @@
             if (!Array.isArray(leadersConfirmed[index].schoolsUsers) ||
               undefined === leadersConfirmed[index].schoolsUsers.find(x => {
                 return parseInt(x.school.id) === schoolId
-            })) {
+              })) {
               continue
             }
             prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
           }
           return prepared
         }
+      },
+      leadersReplaceTreeselect() {
+        return schoolId => {
+          let leadersConfirmed = this.leadersConfirmed
+          let prepared = []
+          for (let index in leadersConfirmed) {
+            // get places with @schoolId
+            if (!Array.isArray(leadersConfirmed[index].schoolsUsers) ||
+              undefined === leadersConfirmed[index].schoolsUsers.find(x => {
+                return parseInt(x.school.id) === schoolId
+              })) {
+              continue
+            }
+            if ((this.lesson.leader.id && this.lesson.leader.id === leadersConfirmed[index].id) ||
+              undefined !== this.lesson.replacementLeaders.find(x => {
+                return x.leader.id === leadersConfirmed[index].id
+              })) {
+              prepared.push({
+                id: leadersConfirmed[index].id,
+                label: leadersConfirmed[index].firstName,
+                isDisabled: true
+              })
+            } else {
+              prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
+            }
+          }
+          return prepared
+        }
       }
     },
     methods: {
-      getRepetitionDate (repetition) {
+      getRepetitionDate(repetition) {
         let selectedDate = new Date(this.lesson.date)
         let newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + (7 * repetition))
         return newDate.getFullYear() + '-' +
           ((newDate.getMonth() + 1) < 10 ? ('0' + (newDate.getMonth() + 1)) : (newDate.getMonth() + 1)) +
           '-' + ((newDate.getDate()) < 10 ? ('0' + (newDate.getDate())) : (newDate.getDate()))
       },
-      addReplacedLeader () {
+      removeReplacedLeader(index) {
+        this.lesson.replacementLeaders.splice(index, 1)
+      },
+      addReplacedLeader() {
         this.lesson.replacementLeaders.push({
           lesson: {
             id: this.id
@@ -376,30 +421,33 @@
           }
         })
       },
-      submit (tabToRedirect) {
+      submit(tabToRedirect) {
+        if (this.authUser.role === 1 && !this.$store.getters.isDirector) {
+          this.lesson.leader.id = this.authUser.id
+        }
         this.$validator.validateScopes()
           .then((result) => {
             if (result === false) return
             this.$parent.submit()
           })
       },
-      activateLesson () {
+      activateLesson() {
         this.lesson.active = true
         this.submit()
       },
-      goToFormTab (tabName) {
+      goToFormTab(tabName) {
         this.$parent.goToFormTab(tabName)
       },
-      checkValidTabForm () {
+      checkValidTabForm() {
         return this.$validator.validateScopes()
       }
     },
-    mounted () {
+    mounted() {
       if (this.$route.params.validateForm) {
         this.checkValidForm()
       }
     },
-    created () {
+    created() {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
 

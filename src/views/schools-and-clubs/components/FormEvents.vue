@@ -1,10 +1,14 @@
 <template>
-  <div class="wrap"></div>
+  <ListConfirmed :schoolId="schoolId"/>
 </template>
 
 <script>
+  import ListConfirmed from '@/views/events/components/ListConfirmed'
+
   export default {
-    name: 'FormEvents'
+    name: 'FormEvents',
+    props: ['schoolId'],
+    components: { ListConfirmed }
   }
 </script>
 

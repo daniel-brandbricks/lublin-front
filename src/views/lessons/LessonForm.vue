@@ -74,7 +74,7 @@
           active: true,
           canceled: false,
           replaced: false,
-          sex: 1,
+          sex: [0, 1],
           title: '',
           participantGroup: {
             id: null

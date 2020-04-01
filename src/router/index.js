@@ -6,6 +6,7 @@ import store from '@/store'
 import mainRouter from '@/router/_main'
 import adminRouter from '@/router/_admin'
 import { login, dev, my, confirmMail, changeMail, resetPassword, confirmSchool } from '@/router/_other'
+import _auth from '@/store/_auth'
 
 Vue.use(Router)
 
@@ -29,6 +30,8 @@ router.beforeEach((to, from, next) => {
   if (isAdminRoute && !store.getters.isLoggedIn) {
     next('/home')
   }
+
+  _auth.actions.getActualSidebarData()
 
   next()
 })

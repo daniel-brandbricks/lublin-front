@@ -20,9 +20,14 @@ export default {
     userRole: null,
     isDirector: false,
     isAdmin: false,
-    isSU: false
+    isSU: false,
+
+    sidebarData: {}
   },
   getters: {
+    sidebarData (state) {
+      return state.sidebarData
+    },
     authToken (state) {
       return state.authToken
     },
@@ -52,6 +57,9 @@ export default {
     }
   },
   mutations: {
+    setSidebarData (state, data) {
+      state.sidebarData = data.sidebarData
+    },
     setAuthToken (state, data) {
       localStorage.setItem('authToken', data.authToken)// JSON.stringify(data))
       state.authToken = data.authToken
@@ -156,6 +164,25 @@ export default {
             }
 
             context.commit('setAuthUser', {user: response})
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    getActualSidebarData (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('me/', 'get', true, null, {sidebar: true})
+          .then(response => {
+            console.log(response)
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setSidebarData', response)
             resolve(response)
           })
           .catch(error => {

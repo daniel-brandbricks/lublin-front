@@ -89,7 +89,9 @@
         this.$refs.participantPGModal.hide()
       },
       openParticipantListModal () {
-        this.$refs.participantPGModal.show()
+        if (this.$refs.participantPGModal) {
+          this.$refs.participantPGModal.show()
+        }
       }
     },
     created () {

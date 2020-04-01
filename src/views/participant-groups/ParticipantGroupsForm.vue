@@ -151,16 +151,23 @@
         participantGroup.participants = preparedParticipants
       },
       checkValidMainForm(params) {
-        return this.$refs.FormMainData.checkValidForm()
-          .then((result) => {
-            this.isValidForm = result
-            if (result) {
-              this.$router.push({
-                name: 'participant.group',
-                params: {'tab': params, id: this.id}
-              })
-            }
+        if (this.$route.params.tab === 'main-data') {
+          return this.$refs.FormMainData.checkValidForm()
+            .then((result) => {
+              this.isValidForm = result
+              if (result) {
+                this.$router.push({
+                  name: 'participant.group',
+                  params: {'tab': params, id: this.id}
+                })
+              }
+            })
+        } else {
+          this.$router.push({
+            name: 'participant.group',
+            params: {'tab': params, id: this.id}
           })
+        }
       },
       addParticipant() {
         this.participantGroup.participants.push({id: null})

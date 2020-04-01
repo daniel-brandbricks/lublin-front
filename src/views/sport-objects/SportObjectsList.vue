@@ -109,6 +109,7 @@
     },
     computed: {
       sportObjectsToConfirm () {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.tabLinks = [
           {
             title: 'Zatwierdzone',
@@ -150,6 +151,7 @@
     },
     created () {
       this.$store.dispatch('getSportObjects', {confirmed: 0})
+      this.$store.dispatch('getSportObjects', {confirmed: 1})
 
       if (this.$route.params.tab === undefined) {
         this.$router.push({name: 'sport.objects', params: {'tab': 'confirmed'}})

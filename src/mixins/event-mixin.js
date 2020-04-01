@@ -12,9 +12,10 @@ export default {
     },
     getSchoolNameById (id) {
       if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
-      return this.schoolsAndClubs.find((obj) => {
+      let school = this.schoolsAndClubs.find((obj) => {
         return obj.id === id
-      }).name
+      })
+      return undefined === school ? '' : school.name
     }
   },
   computed: {

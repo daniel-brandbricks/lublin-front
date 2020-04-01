@@ -46,6 +46,10 @@
       <FormMTSF :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormMTSF"
                 :key="$route.params.tab+'FormMTSF'" v-if="$route.params.tab === 'mtsf'"/>
 
+      <!--   Component for todo Entity   -->
+      <FormEvents :schoolId="school.id" :isValidForm="isValidForm" @childSubmit="submit" ref="FormEvents"
+                     :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events' && school && school.id"/>
+
     </template>
   </div>
 </template>

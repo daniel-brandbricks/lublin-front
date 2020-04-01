@@ -102,6 +102,20 @@
       }
     },
     watch: {
+      '$store.getters.schoolsToConfirm': function (val) {
+        this.tabLinks = [
+          {
+            title: 'Zatwierdzone',
+            link: 'schools.and.clubs',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia (' + val.length + ')',
+            link: 'schools.and.clubs',
+            tab: 'to-confirm'
+          }
+        ]
+      },
       isAdmin: function (val) {
         this.checkNavButton(val)
       },
@@ -138,6 +152,9 @@
       }
     },
     created () {
+      this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getSchools', { confirmed: 0 })
+
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
       }

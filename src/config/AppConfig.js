@@ -66,7 +66,6 @@ export const PERMISSIONS = [
 
   // todo
   { id: 8, label: 'Wprowadza wyniki MTSF-u' },
-  // todo
   { id: 9, label: 'Archiwizuje listy zawodników z możliwością przeniesienia i edycji listy na kolejny rok/sezon' }
 ]
 

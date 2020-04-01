@@ -7,7 +7,8 @@
     </b-row>
 
     <list-confirmed :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
-    <list-to-confirm :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
+    <list-to-confirm :key="$route.params.tab" v-if="authUser && (authUser.role === 2 || authUser.role === 3)
+    && $route.params.tab === 'to-confirm'"/>
 
   </div>
 </template>
@@ -36,6 +37,23 @@
             tab: 'to-confirm'
           }
         ]
+      }
+    },
+    computed: {
+      authUser () {
+        if (this.$store.getters.authUser &&
+          this.$store.getters.authUser.role !== 2 &&
+          this.$store.getters.authUser.role !== 3) {
+            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            this.tabLinks = [
+              {
+                title: 'Zatwierdzone',
+                link: 'events',
+                tab: 'confirmed'
+              }
+            ]
+          }
+        return this.$store.getters.authUser
       }
     },
     methods: {

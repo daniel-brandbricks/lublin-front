@@ -2,28 +2,28 @@
   <div>
     <b-row class="justify-content-center">
       <b-col cols="8">
-        <b-form-group class="custom mb-2" v-if="isDirector"
+        <b-form-group class="custom mb-2" v-if="isDirector && authUser.role === 1"
                       label="Szkoła / Klub">
           <b-form-input id="name-1" class="custom m-0"
                         :disabled="true"
                         v-model="schoolName"/>
         </b-form-group>
 
-        <b-form-group class="custom mb-2" v-if="!isDirector"
+        <b-form-group class="custom mb-2" v-if="!isDirector || authUser.role !== 1"
                       label="Imię">
           <b-form-input id="name-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.firstName')}"
                         name="user.firstName" key="user.firstName" v-validate="{'required':true}"
                         v-model="user.firstName"/>
         </b-form-group>
-        <b-form-group class="custom mb-2" v-if="!isDirector"
+        <b-form-group class="custom mb-2" v-if="!isDirector || authUser.role !== 1"
                       label="Nazwisko">
           <b-form-input id="surname-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.lastName')}"
                         name="user.lastName" key="user.lastName" v-validate="{'required':true}"
                         v-model="user.lastName"/>
         </b-form-group>
-        <b-form-group class="custom mb-2" v-if="!isDirector"
+        <b-form-group class="custom mb-2" v-if="!isDirector || authUser.role !== 1"
                       label="Telefon">
           <b-form-input id="phone-1" class="custom m-0"
                         type="number"
@@ -31,8 +31,7 @@
                         name="user.phone" key="user.phone" v-validate="{'required':true}"
                         v-model="user.phone"/>
         </b-form-group>
-        <b-form-group class="custom mb-2"
-                      label="E-mail">
+        <b-form-group class="custom mb-2" :label="(isDirector && authUser.role === 1) ? 'E-mail dla konta' : 'E-mail'">
           <b-form-input id="email-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.email')}"
                         name="user.email" key="user.email" v-validate="{'required':true, 'email': true}"
@@ -82,6 +81,7 @@
               </b-col>
               <b-col>
                 <b-link :to="{ name: 'lesson', params: { tab: 'main-data', id: item.lesson.id } }"
+                        :target="'_blank'"
                         active-class="active"
                         event=""
                         class="tab-link-item">
