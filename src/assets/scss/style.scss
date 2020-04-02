@@ -51,6 +51,27 @@
 
 /*-------------------DANIEL---------------------*/
 
+.vdpCell.selectable {
+  position: relative;
+}
+
+.vdpCell.selectable[data-days]::after {
+  font-size: 15px;
+  font-weight: lighter;
+  color: white;
+  top: 0;
+  right: 0;
+  padding-top: 3px;
+  padding-left: 2px;
+  content: attr(data-days);
+  position: absolute;
+  /* right: -10px; */
+  background-color: red;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+}
+
 //SIDEBAR
 /*#sidebar-wrapper {
   background-color: #D8D8D8;

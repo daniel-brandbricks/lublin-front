@@ -53,7 +53,7 @@
 
       <b-col cols="6">
         <TabLinks :links="tabLinks"/>
-        <calendar :key="$route.params.tab" v-if="$route.params.tab === 'calendar'"/>
+        <calendar :lessons="storeLessons" :events="storeEvents" :key="$route.params.tab" v-if="$route.params.tab === 'calendar'"/>
 
         <h4>Wyniki</h4>
 
@@ -218,6 +218,12 @@
       }
     },
     computed: {
+      storeLessons () {
+        return this.$store.getters.lessons
+      },
+      storeEvents () {
+        return this.$store.getters.eventsConfirmed
+      },
       // copied in FormMainData.vue -> sports-objects
       schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
@@ -231,11 +237,14 @@
       }
     },
     created () {
+      this.$store.dispatch('getLessons')
+      this.$store.dispatch('getEvents', { confirmed: 1 })
+      this.$store.dispatch('getSchools', { confirmed: 1 })
+
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'calendar', params: { 'tab': 'calendar' } })
       }
 
-      this.$store.dispatch('getSchools', {})
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })

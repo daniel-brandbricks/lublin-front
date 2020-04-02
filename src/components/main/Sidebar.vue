@@ -36,14 +36,14 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-iconm_search"></span>
-            kłuby i szkoły (1,024)
+            kłuby i szkoły ({{sidebarData.schools}})
           </b-link>
           <b-link :to="{name:'sport.objects', params: {'tab': 'confirmed'} }"
                   active-class="active"
                   :class="{'active': 'sport.object' === $route.name}"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
-            Obiekty sportowe (2,048)
+            Obiekty sportowe ({{sidebarData.places}})
           </b-link>
 
           <b-link :to="{name:'leaders', params: {'tab': 'confirmed'} }"
@@ -52,7 +52,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
-            Prowadzący (568)
+            Prowadzący ({{sidebarData.leaders}})
           </b-link>
 
           <b-link :to="{name:'participant.groups'}"
@@ -60,7 +60,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
-            Lista zawodników (200)
+            Lista zawodników ({{sidebarData.participantGroups}})
           </b-link>
 
           <b-link :to="{name:'participants'}"
@@ -68,7 +68,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Zawodnicy (12,000)
+            Zawodnicy ({{sidebarData.participants}})
           </b-link>
 
           <b-link :to="{name:'lessons'}"
@@ -76,7 +76,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Lista zajęć (4,000)
+            Lista zajęć ({{sidebarData.lessons}})
           </b-link>
 
           <b-link :to="{name:'calendar', params: {'tab': 'calendar'}}"
@@ -174,6 +174,9 @@
       },
       isAdmin () {
         return this.$store.getters.isAdmin
+      },
+      sidebarData () {
+        return this.$store.getters.sidebarData
       }
     },
     methods: {

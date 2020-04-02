@@ -31,8 +31,6 @@ router.beforeEach((to, from, next) => {
     next('/home')
   }
 
-  _auth.actions.getActualSidebarData()
-
   next()
 })
 

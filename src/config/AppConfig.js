@@ -109,3 +109,8 @@ export const DATEPICKER_PARAMS = {
   },
   hours: Array.from({ length: 10 }).map((_, i) => i + 8)
 }
+
+export const CALENDAR_PARAMS = {
+  months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+  weekdays: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+}

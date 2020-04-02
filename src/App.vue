@@ -79,7 +79,13 @@
         }
       }
     },
+    mounted() {
+      window.setInterval(() => {
+        this.$store.dispatch('getActualSidebarData')
+      }, 60000)
+    },
     created() {
+      this.$store.dispatch('getActualSidebarData')
       this.$store.dispatch('getCurrentUser')
     }
   }

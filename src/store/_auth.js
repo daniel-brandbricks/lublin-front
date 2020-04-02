@@ -58,7 +58,7 @@ export default {
   },
   mutations: {
     setSidebarData (state, data) {
-      state.sidebarData = data.sidebarData
+      state.sidebarData = data
     },
     setAuthToken (state, data) {
       localStorage.setItem('authToken', data.authToken)// JSON.stringify(data))
@@ -117,6 +117,7 @@ export default {
 
             context.commit('setAuthToken', response)
             context.commit('setAuthUser', response)
+            context.dispatch('getActualSidebarData')
             resolve(response)
           })
           .catch(error => {
@@ -176,7 +177,6 @@ export default {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('me/', 'get', true, null, {sidebar: true})
           .then(response => {
-            console.log(response)
             if (response === 'error') {
               resolve('error')
               return
