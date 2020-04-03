@@ -2,25 +2,35 @@
   <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="6">
-        <h4>Zakres</h4>
-
+        <b-row class="">
+          <b-col>
+            <h4>Zakres</h4>
+          </b-col>
+          <b-col>
+            <b-row class="justify-content-end">
+              <b-btn variant="primary" class="mr-3" @click="filter">Filtruj</b-btn>
+            </b-row>
+          </b-col>
+        </b-row>
         <b-row class="my-3">
           <b-col cols="5">
-            <treeselect class="custom"
-                        v-model="selectedYearFrom"
-                        :multiple="true"
-                        placeholder="Od"
-                        :options="years"/>
+            <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
+                         :name="'selectedYearFrom'" :key="'selectedYearFrom'"
+                         value-type="format" format="YYYY-MM-DD"
+                         type="date"
+                         :id="'selectedYearFrom'" placeholder="Od" class="w-100 custom mt-3">
+            </date-picker>
           </b-col>
           <b-col cols="2">
-            <hr class="mt-4">
+            <hr class="mt-4 mb-0">
           </b-col>
           <b-col cols="5">
-            <treeselect class="custom"
-                        v-model="selectedYearTo"
-                        :multiple="true"
-                        placeholder="Do"
-                        :options="years"/>
+            <date-picker v-model="selectedYearTo" :lang="datepickerParams.lang"
+                         :name="'selectedYearTo'" :key="'selectedYearTo'"
+                         value-type="format" format="YYYY-MM-DD"
+                         type="date"
+                         :id="'selectedYearTo'" placeholder="Do" class="w-100 custom mt-3">
+            </date-picker>
           </b-col>
         </b-row>
 
@@ -35,7 +45,7 @@
           />
         </b-form-group>
 
-        <lessons v-show="showLessons.length > 0" :lessons="lessons"/>
+        <lessons v-show="showLessons.length > 0" :districts="districts" :lessons="lessons"/>
 
         <b-form-group class="custom checkbox-big-span my-3">
           <b-form-checkbox-group
@@ -53,7 +63,10 @@
 
       <b-col cols="6">
         <TabLinks :links="tabLinks"/>
-        <calendar :lessons="storeLessons" :events="storeEvents" :key="$route.params.tab" v-if="$route.params.tab === 'calendar'"/>
+        <calendar :lessons="storeLessons" :events="storeEvents" :key="$route.params.tab+rerenderCalendar"
+                  v-if="$route.params.tab === 'calendar'" ref="mainCalendar"
+                  :showLessons="showLessons" :showEvents="showEvents"
+                  :dateFrom="selectedYearFrom" :dateTo="selectedYearTo"/>
 
         <h4>Wyniki</h4>
 
@@ -91,18 +104,22 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import TabLinks from '../../components/TabLinks'
+  import DatePicker from 'vue2-datepicker'
 
-  import { DISTRICTS } from '@/config/AppConfig'
+  import {DATEPICKER_PARAMS, DISTRICTS} from '@/config/AppConfig'
 
   import Lessons from '@/views/calendar/components/Lessons'
   import Events from '@/components/common-views/Events'
   import Calendar from '@/components/common-views/Calendar'
 
   export default {
-    components: { TabLinks, Treeselect, Lessons, Events, Calendar },
+    components: { TabLinks, Treeselect, Lessons, Events, Calendar, DatePicker },
     mixins: [ EventBusEmit ],
     data () {
       return {
+        datepickerParams: DATEPICKER_PARAMS,
+        rerenderCalendar: false,
+
         tabLinks: [
           {
             title: 'Kalendarz',
@@ -118,27 +135,14 @@
 
         selectedYearFrom: null,
         selectedYearTo: null,
-        // temp
-        years: [
-          { id: 1, label: '2000' },
-          { id: 2, label: '2001' },
-          { id: 3, label: '2002' }
-        ],
+
+        districts: DISTRICTS,
 
         lessons: {
           districtValue: null,
-          districts: DISTRICTS,
 
           selectedType: [],
-          typeOptions: [
-            { text: 'klub', value: 0 },
-            { text: 'szkola', value: 1 }
-          ],
-          selectedGender: [],
-          genderOptions: [
-            { text: 'kobieta', value: 0 },
-            { text: 'mężczyzna', value: 1 }
-          ],
+
 
           schoolsAndClubs: null,
           selectedDiscipline: null,
@@ -147,7 +151,6 @@
           selectedYear: null,
           selectedSportObject: null,
           selectedLeader: null,
-          selectedParticipant: null,
           selectedLesson: null,
           // temp
           disciplines: [
@@ -236,15 +239,25 @@
         return preparedSchools
       }
     },
+    methods: {
+      filter () {
+        this.rerenderCalendar = !this.rerenderCalendar
+        this.$refs['mainCalendar'].recalculateCalendar()
+      }
+    },
     created () {
       this.$store.dispatch('getLessons')
       this.$store.dispatch('getEvents', { confirmed: 1 })
       this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getSportObjects', { confirmed: 1 })
+      this.$store.dispatch('getLeaders', { confirmed: 1 })
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getLessonCategories')
+      this.$store.dispatch('getClasses')
 
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'calendar', params: { 'tab': 'calendar' } })
       }
-
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
