@@ -222,13 +222,13 @@
                 method: 'changeTab',
                 methodParams: 'frequency'
               },
-              {
-                title: 'Kalendarz',
-                link: 'lesson',
-                tab: 'calendar',
-                method: 'changeTab',
-                methodParams: 'calendar'
-              },
+              // {
+              //   title: 'Kalendarz',
+              //   link: 'lesson',
+              //   tab: 'calendar',
+              //   method: 'changeTab',
+              //   methodParams: 'calendar'
+              // },
               {
                 title: 'MTSF',
                 link: 'lesson',

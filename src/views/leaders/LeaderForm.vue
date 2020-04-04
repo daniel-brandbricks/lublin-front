@@ -210,12 +210,13 @@
                 title: 'MTSF',
                 link: 'leader',
                 tab: 'mtsf'
-              },
-              {
-                title: 'Wydarzenia',
-                link: 'leader',
-                tab: 'events'
               }
+              // ,
+              // {
+              //   title: 'Wydarzenia',
+              //   link: 'leader',
+              //   tab: 'events'
+              // }
             ]
           })
       }

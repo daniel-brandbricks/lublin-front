@@ -15,8 +15,10 @@
         <b-row class="my-3">
           <b-col cols="5">
             <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
+                         :class="{'error-input-custom': veeErrors.has('selectedYearFrom')}"
                          :name="'selectedYearFrom'" :key="'selectedYearFrom'"
                          value-type="format" format="YYYY-MM-DD"
+                         v-validate="{'required': true}"
                          type="date"
                          :id="'selectedYearFrom'" placeholder="Od" class="w-100 custom mt-3">
             </date-picker>
@@ -26,9 +28,11 @@
           </b-col>
           <b-col cols="5">
             <date-picker v-model="selectedYearTo" :lang="datepickerParams.lang"
+                         :class="{'error-input-custom': veeErrors.has('selectedYearTo')}"
                          :name="'selectedYearTo'" :key="'selectedYearTo'"
                          value-type="format" format="YYYY-MM-DD"
                          type="date"
+                         v-validate="{'required': true}"
                          :id="'selectedYearTo'" placeholder="Do" class="w-100 custom mt-3">
             </date-picker>
           </b-col>
@@ -58,7 +62,8 @@
           />
         </b-form-group>
 
-        <events v-show="showEvents.length > 0" :events="events"/>
+        <events v-show="showEvents.length > 0" :events="events" :disciplinesPrepared="disciplinesPrepared"
+                :schoolsAndClubsTreeselect="schoolsAndClubsPrepared"/>
       </b-col>
 
       <b-col cols="6">
@@ -67,32 +72,9 @@
                   v-if="$route.params.tab === 'calendar'" ref="mainCalendar"
                   :showLessons="showLessons" :showEvents="showEvents"
                   :dateFrom="selectedYearFrom" :dateTo="selectedYearTo"/>
-
-        <h4>Wyniki</h4>
-
-        <b-row class="justify-content-center">
-          <b-col cols="12">
-            <b-table
-              :items="eventsAndLessonsFiltered"
-              :fields="eventsAndLessonsFields"
-              striped
-              sort-icon-left
-              responsive="md"
-              class="custom table-responsive"
-            >
-              <!--              @row-clicked="rowRedirect"-->
-
-              <template slot="name" slot-scope="scope">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="wrap-img-type-table mr-3">
-                    <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
-                  </div>
-                  <span>{{scope.item.name}}</span>
-                </div>
-              </template>
-            </b-table>
-          </b-col>
-        </b-row>
+        <list :lessons="storeLessons" :events="storeEvents" :key="$route.params.tab"
+              :showLessons="showLessons" :showEvents="showEvents"
+              v-if="$route.params.tab === 'list'" ref="calendarList"/>
       </b-col>
     </b-row>
   </div>
@@ -111,9 +93,10 @@
   import Lessons from '@/views/calendar/components/Lessons'
   import Events from '@/components/common-views/Events'
   import Calendar from '@/components/common-views/Calendar'
+  import List from "@/views/calendar/components/List";
 
   export default {
-    components: { TabLinks, Treeselect, Lessons, Events, Calendar, DatePicker },
+    components: {List, TabLinks, Treeselect, Lessons, Events, Calendar, DatePicker },
     mixins: [ EventBusEmit ],
     data () {
       return {
@@ -140,10 +123,7 @@
 
         lessons: {
           districtValue: null,
-
           selectedType: [],
-
-
           schoolsAndClubs: null,
           selectedDiscipline: null,
           selectedCategory: null,
@@ -151,73 +131,20 @@
           selectedYear: null,
           selectedSportObject: null,
           selectedLeader: null,
-          selectedLesson: null,
-          // temp
-          disciplines: [
-            { id: 1, label: 'Basen' },
-            { id: 2, label: 'Siłownia' },
-            { id: 3, label: 'Bieg' }
-          ],
-          categories: [
-            { id: 1, label: 'pierwsza' },
-            { id: 2, label: 'druga' },
-            { id: 3, label: 'cos cos' }
-          ],
-          classes: [
-            { id: 1, label: '2b' },
-            { id: 2, label: '6a' },
-            { id: 3, label: '8c' }
-          ],
-          sportObjects: [
-            { id: 1, label: 'Park' },
-            { id: 2, label: 'Siłownia' },
-            { id: 3, label: 'Basen' }
-          ],
-          leaders: [
-            { id: 1, label: 'Mark White' },
-            { id: 2, label: 'Ben Stiffler' },
-            { id: 3, label: 'Thomas Shelby' }
-          ]
+          selectedLesson: null
         },
 
         events: {
-          districtValue: null,
-          districts: DISTRICTS,
+          selectedYearFrom: null,
+          selectedYearTo: null,
+          address: '',
+          organization: '',
           selectedDiscipline: null,
-          // temp
-          disciplines: [
-            { id: 1, label: 'Basen' },
-            { id: 2, label: 'Siłownia' },
-            { id: 3, label: 'Bieg' }
-          ],
-          selectedSportObject: null,
-          sportObjects: [
-            { id: 1, label: 'Park' },
-            { id: 2, label: 'Siłownia' },
-            { id: 3, label: 'Basen' }
-          ],
-          selectedSchoolOrCLub: null,
-          schoolsOrClubs: [
-            { id: 1, label: 'Park' },
-            { id: 2, label: 'Siłownia' },
-            { id: 3, label: 'Basen' }
-          ]
+          selectedSchoolOrCLub: null
         },
 
         showLessons: [ 1 ],
-        showEvents: [ 1 ],
-
-        eventsAndLessonsFields: [
-          { key: 'name', label: 'Nazwa', sortable: true },
-          { key: 'leader', label: 'Prowadzący/Organizator', sortable: true },
-          { key: 'location', label: 'Lokalizacja', sortable: true },
-          { key: 'time', label: 'Czas trwania', sortable: true }
-        ],
-        eventsAndLessonsFiltered: [
-          { id: 1, name: 'test', leader: 'Mark Twen', location: 'Al. Jana Pawła II', time: '2g.' },
-          { id: 2, name: 'dwa', leader: 'Lew Tolstoj', location: 'Dw. Centralny', time: '1,5g.' },
-          { id: 3, name: 'trzy', leader: 'Jack London', location: 'Koło', time: '3g.' }
-        ]
+        showEvents: [ 1 ]
       }
     },
     computed: {
@@ -237,17 +164,69 @@
         }
 
         return preparedSchools
+      },
+      disciplinesPrepared () {
+        let data = this.$store.getters.disciplines
+        let preparedDisciplines = []
+
+        for (let disciplineIndex in data) {
+          preparedDisciplines.push({id: data[disciplineIndex].id, label: data[disciplineIndex].title})
+        }
+
+        return preparedDisciplines
       }
     },
     methods: {
       filter () {
-        this.rerenderCalendar = !this.rerenderCalendar
-        this.$refs['mainCalendar'].recalculateCalendar()
+        let lessonFilters = {
+          lesson: this.lessons,
+          dateFrom: this.selectedYearFrom,
+          dateTo: this.selectedYearTo
+        }
+
+        let events = {...this.events}
+        events.selectedYearFrom = this.selectedYearFrom
+        events.selectedYearTo = this.selectedYearTo
+
+        this.$store.dispatch('getLessons', {filters: lessonFilters})
+          .then(res => {
+            this.$store.dispatch('getEvents', { confirmed: 1, filters: events })
+              .then(res => {
+                this.rerenderCalendar = !this.rerenderCalendar
+                if (this.$refs['mainCalendar']) {
+                  this.$refs['mainCalendar'].recalculateCalendar()
+                }
+              })
+          })
+      },
+      initCurrentMonthRange () {
+        let date = new Date()
+        let firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
+        let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+
+        firstDay = firstDay.getFullYear() + '-' +
+          ((firstDay.getMonth() + 1) < 10 ? ('0' + (firstDay.getMonth() + 1)) : (firstDay.getMonth() + 1)) +
+          '-' + ((firstDay.getDate()) < 10 ? ('0' + (firstDay.getDate())) : (firstDay.getDate()))
+
+        lastDay = lastDay.getFullYear() + '-' +
+          ((lastDay.getMonth() + 1) < 10 ? ('0' + (lastDay.getMonth() + 1)) : (lastDay.getMonth() + 1)) +
+          '-' + ((lastDay.getDate()) < 10 ? ('0' + (lastDay.getDate())) : (lastDay.getDate()))
+
+        this.selectedYearFrom = firstDay
+        this.selectedYearTo = lastDay
+
+        let filters = {
+          dateFrom: firstDay,
+          dateTo: lastDay
+        }
+
+        this.$store.dispatch('getLessons', {filters: filters})
+        this.$store.dispatch('getEvents', { confirmed: 1, filters: filters })
       }
     },
     created () {
-      this.$store.dispatch('getLessons')
-      this.$store.dispatch('getEvents', { confirmed: 1 })
+      this.initCurrentMonthRange()
+
       this.$store.dispatch('getSchools', { confirmed: 1 })
       this.$store.dispatch('getSportObjects', { confirmed: 1 })
       this.$store.dispatch('getLeaders', { confirmed: 1 })

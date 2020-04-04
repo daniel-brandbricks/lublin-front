@@ -11,6 +11,80 @@
       <!--todo добавить класс на ячейку с событием, и дописать ему стиля от .disablet-->
       <!--todo убрать с header select-->
     </template>
+
+    <div v-if="showLessons && showLessons.length > 0">
+      <h4>Zajęcia</h4>
+      <b-row class="justify-content-center">
+        <b-col cols="12">
+          <b-table
+            :items="storeLessons"
+            :fields="lessonsFields"
+            striped
+            sort-icon-left
+            responsive="md"
+            class="custom table-responsive"
+          >
+            <!--              @row-clicked="rowRedirect"-->
+
+            <template slot="school" slot-scope="scope">
+            <span v-if="scope.item && scope.item.school">
+              {{getSchoolNameById(scope.item.school.id)}}
+            </span>
+            </template>
+            <template slot="leaders" slot-scope="scope">
+            <span v-if="scope.item && scope.item.leader">
+              {{ buildUserNames(leaderById(scope.item.leader.id)) }}
+            </span>
+            </template>
+
+            <template slot="status" slot-scope="scope">
+            <span class="status"
+                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
+            </template>
+
+            <template slot="edit" slot-scope="scope">
+              <b-link class="icon-link">
+                <span class="icon icon-iconm_search"></span>
+              </b-link>
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
+    </div>
+
+    <div v-if="showEvents && showEvents.length > 0">
+      <h4 class="my-3">Wydarzenia</h4>
+      <b-row class="justify-content-center">
+        <b-col cols="12">
+          <b-table
+            :items="storeEvents"
+            :fields="eventsFields"
+            striped
+            sort-icon-left
+            responsive="md"
+            class="custom table-responsive"
+          >
+            <template slot="dateStart" slot-scope="scope">
+              <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
+            </template>
+
+            <template slot="organization" slot-scope="scope">
+              <span v-if="scope.item.organization">{{scope.item.organization}}</span>
+              <span v-else-if="scope.item.school && scope.item.school.id">
+            {{getSchoolNameById(scope.item.school.id)}}
+          </span>
+            </template>
+
+            <template slot="edit" slot-scope="scope">
+              <span class="c-pointer">Szczegóły</span>
+            </template>
+
+          </b-table>
+        </b-col>
+      </b-row>
+    </div>
+
+
   </b-col>
 </template>
 
@@ -23,34 +97,93 @@
   import 'vue-date-pick/dist/vueDatePick.css'
 
   import {CALENDAR_PARAMS} from '@/config/AppConfig'
+  import {mapGetters} from "vuex";
 
   export default {
     components: {Treeselect, DatePick},
     mixins: [EventBusEmit],
     props: ['lessons', 'events', 'dateFrom', 'dateTo', 'showLessons', 'showEvents'],
-    data () {
+    data() {
       return {
         date: '2019-09-01',
         params: CALENDAR_PARAMS,
 
-        dates: {}
+        dates: {},
+
+        lessonsFields: [
+          {key: 'school', label: 'Szkoła / Klub', sortable: true},
+          {key: 'title', label: 'Nazwa zajęcia', sortable: true},
+          {key: 'leaders', label: 'Prowadzący', sortable: false},
+          {key: 'status', label: 'Status w systemie', sortable: false},
+          {key: 'edit', label: ''}
+        ],
+        eventsFields: [
+          {key: 'dateStart', label: 'Data rozpoczęcia', sortable: true},
+          {key: 'title', label: 'Nazwa', sortable: true},
+          {key: 'organization', label: 'Organizator', sortable: true},
+          {key: 'edit', label: ' ', sortable: true}
+        ]
       }
     },
     computed: {
+      ...mapGetters(['leaderById']),
+      storeLessons() {
+        let lessons = this.$store.getters.lessons
+        let prepared = []
+        for (let index in lessons) {
+          let date = (lessons[index].newDate === null) ? new Date(lessons[index].date) : new Date(lessons[index].newDate)
+          date = date.getFullYear() + '-' +
+            ((date.getMonth() + 1) < 10 ? ('0' + (date.getMonth() + 1)) : (date.getMonth() + 1)) +
+            '-' + ((date.getDate()) < 10 ? ('0' + (date.getDate())) : (date.getDate()))
+
+          if (date === this.date) prepared.push(lessons[index])
+        }
+        return prepared
+      },
+      storeEvents() {
+        let events = this.$store.getters.eventsConfirmed
+        let prepared = []
+        for (let index in events) {
+          let datesArr = this.calculateDatesDifference(events[index].dateStart, events[index].dateEnd, true)
+
+          for (let dateIndex in datesArr) {
+            if (datesArr[dateIndex] === this.date) {
+              prepared.push(events[index])
+            }
+          }
+        }
+
+        console.log(prepared)
+        return prepared
+      },
+      schoolsAndClubs() {
+        return this.$store.getters.schools
+      },
+      buildUserNames: () => (user) => {
+        if (undefined === user || user === null) {
+          return null
+        }
+        return user.firstName + ' ' + user.lastName
+      }
     },
     watch: {
+      showLessons: function () {
+        this.recalculateCalendar()
+      },
+      showEvents: function () {
+        this.recalculateCalendar()
+      },
       dates: {
         handler: function (val) {
-          console.log(val)
-          for (let [date, value] of Object.entries(val)) {
-            // console.log(`${date}: ${value}`)
+          let cell = document.getElementsByClassName('vdpCell')
+          for (let index in cell) {
+            if (cell[index].dataset && cell[index].dataset.days) delete cell[index].dataset.days
+          }
 
+          for (let [date, value] of Object.entries(val)) {
             let cell = document.querySelector('[data-id="' + date + '"]')
-            // console.log(cell)
             if (cell) {
               cell.setAttribute('data-days', value)
-              // console.log(cell.getElementsByTagName('div')[0])
-              // cell.getElementsByTagName('div')[0].setAttribute('data-days', value)
             }
           }
         },
@@ -62,23 +195,20 @@
       lessons: function (val) {
         this.recalculateCalendar()
       }
-      // dateFrom: function (val) {
-      //   this.recalculateCalendar()
-      // },
-      // dateTo: function (val) {
-      //   this.recalculateCalendar()
-      // }
     },
     methods: {
-      disableDates (date) {
+      getSchoolNameById(id) {
+        if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
+        return this.schoolsAndClubs.find((obj) => {
+          return obj.id === id
+        }).name
+      },
+      disableDates(date) {
         let dateTime = new Date(date).getTime()
         if (this.dateFrom) {
           let dateFrom = new Date(this.dateFrom)
           dateFrom.setDate(dateFrom.getDate() - 1)
           dateFrom = dateFrom.getTime()
-          console.log(date)
-          console.log(dateFrom)
-          console.log(dateTime)
           if (dateFrom >= dateTime) return true
         }
         if (this.dateTo) {
@@ -90,17 +220,20 @@
         const currentDate = new Date();
         return date > currentDate;
       },
-      recalculateCalendar () {
+      recalculateCalendar() {
         let dates = {}
+        console.log(this.showEvents)
+        console.log(this.showLessons)
         if (this.showEvents && this.showEvents.length > 0) {
           this.calculateCalendarDayEvents(this.events, dates)
         }
         if (this.showLessons && this.showLessons.length > 0) {
           this.calculateCalendarDayLessons(this.lessons, dates)
         }
+        console.log(dates)
         this.dates = {...dates}
       },
-      calculateCalendarDayEvents (val, dates = {}) {
+      calculateCalendarDayEvents(val, dates = {}) {
         for (let index in val) {
           let datesArr = this.calculateDatesDifference(val[index].dateStart, val[index].dateEnd)
 
@@ -113,10 +246,10 @@
           }
         }
       },
-      calculateCalendarDayLessons (val, dates) {
-        console.log(dates)
+      calculateCalendarDayLessons(val, dates) {
         for (let index in val) {
-          let date = new Date(val[index].date)
+          // check is date changed
+          let date = (val[index].newDate === null) ? new Date(val[index].date) : new Date(val[index].newDate)
           let filteredDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 
           if (undefined === dates[filteredDate]) {
@@ -126,12 +259,19 @@
           }
         }
       },
-      calculateDatesDifference (dateOne, dateTwo) {
+      calculateDatesDifference(dateOne, dateTwo, withZeros = false) {
         let getDaysArray = function (start, end) {
           // eslint-disable-next-line no-unmodified-loop-condition
           for (var arr = [], dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) {
             let date = new Date(dt)
-            let filteredDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            let filteredDate = ''
+            if (withZeros) {
+              filteredDate = date.getFullYear() + '-' +
+                ((date.getMonth() + 1) < 10 ? ('0' + (date.getMonth() + 1)) : (date.getMonth() + 1)) +
+                '-' + ((date.getDate()) < 10 ? ('0' + (date.getDate())) : (date.getDate()))
+            } else {
+              filteredDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            }
             arr.push(filteredDate)
           }
           return arr
@@ -140,16 +280,16 @@
         return getDaysArray(new Date(dateOne), new Date(dateTwo))
       }
     },
-    mounted () {
+    mounted() {
       let button = document.querySelector('.vdpPeriodControl')
-      var config = { attributes: true, childList: true, subtree: true }
+      var config = {attributes: true, childList: true, subtree: true}
       var observer = new MutationObserver((list) => {
         console.log('changed')
         this.recalculateCalendar()
       })
       observer.observe(button, config)
     },
-    created () {
+    created() {
       this.recalculateCalendar()
 
       let newDate = new Date()
