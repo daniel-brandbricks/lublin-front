@@ -23,8 +23,8 @@
           <FormLessons :participantGroup="participantGroup" @childSubmit="submit" ref="FormLessons"
                        :key="$route.params.tab+'FormLessons'" v-if="$route.params.tab === 'lessons'"/>
           <!--        Component for todo Entity   -->
-          <FormCalendar :participantGroup="participantGroup" @childSubmit="submit" ref="FormCalendar"
-                        :key="$route.params.tab+'FormCalendar'" v-if="$route.params.tab === 'calendar'"/>
+          <FormCalendar :participantGroup="participantGroup.id" @childSubmit="submit" ref="FormCalendar"
+                        :key="$route.params.tab+'FormCalendar'" v-if="participantGroup.id && $route.params.tab === 'calendar'"/>
           <!--        Component for todo Entity   -->
           <!--          <FormFrequency :participantGroup="participantGroup" @childSubmit="submit" ref="FormFrequency"-->
           <!--                         :key="$route.params.tab+'FormFrequency'" v-show="$route.params.tab === 'frequency'"/>-->

@@ -260,11 +260,11 @@
                 link: 'school.or.club',
                 tab: 'frequency'
               },
-              {
-                title: 'Kalendarz',
-                link: 'school.or.club',
-                tab: 'calendar'
-              },
+              // {
+              //   title: 'Kalendarz',
+              //   link: 'school.or.club',
+              //   tab: 'calendar'
+              // },
               {
                 title: 'MTSF',
                 link: 'school.or.club',

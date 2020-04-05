@@ -188,12 +188,12 @@
                 title: 'Zajęcia',
                 link: 'sport.object',
                 tab: 'activities'
-              },
-              {
-                title: 'Kalendarz',
-                link: 'sport.object',
-                tab: 'calendar'
               }
+              // {
+              //   title: 'Kalendarz',
+              //   link: 'sport.object',
+              //   tab: 'calendar'
+              // }
               // {
               //   title: 'Frekwencja',
               //   link: 'sport.object',

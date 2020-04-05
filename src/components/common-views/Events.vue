@@ -28,6 +28,7 @@
     <treeselect class="custom mb-2" v-if="orgType === 0"
                 v-model="events.selectedSchoolOrCLub"
                 :multiple="true"
+                :disabled="!!schoolId"
                 placeholder="Organizator (Klub / Szkoła)"
                 :options="schoolsAndClubsTreeselect"/>
     <b-form-group v-else
@@ -54,7 +55,7 @@
   export default {
     components: { Treeselect },
     mixins: [ EventBusEmit ],
-    props: [ 'events', 'disciplinesPrepared', 'schoolsAndClubsTreeselect' ],
+    props: [ 'events', 'disciplinesPrepared', 'schoolsAndClubsTreeselect', 'schoolId' ],
     data () {
       return {
         orgType: 0

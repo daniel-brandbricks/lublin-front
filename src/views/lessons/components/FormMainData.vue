@@ -452,7 +452,7 @@
       this.changeAdminNavbarButton({buttonLink: false})
 
       this.$store.dispatch('getSchools')
-      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
       this.$store.dispatch('getSportObjects', {confirmed: 1})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getParticipantGroups')

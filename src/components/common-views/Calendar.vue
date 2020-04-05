@@ -1,89 +1,91 @@
 <template>
   <b-col cols="12">
-    <template>
-      <date-pick
-        v-model="date"
-        :hasInputElement="false"
-        :weekdays="params.weekdays"
-        :months="params.months"
-        :isDateDisabled="disableDates"
-      />
-      <!--todo добавить класс на ячейку с событием, и дописать ему стиля от .disablet-->
-      <!--todo убрать с header select-->
-    </template>
+    <b-row>
+      <b-col :cols="splitComponents ? 6 : 12">
+        <template>
+          <date-pick
+            v-model="date"
+            :hasInputElement="false"
+            :weekdays="params.weekdays"
+            :months="params.months"
+            :isDateDisabled="disableDates"
+          />
+        </template>
+      </b-col>
+      <b-col :cols="splitComponents ? 6 : 12">
+        <div v-if="showLessons && showLessons.length > 0">
+          <h4>Zajęcia</h4>
+          <b-row class="justify-content-center">
+            <b-col cols="12">
+              <b-table
+                :items="storeLessons"
+                :fields="lessonsFields"
+                striped
+                sort-icon-left
+                responsive="md"
+                class="custom table-responsive"
+              >
+                <!--              @row-clicked="rowRedirect"-->
 
-    <div v-if="showLessons && showLessons.length > 0">
-      <h4>Zajęcia</h4>
-      <b-row class="justify-content-center">
-        <b-col cols="12">
-          <b-table
-            :items="storeLessons"
-            :fields="lessonsFields"
-            striped
-            sort-icon-left
-            responsive="md"
-            class="custom table-responsive"
-          >
-            <!--              @row-clicked="rowRedirect"-->
-
-            <template slot="school" slot-scope="scope">
+                <template slot="school" slot-scope="scope">
             <span v-if="scope.item && scope.item.school">
               {{getSchoolNameById(scope.item.school.id)}}
             </span>
-            </template>
-            <template slot="leaders" slot-scope="scope">
+                </template>
+                <template slot="leaders" slot-scope="scope">
             <span v-if="scope.item && scope.item.leader">
               {{ buildUserNames(leaderById(scope.item.leader.id)) }}
             </span>
-            </template>
+                </template>
 
-            <template slot="status" slot-scope="scope">
+                <template slot="status" slot-scope="scope">
             <span class="status"
                   :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
-            </template>
+                </template>
 
-            <template slot="edit" slot-scope="scope">
-              <b-link class="icon-link">
-                <span class="icon icon-iconm_search"></span>
-              </b-link>
-            </template>
-          </b-table>
-        </b-col>
-      </b-row>
-    </div>
+                <template slot="edit" slot-scope="scope">
+                  <b-link class="icon-link">
+                    <span class="icon icon-iconm_search"></span>
+                  </b-link>
+                </template>
+              </b-table>
+            </b-col>
+          </b-row>
+        </div>
 
-    <div v-if="showEvents && showEvents.length > 0">
-      <h4 class="my-3">Wydarzenia</h4>
-      <b-row class="justify-content-center">
-        <b-col cols="12">
-          <b-table
-            :items="storeEvents"
-            :fields="eventsFields"
-            striped
-            sort-icon-left
-            responsive="md"
-            class="custom table-responsive"
-          >
-            <template slot="dateStart" slot-scope="scope">
-              <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
-            </template>
+        <div v-if="showEvents && showEvents.length > 0">
+          <h4 class="my-3">Wydarzenia</h4>
+          <b-row class="justify-content-center">
+            <b-col cols="12">
+              <b-table
+                :items="storeEvents"
+                :fields="eventsFields"
+                striped
+                sort-icon-left
+                responsive="md"
+                class="custom table-responsive"
+              >
+                <template slot="dateStart" slot-scope="scope">
+                  <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
+                </template>
 
-            <template slot="organization" slot-scope="scope">
-              <span v-if="scope.item.organization">{{scope.item.organization}}</span>
-              <span v-else-if="scope.item.school && scope.item.school.id">
+                <template slot="organization" slot-scope="scope">
+                  <span v-if="scope.item.organization">{{scope.item.organization}}</span>
+                  <span v-else-if="scope.item.school && scope.item.school.id">
             {{getSchoolNameById(scope.item.school.id)}}
           </span>
-            </template>
+                </template>
 
-            <template slot="edit" slot-scope="scope">
-              <span class="c-pointer">Szczegóły</span>
-            </template>
+                <template slot="edit" slot-scope="scope">
+                  <span class="c-pointer">Szczegóły</span>
+                </template>
 
-          </b-table>
-        </b-col>
-      </b-row>
-    </div>
-
+              </b-table>
+            </b-col>
+          </b-row>
+        </div>
+      </b-col>
+    </b-row>
 
   </b-col>
 </template>
@@ -102,7 +104,10 @@
   export default {
     components: {Treeselect, DatePick},
     mixins: [EventBusEmit],
-    props: ['lessons', 'events', 'dateFrom', 'dateTo', 'showLessons', 'showEvents'],
+    props: [
+      'lessons', 'events', 'dateFrom', 'splitComponents',
+      'dateTo', 'showLessons', 'showEvents', 'participantGroupId'
+    ],
     data() {
       return {
         date: '2019-09-01',
@@ -199,9 +204,10 @@
     methods: {
       getSchoolNameById(id) {
         if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
-        return this.schoolsAndClubs.find((obj) => {
+        let school = this.schoolsAndClubs.find((obj) => {
           return obj.id === id
-        }).name
+        })
+        return school ? school.name : ''
       },
       disableDates(date) {
         let dateTime = new Date(date).getTime()

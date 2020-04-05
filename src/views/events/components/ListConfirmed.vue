@@ -30,6 +30,7 @@
 
       <h4 class="mb-3">Wydarzenia</h4>
       <events :events="events" :disciplinesPrepared="disciplinesPrepared"
+              :schoolId="schoolId"
               :schoolsAndClubsTreeselect="schoolsAndClubsTreeselect"/>
       <b-btn class="d-block ml-auto" variant="primary" @click="findEvents">Szukaj</b-btn>
     </b-col>
@@ -93,6 +94,7 @@
     name: 'ListConfirmed',
     components: { Treeselect, Events, TabLinks, Calendar, DatePicker },
     mixins: [ EventsMixin ],
+    props: ['schoolId'],
     data () {
       return {
         datepickerParams: DATEPICKER_PARAMS,
@@ -145,9 +147,15 @@
       }
     },
     created () {
+      if (this.schoolId) {
+        this.events.selectedSchoolOrCLub = [this.schoolId]
+        this.$store.dispatch('getEvents', { confirmed: 1, filters: JSON.stringify(this.events) })
+      } else {
+        this.$store.dispatch('getSchools', {})
+        this.$store.dispatch('getEvents', { confirmed: 1 })
+      }
+
       this.$store.dispatch('getDisciplines')
-      this.$store.dispatch('getSchools', {})
-      this.$store.dispatch('getEvents', { confirmed: 1 })
     }
   }
 </script>

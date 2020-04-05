@@ -196,11 +196,11 @@
                 link: 'leader',
                 tab: 'lessons'
               },
-              {
-                title: 'Kalendarz',
-                link: 'leader',
-                tab: 'calendar'
-              },
+              // {
+              //   title: 'Kalendarz',
+              //   link: 'leader',
+              //   tab: 'calendar'
+              // },
               // {
               //   title: 'Frekwencja',
               //   link: 'leader',

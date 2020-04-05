@@ -8,6 +8,8 @@
           </b-col>
           <b-col>
             <b-row class="justify-content-end">
+<!--              <b-btn v-if="!$store.getters.isAdmin"-->
+<!--                     variant="primary" class="mr-3 mb-3" @click="filterByRole">Pokaż tylko moje zajęcia</b-btn>-->
               <b-btn variant="primary" class="mr-3" @click="filter">Filtruj</b-btn>
             </b-row>
           </b-col>
@@ -177,6 +179,15 @@
       }
     },
     methods: {
+      filterByRole () {
+        let authUser = this.$store.getters.authUser
+        if (this.$store.getters.isDirector) {
+
+        } else {
+          this.lessons.selectedLeader = [authUser.id]
+          this.filter()
+        }
+      },
       filter () {
         let lessonFilters = {
           lesson: this.lessons,
@@ -227,7 +238,7 @@
     created () {
       this.initCurrentMonthRange()
 
-      this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getSchools', { confirmed: 1, getAll: true })
       this.$store.dispatch('getSportObjects', { confirmed: 1 })
       this.$store.dispatch('getLeaders', { confirmed: 1 })
       this.$store.dispatch('getDisciplines')

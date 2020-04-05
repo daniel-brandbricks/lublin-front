@@ -14,7 +14,7 @@
             v-model="selectedType"
             :options="typeOptions"
             name="checkbox-group-type"
-          ></b-form-checkbox-group>
+          />
         </b-form-group>
       </b-col>
       <b-col>
@@ -37,11 +37,11 @@
                 :multiple="true"
                 placeholder="Obiekt sportowy"
                 :options="sportObjectsTreeselect(lessons.schoolsAndClubs)"/>
-    <treeselect class="custom mb-2"
+    <treeselect class="custom mb-2" v-if="$store.getters.isDirector || $store.getters.isAdmin"
                 v-model="lessons.selectedLeader"
                 :multiple="true"
                 placeholder="Prowadzący"
-                :options="leadersTreeselect(lessons.schoolsAndClubs)"/>
+                :options="leadersTreeselect"/>
 
     <treeselect class="custom mt-4 mb-2"
                 v-model="lessons.districtValue"
@@ -157,6 +157,17 @@
         }
       },
       leadersTreeselect () {
+        let leaders = this.$store.getters.leadersConfirmed
+        let leadersPrepared = []
+        for (let index in leaders) {
+          leadersPrepared.push({
+            id: leaders[index].id,
+            label: leaders[index].email
+          })
+        }
+        return leadersPrepared
+      },
+      leadersTreeselectBySchool () {
         return schoolIds => {
           if (null === schoolIds || undefined === schoolIds) return []
           let leaders = this.$store.getters.leadersConfirmed
@@ -165,8 +176,6 @@
           for (let index in leaders) {
             let exist = false
             for (let schoolIndex in leaders[index].schoolsUsers) {
-              console.log(schoolIds)
-              console.log(leaders[index].schoolsUsers[schoolIndex].school.id)
               if (schoolIds.includes(leaders[index].schoolsUsers[schoolIndex].school.id)) {
                 exist = true
               }

@@ -8,6 +8,7 @@
           <b-row class="justify-content-center">
             <b-col cols="12">
               <b-table
+                @row-clicked="rowRedirectLesson"
                 :items="storeLessons"
                 :fields="lessonsFields"
                 striped
@@ -48,6 +49,7 @@
           <b-row class="justify-content-center">
             <b-col cols="12">
               <b-table
+                @row-clicked="rowRedirectEvent"
                 :items="storeEvents"
                 :fields="eventsFields"
                 striped
@@ -136,9 +138,22 @@
     methods: {
       getSchoolNameById(id) {
         if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
-        return this.schoolsAndClubs.find((obj) => {
+        let school = this.schoolsAndClubs.find((obj) => {
           return obj.id === id
-        }).name
+        })
+        return school ? school.name : ''
+      },
+      rowRedirectEvent (row) {
+        this.$router.push({
+          name: 'event',
+          params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': true }
+        })
+      },
+      rowRedirectLesson (row) {
+        this.$router.push({
+          name: 'lesson',
+          params: {'tab': 'main-data', 'id': row.id}
+        })
       }
     },
     created() {

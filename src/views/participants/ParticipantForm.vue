@@ -13,6 +13,8 @@
                            v-if="$route.params.tab === 'participants-list'"/>
     <FormLessons :participant="participant" ref="LessonForm"
                  :key="$route.params.tab+'LessonForm'" v-if="$route.params.tab === 'lessons'"/>
+    <FormCalendar :participant="participant.id" @childSubmit="submit" ref="FormCalendar"
+                  :key="$route.params.tab+'FormCalendar'" v-if="participant.id && $route.params.tab === 'calendar'"/>
   </div>
 </template>
 
@@ -22,8 +24,8 @@
   import FormMixin from '@/mixins/form-mixin'
   import FormParticipantGroups from '@/views/participants/components/FormParticipantGroups'
   import FormLessons from '@/views/participants/components/FormLessons'
+  import FormCalendar from '@/views/participants/components/FormCalendar'
 
-  // todo components
   import FormMainData from '@/views/participants/components/FormMainData'
   import {YEARS} from '../../config/AppConfig'
 
@@ -33,7 +35,8 @@
       TabLinks,
       FormMainData,
       FormParticipantGroups,
-      FormLessons
+      FormLessons,
+      FormCalendar
     },
     mixins: [EventBusEmit, FormMixin],
     data() {

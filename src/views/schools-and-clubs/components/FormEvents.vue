@@ -8,7 +8,10 @@
   export default {
     name: 'FormEvents',
     props: ['schoolId'],
-    components: { ListConfirmed }
+    components: { ListConfirmed },
+    created() {
+      console.log(this.schoolId)
+    }
   }
 </script>
 
