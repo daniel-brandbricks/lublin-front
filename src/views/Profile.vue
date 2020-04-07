@@ -3,7 +3,7 @@
     <b-row class="justify-content-center">
       <b-col cols="8">
         <b-form-group class="custom mb-2" v-if="isDirector && authUser.role === 1"
-                      label="Szkoła / Klub">
+                      label="Nazwa profilu (Szkoła / Klub)">
           <b-form-input id="name-1" class="custom m-0"
                         :disabled="true"
                         v-model="schoolName"/>
@@ -31,7 +31,8 @@
                         name="user.phone" key="user.phone" v-validate="{'required':true}"
                         v-model="user.phone"/>
         </b-form-group>
-        <b-form-group class="custom mb-2" :label="(isDirector && authUser.role === 1) ? 'E-mail dla konta' : 'E-mail'">
+<!--        <b-form-group class="custom mb-2" :label="(isDirector && authUser.role === 1) ? 'E-mail dla konta' : 'E-mail'">-->
+        <b-form-group class="custom mb-2" label="Email do logowania">
           <b-form-input id="email-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.email')}"
                         name="user.email" key="user.email" v-validate="{'required':true, 'email': true}"

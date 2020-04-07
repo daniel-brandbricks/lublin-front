@@ -45,7 +45,7 @@
         </div>
 
         <div v-if="showEvents && showEvents.length > 0">
-          <h4 class="my-3">Wydarzenia</h4>
+          <h4 class="my-3">Imprezy sportowe</h4>
           <b-row class="justify-content-center">
             <b-col cols="12">
               <b-table

@@ -18,6 +18,7 @@
           <b-row class="justify-content-center">
             <b-col cols="12">
               <b-table
+                @row-clicked="rowRedirectLesson"
                 :items="storeLessons"
                 :fields="lessonsFields"
                 striped
@@ -32,6 +33,13 @@
               {{getSchoolNameById(scope.item.school.id)}}
             </span>
                 </template>
+
+                <template slot="time" slot-scope="scope">
+            <span v-if="scope.item && scope.item.school">
+              {{scope.item.timeRange[0] + ' - ' + scope.item.timeRange[1]}}
+            </span>
+                </template>
+
                 <template slot="leaders" slot-scope="scope">
             <span v-if="scope.item && scope.item.leader">
               {{ buildUserNames(leaderById(scope.item.leader.id)) }}
@@ -54,10 +62,11 @@
         </div>
 
         <div v-if="showEvents && showEvents.length > 0">
-          <h4 class="my-3">Wydarzenia</h4>
+          <h4 class="my-3">Imprezy sportowe</h4>
           <b-row class="justify-content-center">
             <b-col cols="12">
               <b-table
+                @row-clicked="rowRedirectEvent"
                 :items="storeEvents"
                 :fields="eventsFields"
                 striped
@@ -118,6 +127,7 @@
         lessonsFields: [
           {key: 'school', label: 'Szkoła / Klub', sortable: true},
           {key: 'title', label: 'Nazwa zajęcia', sortable: true},
+          {key: 'time', label: 'Czas', sortable: true},
           {key: 'leaders', label: 'Prowadzący', sortable: false},
           {key: 'status', label: 'Status w systemie', sortable: false},
           {key: 'edit', label: ''}
@@ -202,6 +212,18 @@
       }
     },
     methods: {
+      rowRedirectEvent (row) {
+        this.$router.push({
+          name: 'event',
+          params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': true }
+        })
+      },
+      rowRedirectLesson (row) {
+        this.$router.push({
+          name: 'lesson',
+          params: {'tab': 'main-data', 'id': row.id}
+        })
+      },
       getSchoolNameById(id) {
         if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
         let school = this.schoolsAndClubs.find((obj) => {

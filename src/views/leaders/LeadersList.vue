@@ -110,6 +110,20 @@
     watch: {
       isDirector: function (val) {
         this.checkNavButton(val)
+      },
+      '$store.getters.leadersToConfirm': function (val) {
+        this.tabLinks = [
+          {
+            title: 'Zatwierdzone',
+            link: 'leaders',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia (' + val.length + ')',
+            link: 'leaders',
+            tab: 'to-confirm'
+          }
+        ]
       }
     },
     methods: {
@@ -133,6 +147,7 @@
         this.$router.push({ name: 'leaders', params: { 'tab': 'confirmed' } })
       }
 
+      this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getLeaders', {confirmed: 0})
 
       this.$store.dispatch('getDisciplines')

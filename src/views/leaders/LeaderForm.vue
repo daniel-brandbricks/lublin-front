@@ -213,7 +213,7 @@
               }
               // ,
               // {
-              //   title: 'Wydarzenia',
+              //   title: 'Imprezy sportowe',
               //   link: 'leader',
               //   tab: 'events'
               // }

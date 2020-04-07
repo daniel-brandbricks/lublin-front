@@ -230,8 +230,7 @@
           <b-form-group>
             <b-form-radio v-model="lesson.replacementLeaders[index].active" :value="element.value"
                           class="d-inline-block mr-3"
-                          :disabled="!!(authUser.id !== lesson.leader.id && lesson.id)"
-                          :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
+                          :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"                          :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
                           :name="'lesson.replacementLeaders.active'+index"
                           v-validate="{'required':true}"
                           v-for="(element,index2) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
@@ -243,8 +242,7 @@
             <treeselect class="custom"
                         v-model="lesson.replacementLeaders[index].leader.id"
                         :multiple="false"
-                        :disabled="!!(authUser.id !== lesson.leader.id && lesson.id)"
-                        placeholder="Prowadzący" :options="leadersReplaceTreeselect(lesson.school.id)"
+                        :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"                        placeholder="Prowadzący" :options="leadersReplaceTreeselect(lesson.school.id)"
                         :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.leaders'+index)}"
                         :name="'lesson.replacementLeaders.leaders'+index"
                         :key="'lesson.replacementLeaders.leaders'+index" v-validate="{'required':true}"/>
@@ -256,7 +254,7 @@
           </b-btn>
         </div>
 
-        <b-btn :disabled="!!(authUser.id !== lesson.leader.id && lesson.id)"
+        <b-btn :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"
                variant="primary" class="custom d-block ml-auto my-3" @click="addReplacedLeader" size="sm">Dodaj
         </b-btn>
       </template>

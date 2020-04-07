@@ -76,7 +76,7 @@
         <!--          <b-form-checkbox-group-->
         <!--            id="checkbox-group-show-events"-->
         <!--            v-model="showEvents"-->
-        <!--            :options="[{text: 'Wydarzenia', value: 1}]"-->
+        <!--            :options="[{text: 'Imprezy sportowe', value: 1}]"-->
         <!--            :unchecked-value="false"-->
         <!--            value="false"-->
         <!--            name="checkbox-group-show-events"-->

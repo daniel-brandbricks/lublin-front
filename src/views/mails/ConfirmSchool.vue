@@ -113,7 +113,6 @@
                           name="school.postcode" key="school.postcode" v-validate="{'required':true}"
                           v-model="school.postcode"/>
           </b-form-group>
-          <h1>MAP</h1>
           <b-form-group
             class="custom">
             <b-form-input id="input-1" class="custom"

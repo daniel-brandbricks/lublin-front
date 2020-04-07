@@ -432,7 +432,7 @@
         this.$store.dispatch('login', data)
           .then((response) => {
             console.log(response)
-            this.$router.push({name: 'test.content'})
+            this.$router.push({name: 'dashboard'})
           })
           .catch((error) => {
             this.loginError = true

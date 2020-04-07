@@ -271,7 +271,7 @@
                 tab: 'mtsf'
               },
               {
-                title: 'Wydarzenia',
+                title: 'Imprezy sportowe',
                 link: 'school.or.club',
                 tab: 'events'
               }

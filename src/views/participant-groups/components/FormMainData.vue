@@ -100,7 +100,7 @@
           <b-btn v-if="participantGroup.id"
                  variant="primary" block class="custom" @click="$router.push({name: 'participant.group',
                  params: {'tab': 'clone', 'id': id}})">
-            Klonuj
+            Duplikuj
           </b-btn>
         </b-col>
       </b-row>

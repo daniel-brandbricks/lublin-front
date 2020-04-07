@@ -32,7 +32,23 @@
             tab: 'confirmed'
           },
           {
-            title: 'Do zatwierdzenia',
+            title: 'Do zatwierdzenia (' + this.$store.getters.eventsToConfirm.length + ')',
+            link: 'events',
+            tab: 'to-confirm'
+          }
+        ]
+      }
+    },
+    watch: {
+      '$store.getters.eventsToConfirm': function (val) {
+        this.tabLinks = [
+          {
+            title: 'Zatwierdzone',
+            link: 'events',
+            tab: 'confirmed'
+          },
+          {
+            title: 'Do zatwierdzenia (' + val.length + ')',
             link: 'events',
             tab: 'to-confirm'
           }
@@ -68,6 +84,8 @@
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'events', params: { 'tab': 'confirmed' } })
       }
+
+      this.$store.dispatch('getEvents', { confirmed: 0 })
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'event' })

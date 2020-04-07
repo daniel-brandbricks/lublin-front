@@ -22,7 +22,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Mój profil ({{(isDirector && !isAdmin) ? 'Dyrektor' : (isAdmin ? 'Admin' : 'Prowadzący')}})<span class="pl-4"></span>
+            Mój profil ({{(isDirector && !isAdmin) ? 'Szkoła / Klub' : (isAdmin ? 'Admin' : 'Prowadzący')}})<span class="pl-4"></span>
           </b-link>
           <b-link :to="{name:'www', params: {'tab': 'menu'}}"
                   v-if="$store.getters.isAdmin"
@@ -36,7 +36,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-iconm_search"></span>
-            kłuby i szkoły ({{sidebarData.schools}})
+            Kluby i szkoły ({{sidebarData.schools}})
           </b-link>
           <b-link :to="{name:'sport.objects', params: {'tab': 'confirmed'} }"
                   active-class="active"
@@ -111,7 +111,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Raporty
+            Raporty / Wizytacja
           </b-link>
 
           <b-link :to="{name:'dictionary', params: {'tab': 'lesson-category'}}"

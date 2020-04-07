@@ -28,7 +28,7 @@
         </b-col>
       </b-row>
 
-      <h4 class="mb-3">Wydarzenia</h4>
+      <h4 class="mb-3">Imprezy sportowe</h4>
       <events :events="events" :disciplinesPrepared="disciplinesPrepared"
               :schoolId="schoolId"
               :schoolsAndClubsTreeselect="schoolsAndClubsTreeselect"/>

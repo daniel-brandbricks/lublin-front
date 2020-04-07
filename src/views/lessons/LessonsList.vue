@@ -244,7 +244,7 @@
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
       // this.$store.dispatch('getLeaders', {confirmed: 0})
-      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
 
       if (this.fieldsParams) {
         for (let key in this.fieldsParams) {

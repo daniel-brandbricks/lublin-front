@@ -205,7 +205,7 @@
               //   tab: 'mtsf'
               // },
               // {
-              //   title: 'Wydarzenia',
+              //   title: 'Imprezy sportowe',
               //   link: 'sport.object',
               //   tab: 'events'
               // }
