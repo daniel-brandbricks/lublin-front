@@ -87,42 +87,42 @@
                       v-model="sportObject.postcode"/>
       </b-form-group>
       <h1>MAP</h1>
-      <div class="pac-card" id="pac-card">
-        <div>
-          <div id="title">
-            Autocomplete search
-          </div>
-          <div id="type-selector" class="pac-controls">
-            <input type="radio" name="type" id="changetype-all" checked="checked">
-            <label for="changetype-all">All</label>
+<!--      <div class="pac-card" id="pac-card">-->
+<!--        <div>-->
+<!--          <div id="title">-->
+<!--            Autocomplete search-->
+<!--          </div>-->
+<!--          <div id="type-selector" class="pac-controls">-->
+<!--            <input type="radio" name="type" id="changetype-all" checked="checked">-->
+<!--            <label for="changetype-all">All</label>-->
 
-            <input type="radio" name="type" id="changetype-establishment">
-            <label for="changetype-establishment">Establishments</label>
+<!--            <input type="radio" name="type" id="changetype-establishment">-->
+<!--            <label for="changetype-establishment">Establishments</label>-->
 
-            <input type="radio" name="type" id="changetype-address">
-            <label for="changetype-address">Addresses</label>
+<!--            <input type="radio" name="type" id="changetype-address">-->
+<!--            <label for="changetype-address">Addresses</label>-->
 
-            <input type="radio" name="type" id="changetype-geocode">
-            <label for="changetype-geocode">Geocodes</label>
-          </div>
-          <div id="strict-bounds-selector" class="pac-controls">
-            <input type="checkbox" id="use-strict-bounds" value="">
-            <label for="use-strict-bounds">Strict Bounds</label>
-          </div>
-        </div>
-        <div id="pac-container">
-          <input id="pac-input" type="text"
-                 placeholder="Enter a location">
-        </div>
-      </div>
-      <div id="map"></div>
-      <div id="infowindow-content">
-        <img src="" width="16" height="16" id="place-icon">
-        <span id="place-name"  class="title"></span><br>
-        <span id="place-address"></span>
-      </div>
+<!--            <input type="radio" name="type" id="changetype-geocode">-->
+<!--            <label for="changetype-geocode">Geocodes</label>-->
+<!--          </div>-->
+<!--          <div id="strict-bounds-selector" class="pac-controls">-->
+<!--            <input type="checkbox" id="use-strict-bounds" value="">-->
+<!--            <label for="use-strict-bounds">Strict Bounds</label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div id="pac-container">-->
+<!--          <input id="pac-input" type="text"-->
+<!--                 placeholder="Enter a location">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div id="map"></div>-->
+<!--      <div id="infowindow-content">-->
+<!--        <img src="" width="16" height="16" id="place-icon">-->
+<!--        <span id="place-name"  class="title"></span><br>-->
+<!--        <span id="place-address"></span>-->
+<!--      </div>-->
 
-      <h1 id="googlemMMAAP">MAP</h1>
+<!--      <h1 id="googlemMMAAP">MAP</h1>-->
 
       <!--buttons-->
       <b-row class="mt-4">
@@ -262,26 +262,26 @@
         }
       }
     },
-    async mounted() {
-      try {
-        const google = await gmapsInit();
-        const geocoder = new google.maps.Geocoder();
-        let el = document.getElementById('googlemMMAAP')
-        console.log(el)
-        const map = new google.maps.Map(el);
-
-        geocoder.geocode({ address: 'Austria' }, (results, status) => {
-          if (status !== 'OK' || !results[0]) {
-            throw new Error(status);
-          }
-
-          map.setCenter(results[0].geometry.location);
-          map.fitBounds(results[0].geometry.viewport);
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // async mounted() {
+    //   try {
+    //     const google = await gmapsInit();
+    //     const geocoder = new google.maps.Geocoder();
+    //     let el = document.getElementById('googlemMMAAP')
+    //     console.log(el)
+    //     const map = new google.maps.Map(el);
+    //
+    //     geocoder.geocode({ address: 'Austria' }, (results, status) => {
+    //       if (status !== 'OK' || !results[0]) {
+    //         throw new Error(status);
+    //       }
+    //
+    //       map.setCenter(results[0].geometry.location);
+    //       map.fitBounds(results[0].geometry.viewport);
+    //     });
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
     created() {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
