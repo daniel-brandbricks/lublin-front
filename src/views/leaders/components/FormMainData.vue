@@ -122,10 +122,10 @@
           </b-btn>
         </b-col>
         <b-col>
-          <b-btn v-if="leader.confirmed" block variant="primary" class="custom" @click="submit(0)">
+          <b-btn v-if="leader.confirmed" block variant="primary" class="mt-3 custom" @click="submit(0)">
             Odtwierdz
           </b-btn>
-          <b-btn block v-else variant="primary" class="custom" @click="submit(1, true)">
+          <b-btn block v-else variant="primary" class="mt-3 custom" @click="submit(1, true)">
             Zatwierdź
           </b-btn>
         </b-col>

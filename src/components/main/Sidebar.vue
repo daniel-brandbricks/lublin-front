@@ -37,6 +37,9 @@
                   class="list-group-item">
             <span class="icon icon-iconm_search"></span>
             Kluby i szkoły ({{sidebarData.schools}})
+            <span v-if="sidebarData.schoolsToConfirm">
+              > <span class="to-confirm">{{sidebarData.schoolsToConfirm}}</span>
+            </span>
           </b-link>
           <b-link :to="{name:'sport.objects', params: {'tab': 'confirmed'} }"
                   active-class="active"
@@ -44,6 +47,9 @@
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
             Obiekty sportowe ({{sidebarData.places}})
+            <span v-if="sidebarData.placesToConfirm">
+              > <span class="to-confirm">{{sidebarData.placesToConfirm}}</span>
+            </span>
           </b-link>
 
           <b-link :to="{name:'leaders', params: {'tab': 'confirmed'} }"
@@ -53,6 +59,9 @@
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
             Prowadzący ({{sidebarData.leaders}})
+            <span v-if="sidebarData.leadersToConfirm">
+              > <span class="to-confirm">{{sidebarData.leadersToConfirm}}</span>
+            </span>
           </b-link>
 
           <b-link :to="{name:'participant.groups'}"
@@ -104,7 +113,10 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Lista imprez sportowych
+            Lista imprez sportowych ({{sidebarData.events}})
+            <span v-if="sidebarData.eventsToConfirm">
+              > <span class="to-confirm">{{sidebarData.eventsToConfirm}}</span>
+            </span>
           </b-link>
 
           <b-link :to="{name:'reports', params: {'tab': 'reporting'}}"
@@ -198,5 +210,7 @@
 </script>
 
 <style>
-
+.to-confirm {
+  color: #ff9e97;
+}
 </style>
