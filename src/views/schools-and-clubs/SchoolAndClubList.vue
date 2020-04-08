@@ -152,8 +152,7 @@
       }
     },
     created () {
-      this.$store.dispatch('getSchools', { confirmed: 1 })
-      this.$store.dispatch('getSchools', { confirmed: 0 })
+      this.$store.dispatch('getSchools', {})
 
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })
