@@ -7,8 +7,7 @@
     </b-row>
 
     <list-confirmed :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"/>
-    <list-to-confirm :key="$route.params.tab" v-if="authUser && (authUser.role === 2 || authUser.role === 3)
-    && $route.params.tab === 'to-confirm'"/>
+    <list-to-confirm :key="$route.params.tab" v-if="$route.params.tab === 'to-confirm'"/>
 
   </div>
 </template>
@@ -85,7 +84,7 @@
         this.$router.push({ name: 'events', params: { 'tab': 'confirmed' } })
       }
 
-      this.$store.dispatch('getEvents', { confirmed: 0 })
+      this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: 'event' })

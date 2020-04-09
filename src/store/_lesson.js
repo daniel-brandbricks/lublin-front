@@ -151,8 +151,7 @@ export default {
 
             console.log(response)
             context.commit('setLessons', response)
-            // todo resolve(response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

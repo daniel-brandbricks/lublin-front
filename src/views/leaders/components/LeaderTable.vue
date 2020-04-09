@@ -75,6 +75,11 @@
           </template>
         </template>
 
+        <template slot="btnTable" v-if="!isConfirmed" slot-scope="scope">
+          <b-btn variant="primary" size="sm" class="custom mb-0" @click="confirmItem(scope.item.id)">
+            Zatwierdź
+          </b-btn>
+        </template>
         <!--        <template slot="status" slot-scope="scope">-->
         <!--            <span class="status"-->
         <!--                  :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>-->
@@ -116,6 +121,7 @@
           // {key: 'sportObject', label: 'Obiekt', sortable: true},
           {key: 'lessons', label: 'Zajęcia', sortable: true},
           {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
+          { key: 'btnTable', label: '', sortable: true },
           {key: 'edit', label: ''}
         ]
       }
@@ -186,6 +192,12 @@
                    'schoolId': undefined === this.statusSlot ? null : this.statusSlot.schoolId}
         })
         // this.$parent.rowRedirect(row.id, false)
+      },
+      confirmItem (id) {
+        this.$store.dispatch('putLeader', { id: id, confirmed: 1 })
+          .then((response) => {
+            this.$store.dispatch('getLeaders', { confirmed: 0 })
+          })
       }
     },
     created () {

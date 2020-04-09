@@ -4,37 +4,10 @@
       <lessons-visit :lessons="lessons"/>
     </b-col>
     <b-col cols="12">
-      <h2 class="my-3">Mapa</h2>
+      <h2 class="my-3 d-inline-block">Mapa</h2>
+      <b-btn variant="primary" size="sm" class="ml-3 text-align-right d-inline-block"
+             @click="showList">Zobacz listę</b-btn>
 
-      <!--      <h1>MAP</h1>-->
-      <!--      <div class="App" id="pac-card">-->
-      <!--        <div>-->
-      <!--          <div id="title">-->
-      <!--            Autocomplete search-->
-      <!--          </div>-->
-      <!--          <div id="type-selector" class="pac-controls">-->
-      <!--            <input type="radio" name="type" id="changetype-all" checked="checked">-->
-      <!--            <label for="changetype-all">All</label>-->
-
-      <!--            <input type="radio" name="type" id="changetype-establishment">-->
-      <!--            <label for="changetype-establishment">Establishments</label>-->
-
-      <!--            <input type="radio" name="type" id="changetype-address">-->
-      <!--            <label for="changetype-address">Addresses</label>-->
-
-      <!--            <input type="radio" name="type" id="changetype-geocode">-->
-      <!--            <label for="changetype-geocode">Geocodes</label>-->
-      <!--          </div>-->
-      <!--          <div id="strict-bounds-selector" class="pac-controls">-->
-      <!--            <input type="checkbox" id="use-strict-bounds" value="">-->
-      <!--            <label for="use-strict-bounds">Strict Bounds</label>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <div id="pac-container">-->
-      <!--          <input id="pac-input" type="text"-->
-      <!--                 placeholder="Enter a location">-->
-      <!--        </div>-->
-      <!--      </div>-->
       <div id="map"></div>
       <div id="infowindow-content">
         <img src="" width="16" height="16" id="place-icon">
@@ -43,6 +16,17 @@
       </div>
 
     </b-col>
+
+    <b-modal title="Zajęcia" ref="visitList" hide-footer size="md">
+      <div class="my-3" :key="index" v-for="(item,index) in placesPrepared">
+        <p>Nazwa: {{item.dataToShow.title}}</p>
+        <p>Szkoła / Klub: {{item.dataToShow.school}}</p>
+        <p>Obiekt sportowy: {{item.dataToShow.placeTitle}}</p>
+        <p>Czas: {{item.dataToShow.time.join('-')}}</p>
+        <p>Adres: {{item.query}}</p>
+        <hr>
+      </div>
+    </b-modal>
   </b-row>
 </template>
 
@@ -64,21 +48,13 @@
     mixins: [EventBusEmit],
     data () {
       return {
+        google: null,
+        placesPrepared: [],
+
+        districts: DISTRICTS,
         lessons: {
           districtValue: null,
-          districts: DISTRICTS,
-
-          selectedType: [],
-          typeOptions: [
-            {text: 'klub', value: 0},
-            {text: 'szkola', value: 1}
-          ],
-          selectedGender: [],
-          genderOptions: [
-            {text: 'kobieta', value: 0},
-            {text: 'mężczyzna', value: 1}
-          ],
-
+          selectedAccepted: [],
           schoolsAndClubs: null,
           selectedDiscipline: null,
           selectedCategory: null,
@@ -86,43 +62,35 @@
           selectedSportObject: null,
           selectedLeader: null,
           selectedParticipant: null,
-          selectedLesson: null,
-
-          // temp
-          disciplines: [
-            {id: 1, label: 'Basen'},
-            {id: 2, label: 'Siłownia'},
-            {id: 3, label: 'Bieg'}
-          ],
-          categories: [
-            {id: 1, label: 'pierwsza'},
-            {id: 2, label: 'druga'},
-            {id: 3, label: 'cos cos'}
-          ],
-          classes: [
-            {id: 1, label: '2b'},
-            {id: 2, label: '6a'},
-            {id: 3, label: '8c'}
-          ],
-          sportObjects: [
-            {id: 1, label: 'Park'},
-            {id: 2, label: 'Siłownia'},
-            {id: 3, label: 'Basen'}
-          ],
-          leaders: [
-            {id: 1, label: 'Mark White'},
-            {id: 2, label: 'Ben Stiffler'},
-            {id: 3, label: 'Thomas Shelby'}
-          ]
+          selectedLesson: null
         }
       }
     },
     computed: {},
-    methods: {},
-    async mounted () {
-      try {
+    methods: {
+      showList () {
+        this.$refs.visitList.show()
+      },
+      setLocations (lessons) {
+        let places = []
+        for (let index in lessons) {
+          places.push({
+            query: 'Lublin, ' + lessons[index].place.address,
+            dataToShow: {
+              title: lessons[index].title,
+              placeTitle: lessons[index].place.title,
+              school: lessons[index].school.name,
+              time: (lessons[index].newTimeRange === null) ? lessons[index].timeRange : lessons[index].newTimeRange
+            },
+            fields: ['name', 'geometry']
+          })
+        }
+        this.placesPrepared = JSON.parse(JSON.stringify(places))
+
+        // return
+
         // eslint-disable-next-line no-inner-declarations
-        function createMarker (place) {
+        function createMarker (place, dataToShow) {
           var marker = new google.maps.Marker({
             map: map,
             position: place.geometry.location
@@ -132,13 +100,18 @@
           bounds.extend(loc)
 
           google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(place.name)
+            infowindow.setContent(`
+            Nazwa: ${dataToShow.title} <br>
+            Szkoła / Klub: ${dataToShow.school} <br>
+            Obiekt sportowy: ${dataToShow.placeTitle} <br>
+            Czas: ${dataToShow.time.join('-')} <br>
+            Adres: ${place.name} <br>
+          `)
             infowindow.open(map, this)
           })
         }
 
-        // get connect with google API
-        const google = await gmapsInit()
+        const google = this.google
         // used to show markers
         let infowindow = new google.maps.InfoWindow()
         // map container
@@ -152,31 +125,17 @@
           gestureHandling: 'cooperative'
         })
 
-        // markers
-        const requests = [
-          {
-            query: 'Lublin, karla lipinskego 15',
-            fields: ['name', 'geometry']
-          },
-          {
-            query: 'Lublin, Dożynkowa 42A',
-            fields: ['name', 'geometry']
-          },
-          {
-            query: 'Lublin, Jana Chęcińskiego 2',
-            fields: ['name', 'geometry']
-          }
-        ]
-
         let bounds = new google.maps.LatLngBounds()
 
-
         const service = new google.maps.places.PlacesService(map)
-        for (let index in requests) {
-          service.findPlaceFromQuery(requests[index], function (results, status) {
+        for (let index in places) {
+          let dataToShow = places[index].dataToShow
+          delete places[index].dataToShow
+          service.findPlaceFromQuery(places[index], function (results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
+              console.log(results)
               for (var i = 0; i < results.length; i++) {
-                createMarker(results[i])
+                createMarker(results[i], dataToShow)
               }
 
               map.setCenter(results[0].geometry.location)
@@ -186,27 +145,24 @@
 
         map.fitBounds(bounds)
         map.panToBounds(bounds)
+      }
+    },
+    async mounted () {
+      try {
+        // get connect with google API
+        this.google = await gmapsInit()
+        const google = this.google
+        // map container
+        let el = document.getElementById('map')
+        // our city
+        var lublin = new google.maps.LatLng(51.246, 22.568)
 
-        // const geocoder = new google.maps.Geocoder();
-        // geocoder.geocode({address: 'Austria'}, (results, status) => {
-        //   if (status !== 'OK' || !results[0]) {
-        //     throw new Error(status);
-        //   }
-        //
-        //   map.setCenter(results[0].geometry.location);
-        //   map.fitBounds(results[0].geometry.viewport);
-        // });
-
-        // const markers = locations
-        //   .map(x => {
-        //     let marker = new google.maps.Marker({...x, map})
-        //
-        //     google.maps.event.addListener(marker, 'click', function () {
-        //       console.log(x)
-        //       infowindow.setContent(x.name);
-        //       infowindow.open(map, this);
-        //     });
-        //   });
+        // eslint-disable-next-line no-unused-vars
+        const map = new google.maps.Map(el, {
+          center: lublin,
+          zoom: 8,
+          gestureHandling: 'cooperative'
+        })
       } catch (error) {
         console.error(error)
       }
@@ -214,6 +170,13 @@
     created () {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false, generatePdf: true})
+
+      this.$store.dispatch('getSchools', { confirmed: 1, getAll: true })
+      this.$store.dispatch('getSportObjects', { confirmed: 1 })
+      this.$store.dispatch('getLeaders', { confirmed: 1 })
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getLessonCategories')
+      this.$store.dispatch('getClasses')
     }
   }
 </script>

@@ -432,7 +432,11 @@
         this.$store.dispatch('login', data)
           .then((response) => {
             console.log(response)
-            this.$router.push({name: 'dashboard'})
+            if (this.$store.getters.isDirector || this.$store.getters.isAdmin) {
+              this.$router.push({name: 'dashboard'})
+            } else {
+              this.$router.push({name: 'calendar'})
+            }
           })
           .catch((error) => {
             this.loginError = true

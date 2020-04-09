@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <b-row class="justify-content-between">
-      <b-col cols="6">
+      <b-col :cols="$store.getters.isAdmin ? 6 : 12">
         <h3 class="mb-4">Do zatwierdzenia</h3>
 
         <!--    Schools And Clubs    -->
-        <h4 v-b-toggle.collapse-schools><span class="mr-3">^</span>Kłuby i szkoły</h4>
-        <b-collapse visible id="collapse-schools" class="mt-2">
+        <h4 v-b-toggle.collapse-schools v-if="$store.getters.isAdmin"><span class="mr-3">^</span>Kłuby i szkoły</h4>
+        <b-collapse v-if="$store.getters.isAdmin" visible id="collapse-schools" class="mt-2">
           <b-table
             :items="schoolListFiltered"
             :fields="fieldsSchools"
@@ -53,7 +53,7 @@
         <h4 v-b-toggle.collapse-sport-objects><span class="mr-3">^</span>Obiekty sportowe</h4>
         <b-collapse visible id="collapse-sport-objects" class="mt-2">
           <b-table
-            :items="sportObjectsListFiltered"
+            :items="sportObjectsToConfirm"
             :fields="fieldsSportObjects"
             striped
             sort-icon-left
@@ -88,10 +88,10 @@
         </b-collapse>
 
         <!--    Teachers    -->
-        <h4 v-b-toggle.collapse-leaders><span class="mr-3">^</span>Prowadzący</h4>
-        <b-collapse visible id="collapse-leaders" class="mt-2">
+        <h4 v-b-toggle.collapse-leaders v-if="$store.getters.isAdmin"><span class="mr-3">^</span>Prowadzący</h4>
+        <b-collapse v-if="$store.getters.isAdmin" visible id="collapse-leaders" class="mt-2">
           <b-table
-            :items="leadersFiltered"
+            :items="leadersToConfirm"
             :fields="fieldsLeaders"
             striped
             sort-icon-left
@@ -123,25 +123,109 @@
               </b-link>
             </template>
 
+            <template slot="btnTable" v-if="$store.getters.isAdmin" slot-scope="scope">
+              <b-btn variant="primary" size="sm" class="custom mb-0" @click="confirmLeader(scope.item.id)">
+                Zatwierdź
+              </b-btn>
+            </template>
           </b-table>
         </b-collapse>
         <!--    Parties    -->
         <h4 v-b-toggle.collapse-parties><span class="mr-3">^</span>Imprezy</h4>
+        <b-collapse visible id="collapse-parties" class="mt-2">
+            <b-table
+              :items="eventsToConfirm"
+              :fields="fieldsEvents"
+              striped
+              sort-icon-left
+              responsive="md"
+              class="custom table-responsive"
+              @row-clicked="eventRowRedirect"
+            >
+              <template slot="dateStart" slot-scope="scope">
+                <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
+              </template>
+
+              <template slot="discipline" slot-scope="scope">
+          <span v-if="scope.item.discipline && scope.item.discipline.id">
+            {{getDisciplineTitleById(scope.item.discipline.id)}}
+          </span>
+              </template>
+
+              <template slot="organization" slot-scope="scope">
+                <span v-if="scope.item.organization">{{scope.item.organization}}</span>
+                <span v-else-if="scope.item.school && scope.item.school.id">
+            {{getSchoolNameById(scope.item.school.id)}}
+          </span>
+              </template>
+
+              <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isAdmin">
+                <b-btn variant="primary" class="custom mb-0" @click="confirmEvent(scope.item.id)">
+                  Zatwierdź
+                </b-btn>
+              </template>
+              <template slot="edit" slot-scope="scope">
+                <span class="c-pointer">Szczegóły</span>
+              </template>
+
+            </b-table>
+        </b-collapse>
       </b-col>
 
-      <b-col cols="6">
+      <b-col cols="6" v-if="$store.getters.isAdmin">
         <h3 class="mb-4">Ostatnie zmiany</h3>
 
         <b-table
-          :items="historyTempData"
-          :fields="fieldsHistory"
+          id="history-table"
+          :items="historyData"
+          :fields="historyFields"
           striped
           sort-icon-left
           responsive="md"
           class="custom table-responsive"
-        ></b-table>
+        >
+          <template slot="user" slot-scope="scope">
+            <span v-if="scope.item.user">{{scope.item.user.firstName}} {{scope.item.user.lastName}}</span>
+            <br>
+            <span v-if="scope.item.user">{{scope.item.user.email}}</span>
+          </template>
+          <template slot="method" slot-scope="scope">
+            <span v-if="scope.item">{{getMethodName(scope.item.method)}}</span>
+          </template>
+          <template slot="school" slot-scope="scope">
+            <span v-if="scope.item.school">{{scope.item.school.name}}</span>
+          </template>
+          <template slot="changes" slot-scope="scope">
+                <span v-show="scope.item.method !== 'DELETE'" class="c-pointer"
+                      @click="showChanges(scope.item.changes)">Szczegóły</span>
+          </template>
+          <!--              @row-clicked="rowRedirect"-->
+        </b-table>
       </b-col>
     </b-row>
+
+    <b-modal ref="modalChanges"
+             modal-class="custom"
+             centered size="md"
+             :hide-footer="true"
+             footer-class="justify-content-between"
+             title-tag="h2"
+             header-class="pr-4 pb-0">
+
+      <template slot="modal-title">
+        Dane po zmianie
+      </template>
+
+      <div slot="default" class="d-flex">
+        <b-row>
+          <ul class="d-block">
+            <li :key="index" v-for="(val, changesName, index) in parsedChanges">
+              {{changesName}}: {{val}}
+            </li>
+          </ul>
+        </b-row>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -176,28 +260,57 @@
         fieldsLeaders: [
           { key: 'fullName', label: 'Imię i Nazwisko', sortable: true },
           { key: 'disciplines', label: 'Dyscyplina', sortable: true },
-          { key: 'status', label: 'Status w systemie', sortable: true }
+          { key: 'status', label: 'Status w systemie', sortable: true },
+          { key: 'btnTable', label: '', sortable: true }
         ],
-        fieldsHistory: [
-          { key: 'person', label: 'Kto', sortable: true },
-          { key: 'date', label: 'Data', sortable: true },
-          { key: 'changes', label: 'Zmiana', sortable: true }
+        fieldsEvents: [
+          { key: 'dateStart', label: 'Data rozpoczęcia', sortable: true },
+          { key: 'title', label: 'Nazwa', sortable: true },
+          { key: 'discipline', label: 'Dyscyplina', sortable: true },
+          { key: 'organization', label: 'Organizator', sortable: true },
+          { key: 'btnTable', label: '', sortable: true },
+          { key: 'edit', label: '' }
         ],
-        historyTempData: [
-          { person: 'Marek', date: '23-11-2019', changes: 'Dodal klub "Fire"' },
-          { person: 'Kasia', date: '13-10-2019', changes: 'Edytowala zajecia "Poker"' },
-          { person: 'Ola', date: '11-10-2019', changes: 'Usunela trenera "Adam"' },
-          { person: 'Rafal', date: '03-10-2019', changes: 'Dodal obiekt sportowy "KKK"' }
-        ]
+
+        // LOGS
+        parsedChanges: {},
+        historyFields: [
+          {key: 'createdLog', label: 'Kiedy', sortable: true},
+          {key: 'user', label: 'Kto', sortable: true},
+          {key: 'method', label: 'Rodzaj akcji', sortable: true},
+          {key: 'object', label: 'Gdzie', sortable: true},
+          {key: 'school', label: 'szkoła / klub', sortable: true},
+          {key: 'changes', label: 'Zmiana', sortable: true},
+          {key: 'id', label: 'id', sortable: true}
+        ],
+        historyData: [],
+        actionsBE: [
+          {val: 'POST', label: 'Dodanie'},
+          {val: 'PUT', label: 'Edycja'},
+          {val: 'DELETE', label: 'Usunięcie'}
+        ],
       }
     },
     computed: {
-      ...mapGetters(['sportObjects', 'sportObjectTypes', 'disciplines', 'leaders']),
+      ...mapGetters(['sportObjectsToConfirm', 'sportObjectTypes',
+        'disciplines', 'leadersToConfirm', 'eventsToConfirm']),
       schoolsToConfirm () {
         return this.$store.getters.schoolsToConfirm
-      }
+      },
     },
     methods: {
+      confirmEvent (id) {
+        this.$store.dispatch('putEvent', { id: id, confirmed: 1 })
+          .then((response) => {
+            this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
+          })
+      },
+      confirmLeader (id) {
+        this.$store.dispatch('putLeader', { id: id, confirmed: 1 })
+          .then((response) => {
+            this.$store.dispatch('getLeaders', { confirmed: 0 })
+          })
+      },
       confirmSchoolAndClubItem (id) {
         this.$store.dispatch('putSchool', { id: id, confirmed: 1 })
           .then((response) => {
@@ -227,14 +340,43 @@
           name: 'leader',
           params: { 'tab': 'main-data', 'id': leader.id, 'isConfirmed': isConfirmed }
         })
-      }
+      },
+      eventRowRedirect (event, isConfirmed) {
+        this.$router.push({
+          name: 'event',
+          params: { 'tab': 'main-data', 'id': event.id, 'isConfirmed': isConfirmed }
+        })
+      },
+
+      // LOG
+      hideModal() {
+        this.$refs.modalChanges.hide()
+      },
+      showChanges(val) {
+        this.parsedChanges = JSON.parse(val)
+        this.$refs.modalChanges.show()
+      },
+      getMethodName(name) {
+        let namePrepared = this.actionsBE.find(x => {
+          return x.val === name
+        })
+        return undefined === namePrepared ? '' : namePrepared.label
+      },
     },
     created () {
-      this.$store.dispatch('getSchools', { confirmed: 0 })
+      this.$store.dispatch('getSchools')
       this.$store.dispatch('getSportObjects', { confirmed: 0 })
       this.$store.dispatch('getSportObjectTypes')
       this.$store.dispatch('getLeaders', {confirmed: 0})
+      this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
       this.$store.dispatch('getDisciplines')
+
+      if (this.$store.getters.isAdmin) {
+      this.$store.dispatch('getLogs', {currentPage: 1, perPage: 10})
+        .then(response => {
+          this.historyData = response.data
+        })
+      }
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })

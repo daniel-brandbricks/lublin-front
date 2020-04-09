@@ -12,6 +12,7 @@
         <perfect-scrollbar id="scrollbar" class="custom ps-sidebar">
 
           <b-link :to="{name:'dashboard'}"
+                  v-if="$store.getters.isDirector || $store.getters.isAdmin"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>

@@ -27,7 +27,7 @@
           </span>
         </template>
 
-        <template slot="btnTable" slot-scope="scope">
+        <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isAdmin">
           <b-btn variant="primary" class="custom mb-0" @click="confirmItem(scope.item.id)">
             Zatwierdź
           </b-btn>
@@ -71,12 +71,12 @@
       confirmItem (id) {
         this.$store.dispatch('putEvent', { id: id, confirmed: 1 })
           .then((response) => {
-            this.$store.dispatch('getEvents', { confirmed: 0 })
+            this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
           })
       }
     },
     created () {
-      this.$store.dispatch('getEvents', { confirmed: 0 })
+      this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
     }
   }
 </script>
