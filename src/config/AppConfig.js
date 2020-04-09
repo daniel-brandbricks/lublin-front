@@ -1,4 +1,5 @@
 export const BASE_API_URL = process.env.BASE_API_URL
+export const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
 
 export const DISTRICTS = [
   { id: 0, label: 'Abramowice' },

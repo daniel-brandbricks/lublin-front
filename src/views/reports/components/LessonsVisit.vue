@@ -61,7 +61,7 @@
                      value-type="format" format="YYYY-MM-DD"
                      v-validate="{'required': true}"
                      type="date"
-                     :id="'selectedYear'" placeholder="Wybierz datę" class="w-100 custom mt-4">
+                     :id="'selectedYear'" placeholder="Wybierz datę (obowiązkowo)" class="w-100 custom mt-4">
         </date-picker>
 
         <treeselect class="custom mt-4 mb-2"
@@ -221,6 +221,7 @@
     },
     methods: {
       filter () {
+        if (this.selectedYear === undefined || this.selectedYear === null) return
         let lessonFilters = {
           lesson: this.lessons,
           date: this.selectedYear

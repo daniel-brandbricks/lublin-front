@@ -72,6 +72,18 @@
         this.$refs.visitList.show()
       },
       setLocations (lessons) {
+        if (lessons.length < 1) {
+          this.$bvToast.toast('Nie ma zajęć', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-right',
+            solid: true,
+            variant: 'info',
+            appendToast: false,
+            autoHideDelay: 5000
+          })
+          return
+        }
+
         let places = []
         for (let index in lessons) {
           places.push({
