@@ -33,7 +33,9 @@ import CoAdministrator from '@/views/co-administrators/CoAdministrator'
 import Profile from '@/views/Profile'
 import CmsFormMainData from '@/views/www/components/CmsFormMainData'
 import MenuItemData from '@/views/www/components/MenuItemData'
-import SportProjectForm from "@/views/www/components/SportProjectForm";
+import SportProjectForm from '@/views/www/components/SportProjectForm'
+import MailTemplate from '@/views/messages/components/MailTemplate'
+import Recipient from '@/views/messages/components/Recipient'
 
 const adminRouter = {
   path: '/admin',
@@ -231,6 +233,16 @@ const adminRouter = {
       path: 'messages',
       name: 'messages',
       component: Messages
+    },
+    {
+      path: 'messages/mail-template/:id?',
+      name: 'mail.template',
+      component: MailTemplate
+    },
+    {
+      path: 'messages/recipient/:id?',
+      name: 'recipient',
+      component: Recipient
     },
 
     // Profile

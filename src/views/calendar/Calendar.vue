@@ -95,7 +95,7 @@
   import Lessons from '@/views/calendar/components/Lessons'
   import Events from '@/components/common-views/Events'
   import Calendar from '@/components/common-views/Calendar'
-  import List from "@/views/calendar/components/List";
+  import List from '@/views/calendar/components/List'
 
   export default {
     components: {List, TabLinks, Treeselect, Lessons, Events, Calendar, DatePicker },

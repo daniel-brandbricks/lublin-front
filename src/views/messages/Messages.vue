@@ -6,17 +6,18 @@
         <b-row class=" justify-content-between">
           <h4>Szablony</h4>
           <b-col class="flex-grow-0">
-
-            <b-btn variant="secondary" class="custom" size="sm" block>Dodaj</b-btn>
+            <b-btn variant="primary" class="mr-3" :to="{ name: 'mail.template' }">
+              Dodaj
+            </b-btn>
           </b-col>
         </b-row>
         <b-table
-          :items="templateItems"
+          :items="mailTemplates"
           :fields="templateFields"
           striped
           responsive="md"
           class="custom table-responsive"
-          @row-clicked="rowRedirect"
+          @row-clicked="rowRedirectMailTemplates"
         >
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
@@ -27,14 +28,14 @@
       </b-col>
 
       <b-col cols="6">
-        <h4 class="mb-3">Wysłane</h4>
+        <h4 class="mb-3">Odbiorcy</h4>
         <b-table
-          :items="sentItems"
-          :fields="sentFields"
+          :items="mails"
+          :fields="recipientFields"
           striped
           responsive="md"
           class="custom table-responsive"
-          @row-clicked="rowRedirect"
+          @row-clicked="rowRedirectMails"
         >
 
           <template slot="edit" slot-scope="scope">
@@ -50,7 +51,6 @@
 
 <script>
   // node_modules
-
   import EventBusEmit from '@/mixins/event-bus-emit'
 
   export default {
@@ -60,34 +60,41 @@
       return {
         templateFields: [
           { key: 'title', label: 'Tytuł', sortable: true },
-          { key: 'content', label: 'Treść', sortable: true },
-          { key: 'edit', label: '' }
+          { key: 'description', label: 'Treść', sortable: true }
         ],
-        templateItems: [
-          { title: 'hello', content: 'world' },
-          { title: 'kek', content: 'cheburek' }
-        ],
-        sentFields: [
-          { key: 'title', label: 'Tytuł', sortable: true },
-          { key: 'dateOfSent', label: 'Data wysłania', sortable: true },
-          { key: 'newAnswers', label: 'Nowe Odpowiedzi', sortable: true },
-          { key: 'edit', label: '' }
-        ],
-        sentItems: [
-          { title: 'china', dateOfSent: '10/10/2019', newAnswers: '5' },
-          { title: 'chiza', dateOfSent: '11/11/2005', newAnswers: '2' }
+        recipientFields: [
+          { key: 'mailTemplate.title', label: 'Tytuł', sortable: true },
+          { key: 'mailTemplate.created', label: 'Data wysłania', sortable: true }
         ]
       }
     },
+    computed: {
+      sender () {
+        return this.$store.getters.sender
+      },
+      mailTemplates () {
+        return this.sender ? this.sender.mailTemplates : []
+      },
+      mails () {
+        return this.sender ? this.sender.mails : []
+      }
+    },
     methods: {
-      rowRedirect (id, isConfirmed) {
+      rowRedirectMailTemplates (row) {
         this.$router.push({
-          name: 'messages',
-          params: { 'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed }
+          name: 'mail.template',
+          params: { 'id': row.id }
+        })
+      },
+      rowRedirectMails (row) {
+        this.$router.push({
+          name: 'recipient',
+          params: { 'id': row.id }
         })
       }
     },
     created () {
+      this.$store.dispatch('getSender')
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
       this.changeAdminNavbarBreadcrumbs([ { text: 'Komunikaty', active: true } ])
