@@ -3,7 +3,8 @@
     <div class="container">
       <b-navbar toggleable="xl" type="white" class="custom p-0">
         <b-navbar-brand :to="{name:'home'}">
-          <img src="/static/img/logo.svg" alt="LOGO">
+          <img v-if="$store.getters.menuAndFooter && $store.getters.menuAndFooter.menu"
+               :src="$store.getters.menuAndFooter.menu.image" alt="LOGO">
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse">

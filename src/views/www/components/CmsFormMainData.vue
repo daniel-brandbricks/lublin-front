@@ -18,8 +18,8 @@
         <div :key="image.id" v-for="(image,index) in section.sliderImages">
           <ImageInputAdvanced :imgPath="section.sliderImages[index].path" @afterCropImage="afterCropImage"
                               :image-multiple="true" :imageId="image.id"
-                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                              :min-width="100" :max-height="1000" :max-width="1000"/>
+                              :min-aspect-ratio="21/11" :max-aspect-ratio="21/11" :min-height="420"
+                              :min-width="790" :max-height="10000" :max-width="10000"/>
         </div>
         <b-btn variant="primary" class="custom mt-4" @click="addImage" block>Dodaj kolejne</b-btn>
       </div>

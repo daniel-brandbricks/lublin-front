@@ -114,8 +114,8 @@
     components: {Treeselect, DatePick},
     mixins: [EventBusEmit],
     props: [
-      'lessons', 'events', 'dateFrom', 'splitComponents',
-      'dateTo', 'showLessons', 'showEvents', 'participantGroupId'
+      'lessons', 'events', 'dateFrom', 'splitComponents', 'calendarFront', 'parentDate',
+      'dateTo', 'showLessons', 'showEvents', 'participantGroupId', 'calendarFrontLessons'
     ],
     data() {
       return {
@@ -168,7 +168,6 @@
           }
         }
 
-        console.log(prepared)
         return prepared
       },
       schoolsAndClubs() {
@@ -182,6 +181,13 @@
       }
     },
     watch: {
+      parentDate: function (val) {
+        console.log(val)
+        this.date = val
+      },
+      date: function (val) {
+        if (this.calendarFront) this.$emit('dayChanged', val)
+      },
       showLessons: function () {
         this.recalculateCalendar()
       },
@@ -244,24 +250,21 @@
           if (dateTo <= dateTime) return true
         }
       },
-      isFutureDate(date) {
+      isFutureDate (date) {
         const currentDate = new Date();
         return date > currentDate;
       },
-      recalculateCalendar() {
+      recalculateCalendar () {
         let dates = {}
-        console.log(this.showEvents)
-        console.log(this.showLessons)
-        if (this.showEvents && this.showEvents.length > 0) {
+        if ((this.showEvents && this.showEvents.length > 0) || this.calendarFront) {
           this.calculateCalendarDayEvents(this.events, dates)
         }
-        if (this.showLessons && this.showLessons.length > 0) {
+        if (this.showLessons && this.showLessons.length > 0 || this.calendarFrontLessons) {
           this.calculateCalendarDayLessons(this.lessons, dates)
         }
-        console.log(dates)
         this.dates = {...dates}
       },
-      calculateCalendarDayEvents(val, dates = {}) {
+      calculateCalendarDayEvents (val, dates = {}) {
         for (let index in val) {
           let datesArr = this.calculateDatesDifference(val[index].dateStart, val[index].dateEnd)
 
@@ -314,6 +317,7 @@
       var observer = new MutationObserver((list) => {
         console.log('changed')
         this.recalculateCalendar()
+        if (this.calendarFront) this.$emit('monthOrYearChanged')
       })
       observer.observe(button, config)
     },
@@ -324,6 +328,8 @@
       this.date = newDate.getFullYear() + '-' +
         ((newDate.getMonth() + 1) < 10 ? ('0' + (newDate.getMonth() + 1)) : (newDate.getMonth() + 1)) +
         '-' + ((newDate.getDate()) < 10 ? ('0' + (newDate.getDate())) : (newDate.getDate()))
+
+      if (this.parentDate) this.date = this.parentDate
     }
   }
 </script>

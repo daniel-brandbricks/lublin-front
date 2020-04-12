@@ -21,6 +21,7 @@ import permissionModule from './_permission'
 import administratorModule from './_administrator'
 import historyModule from './_history'
 import frequencyModule from './_frequency'
+import mainPageModule from './_main-page'
 
 // cms
 import sectionModule from './_section'
@@ -54,6 +55,7 @@ export default new Vuex.Store({
     lessonModule,
     frequencyModule,
     historyModule,
+    mainPageModule,
 
     // cms
     sectionModule,
