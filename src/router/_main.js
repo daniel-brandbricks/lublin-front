@@ -12,7 +12,7 @@ import SKS from '@/views/dev/SKS'
 
 const mainRouter = {
   path: '/',
-  // redirect: '/home',
+  redirect: '/home',
   component: () => import('./../templates/Main.vue'),
   children: [
     {

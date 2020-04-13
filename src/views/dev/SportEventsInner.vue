@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <section class="mb-4" v-if="frontEvent && frontEvent.discipline">
+    <section class="mb-4" v-if="frontEvent">
       <b-container>
         <b-row class="justify-content-center">
           <b-col cols="12" lg="5" class="mb-4 mb-lg-0 text-center text-lg-left"
