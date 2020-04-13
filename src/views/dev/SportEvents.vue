@@ -61,7 +61,8 @@
                       {{event.dateStart.split(' ')[0] + ' - ' + event.dateEnd.split(' ')[0]}}
                     </p>
 
-                    <b-btn variant="icon" class="custom card-arrow p-0 mb-n1" :to="{name:'sportEventsInner'}">
+                    <b-btn variant="icon" class="custom card-arrow p-0 mb-n1"
+                           :to="{name:'sportEventsInner', params: {id: event.id}}">
                       <span class="icon icon-arrow_right c-red"></span>
                     </b-btn>
                   </div>

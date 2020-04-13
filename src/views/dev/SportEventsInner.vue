@@ -3,7 +3,8 @@
     <section class="mb-4" v-if="frontEvent && frontEvent.discipline">
       <b-container>
         <b-row class="justify-content-center">
-          <b-col cols="12" lg="5" class="mb-4 mb-lg-0 text-center text-lg-left">
+          <b-col cols="12" lg="5" class="mb-4 mb-lg-0 text-center text-lg-left"
+                 v-if="frontEvent.images && frontEvent.images.length > 0">
             <section class="header-slider mini-">
               <b-carousel
                 class="custom"
@@ -21,33 +22,66 @@
           </b-col>
           <b-col cols="12" lg="7">
             <h2 class="main mb-2">{{frontEvent.title}}</h2>
-            <h2 class="sup mb-1">
-              <span class="icon icon-pin lg ml-n1 c-black-05"></span>
-              al. Zygmuntowskie 4
-            </h2>
-            <p class="mb-1 font-sm">
-              <span class="icon icon-calendar pr-1 c-black-05"></span>
-              12.07.19 <strong> 08:00</strong> - 12.07.19 <strong> 08:00</strong>
+            <b-row>
+              <b-col>
+                <h2 class="sup mb-2">
+                  <span class="icon icon-pin lg ml-n1 c-black-05"></span>
+                  {{frontEvent.addressDesc.length > 0 ? frontEvent.addressDesc : frontEvent.address}}
+                </h2>
+                <p class="mb-2 font-sm">
+                  <span class="icon icon-calendar pr-1 c-black-05"></span>
+                  <strong>Start:</strong> {{frontEvent.dateStart.split(' ')[0]}}
+                  <strong>Koniec:</strong> {{frontEvent.dateEnd.split(' ')[0]}}
+                  <br>
+                  <template v-for="(date,index) in frontEvent.dates">
+                    <span class="pl-4">{{date.date.split(' ')[0]}} <strong>{{date.timeRange[0] + ' - ' + date.timeRange[1]}}</strong></span>
+                    <br>
+                  </template>
+                </p>
+              </b-col>
+              <b-col>
+                <div class="info-box">
+                  <p class="signature mb-0">Organizatorem jest</p>
+                  <p class="font-sm">{{frontEvent.school !== null ? frontEvent.school.name : frontEvent.organization}}</p>
+                  <p class="font-sm" v-if="frontEvent.email">
+                    <span class="icon icon-discipline pr-1 c-black-05"></span>
+                    {{frontEvent.discipline.title}}
+                  </p>
+                </div>
+              </b-col>
+            </b-row>
+
+            <hr>
+            <p class="font-sm" v-if="frontEvent.phone || frontEvent.email || frontEvent.personToContact">
+              Kontakt:
             </p>
-            <p class="mb-3 font-sm">
+            <p class="font-sm" v-if="frontEvent.personToContact">{{frontEvent.personToContact}}</p>
+            <p class="font-sm" v-if="frontEvent.phone">
+              <span class="icon icon-phone pr-1 c-black-05"></span>
+              {{frontEvent.phone}}
+            </p>
+            <p class="font-sm" v-if="frontEvent.email">
+              <span class="icon icon-mail pr-1 c-black-05"></span>
+              {{frontEvent.email}}
+            </p>
+            <hr v-if="frontEvent.phone || frontEvent.email || frontEvent.personToContact">
+            <p class="font-sm" v-if="frontEvent.facebook">
               <span class="icon icon-facebook pr-1 c-black-05"></span>
-              Aktywny Studen
+              {{frontEvent.facebook}}
             </p>
-            <h5 class="sup mb-0">
+            <p class="font-sm" v-if="frontEvent.youtube">
+              <span class="icon icon-youtube pr-1 c-black-05"></span>
+              {{frontEvent.youtube}}
+            </p>
+            <p class="mb-3 font-sm" v-if="frontEvent.www">
+              <span class="icon icon-www pr-1 c-black-05"></span>
+              {{frontEvent.www}}
+            </p>
+            <h5 class="sup mb-0" v-if="frontEvent.description">
               Opis
             </h5>
-            <p class="mb-3 font-sm">
-              Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat, elementum
-              velit et, elementum libero.
-            </p>
-            <p class="mb-3 font-sm">
-              Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas, mollis libero in, ullamcorper
-              est. Sed bibendum
-            </p>
-            <p class="mb-3 font-sm">
-              Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat, elementum
-              velit et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas,
-              mollis libero in, ullamcorper est. Sed bibendum
+            <p class="mb-3 font-sm" v-if="frontEvent.description">
+              {{frontEvent.description}}
             </p>
           </b-col>
         </b-row>
@@ -77,38 +111,31 @@
 
   export default {
     name: 'Test',
-    components: { Treeselect },
-    data () {
+    components: {Treeselect},
+    data() {
       return {
         id: this.$route.params.id,
         google: null
       }
     },
     computed: {
-      frontEvent () {
+      frontEvent() {
         return this.$store.getters.frontEvent(this.id)
       }
     },
     methods: {
-      setLocation (lesson) {
-        let lessons = [lesson]
+      setLocation(event) {
+        let events = [event]
         let places = []
-        for (let index in lessons) {
-          console.log(lessons[index])
+        for (let index in events) {
           places.push({
-            query: 'Lublin, ' + lessons[index].place.address,
-            dataToShow: {
-              title: lessons[index].title,
-              placeTitle: lessons[index].place.title,
-              school: lessons[index].school.name,
-              time: (lessons[index].newTimeRange === null) ? lessons[index].timeRange : lessons[index].newTimeRange
-            },
+            query: 'Lublin, ' + events[index].address,
             fields: ['name', 'geometry']
           })
         }
 
         // eslint-disable-next-line no-inner-declarations
-        function createMarker (place, dataToShow) {
+        function createMarker(place, dataToShow) {
           var marker = new google.maps.Marker({
             map: map,
             position: place.geometry.location
@@ -140,7 +167,6 @@
           delete places[index].dataToShow
           service.findPlaceFromQuery(places[index], function (results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              console.log(results)
               for (var i = 0; i < results.length; i++) {
                 createMarker(results[i], dataToShow)
               }
@@ -154,32 +180,32 @@
         map.panToBounds(bounds)
       }
     },
-    // async mounted () {
-    //   try {
-    //     // get connect with google API
-    //     this.google = await gmapsInit()
-    //     const google = this.google
-    //     // map container
-    //     let el = document.getElementById('map')
-    //     // our city
-    //     var lublin = new google.maps.LatLng(51.246, 22.568)
-    //
-    //     // eslint-disable-next-line no-unused-vars
-    //     const map = new google.maps.Map(el, {
-    //       center: lublin,
-    //       zoom: 8,
-    //       gestureHandling: 'cooperative'
-    //     })
-    //   } catch (error) {
-    //     console.error(error)
-    //   }
-    // },
-    created () {
+    async mounted () {
+      try {
+        // get connect with google API
+        this.google = await gmapsInit()
+        const google = this.google
+        // map container
+        let el = document.getElementById('map')
+        // our city
+        var lublin = new google.maps.LatLng(51.246, 22.568)
+
+        // eslint-disable-next-line no-unused-vars
+        const map = new google.maps.Map(el, {
+          center: lublin,
+          zoom: 8,
+          gestureHandling: 'cooperative'
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    created() {
       this.$store.dispatch('getMenuAndFooter')
       this.$store.dispatch('getFrontDisciplines')
       this.$store.dispatch('getFrontEvent', {id: this.id})
         .then(response => {
-          // this.setLocation(response)
+          this.setLocation(response)
         })
     }
   }

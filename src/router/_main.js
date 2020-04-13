@@ -31,8 +31,9 @@ const mainRouter = {
       component: Sports
     },
     {
-      path: 'sports-inner/:id',
+      path: 'sports/:id',
       name: 'sportsInner',
+      // name: 'sportsInner',
       component: SportsInner
     },
     {
@@ -46,7 +47,7 @@ const mainRouter = {
       component: SportEvents
     },
     {
-      path: 'sport-events-inner/:id',
+      path: 'sport-events/:id',
       name: 'sportEventsInner',
       component: SportEventsInner
     },
