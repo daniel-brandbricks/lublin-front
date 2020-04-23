@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col>
-      <lessons-visit :lessons="lessons"/>
+      <lessons-visit ref="lessonVisit" :lessons="lessons"/>
     </b-col>
     <b-col cols="12">
       <h2 class="my-3 d-inline-block">Mapa</h2>
@@ -48,6 +48,10 @@
     mixins: [EventBusEmit],
     data () {
       return {
+        generateExcel: false,
+        generatePdf: true,
+        checkboxFilterValues: [11, 2, 6, 13, 14, 15, 0, 1],
+
         google: null,
         placesPrepared: [],
 
@@ -67,7 +71,28 @@
       }
     },
     computed: {},
+    watch: {
+      lessons: {
+        handler: function (val) {
+          this.changeAdminNavbarButtonWithParams()
+        },
+        deep: true
+      }
+    },
     methods: {
+      changeAdminNavbarButtonWithParams () {
+        this.changeAdminNavbarButton({
+          buttonLink: false,
+          generateExcel: this.generateExcel,
+          generatePdf: this.generatePdf,
+          generationParams: {
+            type: 'Wizytacja',
+            lesson: this.lessons,
+            date: this.$refs.lessonVisit.selectedYear,
+            results: this.checkboxFilterValues
+          }
+        })
+      },
       showList () {
         this.$refs.visitList.show()
       },
@@ -178,6 +203,13 @@
       } catch (error) {
         console.error(error)
       }
+
+      this.$watch(
+        '$refs.lessonVisit.selectedYear',
+        (newValue, oldValue) => {
+          this.changeAdminNavbarButtonWithParams()
+        }
+      )
     },
     created () {
       /** @buttonLink route name || false if button must be hidden */

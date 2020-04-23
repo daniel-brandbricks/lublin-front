@@ -159,7 +159,7 @@
         // lesson.leaders = leaderIds
         this.lesson = lesson
         if (lesson.replacementLeaders && lesson.replacementLeaders.length > 0) this.lesson.replaced = true
-        if (lesson.newDate && lesson.newTimeRange.length > 0) this.lesson.canceled = true
+        if (lesson.newDate && lesson.newTimeRange && lesson.newTimeRange.length > 0) this.lesson.canceled = true
       },
       goToFormTab(tabName, params = {}) {
         this.checkValidMainForm()

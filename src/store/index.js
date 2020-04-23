@@ -23,6 +23,7 @@ import historyModule from './_history'
 import frequencyModule from './_frequency'
 import mainPageModule from './_main-page'
 import senderModule from './_sender'
+import generateDocumentsModule from './_generate-documents'
 
 // cms
 import sectionModule from './_section'
@@ -58,6 +59,7 @@ export default new Vuex.Store({
     historyModule,
     mainPageModule,
     senderModule,
+    generateDocumentsModule,
 
     // cms
     sectionModule,

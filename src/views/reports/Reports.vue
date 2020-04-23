@@ -9,6 +9,10 @@
     <reporting :key="$route.params.tab" v-if="$route.params.tab === 'reporting'"/>
     <visit :key="$route.params.tab" v-if="$route.params.tab === 'visit'"/>
 
+    <b-modal ref="loadingModal" centered hide-header hide-header-close
+             hide-footer size="lg">
+      <h3 class="text-center">Trwa ladowanie...</h3>
+    </b-modal>
   </div>
 </template>
 
@@ -37,10 +41,31 @@
         ]
       }
     },
+    computed: {
+      isLoading () {
+        return this.$store.getters.isLoading
+      }
+    },
+    watch: {
+      isLoading: function (val) {
+        if (val) {
+          this.$refs.loadingModal.show()
+        } else {
+          this.$refs.loadingModal.hide()
+        }
+      }
+    },
     created () {
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'reports', params: { 'tab': 'reporting' } })
       }
+
+      this.$store.dispatch('getSchools', { confirmed: 1, getAll: true })
+      this.$store.dispatch('getSportObjects', { confirmed: 1 })
+      this.$store.dispatch('getLeaders', { confirmed: 1, forLesson: true })
+      this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getLessonCategories')
+      this.$store.dispatch('getClasses')
 
       this.changeAdminNavbarBreadcrumbs([ { text: 'Raporty', active: true } ])
     }

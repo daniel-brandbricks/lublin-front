@@ -12,12 +12,12 @@
           </b-link>
         </b-col>
         <b-col cols="2" v-if="generateExcel">
-          <b-link class="nowrap btn btn-primary btn-block">
+          <b-link class="nowrap btn btn-primary btn-block" @click="callGenerateExcel">
             Wygeneruj EXCEL
           </b-link>
         </b-col>
         <b-col cols="2" v-if="generatePdf">
-          <b-link class="nowrap btn btn-primary btn-block">
+          <b-link class="nowrap btn btn-primary btn-block" @click="callGeneratePdf">
             Wygeneruj PDF
           </b-link>
         </b-col>
@@ -33,6 +33,9 @@
 
 <script>
   import EventBus from '@/event-bus'
+  import * as apiService from '@/services/apiService'
+  import axios from 'axios'
+  import {BASE_API_URL} from '@/config/AppConfig'
 
   export default {
     name: 'AdminNavbar',
@@ -43,6 +46,7 @@
         generatePdf: false,
         buttonLink: '#',
         buttonLinkParams: {},
+        generationParams: {},
 
         // breadcrumb
         items: [
@@ -65,6 +69,34 @@
     methods: {
       callEventBusMethod (params = {}) {
         EventBus.$emit(this.eventBusMethod, (params))
+      },
+      callGeneratePdf () {
+        if (undefined === this.generationParams || this.generationParams.results.length < 1) {
+          this.$bvToast.toast('Wybierz wyniki oraz zaznacz filtry', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-right',
+            solid: true,
+            variant: 'danger',
+            appendToast: false,
+            autoHideDelay: 10000
+          })
+          return
+        }
+        this.$store.dispatch('getPDF', this.generationParams)
+      },
+      callGenerateExcel (params = {}) {
+        if (undefined === this.generationParams || this.generationParams.results.length < 1) {
+          this.$bvToast.toast('Wybierz wyniki oraz zaznacz filtry', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-right',
+            solid: true,
+            variant: 'danger',
+            appendToast: false,
+            autoHideDelay: 10000
+          })
+          return
+        }
+        this.$store.dispatch('getExcel', this.generationParams)
       }
     },
     created () {
@@ -72,13 +104,12 @@
         this.eventBusMethod = params.eventBusMethod
         this.generateExcel = params.generateExcel
         this.generatePdf = params.generatePdf
+        this.generationParams = params.generationParams
         this.buttonLink = params.buttonLink
         this.buttonLinkParams = params.params
       })
       EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
-        console.log(params);
         this.items = params
-        // todo
       })
     }
   }
