@@ -56,11 +56,15 @@
       }
     },
     created () {
+      if (!this.$store.getters.isAdmin) {
+        this.tabLinks = []
+      }
+
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'reports', params: { 'tab': 'reporting' } })
       }
 
-      this.$store.dispatch('getSchools', { confirmed: 1, getAll: true })
+      this.$store.dispatch('getSchools', { confirmed: 1 })
       this.$store.dispatch('getSportObjects', { confirmed: 1 })
       this.$store.dispatch('getLeaders', { confirmed: 1, forLesson: true })
       this.$store.dispatch('getDisciplines')

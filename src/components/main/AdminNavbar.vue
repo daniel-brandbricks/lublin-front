@@ -28,6 +28,7 @@
         </b-col>
       </b-row>
     </b-col>
+    <div class="d-none">{{errorCached}}</div>
   </div>
 </template>
 
@@ -65,7 +66,24 @@
         ]
       }
     },
-    computed: {},
+    computed: {
+      errorCached () {
+        return this.$store.getters.errorCached
+      }
+    },
+    watch: {
+      errorCached: function (val) {
+        console.log(val)
+        this.$bvToast.toast('Wystąpil błąd lub nie masz uprawnień dla wygenerowania raportów', {
+          title: 'Uwaga!',
+          toaster: 'b-toaster-bottom-right',
+          solid: true,
+          variant: 'danger',
+          appendToast: false,
+          autoHideDelay: 10000
+        })
+      }
+    },
     methods: {
       callEventBusMethod (params = {}) {
         EventBus.$emit(this.eventBusMethod, (params))

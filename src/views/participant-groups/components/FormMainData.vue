@@ -116,7 +116,7 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
-  import EventBus from "@/event-bus";
+  import EventBus from '@/event-bus'
 
   export default {
     name: 'FormMainData',
@@ -181,16 +181,32 @@
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
-      },
-      mounted () {
-        if (this.$route.params.validateForm) {
-          this.checkValidForm()
-        }
+      }
+    },
+    mounted () {
+      if (this.$route.params.validateForm) {
+        this.checkValidForm()
+      }
+
+      if (undefined !== this.id) {
+        /** @buttonLink route name || false if button must be hidden */
+        this.changeAdminNavbarButton({
+          buttonLink: false,
+          generateExcel: true,
+          generatePdf: true,
+          generationParams: {
+            type: 'Lista zawodników',
+            id: this.id,
+            results: [0, 1, 2, 3, 4, 5, 6, 7]
+          }
+        })
+      } else {
+        this.changeAdminNavbarButton({buttonLink: false})
       }
     },
     created () {
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({eventBusMethod: false})
+      // /** @buttonLink route name || false if button must be hidden */
+      // this.changeAdminNavbarButton({eventBusMethod: false})
 
       this.$store.dispatch('getSeasons')
       this.$store.dispatch('getSchools')

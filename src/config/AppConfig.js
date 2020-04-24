@@ -61,10 +61,8 @@ export const PERMISSIONS = [
   { id: 4, label: 'Dodaje/aktualizuje frekwencję (listę obecności)' },
   // todo
   { id: 5, label: 'Generuje raporty' },
-
   // { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
   // { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
-
   // todo
   { id: 8, label: 'Wprowadza wyniki MTSF-u' },
   { id: 9, label: 'Archiwizuje listy zawodników z możliwością przeniesienia i edycji listy na kolejny rok/sezon' }
