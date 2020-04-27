@@ -176,10 +176,7 @@
         let classes = this.selectedClasses || []
         let selectedSchools = this.selectedSchools || []
 
-        console.log(selectedGender)
-        // todo continue here + teest filtration
         for (let index in participantGroups) {
-          console.log(participantGroups[index].sex)
           if (search.length > 0 && participantGroups[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
           if (selectedGender.length > 0 && participantGroups[index].sex.filter(x => selectedGender.includes(x)).length < 1) continue
           // if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue

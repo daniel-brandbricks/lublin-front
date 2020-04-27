@@ -53,6 +53,7 @@
       </b-form-group>
       <b-form-group class="custom mb-2">
         <treeselect v-model="participant.school.id"
+                    :disabled="participant.id && participant.school.id !== null"
                     :multiple="false"
                     placeholder="Szkoła / Klub"
                     :options="schoolsTreeselect"
@@ -268,3 +269,5 @@
      border: 2px solid #D8D8D8;
    }
 </style>
+
+

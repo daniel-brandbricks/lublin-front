@@ -33,6 +33,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.school"
                     v-model="participantGroup.school.id"
                     :multiple="false"
                     :disabled="participantGroup.id && participantGroup.school.id !== null"
@@ -42,6 +43,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.discipline"
                     v-model="participantGroup.discipline.id"
                     :multiple="false"
                     placeholder="Dyscyplina" :options="participantGroupDiscipline"
@@ -50,6 +52,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.lessonCategory"
                     v-model="participantGroup.lessonCategory.id"
                     :multiple="false"
                     placeholder="Kategoria" :options="participantGroupLessonCategory"
@@ -58,6 +61,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.class"
                     v-model="participantGroup.class.id"
                     :multiple="false"
                     placeholder="Klasa" :options="participantGroupClass"
@@ -66,6 +70,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.season"
                     v-model="participantGroup.season.id"
                     :disabled="participantGroup.id && participantGroup.season.id !== null"
                     :multiple="false"

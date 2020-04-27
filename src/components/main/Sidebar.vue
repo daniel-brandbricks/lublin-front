@@ -103,7 +103,8 @@
             Frekwencja
           </b-link>
 
-          <b-link :to="{name:'mtsf'}"
+          <b-link :to="{name:'mtsf', params: {'tab': 'participants'}}"
+                  :class="{'active': 'mtsf' === $route.name}"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>

@@ -1,28 +1,27 @@
 <template>
-  <!--todo Переделать  хреново ломается -->
   <div class="container">
     <b-col cols="12" class="p-0 mt-2">
       <b-row>
         <b-col>
           <b-breadcrumb :items="items" class="custom"></b-breadcrumb>
         </b-col>
-        <b-col cols="2" v-if="buttonLink">
-          <b-link class="nowrap btn btn-primary btn-block" :to="{ name: buttonLink, params: buttonLinkParams }">
+        <b-col sm="4" md="2" v-if="buttonLink">
+          <b-link class="nowrap btn btn-primary btn-block mb-2" :to="{ name: buttonLink, params: buttonLinkParams }">
             Dodaj...
           </b-link>
         </b-col>
-        <b-col cols="2" v-if="generateExcel">
-          <b-link class="nowrap btn btn-primary btn-block" @click="callGenerateExcel">
+        <b-col sm="4" md="2" v-if="generateExcel">
+          <b-link class="nowrap btn btn-primary btn-block mb-2" @click="callGenerateExcel">
             Wygeneruj EXCEL
           </b-link>
         </b-col>
-        <b-col cols="2" v-if="generatePdf">
-          <b-link class="nowrap btn btn-primary btn-block" @click="callGeneratePdf">
+        <b-col sm="4" md="2" v-if="generatePdf">
+          <b-link class="nowrap btn btn-primary btn-block mb-2" @click="callGeneratePdf">
             Wygeneruj PDF
           </b-link>
         </b-col>
-        <b-col cols="2" v-if="eventBusMethod">
-          <b-link class="nowrap btn btn-primary btn-block" @click="callEventBusMethod">
+        <b-col sm="4" md="2" v-if="eventBusMethod">
+          <b-link class="nowrap btn btn-primary btn-block mb-2" @click="callEventBusMethod">
             Dodaj...
           </b-link>
         </b-col>
@@ -48,6 +47,7 @@
         buttonLink: '#',
         buttonLinkParams: {},
         generationParams: {},
+        buttonLinkEventBus: false,
 
         // breadcrumb
         items: [
@@ -125,6 +125,7 @@
         this.generationParams = params.generationParams
         this.buttonLink = params.buttonLink
         this.buttonLinkParams = params.params
+        this.buttonLinkEventBus = params.buttonLinkEventBus
       })
       EventBus.$on('NAVBAR_CHANGE_BREADCRUMBS', (params) => {
         this.items = params

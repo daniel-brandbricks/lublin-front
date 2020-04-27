@@ -15,6 +15,8 @@
                  :key="$route.params.tab+'LessonForm'" v-if="$route.params.tab === 'lessons'"/>
     <FormCalendar :participant="participant.id" @childSubmit="submit" ref="FormCalendar"
                   :key="$route.params.tab+'FormCalendar'" v-if="participant.id && $route.params.tab === 'calendar'"/>
+    <FormMTSF :participant="participant" @childSubmit="submit" ref="FormMTSF"
+                  :key="$route.params.tab+'FormMTSF'" v-if="participant.id && $route.params.tab === 'mtsf'"/>
   </div>
 </template>
 
@@ -24,6 +26,7 @@
   import FormMixin from '@/mixins/form-mixin'
   import FormParticipantGroups from '@/views/participants/components/FormParticipantGroups'
   import FormLessons from '@/views/participants/components/FormLessons'
+  import FormMTSF from '@/views/participants/components/FormMTSF'
   import FormCalendar from '@/views/participants/components/FormCalendar'
 
   import FormMainData from '@/views/participants/components/FormMainData'
@@ -36,7 +39,8 @@
       FormMainData,
       FormParticipantGroups,
       FormLessons,
-      FormCalendar
+      FormCalendar,
+      FormMTSF
     },
     mixins: [EventBusEmit, FormMixin],
     data() {

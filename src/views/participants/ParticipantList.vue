@@ -61,6 +61,10 @@
             <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
           </template>
 
+          <template slot="enterDate" slot-scope="scope">
+            <span>{{scope.item.enterDate}}</span>
+          </template>
+
           <template slot="status" slot-scope="scope">
 
             <b-dropdown class="status-dropdown">
@@ -86,10 +90,11 @@
               </b-dropdown-item>
             </b-dropdown>
 
-            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>
+<!--            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>-->
           </template>
 
           <template slot="edit" slot-scope="scope">
+            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
             </b-link>
@@ -123,6 +128,8 @@
           {key: 'lastName', label: 'Nazwisko', sortable: true},
           {key: 'sex', label: 'Płeć', sortable: true},
           {key: 'year', label: 'Rocznik', sortable: true},
+          {key: 'enterDate', label: 'Data wpisu', sortable: true},
+          {key: 'removeDate', label: 'Data wypisania', sortable: true},
           // {key: 'class', label: 'Klasa', sortable: true},
           {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
           {key: 'edit', label: ''}

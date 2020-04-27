@@ -24,6 +24,7 @@ import frequencyModule from './_frequency'
 import mainPageModule from './_main-page'
 import senderModule from './_sender'
 import generateDocumentsModule from './_generate-documents'
+import mtsfModule from './_mtsf'
 
 // cms
 import sectionModule from './_section'
@@ -60,6 +61,7 @@ export default new Vuex.Store({
     mainPageModule,
     senderModule,
     generateDocumentsModule,
+    mtsfModule,
 
     // cms
     sectionModule,

@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center">
+      <b-col cols="12">
+        <TabLinks :links="tabLinks"></TabLinks>
+      </b-col>
+    </b-row>
+
+    <b-row :key="$route.params.tab" v-if="$route.params.tab === 'participants'" class="justify-content-center">
       <b-col cols="6">
         <h4>Zakres</h4>
         <b-row class="my-3">
@@ -139,6 +145,9 @@
         </b-table>
       </b-col>
     </b-row>
+    <MTSFValuesList :key="$route.params.tab" v-if="$route.params.tab === 'values'">
+
+    </MTSFValuesList>
   </div>
 </template>
 
@@ -147,12 +156,27 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import { DISTRICTS } from '@/config/AppConfig'
+  import MTSFValuesList from '@/views/MTSF/MTSGValuesList'
+  import TabLinks from '../../components/TabLinks'
 
   export default {
-    components: { Treeselect },
+    components: { Treeselect, MTSFValuesList, TabLinks },
     mixins: [ EventBusEmit ],
     data () {
       return {
+        tabLinks: [
+          {
+            title: 'Wyniki',
+            link: 'mtsf',
+            tab: 'participants'
+          },
+          {
+            title: 'Dane Podstawowe',
+            link: 'mtsf',
+            tab: 'values'
+          }
+        ],
+
         dateFrom: null,
         dateTo: null,
         selectedYearFrom: null,
@@ -245,6 +269,10 @@
       }
     },
     created () {
+      if (this.$route.params.tab === undefined) {
+        this.$router.push({ name: 'mtsf', params: { 'tab': 'participants' } })
+      }
+
       this.$store.dispatch('getSchools', {})
 
       /** @buttonLink route name || false if button must be hidden */

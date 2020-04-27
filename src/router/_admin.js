@@ -172,7 +172,7 @@ const adminRouter = {
     },
     // MTSF List
     {
-      path: 'mtsf',
+      path: 'mtsf/:tab?',
       name: 'mtsf',
       component: MTSF
     },
