@@ -173,6 +173,25 @@ export default {
           })
       })
     },
+    checkMtsfPoints (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/mtsf', 'put', true, data.data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            console.log(response)
+            context.commit('setMtsf', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
     getMtsfDataList (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/mtsf-data', 'get', true, data, data, 200)
@@ -193,7 +212,7 @@ export default {
     },
     putMtsfData (context, data) {
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/mtsf-data/' + data.id, 'put', true, data.data, null, 200)
+        apiService.makeApiCall('resource/mtsf-data/' + data.id, 'put', true, data, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')

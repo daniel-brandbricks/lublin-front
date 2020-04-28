@@ -120,69 +120,85 @@
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-2" label="Bieg na 50m (s)">
+              <b-input-group :append="checkPoints('bieg50m')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.bieg50m')}"
                             name="mtsf.bieg50m" key="mtsf.bieg50m" v-validate="{'required':true}"
                             v-model="mtsf.bieg50m"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-2" label="Skok dal z miejsca (cm)">
+              <b-input-group :append="checkPoints('skokDalZMiejsca')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.skokDalZMiejsca')}"
                             name="mtsf.skokDalZMiejsca" key="mtsf.skokDalZMiejsca" v-validate="{'required':true}"
                             v-model="mtsf.skokDalZMiejsca"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-2"
                           label="Bieg na 600m (Dzieci 7-11lat) / 800m (Dziewczyny 12-19lat) / 1000 m ( Chłopcy 12-19 lat)">
+              <b-input-group :append="checkPoints('biegDlugaDystancja')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.biegDlugaDystancja')}"
                             name="mtsf.biegDlugaDystancja" key="mtsf.biegDlugaDystancja" v-validate="{'required':true}"
                             v-model="mtsf.biegDlugaDystancja"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-2" label="Siła dłoni (kG)">
+              <b-input-group :append="checkPoints('silaDloni')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.silaDloni')}"
                             name="mtsf.silaDloni" key="mtsf.silaDloni" v-validate="{'required':true}"
                             v-model="mtsf.silaDloni"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-2"
                           label="Zwis na ugiętych rękach / Uginanie rąk w zwisie ( Chłopcy 12 -19 lat)">
+              <b-input-group :append="checkPoints('zwisNaUgietychRekach')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.zwisNaUgietychRekach')}"
                             name="mtsf.zwisNaUgietychRekach" key="mtsf.zwisNaUgietychRekach"
                             v-validate="{'required':true}"
                             v-model="mtsf.zwisNaUgietychRekach"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
-            <b-form-group class="custom mb-2" label="Bieg 4x10m(s)">
+            <b-form-group class=" mb-2" label="Bieg 4x10m(s)">
+              <b-input-group :append="checkPoints('bieg4x10')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.bieg4x10')}"
                             name="mtsf.bieg4x10" key="mtsf.bieg4x10" v-validate="{'required':true}"
                             v-model="mtsf.bieg4x10"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-2" label="Siady z leżenia">
+              <b-input-group :append="checkPoints('siadyZLezenia')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.siadyZLezenia')}"
                             name="mtsf.siadyZLezenia" key="mtsf.siadyZLezenia" v-validate="{'required':true}"
                             v-model="mtsf.siadyZLezenia"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-group class="custom mb-4" label="Skłon tułowia (cm)">
+              <b-input-group :append="checkPoints('sklonTulowia')">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.sklonTulowia')}"
                             name="mtsf.sklonTulowia" key="mtsf.sklonTulowia" v-validate="{'required':true}"
                             v-model="mtsf.sklonTulowia"/>
+              </b-input-group>
             </b-form-group>
           </b-col>
         </b-row>
@@ -193,7 +209,12 @@
             </b-btn>
           </b-col>
           <b-col>
-            <b-btn variant="primary" @click="submit(true)" class="custom">
+            <b-btn variant="primary" @click="checkPunkts" class="custom">
+              Zobacz punkty
+            </b-btn>
+          </b-col>
+          <b-col cols="12">
+            <b-btn variant="primary" @click="submit(true)" class="custom mt-3">
               Zakończ test
             </b-btn>
           </b-col>
@@ -243,6 +264,8 @@
           index: null
         },
 
+        points: {},
+
         fields: [
           {key: 'firstName', label: 'Imię', sortable: true},
           {key: 'lastName', label: 'Nazwisko', sortable: true},
@@ -291,6 +314,10 @@
       }
     },
     methods: {
+      checkPoints (key) {
+        if (Object.keys(this.points).length === 0) return ''
+        return 'Punkty: ' + this.points[key]
+      },
       resetModal () {
         this.mtsf = {
           season: {
@@ -310,6 +337,16 @@
           finalDate: null,
           index: null
         }
+        this.points = {}
+      },
+      checkPunkts () {
+        this.$store.dispatch('checkMtsfPoints', {data: {actionType: 'checkMtsfPoints', mtsf: this.mtsf}})
+          .then(response => {
+            this.points = {...response}
+          })
+          .catch(error => {
+            this.showToast(error.data.error, 'Uwaga', 'danger')
+          })
       },
       submit (endTest = false) {
         if (endTest) this.mtsf.finalDate = true

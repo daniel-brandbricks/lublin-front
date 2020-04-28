@@ -95,4 +95,11 @@
   .mx-time-header {
     display: none;
   }
+
+  .modal-mtsf-values div div.modal-content {
+    width: 97vw !important;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
 </style>
