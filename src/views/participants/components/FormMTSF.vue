@@ -7,32 +7,34 @@
             <b-form-group class="custom">
               <treeselect class="custom m-0"
                           v-model="selectedSeasons"
-                          :multiple="false"
+                          :multiple="true"
                           placeholder="Sezon" :options="seasonsTreeselect"
-                          :class="{'error-input-custom': veeErrors.has('season')}"
                           name="season" key="season" v-validate="{'required':true}"/>
             </b-form-group>
           </b-col>
-          <b-col>
-            <date-picker v-model="selectedDate" :lang="datepickerParams.lang"
-                         :class="{'error-input-custom': veeErrors.has('selectedYear')}"
-                         :name="'selectedYear'" :key="'selectedYear'"
-                         value-type="format" format="YYYY-MM-DD"
-                         v-validate="{'required': true}"
-                         type="date"
-                         :id="'selectedYear'" placeholder="Wybierz datę" class="w-100 custom mt-1">
-            </date-picker>
-          </b-col>
+<!--          <b-col>-->
+<!--            <date-picker v-model="selectedDate" :lang="datepickerParams.lang"-->
+<!--                         :class="{'error-input-custom': veeErrors.has('selectedYear')}"-->
+<!--                         :name="'selectedYear'" :key="'selectedYear'"-->
+<!--                         value-type="format" format="YYYY-MM-DD"-->
+<!--                         v-validate="{'required': true}"-->
+<!--                         type="date"-->
+<!--                         :id="'selectedYear'" placeholder="Wybierz datę" class="w-100 custom mt-1">-->
+<!--            </date-picker>-->
+<!--          </b-col>-->
           <b-col>
             <b-form-group class="custom mb-2">
               <b-form-input id="title-1" class="custom m-0"
-                            placeholder="Szukaj"
-                            :class="{'error-input-custom': veeErrors.has('searchText')}"
+                            placeholder="Szukaj po imieniu, nazwisku oraz dacie"
                             name="searchText" key="searchText" v-validate="{'required':true}"
                             v-model="searchText"/>
             </b-form-group>
           </b-col>
         </b-row>
+
+<!--        <b-row class="justify-content-end">-->
+<!--          <b-btn variant="primary" class="custom mr-3">Filtruj</b-btn>-->
+<!--        </b-row>-->
 
         <b-table
           :items="participantMtsfs"
@@ -274,14 +276,34 @@
           {key: 'removeDate', label: 'Data wypisania', sortable: true},
           {key: 'season', label: 'Sezon', sortable: true},
           {key: 'finalDate', label: 'Data obliczenia', sortable: true},
-          {key: 'points', label: 'Punkty', sortable: true},
+          {key: 'totalPoints', label: 'Punkty', sortable: true},
           {key: 'edit', label: 'Zobacz'}
         ]
       }
     },
     computed: {
       participantMtsfs () {
-        return this.$store.getters.mtsfList
+        let mtsfList = this.$store.getters.mtsfList
+        let prepared = []
+
+        console.log(this.searchText)
+        for (let index in mtsfList) {
+          let string = ' ' +
+            (mtsfList[index].participant.firstName ? (mtsfList[index].participant.firstName.toLowerCase() + ' ') : '') +
+            (mtsfList[index].participant.lastName ? (mtsfList[index].participant.lastName.toLowerCase() + ' ') : '') +
+            (mtsfList[index].participant.enterDate ? (mtsfList[index].participant.enterDate.toLowerCase() + ' ') : '') +
+            (mtsfList[index].participant.removeDate ? (mtsfList[index].participant.removeDate.toLowerCase() + ' ') : '') +
+            (mtsfList[index].finalDate ? (mtsfList[index].finalDate.toLowerCase() + ' ') : '')
+
+          if (this.searchText.length > 0 && string.indexOf(this.searchText.toLowerCase()) === -1) continue
+
+          if (this.selectedSeasons && this.selectedSeasons.length > 0 &&
+            !this.selectedSeasons.includes(mtsfList[index].season.id)) continue
+
+          prepared.push(mtsfList[index])
+        }
+
+        return prepared
       },
       seasonsTreeselect () {
         let data = this.$store.getters.seasons

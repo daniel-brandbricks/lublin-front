@@ -53,9 +53,11 @@ export default {
       state.mtsfDataList = data
     },
     setMtsfList (state, data) {
+      console.log(data)
       state.mtsfList = data
     },
     setMtsf (state, data) {
+      console.log(data)
       const id = data.id
       let mtsfList = state.mtsfList
 
