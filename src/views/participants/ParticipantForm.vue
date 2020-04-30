@@ -17,6 +17,11 @@
                   :key="$route.params.tab+'FormCalendar'" v-if="participant.id && $route.params.tab === 'calendar'"/>
     <FormMTSF :participant="participant" @childSubmit="submit" ref="FormMTSF"
                   :key="$route.params.tab+'FormMTSF'" v-if="participant.id && $route.params.tab === 'mtsf'"/>
+
+    <b-modal ref="loadingModal" centered hide-header hide-header-close
+             hide-footer size="lg">
+      <h3 class="text-center">Trwa ladowanie...</h3>
+    </b-modal>
   </div>
 </template>
 
@@ -83,7 +88,20 @@
         isValidForm: false
       }
     },
-    computed: {},
+    computed: {
+      isLoading () {
+        return this.$store.getters.isLoading
+      }
+    },
+    watch: {
+      isLoading: function (val) {
+        if (val) {
+          this.$refs.loadingModal.show()
+        } else {
+          this.$refs.loadingModal.hide()
+        }
+      }
+    },
     methods: {
       setDataFromExistedParticipant(participant) {
         let disciplines = participant.disciplines || []

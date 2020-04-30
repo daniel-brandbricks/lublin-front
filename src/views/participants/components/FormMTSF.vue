@@ -25,7 +25,7 @@
           <b-col>
             <b-form-group class="custom mb-2">
               <b-form-input id="title-1" class="custom m-0"
-                            placeholder="Szukaj po imieniu, nazwisku oraz dacie"
+                            placeholder="Szukaj po imieniu oraz nazwisku"
                             name="searchText" key="searchText" v-validate="{'required':true}"
                             v-model="searchText"/>
             </b-form-group>
@@ -91,6 +91,7 @@
               <treeselect class="custom m-0"
                           v-model="mtsf.season.id"
                           :multiple="false"
+                          :disabled="!!mtsf.id"
                           placeholder="Sezon" :options="seasonsForFormTreeselect"
                           :class="{'error-input-custom': veeErrors.has('mtsf.season.id')}"
                           name="mtsf.season.id" key="mtsf.season.id" v-validate="{'required':true}"/>
@@ -242,6 +243,10 @@
     mixins: [EventBusEmit, FormMixin],
     data () {
       return {
+        generateExcel: true,
+        generatePdf: true,
+        selectedType: 'Mtsf',
+
         datepickerParams: DATEPICKER_PARAMS,
         searchText: '',
         selectedSeasons: null,
@@ -335,7 +340,31 @@
         return preparedSeasons
       }
     },
+    watch: {
+      searchText: function (val) {
+        this.changeAdminNavbarButtonWithParams()
+      },
+      selectedSeasons: function (val) {
+        this.changeAdminNavbarButtonWithParams()
+      }
+    },
     methods: {
+      changeAdminNavbarButtonWithParams () {
+        this.changeAdminNavbarButton({
+          eventBusMethod: 'OPEN_MTSF_MODAL',
+          generateExcel: this.generateExcel,
+          generatePdf: this.generatePdf,
+          generationParams: {
+            type: this.selectedType,
+            filters: {
+              searchText: this.searchText,
+              selectedSeasons: this.selectedSeasons,
+              participant: this.id
+            },
+            results: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+          }
+        })
+      },
       checkPoints (key) {
         if (Object.keys(this.points).length === 0) return ''
         return 'Punkty: ' + this.points[key]
@@ -401,8 +430,7 @@
         this.openMTSFModal()
       })
 
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({eventBusMethod: 'OPEN_MTSF_MODAL', generateExcel: true, generatePdf: true})
+      this.changeAdminNavbarButtonWithParams()
 
       this.$store.dispatch('getMtsfList', {participantId: this.id})
       this.$store.dispatch('getSeasons')

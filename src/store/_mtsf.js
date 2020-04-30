@@ -130,7 +130,7 @@ export default {
             }
 
             context.commit('setMtsfList', response)
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

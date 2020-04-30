@@ -256,6 +256,10 @@
     mixins: [EventBusEmit, FormMixin],
     data () {
       return {
+        generateExcel: true,
+        generatePdf: true,
+        selectedType: 'Mtsf',
+
         datepickerParams: DATEPICKER_PARAMS,
         searchText: '',
         selectedSeasons: null,
@@ -310,8 +314,22 @@
               return x.id === data[participantIndex].id
           })) continue
 
-          prepared.push({id: data[participantIndex].id,
-                         label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName})
+          let filteredParticipantsBySeason = (this.participantMtsfs && this.participantMtsfs.length > 0) ? this.participantMtsfs.filter(x => {
+            return x.participant.id === data[participantIndex].id
+          }) : []
+
+          if (filteredParticipantsBySeason.length > 1) {
+            prepared.push({
+              id: data[participantIndex].id,
+              label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName,
+              isDisabled: true
+            })
+          } else {
+            prepared.push({
+              id: data[participantIndex].id,
+              label: data[participantIndex].firstName + ' ' + data[participantIndex].lastName
+            })
+          }
         }
 
         return prepared
@@ -374,7 +392,28 @@
         }
       }
     },
+    watch: {
+      searchText: function (val) {
+        this.changeAdminNavbarButtonWithParams()
+      }
+    },
     methods: {
+      changeAdminNavbarButtonWithParams () {
+        this.changeAdminNavbarButton({
+          eventBusMethod: 'OPEN_MTSF_MODAL',
+          generateExcel: this.generateExcel,
+          generatePdf: this.generatePdf,
+          generationParams: {
+            type: this.selectedType,
+            filters: {
+              searchText: this.searchText,
+              participantGroup: this.id,
+              selectedSeasons: [this.participantGroup.season.id]
+            },
+            results: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+          }
+        })
+      },
       checkPoints (key) {
         if (Object.keys(this.points).length === 0) return ''
         return 'Punkty: ' + this.points[key]
@@ -446,8 +485,7 @@
         this.openMTSFModal()
       })
 
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({eventBusMethod: 'OPEN_MTSF_MODAL', generateExcel: true, generatePdf: true})
+      this.changeAdminNavbarButtonWithParams()
 
       this.$store.dispatch('getMtsfList', {participantGroupId: this.id})
       this.$store.dispatch('getSeasons')
