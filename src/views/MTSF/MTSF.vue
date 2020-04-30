@@ -53,7 +53,7 @@
           class="custom table-responsive"
         >
           <template slot="firstName" slot-scope="scope">
-              <span>{{scope.item.participant.firstName}}</span>
+            <span>{{scope.item.participant.firstName}}</span>
           </template>
           <template slot="lastName" slot-scope="scope">
             <span>{{scope.item.participant.lastName}}</span>
@@ -92,14 +92,14 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-  import { DISTRICTS } from '@/config/AppConfig'
+  import {DISTRICTS} from '@/config/AppConfig'
   import MTSFValuesList from '@/views/MTSF/MTSGValuesList'
   import TabLinks from '../../components/TabLinks'
 
   export default {
-    components: { Treeselect, MTSFValuesList, TabLinks },
-    mixins: [ EventBusEmit ],
-    data () {
+    components: {Treeselect, MTSFValuesList, TabLinks},
+    mixins: [EventBusEmit],
+    data() {
       return {
         generateExcel: true,
         generatePdf: true,
@@ -123,22 +123,22 @@
         selectedSeasons: null,
 
         fields: [
-          { key: 'firstName', label: 'Imię', sortable: true },
-          { key: 'lastName', label: 'Nazwisko', sortable: true },
-          { key: 'sex', label: 'Płeć', sortable: true },
-          { key: 'season', label: 'Sezon', sortable: true },
-          { key: 'date', label: 'Data obliczenia', sortable: true },
-          { key: 'points', label: 'Punkty sumeryczne', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'firstName', label: 'Imię', sortable: true},
+          {key: 'lastName', label: 'Nazwisko', sortable: true},
+          {key: 'sex', label: 'Płeć', sortable: true},
+          {key: 'season', label: 'Sezon', sortable: true},
+          {key: 'date', label: 'Data obliczenia', sortable: true},
+          {key: 'points', label: 'Punkty sumeryczne', sortable: true},
+          {key: 'edit', label: ''}
         ],
         listItems: []
       }
     },
     computed: {
-      isLoading () {
+      isLoading() {
         return this.$store.getters.isLoading
       },
-      seasonsTreeselect () {
+      seasonsTreeselect() {
         let data = this.$store.getters.seasons
         let preparedSeasons = []
 
@@ -148,7 +148,7 @@
 
         return preparedSeasons
       },
-      leadersTreeselect () {
+      leadersTreeselect() {
         let leadersPrepared = []
         for (let index in this.$store.getters.leadersConfirmed) {
           leadersPrepared.push({
@@ -178,14 +178,14 @@
       },
       '$route.params.tab': function (val) {
         if (val === 'values') {
-          this.changeAdminNavbarButton({ buttonLink: false })
+          this.changeAdminNavbarButton({buttonLink: false})
         } else {
           this.changeAdminNavbarButtonWithParams()
         }
       }
     },
     methods: {
-      filterMtsfList () {
+      filterMtsfList() {
         let filters = {
           searchText: this.searchText,
           selectedLeaders: this.selectedLeaders,
@@ -196,7 +196,7 @@
             this.listItems = response
           })
       },
-      changeAdminNavbarButtonWithParams () {
+      changeAdminNavbarButtonWithParams() {
         this.changeAdminNavbarButton({
           buttonLink: false,
           generateExcel: this.generateExcel,
@@ -208,14 +208,14 @@
               selectedLeaders: this.selectedLeaders,
               selectedSeasons: this.selectedSeasons
             },
-            results: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            results: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
           }
         })
       }
     },
-    created () {
+    created() {
       if (this.$route.params.tab === undefined) {
-        this.$router.push({ name: 'mtsf', params: { 'tab': 'participants' } })
+        this.$router.push({name: 'mtsf', params: {'tab': 'participants'}})
       }
 
       this.filterMtsfList()
@@ -225,7 +225,7 @@
       this.$store.dispatch('getSeasons')
 
       this.changeAdminNavbarButtonWithParams()
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Lista MTSF', active: true } ])
+      this.changeAdminNavbarBreadcrumbs([{text: 'Lista MTSF', active: true}])
     }
   }
 </script>

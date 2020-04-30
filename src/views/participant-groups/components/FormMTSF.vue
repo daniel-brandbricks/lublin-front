@@ -118,7 +118,7 @@
             </b-form-group>
           </b-col>
           <b-col cols="12">
-            <b-form-group class="custom mb-2" label="Wzrosc (cm)">
+            <b-form-group class="custom mb-2" label="Wzrost (cm)">
               <b-form-input id="name-1" class="custom m-0"
                             :class="{'error-input-custom': veeErrors.has('mtsf.height')}"
                             name="mtsf.height" key="mtsf.height" v-validate="{'required':true}"
@@ -410,7 +410,7 @@
               participantGroup: this.id,
               selectedSeasons: [this.participantGroup.season.id]
             },
-            results: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            results: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
           }
         })
       },
