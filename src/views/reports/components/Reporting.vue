@@ -7,7 +7,7 @@
         </b-form-radio>
         <b-form-radio class="d-inline-block mr-4" v-model="selectedType" name="some-radios" value="Frekwencja">Frekwencja
         </b-form-radio>
-        <b-form-radio class="d-inline-block" v-model="selectedType" name="some-radios" value="MTSF">MTSF</b-form-radio>
+<!--        <b-form-radio class="d-inline-block" v-model="selectedType" name="some-radios" value="MTSF">MTSF</b-form-radio>-->
       </b-form-group>
 
       <h4>Zakres</h4>

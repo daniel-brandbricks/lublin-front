@@ -137,6 +137,14 @@
           this.$refs.loadingModal.show()
         } else {
           this.$refs.loadingModal.hide()
+          this.$bvToast.toast('Ilość wyników przy wygenerowaniu MTSF zależy od uprawnień, które masz w szkołach / klubach.', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-right',
+            solid: true,
+            variant: 'info',
+            appendToast: false,
+            autoHideDelay: 20000
+          })
         }
       }
     },

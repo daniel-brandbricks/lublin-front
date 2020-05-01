@@ -82,6 +82,9 @@
           responsive="md"
           class="custom table-responsive">
 
+          <template slot="title" slot-scope="scope">
+            <span v-if="scope.item.lesson">{{scope.item.lesson.title}}</span>
+          </template>
           <template slot="day" slot-scope="scope">
             <span v-if="scope.item.lesson">{{scope.item.lesson.date}}</span>
           </template>
@@ -200,6 +203,7 @@
         ],
 
         fields: [
+          {key: 'title', label: 'Nazwa', sortable: true},
           {key: 'day', label: 'Dzień', sortable: true},
           {key: 'hour', label: 'Godzina', sortable: true},
           {key: 'category', label: 'Kategoria', sortable: true},

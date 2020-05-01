@@ -73,14 +73,13 @@
     },
     watch: {
       errorCached: function (val) {
-        console.log(val)
         this.$bvToast.toast('Wystąpil błąd lub nie masz uprawnień dla wygenerowania raportów', {
           title: 'Uwaga!',
           toaster: 'b-toaster-bottom-right',
           solid: true,
           variant: 'danger',
           appendToast: false,
-          autoHideDelay: 10000
+          autoHideDelay: 20000
         })
       }
     },

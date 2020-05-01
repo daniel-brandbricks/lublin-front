@@ -221,7 +221,7 @@
                 tab: 'frequency',
                 method: 'changeTab',
                 methodParams: 'frequency'
-              },
+              }
               // {
               //   title: 'Kalendarz',
               //   link: 'lesson',
@@ -229,13 +229,13 @@
               //   method: 'changeTab',
               //   methodParams: 'calendar'
               // },
-              {
-                title: 'MTSF',
-                link: 'lesson',
-                tab: 'MTSF',
-                method: 'changeTab',
-                methodParams: 'MTSF'
-              }
+              // {
+              //   title: 'MTSF',
+              //   link: 'lesson',
+              //   tab: 'MTSF',
+              //   method: 'changeTab',
+              //   methodParams: 'MTSF'
+              // }
             ]
 
             let breadcrumbs = [
