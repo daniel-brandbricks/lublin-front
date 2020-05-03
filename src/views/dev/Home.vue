@@ -1,9 +1,9 @@
 <template>
   <div class="wrap">
-    <section class="header-slider">
+    <section class="header-slider"
+             v-if="mainPageData && mainPageData.slider && mainPageData.slider.length > 0">
       <b-container class="">
         <b-carousel
-          v-if="mainPageData && mainPageData.slider && mainPageData.slider.length > 0"
           class="custom"
           id="carousel-fade"
           :interval="400000000"
@@ -14,11 +14,8 @@
               <div class="slider-content pb-3">
                 <div class="slider-wrap-card">
                   <div class="slider-card">
-                    <h2>Donec mattis nisi felis</h2>
-                    <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean nec
-                      urna ultricies, blandit dui sed, posuere massa.</p>
-                    <p>Vestibulum tincidunt lacinia nunc, et dignissim risus. In arcu diam, ornare vitae est vel,
-                      vulputate efficitur diam. Etiam sed sollicitudin felis.</p>
+                    <h2>{{slide.title}}</h2>
+                    <p>{{slide.description}}</p>
                   </div>
                 </div>
                 <div class="slider-wrap-img text-right">
@@ -50,7 +47,7 @@
     </section>
 
     <section
-      v-if="frontEvents && frontEvents.length > 0"
+      v-if="mainPageData && mainPageData.event && frontEvents && frontEvents.length > 0"
     >
       <b-container>
         <div class="box-header -one text-center">
@@ -63,7 +60,7 @@
     </section>
 
     <section class="mb-3"
-             v-if="frontEvents && frontEvents.length > 0"
+             v-if="mainPageData && mainPageData.event && frontEvents && frontEvents.length > 0"
     >
       <b-container>
         <b-row class="justify-content-around">
@@ -98,7 +95,7 @@
     </section>
 
     <section
-      v-if="frontLessons && frontLessons.data && frontLessons.data.length > 0"
+      v-if="mainPageData && mainPageData.lesson && frontLessons && frontLessons.data && frontLessons.data.length > 0"
     >
       <b-container>
         <div class="box-header -two text-center">
@@ -111,7 +108,7 @@
     </section>
 
     <section
-      v-if="frontLessons && frontLessons.data && frontLessons.data.length > 0"
+      v-if="mainPageData && mainPageData.lesson && frontLessons && frontLessons.data && frontLessons.data.length > 0"
     >
       <b-container>
         <b-row class="mb-4">
