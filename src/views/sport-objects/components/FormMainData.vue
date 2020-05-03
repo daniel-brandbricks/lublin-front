@@ -64,6 +64,7 @@
         </b-col>
       </b-row>
 
+      <DistrictSearch/>
       <!--    treeselect    -->
       <treeselect v-model="sportObject.district"
                   :multiple="false" class="custom mb-3"
@@ -127,11 +128,12 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import DistrictSearch from "@/components/DistrictSearch";
 
   export default {
     name: 'FormMainData',
     props: ['sportObject', 'districts'],
-    components: {Treeselect, ImageInputAdvanced},
+    components: {DistrictSearch, Treeselect, ImageInputAdvanced},
     mixins: [EventBusEmit, FormMixin],
     data() {
       return {

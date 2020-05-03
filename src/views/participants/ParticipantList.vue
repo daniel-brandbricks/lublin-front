@@ -113,6 +113,7 @@
 
   import {YEARS} from '@/config/AppConfig'
 
+  import ToastMixin from '@/mixins/toast-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import ParticipantMixin from '@/mixins/participant-mixin'
   import EventBus from '@/event-bus'
@@ -120,7 +121,7 @@
   export default {
     components: {Treeselect},
     props: ['participant', 'statusSlot', 'school', 'schoolIds', 'lesson', 'disableNavButton'],
-    mixins: [EventBusEmit, ParticipantMixin],
+    mixins: [EventBusEmit, ParticipantMixin, ToastMixin],
     data () {
       return {
         fields: [
@@ -214,6 +215,8 @@
             id: id,
             active: status,
             actionType: 'put-partly'
+          }).catch(error => {
+            this.showToast(error.data.error, 'Wystąpil błąd')
           })
           return
         }

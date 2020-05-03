@@ -147,12 +147,13 @@
       }
     },
     created () {
+      console.log(this.schoolId)
       if (this.schoolId) {
         this.events.selectedSchoolOrCLub = [this.schoolId]
         this.$store.dispatch('getEvents', { confirmed: 1, filters: JSON.stringify(this.events) })
       } else {
         this.$store.dispatch('getSchools', {})
-        this.$store.dispatch('getEvents', { confirmed: 1 })
+        this.$store.dispatch('getEvents', { confirmed: 1, forSchool: true })
       }
 
       this.$store.dispatch('getDisciplines')

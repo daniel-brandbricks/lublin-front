@@ -2,6 +2,7 @@
   <div>
     <b-row class="justify-content-center">
       <b-col cols="12" lg="6" class="">
+        <DistrictSearch/>
         <div class="row" v-if="school.places"
              v-for="(place,index) in school.places" :key="index">
           <div class="col-1">
@@ -57,7 +58,6 @@
                             v-validate="{'required':true}"
                             v-model="place.postcode"/>
             </b-form-group>
-            <h1>MAP</h1>
           </div>
         </div>
       </b-col>
@@ -125,11 +125,12 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import DistrictSearch from "@/components/DistrictSearch";
 
   export default {
     name: 'FormPlaces',
     props: [ 'school', 'isValidForm', 'districts' ],
-    components: { Treeselect, ImageInputAdvanced },
+    components: {DistrictSearch, Treeselect, ImageInputAdvanced },
     mixins: [ EventBusEmit, FormMixin ],
     data () {
       return {

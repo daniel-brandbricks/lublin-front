@@ -50,6 +50,7 @@ export default {
           )
         })
       }
+      // download('http://lublin.bbapp.pl/api/pdf-generate/?filters=' + dataJSON, `${fileName}.pdf`)
       download('http://lublin.local/api/pdf-generate/?filters=' + dataJSON, `${fileName}.pdf`)
     },
     getExcel (context, data) {
@@ -59,6 +60,7 @@ export default {
       context.commit('isLoading', true)
 
       // header with token set in apiService
+      // axios.get('http://lublin.bbapp.pl/api/xlsx-generate/?filters=' + dataJSON, {
       axios.get('http://lublin.local/api/xlsx-generate/?filters=' + dataJSON, {
         responseType: 'blob'
       }).then(response => {
@@ -78,7 +80,6 @@ export default {
           if (error.response.status === 400 || error.response.status === 401 || error.response.status === 402) {
             context.commit('isLoading', false)
             context.commit('errorCached', false)
-            return
           }
         })
     }

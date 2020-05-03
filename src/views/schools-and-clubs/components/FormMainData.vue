@@ -67,6 +67,7 @@
       </b-form-group>
 
       <h2 class="my-4">Lokalizacja</h2>
+      <DistrictSearch/>
 
       <!--    treeselect    -->
       <treeselect v-model="school.district"
@@ -92,7 +93,6 @@
                       name="school.postcode" key="school.postcode" v-validate="{'required':true}"
                       v-model="school.postcode"/>
       </b-form-group>
-      <h1>MAP</h1>
       <b-form-group
         class="custom">
         <b-form-input id="input-1" class="custom"
@@ -162,11 +162,12 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import DistrictSearch from "@/components/DistrictSearch";
 
   export default {
     name: 'FormMainData',
     props: [ 'school', 'districts' ],
-    components: { Treeselect, ImageInputAdvanced },
+    components: {DistrictSearch, Treeselect, ImageInputAdvanced },
     mixins: [ EventBusEmit, FormMixin ],
     data () {
       return {}

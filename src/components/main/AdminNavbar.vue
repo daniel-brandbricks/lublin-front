@@ -22,7 +22,7 @@
         </b-col>
         <b-col sm="4" md="2" v-if="eventBusMethod">
           <b-link class="nowrap btn btn-primary btn-block mb-2" @click="callEventBusMethod">
-            Dodaj...
+            {{eventBusButtonName ? eventBusButtonName : 'Dodaj...'}}
           </b-link>
         </b-col>
       </b-row>
@@ -41,6 +41,7 @@
     name: 'AdminNavbar',
     data () {
       return {
+        eventBusButtonName: false,
         eventBusMethod: false,
         generateExcel: false,
         generatePdf: false,
@@ -118,6 +119,7 @@
     },
     created () {
       EventBus.$on('NAVBAR_BUTTON_LINK', (params) => {
+        this.eventBusButtonName = params.eventBusButtonName
         this.eventBusMethod = params.eventBusMethod
         this.generateExcel = params.generateExcel
         this.generatePdf = params.generatePdf

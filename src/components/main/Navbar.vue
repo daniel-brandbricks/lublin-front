@@ -188,11 +188,12 @@
         <img src="/static/img/logo.svg" alt="LOGO">
       </div>
       <h2 class="mb-3 text-center">
-        Dziękujemy <br>
-        za złożenie danych
+        Wszystko <br>
+        przebiegło pomyślnie
       </h2>
       <p class="fix-card-text">
-        Nulla massa leo, semper lacinia elit vel, semper molestie justo.
+        Teraz sprawdż podany w formularzu <br>
+        email, by dokończyć proces rejestracji.
       </p>
       <div class="btn-container d-flex flex-column w-100 mt-3">
         <b-btn variant="primary"
