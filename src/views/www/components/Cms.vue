@@ -1,6 +1,7 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="10" class="mt-4">
+      <h2>Strona głowna</h2>
       <b-table
         :items="sections"
         :fields="fields"
@@ -25,7 +26,8 @@
           </b-link>
         </template>
       </b-table>
-<!--      <b-row class="mt-8">-->
+
+      <!--      <b-row class="mt-8">-->
 <!--        <b-col>-->
 <!--          <b-link :to="{name: 'cms.section'}" class="btn custom btn-primary">nowa</b-link>-->
 <!--        </b-col>-->
