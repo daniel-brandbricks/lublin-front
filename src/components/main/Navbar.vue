@@ -32,7 +32,7 @@
               Klasy sportowe <br class="d-sm-none d-xl-block">
               i profilowane
             </b-nav-item>
-            <b-nav-item href="#">
+            <b-nav-item target="_blank" :href="navbarItems.link" v-if="navbarItems">
               Współzawodnictwo Sportowe <br class="d-sm-none d-xl-block">
               Szkół Miasta Lublin
             </b-nav-item>
@@ -250,6 +250,8 @@
     name: 'Navbar',
     data () {
       return {
+        navbarItems: null,
+
         selectedRegister: '1',
 
         // school
@@ -457,6 +459,10 @@
     },
     created () {
       this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getNavbarItems')
+      .then(response => {
+        this.navbarItems = response
+      })
     }
   }
 </script>

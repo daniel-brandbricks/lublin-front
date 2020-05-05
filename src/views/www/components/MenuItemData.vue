@@ -17,6 +17,17 @@
                       v-model="menuItem.link"/>
       </b-form-group>
       <hr>
+
+      <div v-if="menuItem.id === 4">
+        <b-form-group class="custom">
+          <b-form-input id="input-1" class="custom"
+                        placeholder="WWW link"
+                        :class="{'error-input-custom': veeErrors.has('menuItem.www')}"
+                        name="menuItem.www" key="menuItem.www"
+                        v-model="menuItem.www"/>
+        </b-form-group>
+      </div>
+
       <div v-if="menuItem.id === 5 || menuItem.id === 4">
         <b-form-group class="custom">
           <b-form-input id="input-1" class="custom"
@@ -111,6 +122,7 @@
         menuItem: {
           id: this.id,
           title: '',
+          www: '',
           mainTitle: '',
           description: '',
           youtubeLinks: '',
@@ -199,6 +211,8 @@
         let menuItem = {...this.menuItem}
         if (menuItem.youtubeLinks.length > 0) {
           menuItem.youtubeLinks = menuItem.youtubeLinks.join('|||')
+        } else {
+          menuItem.youtubeLinks = ''
         }
 
         console.log(menuItem)

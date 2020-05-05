@@ -9,12 +9,16 @@ export default {
     },
     frontEvents: [],
     frontSportProjects: [],
+    frontSportClasses: {},
     frontDisciplines: [],
     menuAndFooter: []
   },
   getters: {
     frontSportProjects (state) {
       return state.frontSportProjects
+    },
+    frontSportClasses (state) {
+      return state.frontSportClasses
     },
     mainPageData (state) {
       return state.mainPageData
@@ -59,6 +63,9 @@ export default {
   mutations: {
     setSportProjects (state, data) {
       state.frontSportProjects = data
+    },
+    setSportClasses (state, data) {
+      state.frontSportClasses = data
     },
     setMainPageData (state, data) {
       state.mainPageData = data
@@ -265,6 +272,61 @@ export default {
 
             context.commit('setSportProjects', response)
             resolve()
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getSportClasses (context, data) {
+      console.log(data)
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('front/sport-classes', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setSportClasses', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getSKS (context, data) {
+      console.log(data)
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('front/sks', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getNavbarItems (context, data) {
+      console.log(data)
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('front/navbar-items', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)
