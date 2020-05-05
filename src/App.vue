@@ -1,16 +1,18 @@
 <template>
   <div id="app">
     <router-view/>
+    <Cookies/>
     <ConfirmDeleteModal></ConfirmDeleteModal>
   </div>
 </template>
 
 <script>
   import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
+  import Cookies from './components/Cookies'
 
   export default {
     name: 'App',
-    components: {ConfirmDeleteModal},
+    components: {ConfirmDeleteModal, Cookies},
     data() {
       return {}
     },
