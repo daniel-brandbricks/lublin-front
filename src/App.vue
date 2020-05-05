@@ -1,21 +1,23 @@
 <template>
   <div id="app">
     <router-view/>
+    <Cookies/>
     <ConfirmDeleteModal></ConfirmDeleteModal>
   </div>
 </template>
 
 <script>
   import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
+  import Cookies from '@/components/Cookies'
 
   export default {
     name: 'App',
-    components: {ConfirmDeleteModal},
-    data() {
+    components: {Cookies, ConfirmDeleteModal},
+    data () {
       return {}
     },
     computed: {
-      authUser() {
+      authUser () {
         return this.$store.getters.authUser
       }
     },
@@ -31,12 +33,12 @@
                   if (school.invitations[index].active === false) {
                     this.$bvToast.toast('Masz nową aplikację od prowadzącego. ' +
                       'Sprawdż to w swojej szkołe / klubu w zakładce "Prowadzący" ', {
-                      title: 'Uwaga!',
-                      toaster: 'b-toaster-bottom-right',
-                      solid: true,
-                      variant: 'info',
-                      appendToast: false,
-                      autoHideDelay: 5000000
+                        title: 'Uwaga!',
+                        toaster: 'b-toaster-bottom-right',
+                        solid: true,
+                        variant: 'info',
+                        appendToast: false,
+                        autoHideDelay: 5000000
                     })
                   }
                 }
@@ -79,12 +81,12 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       window.setInterval(() => {
         this.$store.dispatch('getActualSidebarData')
       }, 60000)
     },
-    created() {
+    created () {
       this.$store.dispatch('getActualSidebarData')
       this.$store.dispatch('getCurrentUser')
     }
