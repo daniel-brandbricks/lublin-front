@@ -9,13 +9,13 @@
         sort-icon-left
         responsive="md"
         class="custom table-responsive">
-        <template slot="actions" slot-scope="scope">
-          <b-link :to="{name: 'cms.section', params: {'id': scope.item.id}}" class="btn custom btn-primary">
-            Szczegóły
-          </b-link>
-        </template>
+<!--        <template v-slot:cell(actions)="scope">-->
+<!--          <b-link :to="{name: 'cms.section', params: {'id': scope.item.id}}" class="btn custom btn-primary">-->
+<!--            Szczegóły-->
+<!--          </b-link>-->
+<!--        </template>-->
 
-        <template slot="status" slot-scope="scope">
+        <template v-slot:cell(status)="scope">
           <span class="status inactive" v-if="scope.item"
                 :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
