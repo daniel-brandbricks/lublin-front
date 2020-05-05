@@ -21,7 +21,7 @@
 
     <b-col cols="12" lg="5" class="">
       <!--    radios    -->
-      <h2 class="mb-4">Aktywuj</h2>
+      <h2 class="my-4">Aktywuj</h2>
       <b-form-group>
         <b-form-radio v-model="sportObject.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('sportObject.active'+index)}"
@@ -90,24 +90,24 @@
 
       <!--buttons-->
       <b-row class="mt-4">
-        <b-col>
+        <b-col class="mt-3">
           <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteSportObject', sportObject.id, undefined, 'sport.objects', {tab: 'confirmed'})">
             <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
-        <b-col>
+        <b-col class="mt-3">
           <b-link block class="custom btn" :to="{ name: 'sport.objects', params: { 'tab': 'confirmed' } }">
             Anuluj
           </b-link>
         </b-col>
-        <b-col>
+        <b-col class="mt-3">
           <b-btn block class="custom" @click="submit(true)">
             Zapisz
           </b-btn>
         </b-col>
-        <b-col>
+        <b-col class="mt-3">
           <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
             Odtwierdz
           </b-btn>

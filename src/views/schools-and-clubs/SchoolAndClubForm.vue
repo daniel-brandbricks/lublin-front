@@ -265,11 +265,11 @@
               //   link: 'school.or.club',
               //   tab: 'calendar'
               // },
-              {
-                title: 'MTSF',
-                link: 'school.or.club',
-                tab: 'mtsf'
-              },
+              // {
+              //   title: 'MTSF',
+              //   link: 'school.or.club',
+              //   tab: 'mtsf'
+              // },
               {
                 title: 'Imprezy sportowe',
                 link: 'school.or.club',

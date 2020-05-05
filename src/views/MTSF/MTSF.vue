@@ -9,7 +9,7 @@
     <b-row :key="$route.params.tab" v-if="$route.params.tab === 'participants'" class="justify-content-center">
       <b-col cols="12">
         <b-row>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group class="custom">
               <treeselect class="custom m-0"
                           v-model="selectedSeasons"
@@ -18,7 +18,7 @@
                           name="season" key="season" v-validate="{'required':true}"/>
             </b-form-group>
           </b-col>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group class="custom">
               <treeselect class="custom m-0"
                           v-model="selectedLeaders"
@@ -27,7 +27,7 @@
                           name="leaders" key="leaders" v-validate="{'required':true}"/>
             </b-form-group>
           </b-col>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group class="custom mb-2">
               <b-form-input id="title-1" class="custom m-0"
                             placeholder="Szukaj po imieniu lub nazwisku zawodnika"

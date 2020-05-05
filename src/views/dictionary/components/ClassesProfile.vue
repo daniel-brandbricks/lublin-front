@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="6">
+  <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
     <h5>Profilowe</h5>
     <div class="row" v-if="computedList"
          v-for="(profile,index) in computedList" :key="index">

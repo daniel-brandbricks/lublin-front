@@ -223,18 +223,18 @@
         <b-btn variant="primary" class="custom mt-4" @click="addDate" block>Dodaj datę</b-btn>
 
         <b-row class="mt-4">
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn variant="delete" class="custom"
                    @click="deleteFromForm('deleteEvent', event.id, undefined, 'events', {tab: 'confirmed'})">
               Usuń
             </b-btn>
           </b-col>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn block class="custom btn" :to="{ name: 'events', params: { 'tab': 'confirmed' } }">
               Anuluj
             </b-btn>
           </b-col>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn block variant="primary" class="custom btn" @click="submit(true)">
               Zapisz
             </b-btn>

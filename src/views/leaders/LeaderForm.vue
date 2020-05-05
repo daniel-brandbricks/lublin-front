@@ -206,11 +206,11 @@
               //   link: 'leader',
               //   tab: 'frequency'
               // },
-              {
-                title: 'MTSF',
-                link: 'leader',
-                tab: 'mtsf'
-              }
+              // {
+              //   title: 'MTSF',
+              //   link: 'leader',
+              //   tab: 'mtsf'
+              // }
               // ,
               // {
               //   title: 'Imprezy sportowe',

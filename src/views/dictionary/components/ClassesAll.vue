@@ -1,5 +1,5 @@
 <template>
-  <b-col cols="6">
+  <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
     <h5>Wszystkie</h5>
     <div class="row align-items-center mt-2" v-if="computedList"
          v-for="(classAll,index) in computedList" :key="index">

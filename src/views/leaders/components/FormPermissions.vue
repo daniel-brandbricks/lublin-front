@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <div class="row mt-2" v-if="permissions"
            v-for="(schoolPermission,index) in permissions" :key="index">
         <div class="col-2" v-if="checkAccess(schoolPermission)">

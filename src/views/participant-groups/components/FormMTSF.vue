@@ -22,7 +22,7 @@
           <!--                         :id="'selectedYear'" placeholder="Wybierz datę" class="w-100 custom mt-1">-->
           <!--            </date-picker>-->
           <!--          </b-col>-->
-          <b-col>
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-form-group class="custom mb-2">
               <b-form-input id="title-1" class="custom m-0"
                             placeholder="Szukaj po imieniu, nazwisku oraz dacie"

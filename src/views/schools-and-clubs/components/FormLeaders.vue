@@ -2,7 +2,7 @@
   <div class="wrap">
     <b-row class="justify-content-center mb-4"
            v-if="school && school.invitations && school.invitations.length > 0">
-      <b-col cols="8">
+      <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <h5 v-b-toggle.collapse-invitations class="c-pointer">
           <span class="mr-3">^</span>Aplikacje prowadzących
         </h5>
@@ -24,23 +24,23 @@
       </b-col>
     </b-row>
     <b-row class="justify-content-center">
-      <b-col cols="8">
+      <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <b-row class="align-items-center mb-3">
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <treeselect class="custom"
                         v-model="selectedDisciplines"
                         :multiple="true"
                         placeholder="Dyscyplina"
                         :options="disciplinesTreeselect"/>
           </b-col>
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <treeselect class="custom"
                         v-model="selectedSportObjects"
                         :multiple="true"
                         placeholder="Obiekt"
                         :options="sportObjectsTreeselect"/>
           </b-col>
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group
               class="custom">
               <b-form-input id="input-1" class="custom m-0"

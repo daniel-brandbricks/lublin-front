@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-row class="justify-content-center">
-      <b-col cols="8">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="justify-content-between align-items-center">
-          <b-col cols="6">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-form-group class="custom d-inline-block">
               <b-form-checkbox-group
                 id="checkbox-group-1"
@@ -23,7 +23,7 @@
             <!--              />-->
             <!--            </b-form-group>-->
           </b-col>
-          <b-col cols="6">
+          <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
@@ -33,27 +33,27 @@
         </b-row>
       </b-col>
 
-      <b-col cols="8" class="mt-4">
+      <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="justify-content-between align-items-center">
-          <b-col cols="6">
+          <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
             <treeselect v-model="selectedSchools" v-if="selectedSchools"
                         :multiple="true" class="custom"
                         placeholder="Szkoła / Klub" :options="schoolsTreeselect"
             />
           </b-col>
-          <b-col cols="6">
+          <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
             <treeselect v-model="selectedDisciplines" v-if="selectedDisciplines"
                         :multiple="true" class="custom"
                         placeholder="Dyscyplina" :options="participantGroupDiscipline"
             />
           </b-col>
-          <b-col cols="6" class="mt-3">
+          <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
             <treeselect v-model="selectedLessonCategories" v-if="selectedLessonCategories"
                         :multiple="true" class="custom"
                         placeholder="Kategoria" :options="participantGroupLessonCategory"
             />
           </b-col>
-          <b-col cols="6" class="mt-3">
+          <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
             <treeselect v-model="selectedClasses" v-if="selectedClasses"
                         :multiple="true" class="custom"
                         placeholder="Klasa" :options="participantGroupClass"
@@ -63,7 +63,7 @@
       </b-col>
 
       <!--   Table   -->
-      <b-col cols="8" class="mt-4">
+      <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-table
           :items="participantGroups"
           :fields="fields"

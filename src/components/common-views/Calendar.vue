@@ -1,7 +1,8 @@
 <template>
   <b-col cols="12">
     <b-row>
-      <b-col :cols="splitComponents ? 6 : 12">
+<!--      :cols="splitComponents ? 6 : 12"    -->
+      <b-col :sm="12" :md="12" :lg="splitComponents ? 6 : 12" :xl="splitComponents ? 6 : 12">
         <template>
           <date-pick
             v-model="date"
@@ -12,7 +13,7 @@
           />
         </template>
       </b-col>
-      <b-col :cols="splitComponents ? 6 : 12">
+      <b-col :sm="12" :md="12" :lg="splitComponents ? 6 : 12" :xl="splitComponents ? 6 : 12">
         <div v-if="showLessons && showLessons.length > 0">
           <h4>Zajęcia</h4>
           <b-row class="justify-content-center">

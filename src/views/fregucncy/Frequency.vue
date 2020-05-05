@@ -5,7 +5,7 @@
         <h4>Zakres</h4>
 
         <b-row class="my-3 justify-content-center">
-          <b-col cols="6">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-row>
               <b-col cols="5">
                 <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
@@ -26,7 +26,7 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-form-checkbox-group
               v-if="undefined === schoolId && undefined === lessonId"
               id="checkbox-group-type"
@@ -37,7 +37,7 @@
           </b-col>
         </b-row>
         <b-row class="justify-content-between">
-          <b-col cols="6" class="mt-3">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <treeselect v-model="schoolsAndClubs"
                         :multiple="false"
                         :disabled="schoolId !== undefined || lessonId !== undefined"
@@ -47,7 +47,7 @@
                         class="custom"/>
 
           </b-col>
-          <b-col class="text-align-right mt-3" cols="6">
+          <b-col class="text-align-right mt-3 mb-2" cols="12" xl="6" lg="6" md="12" sm="12">
             <b-btn variant="primary" @click="filter(1, true)">Filtruj</b-btn>
             <!--            <treeselect v-model="lessonsSelected"-->
             <!--                        :multiple="true"-->

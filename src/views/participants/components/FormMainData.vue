@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center" v-if="participant">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h5>Aktywuj</h5>
       <b-form-group>
         <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block my-3 mr-3"

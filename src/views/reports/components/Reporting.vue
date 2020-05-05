@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col>
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h4>Typ</h4>
       <b-form-group class="my-3">
         <b-form-radio class="d-inline-block mr-4" v-model="selectedType" name="some-radios" value="Zajęcia">Zajęcia
@@ -65,7 +65,7 @@
       <!--        </template>-->
       <!--      </b-table>-->
     </b-col>
-    <b-col>
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h4>Zajęcia</h4>
 
       <b-form-group class="custom my-3">

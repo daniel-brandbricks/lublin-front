@@ -5,7 +5,7 @@
         <h4>Zakres</h4>
 
         <b-row class="">
-          <b-col cols="6">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-row class="my-2">
               <b-col cols="5">
                 <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
@@ -26,7 +26,7 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col class="my-2">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="my-2">
             <treeselect class="custom"
                         v-model="selectedAction"
                         :multiple="false"

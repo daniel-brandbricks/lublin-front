@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center" v-if="participantGroup">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h5>Aktywuj</h5>
       <b-form-group>
         <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block my-3 mr-3"
@@ -80,18 +80,18 @@
       </b-form-group>
 
       <b-row class="mt-4 justify-content-end">
-        <b-col cols="4" v-if="this.id">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2" v-if="this.id">
           <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteParticipantGroup', participantGroup.id, undefined, 'participant.groups', {})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
-        <b-col cols="4">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
           <b-btn block class="custom btn" :to="{ name: 'participant.groups' }">
             Anuluj
           </b-btn>
         </b-col>
-        <b-col cols="4">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
           <b-btn v-if="participantGroup.id"
                  variant="primary" block class="custom" @click="submit(true)">
             Zapisz
@@ -101,7 +101,7 @@
             Dalej
           </b-btn>
         </b-col>
-        <b-col cols="4" class="mt-3">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
           <b-btn v-if="participantGroup.id"
                  variant="primary" block class="custom" @click="$router.push({name: 'participant.group',
                  params: {'tab': 'clone', 'id': id}})">

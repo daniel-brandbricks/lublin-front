@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row class="justify-content-center">
-      <b-col cols="8">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-table
           :items="administrators"
           :fields="fields"

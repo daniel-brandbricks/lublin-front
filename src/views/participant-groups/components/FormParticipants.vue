@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center" v-if="participantGroup">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h5 class="my-3">Zawodnicy</h5>
       <div class="row" v-if="participantGroup.participants"
            v-for="(participant,index) in participantGroup.participants" :key="index">
