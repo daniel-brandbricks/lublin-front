@@ -17,7 +17,7 @@
             @row-clicked="schoolRowRedirect"
           >
 
-            <template v-slot:cell(type)="scope">
+            <template slot="type" slot-scope="scope">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="wrap-img-type-table mr-3">
                   <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
@@ -27,20 +27,20 @@
 
             </template>
 
-            <template v-slot:cell(object)="scope">
+            <template slot="object" slot-scope="scope">
               <span>{{scope.item.places.length}}</span>
             </template>
 
-            <template v-slot:cell(data)="scope">
+            <template slot="data" slot-scope="scope">
               <span>{{scope.item.created}}</span>
             </template>
 
-            <template v-slot:cell(btnTable)="scope" v-if="$store.getters.isDirector">
+            <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isDirector">
               <b-btn variant="primary" class="custom mb-0" @click="confirmSchoolAndClubItem(scope.item.id)">
                 Zatwierdź
               </b-btn>
             </template>
-            <template v-slot:cell(edit)="scope">
+            <template slot="edit" slot-scope="scope">
               <b-link class="icon-link">
                 <span class="icon icon-iconm_search"></span>
               </b-link>
@@ -62,23 +62,23 @@
             @row-clicked="sportObjectRowRedirect"
           >
 
-            <template v-slot:cell(name)="scope">
+            <template slot="name" slot-scope="scope">
               <span v-if="scope.item">{{scope.item.title}}</span>
             </template>
-            <template v-slot:cell(type)="scope">
+            <template slot="type" slot-scope="scope">
               <span>{{getSportObjectTypeNameById(scope.item.type)}}</span>
             </template>
 
-            <template v-slot:cell(data)="scope">
+            <template slot="data" slot-scope="scope">
               <span>{{scope.item.created}}</span>
             </template>
 
-            <template v-slot:cell(btnTable)="scope" v-if="$store.getters.isDirector">
+            <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isDirector">
               <b-btn variant="primary" class="custom mb-0" @click="confirmSportObjectItem(scope.item.id)">
                 Zatwierdź
               </b-btn>
             </template>
-            <template v-slot:cell(edit)="scope">
+            <template slot="edit" slot-scope="scope">
               <b-link class="icon-link">
                 <span class="icon icon-iconm_search"></span>
               </b-link>
@@ -100,30 +100,30 @@
             @row-clicked="leaderRowRedirect"
           >
 
-            <template v-slot:cell(fullName)="scope">
+            <template slot="fullName" slot-scope="scope">
               <span>{{scope.item.firstName + ' ' + scope.item.lastName}}</span>
             </template>
 
-            <template v-slot:cell(disciplines)="scope">
+            <template slot="disciplines" slot-scope="scope">
               <span/>
               <span class="d-inline" v-for="(discipline,index) in scope.item.disciplines" :key="index">
             {{getDisciplineTitleById(discipline.id, index, scope.item.disciplines.length)}}
           </span>
             </template>
 
-            <template v-slot:cell(status)="scope">
+            <template slot="status" slot-scope="scope">
           <span class="status" :class="{'active': scope.item.status}">
             {{scope.item.status == 1 ? 'aktywny' : 'nieaktywny'}}
           </span>
             </template>
 
-            <template v-slot:cell(edit)="scope">
+            <template slot="edit" slot-scope="scope">
               <b-link class="icon-link">
                 <span class="icon icon-iconm_search"></span>
               </b-link>
             </template>
 
-            <template v-slot:cell(btnTable)="scope" v-if="$store.getters.isAdmin">
+            <template slot="btnTable" v-if="$store.getters.isAdmin" slot-scope="scope">
               <b-btn variant="primary" size="sm" class="custom mb-0" @click="confirmLeader(scope.item.id)">
                 Zatwierdź
               </b-btn>
@@ -142,29 +142,29 @@
               class="custom table-responsive"
               @row-clicked="eventRowRedirect"
             >
-              <template v-slot:cell(dateStart)="scope">
+              <template slot="dateStart" slot-scope="scope">
                 <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
               </template>
 
-              <template v-slot:cell(discipline)="scope">
+              <template slot="discipline" slot-scope="scope">
           <span v-if="scope.item.discipline && scope.item.discipline.id">
             {{getDisciplineTitleById(scope.item.discipline.id)}}
           </span>
               </template>
 
-              <template v-slot:cell(organization)="scope">
+              <template slot="organization" slot-scope="scope">
                 <span v-if="scope.item.organization">{{scope.item.organization}}</span>
                 <span v-else-if="scope.item.school && scope.item.school.id">
             {{getSchoolNameById(scope.item.school.id)}}
           </span>
               </template>
 
-              <template v-slot:cell(btnTable)="scope" v-if="$store.getters.isAdmin">
+              <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isAdmin">
                 <b-btn variant="primary" class="custom mb-0" @click="confirmEvent(scope.item.id)">
                   Zatwierdź
                 </b-btn>
               </template>
-              <template v-slot:cell(edit)="scope">
+              <template slot="edit" slot-scope="scope">
                 <span class="c-pointer">Szczegóły</span>
               </template>
 
@@ -184,18 +184,18 @@
           responsive="md"
           class="custom table-responsive"
         >
-          <template v-slot:cell(user)="scope">
+          <template slot="user" slot-scope="scope">
             <span v-if="scope.item.user">{{scope.item.user.firstName}} {{scope.item.user.lastName}}</span>
             <br>
             <span v-if="scope.item.user">{{scope.item.user.email}}</span>
           </template>
-          <template v-slot:cell(method)="scope">
+          <template slot="method" slot-scope="scope">
             <span v-if="scope.item">{{getMethodName(scope.item.method)}}</span>
           </template>
-          <template v-slot:cell(school)="scope">
+          <template slot="school" slot-scope="scope">
             <span v-if="scope.item.school">{{scope.item.school.name}}</span>
           </template>
-          <template v-slot:cell(changes)="scope">
+          <template slot="changes" slot-scope="scope">
                 <span v-show="scope.item.method !== 'DELETE'" class="c-pointer"
                       @click="showChanges(scope.item.changes)">Szczegóły</span>
           </template>

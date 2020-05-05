@@ -15,12 +15,12 @@
 <!--          </b-link>-->
 <!--        </template>-->
 
-        <template v-slot:cell(status)="scope">
+        <template slot="status" slot-scope="scope">
           <span class="status inactive" v-if="scope.item"
                 :class="{'active': scope.item.active}">{{scope.item.active == 1 ? 'aktywny' : 'nieaktywny'}}</span>
         </template>
 
-        <template v-slot:cell(actions)="data">
+        <template slot="actions" slot-scope="data">
           <b-link :to="{name:'cms.section', params: {'id': data.item.id}}" class="btn custom btn-primary">
             Szczegóły
           </b-link>
