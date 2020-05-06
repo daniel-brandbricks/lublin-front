@@ -8,6 +8,7 @@
           id="carousel-fade"
           :interval="400000000"
           fade
+          :captions="false"
           indicators>
           <b-carousel-slide :key="index" v-for="(slide,index) in mainPageData.slider">
             <template v-slot:img>
@@ -24,24 +25,6 @@
               </div>
             </template>
           </b-carousel-slide>
-<!--          <b-carousel-slide>-->
-<!--          <template v-slot:img>-->
-<!--            <div class="slider-content pb-3">-->
-<!--              <div class="slider-wrap-card">-->
-<!--                <div class="slider-card">-->
-<!--                  <h2>Donec mattis nisi felis</h2>-->
-<!--                  <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean nec-->
-<!--                    urna ultricies, blandit dui sed, posuere massa.</p>-->
-<!--                  <p>Vestibulum tincidunt lacinia nunc, et dignissim risus. In arcu diam, ornare vitae est vel,-->
-<!--                    vulputate efficitur diam. Etiam sed sollicitudin felis.</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <iframe width="794" height="416"-->
-<!--                      src="https://www.youtube.com/embed/tgbNymZ7vqY">-->
-<!--              </iframe>-->
-<!--            </div>-->
-<!--          </template>-->
-<!--        </b-carousel-slide>-->
         </b-carousel>
       </b-container>
     </section>

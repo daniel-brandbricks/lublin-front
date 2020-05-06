@@ -30,8 +30,10 @@
             </b-card-text>
 
             <div class="box-sub d-flex justify-content-end">
-              <b-btn variant="icon" class="custom card-arrow p-0 mb-n1" :to="{name:'sportEventsInner'}">
+              <b-btn variant="icon" class="custom card-arrow p-0 mb-n1">
+                <a target="_blank" :href="sportProject.link">
                 <span class="icon icon-arrow_right c-red"></span>
+                </a>
               </b-btn>
             </div>
           </b-card>
