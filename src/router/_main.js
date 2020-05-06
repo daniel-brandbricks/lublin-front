@@ -9,6 +9,9 @@ import SportEventsInner from '@/views/dev/SportEventsInner'
 import SportProjects from '@/views/dev/SportProjects'
 import SportClasses from '@/views/dev/SportsClasses'
 import SKS from '@/views/dev/SKS'
+import DeclarationAvailability from "@/views/dev/DeclarationAvailability";
+import InformationClause from "@/views/dev/InformationClause";
+import PrivacyPolicy from "@/views/dev/PrivacyPolicy";
 
 const mainRouter = {
   path: '/',
@@ -60,6 +63,21 @@ const mainRouter = {
       path: 'sks',
       name: 'sks',
       component: SKS
+    },
+    {
+      path: 'deklaracja-dostepnosci',
+      name: 'deklaracja.dostepnosci',
+      component: DeclarationAvailability
+    },
+    {
+      path: 'klauzula-informacyjna',
+      name: 'klauzula.informacyjna',
+      component: InformationClause
+    },
+    {
+      path: 'polityka-prywatnosci',
+      name: 'polityka.prywatnosci',
+      component: PrivacyPolicy
     }
   ]
 }

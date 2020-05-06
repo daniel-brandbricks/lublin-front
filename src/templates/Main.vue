@@ -34,6 +34,8 @@
   }
 </script>
 
-<style scoped>
-
+<style type="text/css">
+  .ql-container.ql-snow {
+     border: unset !important;
+  }
 </style>

@@ -333,6 +333,24 @@ export default {
             reject(error.response)
           })
       })
+    },
+    getRestPageFront (context, data) {
+      console.log(data)
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('front/rest-page', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
     }
   }
 }

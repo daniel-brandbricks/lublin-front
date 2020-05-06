@@ -28,6 +28,7 @@ import mtsfModule from './_mtsf'
 
 // cms
 import sectionModule from './_section'
+import restPageModule from './_rest-page'
 import sectionDescriptionModule from './_section-description'
 import menuModule from './_menu'
 import menuItemModule from './_menu-item'
@@ -64,6 +65,7 @@ export default new Vuex.Store({
     mtsfModule,
 
     // cms
+    restPageModule,
     sectionModule,
     sectionDescriptionModule,
     menuModule,

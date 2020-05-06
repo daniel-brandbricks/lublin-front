@@ -36,6 +36,7 @@ import MenuItemData from '@/views/www/components/MenuItemData'
 import SportProjectForm from '@/views/www/components/SportProjectForm'
 import MailTemplate from '@/views/messages/components/MailTemplate'
 import Recipient from '@/views/messages/components/Recipient'
+import CmsRestPageData from "@/views/www/components/CmsRestPageData";
 
 const adminRouter = {
   path: '/admin',
@@ -73,6 +74,11 @@ const adminRouter = {
       path: 'www/cms-section/:id?',
       name: 'cms.section',
       component: CmsFormMainData
+    },
+    {
+      path: 'www/cms-rest-page/:id?',
+      name: 'cms.rest.page',
+      component: CmsRestPageData
     },
     {
       path: 'www/menu/item-data/:id?',
