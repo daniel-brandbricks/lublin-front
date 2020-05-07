@@ -40,7 +40,7 @@
 <style type="text/css">
   .cookies-alert-bottom{
     z-index: 10000;
-    position: fixed;
+    position: sticky !important;
     bottom: 5px;
     left:2%;
     width: 96%;

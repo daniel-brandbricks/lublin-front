@@ -43,7 +43,7 @@
                 <div class="info-box">
                   <p class="signature mb-0">Organizatorem jest</p>
                   <p class="font-sm">{{frontEvent.school !== null ? frontEvent.school.name : frontEvent.organization}}</p>
-                  <p class="font-sm" v-if="frontEvent.email">
+                  <p class="font-sm" v-if="frontEvent.discipline">
                     <span class="icon icon-discipline pr-1 c-black-05"></span>
                     {{frontEvent.discipline.title}}
                   </p>

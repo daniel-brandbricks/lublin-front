@@ -103,7 +103,6 @@
 
         for (let index in events) {
           let datesArr = this.calculateDatesDifference(events[index].dateStart, events[index].dateEnd, true)
-
           for (let dateIndex in datesArr) {
             if (datesArr[dateIndex] === this.date) {
               prepared.push(events[index])
@@ -132,6 +131,9 @@
     },
     methods: {
       calculateDatesDifference(dateOne, dateTwo, withZeros = false) {
+        dateOne = dateOne.replace(/-/g, "/")
+        dateTwo = dateTwo.replace(/-/g, "/")
+
         let getDaysArray = function (start, end) {
           // eslint-disable-next-line no-unmodified-loop-condition
           for (var arr = [], dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) {

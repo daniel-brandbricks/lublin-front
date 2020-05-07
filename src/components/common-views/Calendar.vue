@@ -183,7 +183,6 @@
     },
     watch: {
       parentDate: function (val) {
-        console.log(val)
         this.date = val
       },
       date: function (val) {
@@ -260,12 +259,13 @@
         if ((this.showEvents && this.showEvents.length > 0) || this.calendarFront) {
           this.calculateCalendarDayEvents(this.events, dates)
         }
-        if (this.showLessons && this.showLessons.length > 0 || this.calendarFrontLessons) {
+        if ((this.showLessons && this.showLessons.length > 0) || this.calendarFrontLessons) {
           this.calculateCalendarDayLessons(this.lessons, dates)
         }
+
         this.dates = {...dates}
       },
-      calculateCalendarDayEvents (val, dates = {}) {
+      calculateCalendarDayEvents (val, dates) {
         for (let index in val) {
           let datesArr = this.calculateDatesDifference(val[index].dateStart, val[index].dateEnd)
 
@@ -292,6 +292,9 @@
         }
       },
       calculateDatesDifference(dateOne, dateTwo, withZeros = false) {
+        dateOne = dateOne.replace(/-/g, "/")
+        dateTwo = dateTwo.replace(/-/g, "/")
+
         let getDaysArray = function (start, end) {
           // eslint-disable-next-line no-unmodified-loop-condition
           for (var arr = [], dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) {
@@ -316,7 +319,6 @@
       let button = document.querySelector('.vdpPeriodControl')
       var config = {attributes: true, childList: true, subtree: true}
       var observer = new MutationObserver((list) => {
-        console.log('changed')
         this.recalculateCalendar()
         if (this.calendarFront) this.$emit('monthOrYearChanged')
       })
