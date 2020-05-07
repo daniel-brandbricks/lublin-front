@@ -31,13 +31,20 @@
     },
     mounted() {
       if (document.cookie.length > 0) {
-        let keyVal = document.cookie.split('=')
-        let main = document.getElementsByClassName('main-wrap')[0]
-        main.classList.add(keyVal[1])
-
-        console.log(keyVal)
+        let cookies = document.cookie.split('; ')
+        for (let index in cookies) {
+          let main = document.getElementsByClassName('main-wrap')[0]
+          let data;
+          if (cookies[index] && (data = cookies[index].split('='))) {
+            if (data[0] === 'styleTypeColor' || data[0] === 'styleFontSize') {
+              main.classList.add(data[1])
+            }
+          }
+        }
+        // let keyVal = document.cookie.split('=')
+        // let main = document.getElementsByClassName('main-wrap')[0]
+        // main.classList.add(keyVal[1])
       }
-      console.log(document.cookie)
     },
     created () {
       console.log('Main template created')

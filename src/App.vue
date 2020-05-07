@@ -101,8 +101,11 @@
   body {
     font-size: 1em;
   }
-  div * {
-    /*font-size: 1.01em !important;*/
+  .fonts-size-1 div * {
+    font-size: 1.01em !important;
+  }
+  .fonts-size-2 div * {
+    font-size: 1.015em !important;
   }
   h1 {
     font-size: 1em;
@@ -122,6 +125,7 @@
   button.vdpArrow {
     color: rgba(230, 230, 230, 0.07);
   }
+
   button.vdpArrow::before {
     color: black !important;
   }
@@ -231,6 +235,12 @@
   // calendar
   .colors-yb .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell:hover .vdpCellContent {
     box-shadow: 5px 5px 0px 0px yellow !important;
+  }
+  .colors-yb button.vdpArrow::before {
+    color: black !important;
+  }
+  .colors-yb button.vdpArrow {
+    color: black !important;
   }
 
   // files
@@ -356,6 +366,12 @@
   // calendar
   .colors-by .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell:hover .vdpCellContent {
     box-shadow: 5px 5px 0px 0px black !important;
+  }
+  .colors-by button.vdpArrow::before {
+    color: yellow !important;
+  }
+  .colors-by button.vdpArrow {
+    color: yellow !important;
   }
 
   // files
@@ -485,6 +501,12 @@
   // calendar
   .colors-wb .vdpOuterWrap .vdpInnerWrap .vdpTable tbody .vdpRow .vdpCell:hover .vdpCellContent {
     box-shadow: 5px 5px 0px 0px black !important;
+  }
+  .colors-wb button.vdpArrow::before {
+    color: white !important;
+  }
+  .colors-wb button.vdpArrow {
+    color: white !important;
   }
 
   // files

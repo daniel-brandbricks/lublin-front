@@ -310,11 +310,41 @@
     },
     methods: {
       changeFontSize (size) {
+        let typeStyles = {2: 'fonts-size-1', 3: 'fonts-size-2'}
+        let main = document.getElementsByClassName('main-wrap')[0]
+        let cookies = document.cookie.split('; ')
+
+        let helpClass = ''
+        for (let index in cookies) {
+          let data;
+          if (cookies[index] && (data = cookies[index].split('='))) {
+            if (data[0] === 'styleTypeColor') helpClass += data[1]
+          }
+        }
+
+        main.className = 'main-wrap ' + helpClass
+        if (size === 1) {
+          document.cookie = 'styleFontSize=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          return
+        }
+
+        document.cookie = 'styleFontSize=' + typeStyles[size]
+        main.classList.add(typeStyles[size])
       },
       changeColor (type) {
         let typeStyles = {1: 'colors-wb', 2: 'colors-by', 3: 'colors-yb'}
         let main = document.getElementsByClassName('main-wrap')[0]
-        main.className = 'main-wrap'
+
+        let cookies = document.cookie.split('; ')
+        let helpClass = ''
+        for (let index in cookies) {
+          let data;
+          if (cookies[index] && (data = cookies[index].split('='))) {
+            if (data[0] === 'styleFontSize') helpClass += data[1]
+          }
+        }
+
+        main.className = 'main-wrap ' + helpClass
         if (type === 4) {
           document.cookie = 'styleTypeColor=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
           return
