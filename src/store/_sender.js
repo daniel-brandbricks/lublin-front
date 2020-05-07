@@ -142,6 +142,7 @@ export default {
           })
           .catch(error => {
             console.log(error.response)
+            context.commit('setSender', [])
             reject(error.response)
           })
       })
@@ -156,8 +157,6 @@ export default {
               return
             }
 
-            context.commit('setSender', response['sender'])
-            context.commit('setMails', response['mails'])
             resolve(response)
           })
           .catch(error => {

@@ -7,7 +7,7 @@
           <b-form-input id="title-1" class="custom m-0"
                         placeholder="Tytuł"
                         :class="{'error-input-custom': veeErrors.has('mailTemplate.title')}"
-                        name="mailTemplate.title" key="mailTemplate.title" v-validate="{'required':true}"
+                        name="mailTemplate.title" key="mailTemplate.title"
                         v-model="mailTemplate.title"/>
         </b-form-group>
         <textarea class="custom w-100 mb-4" v-model="mailTemplate.description" placeholder="Wiadomość"
@@ -15,12 +15,14 @@
                   name="mailTemplate.description" :key="'mailTemplate.description'" :v-validate="'required'"/>
         <h4 class="mb-2">Lista odbiorców</h4>
         <b-form-checkbox-group class="mr-3 mb-2"
+                               v-if="$store.getters.isAdmin"
                                id="checkbox-group-1"
                                v-model="selectedType"
                                :options="typeOptions"
                                name="checkbox-group-type"
         />
         <treeselect v-model="selectedSchoolOrCLub"
+                    v-if="$store.getters.isAdmin"
                     :multiple="true"
                     :searchable="false"
                     placeholder="Nazwa klubu/Szkoły"
@@ -105,12 +107,12 @@
   import FormMixin from '@/mixins/form-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import MessagesMixin from '@/mixins/messages-mixin'
-  import ParticipantMixin from '@/mixins/participant-mixin'
+  import ToastMixin from '@/mixins/toast-mixin'
 
   export default {
     name: 'Messages',
     components: {Treeselect},
-    mixins: [EventBusEmit, FormMixin, MessagesMixin],
+    mixins: [EventBusEmit, FormMixin, MessagesMixin, ToastMixin],
     data () {
       return {
         selectedMail: {
@@ -139,7 +141,7 @@
           {key: 'title', label: 'Tytuł', sortable: true},
           {key: 'created', label: 'Data wysłania', sortable: true},
           {key: 'recipient', label: 'Odbiorca', sortable: true},
-          {key: 'status', label: 'Status', sortable: true},
+          // {key: 'status', label: 'Status', sortable: true},
           {key: 'description', label: 'Treść', sortable: true}
         ]
       }
@@ -168,6 +170,15 @@
         this.$refs.modalMessageDesc.show()
       },
       sendMessage () {
+        if (this.selectedSchoolOrCLub.length < 1 && this.selectedLeaders.length < 1) {
+          this.showToast('Wybierz co najmniej jednego odbiorcę', 'Uwaga!', 'danger')
+          return
+        }
+        if (this.mailTemplate.title.length < 1 || this.mailTemplate.description.length < 1) {
+          this.showToast('Wypełni treść', 'Uwaga!', 'danger')
+          return
+        }
+
         let data = {
           mailTemplate: {...this.mailTemplate},
           selectedSchoolOrCLub: [...this.selectedSchoolOrCLub],
@@ -176,11 +187,23 @@
         const method = 'postSender'
         this.$store.dispatch(method, data)
           .then(() => {
-            this.postSubmitRedirect('messages')
+            this.showToast('Wiadomość została wysłana', 'Uwaga!', 'success')
+            this.clearData()
+            this.$store.dispatch('getSender')
           })
           .catch((error) => {
             this.postSubmitError(error)
+            this.clearData()
           })
+      },
+      clearData () {
+        this.mailTemplate = {
+          id: this.id,
+          title: '',
+          description: ''
+        }
+        this.selectedSchoolOrCLub = []
+        this.selectedLeaders = []
       },
       rowRedirectMails (row) {
         this.$router.push({
