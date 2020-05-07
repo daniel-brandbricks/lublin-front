@@ -1,4 +1,3 @@
-<script src="../../mixins/participant-mixin.js"></script>
 <template>
   <div class="container">
     <b-row class="justify-content-center">
@@ -43,15 +42,31 @@
       </b-col>
 
       <b-col cols="6">
-        <h4 class="mb-3">Odbiorcy</h4>
+        <h4 class="mb-3">Wysłane</h4>
         <b-table
           :items="mails"
           :fields="recipientFields"
           striped
           responsive="md"
           class="custom table-responsive"
-          @row-clicked="rowRedirectMails"
         >
+          <template slot="title" slot-scope="scope">
+            <p>{{scope.item.mailTemplate.title}}</p>
+          </template>
+          <template slot="created" slot-scope="scope">
+            <p>{{scope.item.mailTemplate.created}}</p>
+          </template>
+          <template slot="recipient" slot-scope="scope">
+            <p>{{scope.item.recipient.email}}</p>
+          </template>
+          <template slot="status" slot-scope="scope">
+             <span class="status" :class="{'active': scope.item.status}">
+            {{scope.item.status == 1 ? 'Przeczytane w systemie' : 'Nieprzeczytane w systemie'}}
+          </span>
+          </template>
+          <template slot="description" slot-scope="scope">
+            <p @click="showDescription(scope.item)" class="c-pointer">Zobacz</p>
+          </template>
 
           <template slot="edit" slot-scope="scope">
             <b-link class="icon-link">
@@ -61,6 +76,24 @@
         </b-table>
       </b-col>
     </b-row>
+
+    <b-modal ref="modalMessageDesc"
+             @hidden="resetModal"
+             modal-class="custom"
+             centered size="md"
+             :hide-footer="true"
+             footer-class="justify-content-between"
+             title-tag="h2"
+             header-class="pr-4 pb-0">
+
+      <template slot="modal-title">
+        {{selectedMail.title}}
+      </template>
+
+      <div slot="default" class="d-flex">
+        <p>{{selectedMail.description}}</p>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -72,13 +105,19 @@
   import FormMixin from '@/mixins/form-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import MessagesMixin from '@/mixins/messages-mixin'
+  import ParticipantMixin from '@/mixins/participant-mixin'
 
   export default {
     name: 'Messages',
-    components: { Treeselect },
-    mixins: [ EventBusEmit, FormMixin, MessagesMixin ],
+    components: {Treeselect},
+    mixins: [EventBusEmit, FormMixin, MessagesMixin],
     data () {
       return {
+        selectedMail: {
+          title: '',
+          description: ''
+        },
+
         mailTemplate: {
           id: this.id,
           title: '',
@@ -86,18 +125,22 @@
         },
         selectedSchoolOrCLub: [],
         selectedLeaders: [],
+
         typeOptions: [
-          { text: 'klub', value: 0 },
-          { text: 'szkola', value: 1 }
+          {text: 'klub', value: 0},
+          {text: 'szkola', value: 1}
         ],
         selectedType: [],
         templateFields: [
-          { key: 'title', label: 'Tytuł', sortable: true },
-          { key: 'description', label: 'Treść', sortable: true }
+          {key: 'title', label: 'Tytuł', sortable: true},
+          {key: 'description', label: 'Treść', sortable: true}
         ],
         recipientFields: [
-          { key: 'mailTemplate.title', label: 'Tytuł', sortable: true },
-          { key: 'mailTemplate.created', label: 'Data wysłania', sortable: true }
+          {key: 'title', label: 'Tytuł', sortable: true},
+          {key: 'created', label: 'Data wysłania', sortable: true},
+          {key: 'recipient', label: 'Odbiorca', sortable: true},
+          {key: 'status', label: 'Status', sortable: true},
+          {key: 'description', label: 'Treść', sortable: true}
         ]
       }
     },
@@ -113,33 +156,48 @@
       }
     },
     methods: {
+      resetModal () {
+        this.selectedMail = {
+          title: '',
+          description: ''
+        }
+      },
+      showDescription (item) {
+        this.selectedMail.title = item.mailTemplate.title
+        this.selectedMail.description = item.mailTemplate.description
+        this.$refs.modalMessageDesc.show()
+      },
       sendMessage () {
-        let sender = this.sender
+        let data = {
+          mailTemplate: {...this.mailTemplate},
+          selectedSchoolOrCLub: [...this.selectedSchoolOrCLub],
+          selectedLeaders: [...this.selectedLeaders]
+        }
         const method = 'postSender'
-        this.$store.dispatch(method, sender)
-        .then(() => {
-          this.postSubmitRedirect('messages')
-        })
-        .catch((error) => {
-          this.postSubmitError(error)
-        })
+        this.$store.dispatch(method, data)
+          .then(() => {
+            this.postSubmitRedirect('messages')
+          })
+          .catch((error) => {
+            this.postSubmitError(error)
+          })
       },
       rowRedirectMails (row) {
         this.$router.push({
           name: 'recipient',
-          params: { 'id': row.id }
+          params: {'id': row.id}
         })
       }
     },
     created () {
       this.$store.dispatch('getSender')
-      this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getSchools', {confirmed: 1})
       this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getLeaders', {confirmed: 0})
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Komunikaty', active: true } ])
+      this.changeAdminNavbarButton({buttonLink: false})
+      this.changeAdminNavbarBreadcrumbs([{text: 'Komunikaty', active: true}])
     }
   }
 </script>

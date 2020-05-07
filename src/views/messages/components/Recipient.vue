@@ -36,23 +36,9 @@
       }
     },
     methods: {
-      // prepareRecipient () {
-      //   this.recipient = {...this.recipient}
-      // }
     },
     created () {
-      this.$store.dispatch('getSender', {id: this.id})
-      // .then((response) => {
-      //   this.prepareRecipient(response)
-      //   /** @buttonLink route name || false if button must be hidden */
-      //   this.changeAdminNavbarButton({ buttonLink: false })
-      //
-      //   let breadcrumbs = [
-      //     { text: 'Komunikaty', to: { name: 'messages' } },
-      //     { text: response.title, active: true }
-      //   ]
-      //   this.changeAdminNavbarBreadcrumbs(breadcrumbs)
-      // })
+      this.$store.dispatch('getSender', {id: this.$route.params.id})
     }
   }
 </script>

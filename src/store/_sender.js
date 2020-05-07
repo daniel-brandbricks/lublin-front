@@ -147,6 +147,7 @@ export default {
       })
     },
     postSender (context, data) {
+      console.log(data)
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/sender', 'post', true, data, null, 200)
           .then(response => {
