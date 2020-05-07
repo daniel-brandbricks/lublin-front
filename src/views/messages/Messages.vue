@@ -1,30 +1,45 @@
+<script src="../../mixins/participant-mixin.js"></script>
 <template>
   <div class="container">
     <b-row class="justify-content-center">
       <b-col cols="6">
+        <h4 class="mb-4">Dane ogólne</h4>
+        <b-form-group class="custom mb-2">
+          <b-form-input id="title-1" class="custom m-0"
+                        placeholder="Tytuł"
+                        :class="{'error-input-custom': veeErrors.has('mailTemplate.title')}"
+                        name="mailTemplate.title" key="mailTemplate.title" v-validate="{'required':true}"
+                        v-model="mailTemplate.title"/>
+        </b-form-group>
+        <textarea class="custom w-100 mb-4" v-model="mailTemplate.description" placeholder="Wiadomość"
+                  :class="{'error-input-custom': veeErrors.has('mailTemplate.description')}"
+                  name="mailTemplate.description" :key="'mailTemplate.description'" :v-validate="'required'"/>
+        <h4 class="mb-2">Lista odbiorców</h4>
+        <b-form-checkbox-group class="mr-3 mb-2"
+                               id="checkbox-group-1"
+                               v-model="selectedType"
+                               :options="typeOptions"
+                               name="checkbox-group-type"
+        />
+        <treeselect v-model="selectedSchoolOrCLub"
+                    :multiple="true"
+                    :searchable="false"
+                    placeholder="Nazwa klubu/Szkoły"
+                    :options="schoolsTreeselect"
+                    class="custom mb-2"/>
 
-        <b-row class=" justify-content-between">
-          <h4>Szablony</h4>
-          <b-col class="flex-grow-0">
-            <b-btn variant="primary" class="mr-3" :to="{ name: 'mail.template' }">
-              Dodaj
+        <treeselect v-model="selectedLeaders" v-if="selectedLeaders"
+                    :multiple="true" class="custom mb-2"
+                    placeholder="Prowadzący" :options="leadersTreeselect"
+        />
+
+        <b-row class="mt-4">
+          <b-col cols="4">
+            <b-btn block variant="primary" class="custom" @click="sendMessage()">
+              Wyślij
             </b-btn>
           </b-col>
         </b-row>
-        <b-table
-          :items="mailTemplates"
-          :fields="templateFields"
-          striped
-          responsive="md"
-          class="custom table-responsive"
-          @row-clicked="rowRedirectMailTemplates"
-        >
-          <template slot="edit" slot-scope="scope">
-            <b-link class="icon-link">
-              <span class="icon icon-iconm_search"></span>
-            </b-link>
-          </template>
-        </b-table>
       </b-col>
 
       <b-col cols="6">
@@ -51,13 +66,31 @@
 
 <script>
   // node_modules
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
+  import FormMixin from '@/mixins/form-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
+  import MessagesMixin from '@/mixins/messages-mixin'
 
   export default {
-    mixins: [ EventBusEmit ],
     name: 'Messages',
+    components: { Treeselect },
+    mixins: [ EventBusEmit, FormMixin, MessagesMixin ],
     data () {
       return {
+        mailTemplate: {
+          id: this.id,
+          title: '',
+          description: ''
+        },
+        selectedSchoolOrCLub: [],
+        selectedLeaders: [],
+        typeOptions: [
+          { text: 'klub', value: 0 },
+          { text: 'szkola', value: 1 }
+        ],
+        selectedType: [],
         templateFields: [
           { key: 'title', label: 'Tytuł', sortable: true },
           { key: 'description', label: 'Treść', sortable: true }
@@ -80,10 +113,15 @@
       }
     },
     methods: {
-      rowRedirectMailTemplates (row) {
-        this.$router.push({
-          name: 'mail.template',
-          params: { 'id': row.id }
+      sendMessage () {
+        let sender = this.sender
+        const method = 'postSender'
+        this.$store.dispatch(method, sender)
+        .then(() => {
+          this.postSubmitRedirect('messages')
+        })
+        .catch((error) => {
+          this.postSubmitError(error)
         })
       },
       rowRedirectMails (row) {
@@ -95,6 +133,10 @@
     },
     created () {
       this.$store.dispatch('getSender')
+      this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 0})
+
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({ buttonLink: false })
       this.changeAdminNavbarBreadcrumbs([ { text: 'Komunikaty', active: true } ])

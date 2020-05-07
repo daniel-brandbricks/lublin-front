@@ -16,7 +16,7 @@
     "@riophae/vue-treeselect": "0.0.38",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
-    "bootstrap-vue": "^2.7.0",
+    "bootstrap-vue": "^2.0.0-rc.22",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "vee-validate": "^2.2.15",

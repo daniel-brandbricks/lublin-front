@@ -4,7 +4,9 @@
         <div>
           <h4>Wiadomość</h4>
           <h6 id="op">Tytuł</h6>
-          {{sender}}
+          <div>{{sender}}</div>
+          <h6 id="op1">Wiadomość</h6>
+          <div>{{mails}}</div>
         </div>
       </b-col>
     </b-row>
@@ -13,44 +15,53 @@
 <script>
   export default {
     name: 'Recipient',
-    props: [ 'sender' ],
+    // props: [ 'sender' ],
     data () {
       return {
-        recipient: {
-          id: this.id,
+        mailTemplates: {
           title: '',
           description: ''
         }
       }
     },
-    computed: {},
-    methods: {
-      prepareRecipient () {
-        this.recipient = {...this.recipient}
+    computed: {
+      sender () {
+        return this.$store.getters.sender
+      },
+      mailTitles () {
+        return this.sender ? this.sender.mailTemplates.title : []
+      },
+      mails () {
+        return this.sender ? this.mailTemplates.title : []
       }
     },
+    methods: {
+      // prepareRecipient () {
+      //   this.recipient = {...this.recipient}
+      // }
+    },
     created () {
-
-      if (this.id) {
-        this.$store.dispatch('getSender', {mailTemplate: this.id})
-          .then((response) => {
-            this.prepareRecipient(response)
-            /** @buttonLink route name || false if button must be hidden */
-            this.changeAdminNavbarButton({ buttonLink: false })
-
-            let breadcrumbs = [
-              { text: 'Komunikaty', to: { name: 'messages' } },
-              { text: response.title, active: true }
-            ]
-            this.changeAdminNavbarBreadcrumbs(breadcrumbs)
-          })
-      }
+      this.$store.dispatch('getSender', {id: this.id})
+      // .then((response) => {
+      //   this.prepareRecipient(response)
+      //   /** @buttonLink route name || false if button must be hidden */
+      //   this.changeAdminNavbarButton({ buttonLink: false })
+      //
+      //   let breadcrumbs = [
+      //     { text: 'Komunikaty', to: { name: 'messages' } },
+      //     { text: response.title, active: true }
+      //   ]
+      //   this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+      // })
     }
   }
 </script>
 
 <style scoped>
 #op{
+  opacity: 0.6;
+}
+#op1{
   opacity: 0.6;
 }
 </style>

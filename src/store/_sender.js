@@ -46,6 +46,13 @@ export default {
     },
     senders (state) {
       return state.senders
+    },
+    mailById: (state) => (id) => {
+      for (let mail in state.mails) {
+        if (parseInt(mail.id) === parseInt(id)) {
+          return mail
+        }
+      }
     }
   },
   mutations: {
@@ -139,7 +146,25 @@ export default {
           })
       })
     },
-    //    todo POST,PUT
+    postSender (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/sender', 'post', true, data, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setSender', response['sender'])
+            context.commit('setMails', response['mails'])
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
     deleteSender (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
