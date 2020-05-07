@@ -1,7 +1,8 @@
 <template>
   <b-col cols="12">
     <b-row>
-      <b-col :cols="splitComponents ? 6 : 12">
+<!--      :cols="splitComponents ? 6 : 12"    -->
+      <b-col :sm="12" :md="12" :lg="splitComponents ? 6 : 12" :xl="splitComponents ? 6 : 12">
         <template>
           <date-pick
             v-model="date"
@@ -12,7 +13,7 @@
           />
         </template>
       </b-col>
-      <b-col :cols="splitComponents ? 6 : 12">
+      <b-col :sm="12" :md="12" :lg="splitComponents ? 6 : 12" :xl="splitComponents ? 6 : 12">
         <div v-if="showLessons && showLessons.length > 0">
           <h4>Zajęcia</h4>
           <b-row class="justify-content-center">
@@ -114,8 +115,8 @@
     components: {Treeselect, DatePick},
     mixins: [EventBusEmit],
     props: [
-      'lessons', 'events', 'dateFrom', 'splitComponents',
-      'dateTo', 'showLessons', 'showEvents', 'participantGroupId'
+      'lessons', 'events', 'dateFrom', 'splitComponents', 'calendarFront', 'parentDate',
+      'dateTo', 'showLessons', 'showEvents', 'participantGroupId', 'calendarFrontLessons'
     ],
     data() {
       return {
@@ -168,7 +169,6 @@
           }
         }
 
-        console.log(prepared)
         return prepared
       },
       schoolsAndClubs() {
@@ -182,6 +182,12 @@
       }
     },
     watch: {
+      parentDate: function (val) {
+        this.date = val
+      },
+      date: function (val) {
+        if (this.calendarFront) this.$emit('dayChanged', val)
+      },
       showLessons: function () {
         this.recalculateCalendar()
       },
@@ -244,24 +250,22 @@
           if (dateTo <= dateTime) return true
         }
       },
-      isFutureDate(date) {
+      isFutureDate (date) {
         const currentDate = new Date();
         return date > currentDate;
       },
-      recalculateCalendar() {
+      recalculateCalendar () {
         let dates = {}
-        console.log(this.showEvents)
-        console.log(this.showLessons)
-        if (this.showEvents && this.showEvents.length > 0) {
+        if ((this.showEvents && this.showEvents.length > 0) || this.calendarFront) {
           this.calculateCalendarDayEvents(this.events, dates)
         }
-        if (this.showLessons && this.showLessons.length > 0) {
+        if ((this.showLessons && this.showLessons.length > 0) || this.calendarFrontLessons) {
           this.calculateCalendarDayLessons(this.lessons, dates)
         }
-        console.log(dates)
+
         this.dates = {...dates}
       },
-      calculateCalendarDayEvents(val, dates = {}) {
+      calculateCalendarDayEvents (val, dates) {
         for (let index in val) {
           let datesArr = this.calculateDatesDifference(val[index].dateStart, val[index].dateEnd)
 
@@ -288,6 +292,9 @@
         }
       },
       calculateDatesDifference(dateOne, dateTwo, withZeros = false) {
+        dateOne = dateOne.replace(/-/g, "/")
+        dateTwo = dateTwo.replace(/-/g, "/")
+
         let getDaysArray = function (start, end) {
           // eslint-disable-next-line no-unmodified-loop-condition
           for (var arr = [], dt = start; dt <= end; dt.setDate(dt.getDate() + 1)) {
@@ -312,8 +319,8 @@
       let button = document.querySelector('.vdpPeriodControl')
       var config = {attributes: true, childList: true, subtree: true}
       var observer = new MutationObserver((list) => {
-        console.log('changed')
         this.recalculateCalendar()
+        if (this.calendarFront) this.$emit('monthOrYearChanged')
       })
       observer.observe(button, config)
     },
@@ -324,6 +331,8 @@
       this.date = newDate.getFullYear() + '-' +
         ((newDate.getMonth() + 1) < 10 ? ('0' + (newDate.getMonth() + 1)) : (newDate.getMonth() + 1)) +
         '-' + ((newDate.getDate()) < 10 ? ('0' + (newDate.getDate())) : (newDate.getDate()))
+
+      if (this.parentDate) this.date = this.parentDate
     }
   }
 </script>

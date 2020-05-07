@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <div class="row mt-2" v-if="permissions"
            v-for="(schoolPermission,index) in permissions" :key="index">
         <div class="col-2" v-if="checkAccess(schoolPermission)">
@@ -26,13 +26,13 @@
                       @input="permissions[index].places = []"
                       :options="schoolsTreeselect"/>
 
-<!--          <treeselect class="custom"-->
-<!--                      v-model="permissions[index].places"-->
-<!--                      :multiple="true"-->
-<!--                      :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.places'+index)}"-->
-<!--                      :name="'leader.schoolPermissions.places'+index" :key="'leader.schoolPermissions.places'+index"-->
-<!--                      v-validate="{'required':true}" placeholder="Obiekt"-->
-<!--                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>-->
+          <!--          <treeselect class="custom"-->
+          <!--                      v-model="permissions[index].places"-->
+          <!--                      :multiple="true"-->
+          <!--                      :class="{'error-input-custom': veeErrors.has('leader.schoolPermissions.places'+index)}"-->
+          <!--                      :name="'leader.schoolPermissions.places'+index" :key="'leader.schoolPermissions.places'+index"-->
+          <!--                      v-validate="{'required':true}" placeholder="Obiekt"-->
+          <!--                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>-->
 
           <h5 class="my-4">Status</h5>
           <b-form-group>
@@ -48,6 +48,8 @@
           </b-form-group>
 
           <h5 class="my-4">Uprawnienia</h5>
+<!--          <b-btn variant="primary" @click="setAllPermissions(index)" class="mb-4">Zaznacz wszystko</b-btn>-->
+<!--          {{permissions[index]}}-->
           <div class="row" v-if="permissions[index].permissions"
                v-for="(permission,permissionIndex) in permissions[index].permissions" :key="index+'_'+permissionIndex">
             <div class="col-2">
@@ -209,6 +211,24 @@
       }
     },
     methods: {
+      setAllPermissions (index) {
+        // this.permissions[index] = {
+        //   'permissions': [{'id': 3, 'selected': ['3', '2']}, {
+        //     'id': 4,
+        //     'selected': ['3', '2']
+        //   }, {'id': 8, 'selected': []}, {'id': 5, 'selected': []}, {'id': 9, 'selected': []}],
+        //   'status': true,
+        //   'places': [1, 2, 3],
+        //   'schoolUser': {
+        //     'role': 0,
+        //     'school': {'id': 1},
+        //     'user': {'active': true, 'role': 1, 'id': 1},
+        //     'status': false,
+        //     'active': false
+        //   },
+        //   'id': 3
+        // }
+      },
       checkAccessToAdd (permissions) {
         if (this.isAdmin) return true
 
@@ -254,7 +274,7 @@
         }
       },
       permissionOptions (permissionId) {
-        if ([2, 3, 4, 8].includes(permissionId)) {
+        if ([2, 3, 4].includes(permissionId)) {
           return [
             // {text: 'czyta', value: '1'},
             {text: 'tworzy', value: '2'},

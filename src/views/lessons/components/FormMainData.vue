@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center" v-if="lesson">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <!--     todo breadcrumbs -->
       <!--            <h5>Aktywuj</h5>-->
       <!--          <b-form-group>-->

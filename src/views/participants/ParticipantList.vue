@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center">
-      <b-col cols="10">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="justify-content-center align-items-center">
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group class="custom d-inline-block">
               <b-form-checkbox-group
                 :id="'checkbox-group-1'+statusSlot?'111':'222'"
@@ -13,9 +13,9 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="8">
+          <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
             <b-row class="align-items-center">
-              <b-col cols="6">
+              <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
                 <treeselect class="custom"
                             v-model="yearValue"
                             :multiple="true"
@@ -30,7 +30,7 @@
 <!--                            :options="classesTreeselect"-->
 <!--                />-->
 <!--              </b-col>-->
-              <b-col cols="6">
+              <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
                 <b-form-group class="custom">
                   <b-form-input id="input-1" class="custom m-0"
                                 placeholder="Szukaj"
@@ -42,7 +42,7 @@
         </b-row>
       </b-col>
       <!--   Table   -->
-      <b-col cols="10" class="mt-4">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-table
           :items="participantList"
           :fields="fields"
@@ -59,6 +59,10 @@
           <!--          todo rocznik-->
           <template slot="sex" slot-scope="scope">
             <span>{{scope.item.sex === 1 ? 'Mężczyzna' : 'Kobieta'}}</span>
+          </template>
+
+          <template slot="enterDate" slot-scope="scope">
+            <span>{{scope.item.enterDate}}</span>
           </template>
 
           <template slot="status" slot-scope="scope">
@@ -86,10 +90,11 @@
               </b-dropdown-item>
             </b-dropdown>
 
-            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>
+<!--            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>-->
           </template>
 
           <template slot="edit" slot-scope="scope">
+            <span class="ml-2 c-pointer" @click="rowRedirect(scope.item)">Więcej info</span>
             <b-link class="icon-link">
               <span class="icon icon-iconm_search"></span>
             </b-link>
@@ -108,6 +113,7 @@
 
   import {YEARS} from '@/config/AppConfig'
 
+  import ToastMixin from '@/mixins/toast-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import ParticipantMixin from '@/mixins/participant-mixin'
   import EventBus from '@/event-bus'
@@ -115,7 +121,7 @@
   export default {
     components: {Treeselect},
     props: ['participant', 'statusSlot', 'school', 'schoolIds', 'lesson', 'disableNavButton'],
-    mixins: [EventBusEmit, ParticipantMixin],
+    mixins: [EventBusEmit, ParticipantMixin, ToastMixin],
     data () {
       return {
         fields: [
@@ -123,6 +129,8 @@
           {key: 'lastName', label: 'Nazwisko', sortable: true},
           {key: 'sex', label: 'Płeć', sortable: true},
           {key: 'year', label: 'Rocznik', sortable: true},
+          {key: 'enterDate', label: 'Data wpisu', sortable: true},
+          {key: 'removeDate', label: 'Data wypisania', sortable: true},
           // {key: 'class', label: 'Klasa', sortable: true},
           {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
           {key: 'edit', label: ''}
@@ -207,6 +215,8 @@
             id: id,
             active: status,
             actionType: 'put-partly'
+          }).catch(error => {
+            this.showToast(error.data.error, 'Wystąpil błąd')
           })
           return
         }

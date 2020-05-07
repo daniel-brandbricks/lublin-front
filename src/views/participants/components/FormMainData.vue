@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center" v-if="participant">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h5>Aktywuj</h5>
       <b-form-group>
         <b-form-radio v-model="participant.active" :value="element.value" class="d-inline-block my-3 mr-3"
@@ -53,6 +53,7 @@
       </b-form-group>
       <b-form-group class="custom mb-2">
         <treeselect v-model="participant.school.id"
+                    :disabled="participant.id && participant.school.id !== null"
                     :multiple="false"
                     placeholder="Szkoła / Klub"
                     :options="schoolsTreeselect"
@@ -268,3 +269,5 @@
      border: 2px solid #D8D8D8;
    }
 </style>
+
+

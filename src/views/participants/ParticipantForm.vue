@@ -15,6 +15,13 @@
                  :key="$route.params.tab+'LessonForm'" v-if="$route.params.tab === 'lessons'"/>
     <FormCalendar :participant="participant.id" @childSubmit="submit" ref="FormCalendar"
                   :key="$route.params.tab+'FormCalendar'" v-if="participant.id && $route.params.tab === 'calendar'"/>
+    <FormMTSF :participant="participant" @childSubmit="submit" ref="FormMTSF"
+                  :key="$route.params.tab+'FormMTSF'" v-if="participant.id && $route.params.tab === 'mtsf'"/>
+
+    <b-modal ref="loadingModal" centered hide-header hide-header-close
+             hide-footer size="lg">
+      <h3 class="text-center">Trwa ladowanie...</h3>
+    </b-modal>
   </div>
 </template>
 
@@ -24,6 +31,7 @@
   import FormMixin from '@/mixins/form-mixin'
   import FormParticipantGroups from '@/views/participants/components/FormParticipantGroups'
   import FormLessons from '@/views/participants/components/FormLessons'
+  import FormMTSF from '@/views/participants/components/FormMTSF'
   import FormCalendar from '@/views/participants/components/FormCalendar'
 
   import FormMainData from '@/views/participants/components/FormMainData'
@@ -36,7 +44,8 @@
       FormMainData,
       FormParticipantGroups,
       FormLessons,
-      FormCalendar
+      FormCalendar,
+      FormMTSF
     },
     mixins: [EventBusEmit, FormMixin],
     data() {
@@ -79,7 +88,28 @@
         isValidForm: false
       }
     },
-    computed: {},
+    computed: {
+      isLoading () {
+        return this.$store.getters.isLoading
+      }
+    },
+    watch: {
+      isLoading: function (val) {
+        if (val) {
+          this.$refs.loadingModal.show()
+        } else {
+          this.$refs.loadingModal.hide()
+          this.$bvToast.toast('Ilość wyników przy wygenerowaniu MTSF zależy od uprawnień, które masz w szkołach / klubach.', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-right',
+            solid: true,
+            variant: 'info',
+            appendToast: false,
+            autoHideDelay: 20000
+          })
+        }
+      }
+    },
     methods: {
       setDataFromExistedParticipant(participant) {
         let disciplines = participant.disciplines || []

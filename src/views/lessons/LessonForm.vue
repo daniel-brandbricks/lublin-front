@@ -159,7 +159,7 @@
         // lesson.leaders = leaderIds
         this.lesson = lesson
         if (lesson.replacementLeaders && lesson.replacementLeaders.length > 0) this.lesson.replaced = true
-        if (lesson.newDate && lesson.newTimeRange.length > 0) this.lesson.canceled = true
+        if (lesson.newDate && lesson.newTimeRange && lesson.newTimeRange.length > 0) this.lesson.canceled = true
       },
       goToFormTab(tabName, params = {}) {
         this.checkValidMainForm()
@@ -221,7 +221,7 @@
                 tab: 'frequency',
                 method: 'changeTab',
                 methodParams: 'frequency'
-              },
+              }
               // {
               //   title: 'Kalendarz',
               //   link: 'lesson',
@@ -229,13 +229,13 @@
               //   method: 'changeTab',
               //   methodParams: 'calendar'
               // },
-              {
-                title: 'MTSF',
-                link: 'lesson',
-                tab: 'MTSF',
-                method: 'changeTab',
-                methodParams: 'MTSF'
-              }
+              // {
+              //   title: 'MTSF',
+              //   link: 'lesson',
+              //   tab: 'MTSF',
+              //   method: 'changeTab',
+              //   methodParams: 'MTSF'
+              // }
             ]
 
             let breadcrumbs = [

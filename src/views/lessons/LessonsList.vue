@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-row class="justify-content-center">
-      <b-col cols="8">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="justify-content-center align-items-center">
-          <b-col cols="6">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-form-group class="custom"
                           v-if="undefined === sportObject &&
                           undefined === participantGroup &&
@@ -17,7 +17,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
             <b-form-group class="custom">
               <b-form-input id="input-1" class="custom m-0"
                             placeholder="Szukaj"
@@ -27,23 +27,23 @@
         </b-row>
       </b-col>
 
-      <b-col cols="8" class="mt-4">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="justify-content-between align-items-center">
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <treeselect class="custom"
                         v-model="selectedDisciplines"
                         :multiple="true"
                         placeholder="Dyscyplina"
                         :options="lessonDiscipline"/>
           </b-col>
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <treeselect class="custom"
                         v-model="selectedLessonCategories"
                         :multiple="true"
                         placeholder="Kategoria"
                         :options="lessonCategory"/>
           </b-col>
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <treeselect class="custom"
                         v-model="selectedClasses"
                         :multiple="true"
@@ -54,7 +54,7 @@
       </b-col>
 
       <!--   Table   -->
-      <b-col cols="8" class="mt-4">
+      <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-table
           :items="lessonsList"
           :fields="fields"

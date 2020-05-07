@@ -21,10 +21,14 @@ import permissionModule from './_permission'
 import administratorModule from './_administrator'
 import historyModule from './_history'
 import frequencyModule from './_frequency'
+import mainPageModule from './_main-page'
 import senderModule from './_sender'
+import generateDocumentsModule from './_generate-documents'
+import mtsfModule from './_mtsf'
 
 // cms
 import sectionModule from './_section'
+import restPageModule from './_rest-page'
 import sectionDescriptionModule from './_section-description'
 import menuModule from './_menu'
 import menuItemModule from './_menu-item'
@@ -55,9 +59,13 @@ export default new Vuex.Store({
     lessonModule,
     frequencyModule,
     historyModule,
+    mainPageModule,
     senderModule,
+    generateDocumentsModule,
+    mtsfModule,
 
     // cms
+    restPageModule,
     sectionModule,
     sectionDescriptionModule,
     menuModule,

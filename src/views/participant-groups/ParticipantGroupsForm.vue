@@ -34,6 +34,11 @@
         </template>
       </b-col>
     </b-row>
+
+    <b-modal ref="loadingModal" centered hide-header hide-header-close
+             hide-footer size="lg">
+      <h3 class="text-center">Trwa ladowanie...</h3>
+    </b-modal>
   </div>
 </template>
 
@@ -121,7 +126,28 @@
         dbParticipants: []
       }
     },
-    computed: {},
+    computed: {
+      isLoading () {
+        return this.$store.getters.isLoading
+      }
+    },
+    watch: {
+      isLoading: function (val) {
+        if (val) {
+          this.$refs.loadingModal.show()
+        } else {
+          this.$refs.loadingModal.hide()
+          this.$bvToast.toast('Ilość wyników przy wygenerowaniu MTSF zależy od uprawnień, które masz w szkołach / klubach.', {
+            title: 'Uwaga!',
+            toaster: 'b-toaster-bottom-right',
+            solid: true,
+            variant: 'info',
+            appendToast: false,
+            autoHideDelay: 20000
+          })
+        }
+      }
+    },
     methods: {
       clearParticipants(schoolId) {
         if (parseInt(schoolId) !== this.dbSchoolId) {
@@ -163,9 +189,11 @@
               }
             })
         } else {
-          this.$router.push({
-            name: 'participant.group',
-            params: {'tab': params, id: this.id}
+          return new Promise((resolve, reject) => {
+            this.$router.push({
+              name: 'participant.group',
+              params: {'tab': params, id: this.id}
+            })
           })
         }
       },
@@ -227,8 +255,6 @@
         this.$router.push({name: 'participant.group', params: {'tab': 'main-data'}})
       }
 
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({buttonLink: false})
       let breadcrumbs = [
         {text: 'Lista zawodników', to: {name: 'participant.groups'}},
         {text: 'Nowa', active: true}
@@ -260,15 +286,15 @@
                 title: 'Zajęcia',
                 link: 'participant.group',
                 tab: 'lessons',
-                method: 'checkValidMainForm',
-                methodParams: 'lessons'
+                // method: 'checkValidMainForm',
+                // methodParams: 'lessons'
               },
               {
                 title: 'Kalendarz',
                 link: 'participant.group',
                 tab: 'calendar',
-                method: 'checkValidMainForm',
-                methodParams: 'calendar'
+                // method: 'checkValidMainForm',
+                // methodParams: 'calendar'
               },
               // {
               //   title: 'Frekwencja',
@@ -281,8 +307,8 @@
                 title: 'MTSF',
                 link: 'participant.group',
                 tab: 'mtsf',
-                method: 'checkValidMainForm',
-                methodParams: 'mtsf'
+                // method: 'checkValidMainForm',
+                // methodParams: 'mtsf'
               }
             ]
 

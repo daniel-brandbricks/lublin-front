@@ -103,7 +103,8 @@
             Frekwencja
           </b-link>
 
-          <b-link :to="{name:'mtsf'}"
+          <b-link :to="{name:'mtsf', params: {'tab': 'participants'}}"
+                  :class="{'active': 'mtsf' === $route.name}"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
@@ -112,6 +113,7 @@
 
           <b-link :to="{name:'events', params: {'tab': 'confirmed'}}"
                   active-class="active"
+                  v-if="$store.getters.isDirector"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Lista imprez sportowych ({{sidebarData.events}})
@@ -121,6 +123,7 @@
           </b-link>
 
           <b-link :to="{name:'reports', params: {'tab': 'reporting'}}"
+                  v-if="$store.getters.isAdmin"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>

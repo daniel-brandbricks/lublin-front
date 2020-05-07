@@ -6,7 +6,7 @@
         <div :key="image.id" v-for="(image,index) in event.images">
           <ImageInputAdvanced :imgPath="event.images[index].path" @afterCropImage="afterCropImage"
                               :image-multiple="true" :imageId="image.id"
-                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
+                              :min-aspect-ratio="5/4" :max-aspect-ratio="6/4" :min-height="100"
                               :min-width="100" :max-height="1000" :max-width="1000"/>
         </div>
 
@@ -113,19 +113,21 @@
         </b-form-group>
 
         <h2 class="my-4">Lokalizacja</h2>
-        <b-form-group>
-          <b-form-radio @click="clearAddress"
-                        v-if="event.id === undefined"
-                        v-model="addressType" :value="element.value" class="d-inline-block mt-3 mr-3"
-                        :class="{'error-input-custom': veeErrors.has('addressType')}"
-                        name="addressType" :key="'addressType'+index" v-validate="{'required':true}"
-                        v-for="(element,index) in [{title: 'Jeden adres', value: 0}, {title: '2 i więcej', value: 1}]">
-            {{ element.title }}
-          </b-form-radio>
-        </b-form-group>
+<!--        <b-form-group>-->
+<!--          <b-form-radio @click="clearAddress"-->
+<!--                        v-if="event.id === undefined || (event.addressDesc.length < 1 && event.address.length < 1)"-->
+<!--                        v-model="addressType" :value="element.value" class="d-inline-block mt-3 mr-3"-->
+<!--                        :class="{'error-input-custom': veeErrors.has('addressType')}"-->
+<!--                        name="addressType" :key="'addressType'+index" v-validate="{'required':true}"-->
+<!--                        v-for="(element,index) in [{title: 'Jeden adres', value: 0}, {title: '2 i więcej', value: 1}]">-->
+<!--            {{ element.title }}-->
+<!--          </b-form-radio>-->
+<!--        </b-form-group>-->
 
-        <div v-if="(addressType === 0 && event.id === undefined) ||
-        (event.id !== undefined && (event.addressDesc === null || event.addressDesc.length < 1))">
+<!--        <div v-if="(addressType === 0 && event.id === undefined) ||-->
+<!--        (addressType === 0 && event.id !== undefined && (event.addressDesc === null || event.addressDesc.length < 1)) ||-->
+<!--        (event.id !== undefined && (event.addressDesc === null || event.addressDesc.length < 1) && (event.address !== null && event.address.length > 0))">-->
+        <div>
           <b-form-group class="custom">
             <b-form-input id="input-address" class="custom"
                           placeholder="Adres"
@@ -134,23 +136,33 @@
                           v-model="event.address"/>
           </b-form-group>
         </div>
-        <div v-if="(addressType === 1 && event.id === undefined) ||
-        (event.id !== undefined && (event.address === null || event.address.length < 1))">
-          <textarea class="custom w-100 mb-3" v-model="event.addressDesc" placeholder="Opis miejscowości"
-                    :class="{'error-input-custom': veeErrors.has('event.addressDesc')}"
-                    name="event.addressDesc" :key="'event.addressDesc'" :v-validate="'required'"/>
-        </div>
+<!--        <div v-if="(addressType === 1 && event.id === undefined) ||-->
+<!--               (addressType === 1 && event.id !== undefined && (event.address === null || event.address.length < 1)) ||-->
+<!--               (event.id !== undefined && (event.address === null || event.address.length < 1) && (event.addressDesc !== null && event.addressDesc.length > 0))">-->
+<!--          &lt;!&ndash;          <textarea class="custom w-100 mb-3" v-model="event.addressDesc" placeholder="Opis miejscowości"&ndash;&gt;-->
+<!--          &lt;!&ndash;                    :class="{'error-input-custom': veeErrors.has('event.addressDesc')}"&ndash;&gt;-->
+<!--          &lt;!&ndash;                    name="event.addressDesc" :key="'event.addressDesc'" :v-validate="'required'"/>&ndash;&gt;-->
+<!--          <b-form-group class="custom">-->
+<!--            <b-form-input-->
+<!--              class="mb-3 custom"-->
+<!--              v-model="event.addressDesc"-->
+<!--              placeholder="Opis miejscowości"-->
+<!--              :class="{'error-input-custom': veeErrors.has('event.addressDesc')}"-->
+<!--              name="event.addressDesc" :key="'event.addressDesc'" :v-validate="'required'"-->
+<!--            ></b-form-input>-->
+<!--          </b-form-group>-->
+<!--        </div>-->
 
         <h2 class="my-4">Data / Zakres dat</h2>
         <b-row class="pb-0 mb-0">
           <b-col>
             <date-picker v-model="event.dateStart" :lang="datepickerParams.lang"
-                                        :class="{'error-input-custom': veeErrors.has('event.dateStart')}"
-                                        :name="'event.dateStart'" :key="'event.dateStart'"
-                                        value-type="format" format="YYYY-MM-DD"
-                                        type="date"
-                                        v-validate="{'required': true}"
-                                        :id="'event.dateStart'" placeholder="data rozpoczęcia" class="w-100 custom mt-3">
+                         :class="{'error-input-custom': veeErrors.has('event.dateStart')}"
+                         :name="'event.dateStart'" :key="'event.dateStart'"
+                         value-type="format" format="YYYY-MM-DD"
+                         type="date"
+                         v-validate="{'required': true}"
+                         :id="'event.dateStart'" placeholder="data rozpoczęcia" class="w-100 custom mt-3">
             </date-picker>
           </b-col>
           <b-col>
@@ -211,18 +223,18 @@
         <b-btn variant="primary" class="custom mt-4" @click="addDate" block>Dodaj datę</b-btn>
 
         <b-row class="mt-4">
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn variant="delete" class="custom"
                    @click="deleteFromForm('deleteEvent', event.id, undefined, 'events', {tab: 'confirmed'})">
               Usuń
             </b-btn>
           </b-col>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn block class="custom btn" :to="{ name: 'events', params: { 'tab': 'confirmed' } }">
               Anuluj
             </b-btn>
           </b-col>
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn block variant="primary" class="custom btn" @click="submit(true)">
               Zapisz
             </b-btn>
@@ -253,7 +265,7 @@
     props: ['event'],
     components: {Treeselect, ImageInputAdvanced, DatePicker},
     mixins: [EventBusEmit, FormMixin, EventsMixin],
-    data () {
+    data() {
       return {
         datepickerParams: DATEPICKER_PARAMS,
         orgType: 0,
@@ -282,7 +294,7 @@
     },
     computed: {
       ...mapGetters(['schools']),
-      leadersTreeselect () {
+      leadersTreeselect() {
         return eventId => {
           let leadersConfirmed = this.leadersConfirmed
           let prepared = []
@@ -291,7 +303,7 @@
             if (!Array.isArray(leadersConfirmed[index].eventsUsers) ||
               undefined === leadersConfirmed[index].eventsUsers.find(x => {
                 return parseInt(x.school.id) === eventId
-            })) {
+              })) {
               continue
             }
             prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
@@ -301,11 +313,11 @@
       }
     },
     methods: {
-      removeDate (dateId) {
+      removeDate(dateId) {
         let index = this.$parent.event.dates.findIndex(x => x.id === dateId)
         this.$parent.event.dates.splice(index, 1)
       },
-      addDate () {
+      addDate() {
         let dateId = -1
 
         for (let index in this.$parent.event.dates) {
@@ -315,11 +327,11 @@
         }
         this.$parent.event.dates.push({date: null, timeRange: '', id: dateId})
       },
-      clearAddress () {
+      clearAddress() {
         this.event.addressDesc = ''
         this.event.address = ''
       },
-      addImage () {
+      addImage() {
         let imageId = -1
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id && this.$parent.event.images[index].id <= imageId) {
@@ -328,12 +340,12 @@
         }
         this.$parent.event.images.push({path: null, id: imageId})
       },
-      removeImage (imageId) {
+      removeImage(imageId) {
         let index = this.$parent.event.images.findIndex(x => x.id === imageId)
         this.$parent.event.images.splice(index, 1)
       },
 
-      submit (validRequired) {
+      submit(validRequired) {
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -349,7 +361,7 @@
           this.$parent.submit()
         }
       },
-      afterCropImage (data) {
+      afterCropImage(data) {
         console.log(data)
         for (let index in this.$parent.event.images) {
           if (this.$parent.event.images[index].id === data.id) {
@@ -359,13 +371,13 @@
         // this.school.image = base64
       }
     },
-    mounted () {
+    mounted() {
       // validate form after redirect from another tab (component)
       if (this.$route.params.validateForm) {
         this.checkValidForm()
       }
     },
-    created () {
+    created() {
       this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getDisciplines')
       /** @buttonLink route name || false if button must be hidden */

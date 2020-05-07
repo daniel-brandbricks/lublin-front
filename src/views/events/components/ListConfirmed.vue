@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h4>Zakres</h4>
       <b-row class="my-3">
         <b-col cols="5">
@@ -34,7 +34,7 @@
               :schoolsAndClubsTreeselect="schoolsAndClubsTreeselect"/>
       <b-btn class="d-block ml-auto" variant="primary" @click="findEvents">Szukaj</b-btn>
     </b-col>
-    <b-col cols="10">
+    <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
 <!--      <b-row class="justify-content-center">-->
 <!--        <b-col cols="12">-->
 <!--          <TabLinks :links="tabLinks"></TabLinks>-->
@@ -147,12 +147,13 @@
       }
     },
     created () {
+      console.log(this.schoolId)
       if (this.schoolId) {
         this.events.selectedSchoolOrCLub = [this.schoolId]
         this.$store.dispatch('getEvents', { confirmed: 1, filters: JSON.stringify(this.events) })
       } else {
         this.$store.dispatch('getSchools', {})
-        this.$store.dispatch('getEvents', { confirmed: 1 })
+        this.$store.dispatch('getEvents', { confirmed: 1, forSchool: true })
       }
 
       this.$store.dispatch('getDisciplines')

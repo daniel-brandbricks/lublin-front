@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center" v-if="participantGroup">
-    <b-col cols="6">
+    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <h5>Aktywuj</h5>
       <b-form-group>
         <b-form-radio v-model="participantGroup.active" :value="element.value" class="d-inline-block my-3 mr-3"
@@ -33,6 +33,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.school"
                     v-model="participantGroup.school.id"
                     :multiple="false"
                     :disabled="participantGroup.id && participantGroup.school.id !== null"
@@ -42,6 +43,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.discipline"
                     v-model="participantGroup.discipline.id"
                     :multiple="false"
                     placeholder="Dyscyplina" :options="participantGroupDiscipline"
@@ -50,6 +52,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.lessonCategory"
                     v-model="participantGroup.lessonCategory.id"
                     :multiple="false"
                     placeholder="Kategoria" :options="participantGroupLessonCategory"
@@ -58,6 +61,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.class"
                     v-model="participantGroup.class.id"
                     :multiple="false"
                     placeholder="Klasa" :options="participantGroupClass"
@@ -66,6 +70,7 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.season"
                     v-model="participantGroup.season.id"
                     :disabled="participantGroup.id && participantGroup.season.id !== null"
                     :multiple="false"
@@ -75,18 +80,18 @@
       </b-form-group>
 
       <b-row class="mt-4 justify-content-end">
-        <b-col cols="4" v-if="this.id">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2" v-if="this.id">
           <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteParticipantGroup', participantGroup.id, undefined, 'participant.groups', {})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
-        <b-col cols="4">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
           <b-btn block class="custom btn" :to="{ name: 'participant.groups' }">
             Anuluj
           </b-btn>
         </b-col>
-        <b-col cols="4">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
           <b-btn v-if="participantGroup.id"
                  variant="primary" block class="custom" @click="submit(true)">
             Zapisz
@@ -96,7 +101,7 @@
             Dalej
           </b-btn>
         </b-col>
-        <b-col cols="4" class="mt-3">
+        <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
           <b-btn v-if="participantGroup.id"
                  variant="primary" block class="custom" @click="$router.push({name: 'participant.group',
                  params: {'tab': 'clone', 'id': id}})">
@@ -116,7 +121,7 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ParticipantGroupMixin from '@/mixins/participant-group-mixin'
-  import EventBus from "@/event-bus";
+  import EventBus from '@/event-bus'
 
   export default {
     name: 'FormMainData',
@@ -181,16 +186,32 @@
       },
       goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
-      },
-      mounted () {
-        if (this.$route.params.validateForm) {
-          this.checkValidForm()
-        }
+      }
+    },
+    mounted () {
+      if (this.$route.params.validateForm) {
+        this.checkValidForm()
+      }
+
+      if (undefined !== this.id) {
+        /** @buttonLink route name || false if button must be hidden */
+        this.changeAdminNavbarButton({
+          buttonLink: false,
+          generateExcel: true,
+          generatePdf: true,
+          generationParams: {
+            type: 'Lista zawodników',
+            id: this.id,
+            results: [0, 1, 2, 3, 4, 5, 6, 7]
+          }
+        })
+      } else {
+        this.changeAdminNavbarButton({buttonLink: false})
       }
     },
     created () {
-      /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({eventBusMethod: false})
+      // /** @buttonLink route name || false if button must be hidden */
+      // this.changeAdminNavbarButton({eventBusMethod: false})
 
       this.$store.dispatch('getSeasons')
       this.$store.dispatch('getSchools')

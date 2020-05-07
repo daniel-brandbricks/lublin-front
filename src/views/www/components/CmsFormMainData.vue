@@ -16,10 +16,21 @@
       <div v-if="section.adminTitle === 'Slider'">
         <h2>Zdjęcie</h2>
         <div :key="image.id" v-for="(image,index) in section.sliderImages">
+          <b-form-group class="custom">
+            <b-form-input id="input-1" class="custom mt-3"
+                          placeholder="Tytuł"
+                          v-model="section.sliderImages[index].title"/>
+          </b-form-group>
+          <b-form-group class="custom">
+            <textarea id="input-1" class="custom mt-1 mb-0 w-100"
+                      placeholder="Opis"
+                      v-model="section.sliderImages[index].description"/>
+          </b-form-group>
           <ImageInputAdvanced :imgPath="section.sliderImages[index].path" @afterCropImage="afterCropImage"
                               :image-multiple="true" :imageId="image.id"
-                              :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                              :min-width="100" :max-height="1000" :max-width="1000"/>
+                              :min-aspect-ratio="21/11" :max-aspect-ratio="21/11" :min-height="420"
+                              :min-width="790" :max-height="10000" :max-width="10000"/>
+          <hr>
         </div>
         <b-btn variant="primary" class="custom mt-4" @click="addImage" block>Dodaj kolejne</b-btn>
       </div>

@@ -48,6 +48,7 @@
           return
         }
 
+        if (undefined === this.$parent[this.links[index].method] || this.$parent[this.links[index].method] === null) return
         return new Promise((resolve, reject) => {
           this.$parent[this.links[index].method](this.links[index].methodParams)
             .then(response => {

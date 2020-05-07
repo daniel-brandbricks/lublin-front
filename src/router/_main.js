@@ -9,10 +9,13 @@ import SportEventsInner from '@/views/dev/SportEventsInner'
 import SportProjects from '@/views/dev/SportProjects'
 import SportClasses from '@/views/dev/SportsClasses'
 import SKS from '@/views/dev/SKS'
+import DeclarationAvailability from "@/views/dev/DeclarationAvailability";
+import InformationClause from "@/views/dev/InformationClause";
+import PrivacyPolicy from "@/views/dev/PrivacyPolicy";
 
 const mainRouter = {
   path: '/',
-  // redirect: '/home',
+  redirect: '/home',
   component: () => import('./../templates/Main.vue'),
   children: [
     {
@@ -31,8 +34,9 @@ const mainRouter = {
       component: Sports
     },
     {
-      path: 'sports-inner',
+      path: 'sports/:id',
       name: 'sportsInner',
+      // name: 'sportsInner',
       component: SportsInner
     },
     {
@@ -46,7 +50,7 @@ const mainRouter = {
       component: SportEvents
     },
     {
-      path: 'sport-events-inner',
+      path: 'sport-events/:id',
       name: 'sportEventsInner',
       component: SportEventsInner
     },
@@ -59,6 +63,21 @@ const mainRouter = {
       path: 'sks',
       name: 'sks',
       component: SKS
+    },
+    {
+      path: 'deklaracja-dostepnosci',
+      name: 'deklaracja.dostepnosci',
+      component: DeclarationAvailability
+    },
+    {
+      path: 'klauzula-informacyjna',
+      name: 'klauzula.informacyjna',
+      component: InformationClause
+    },
+    {
+      path: 'polityka-prywatnosci',
+      name: 'polityka.prywatnosci',
+      component: PrivacyPolicy
     }
   ]
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center">
-      <b-col cols="6">
+      <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
         <b-row class="">
           <b-col>
             <h4>Zakres</h4>
@@ -68,7 +68,7 @@
                 :schoolsAndClubsTreeselect="schoolsAndClubsPrepared"/>
       </b-col>
 
-      <b-col cols="6">
+      <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
         <TabLinks :links="tabLinks"/>
         <calendar :lessons="storeLessons" :events="storeEvents" :key="$route.params.tab+rerenderCalendar"
                   v-if="$route.params.tab === 'calendar'" ref="mainCalendar"

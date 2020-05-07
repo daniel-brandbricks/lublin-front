@@ -7,9 +7,9 @@
     </b-row>
 
     <b-row class="justify-content-center" v-if="isAdmin">
-      <b-col cols="8">
+      <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <b-row class="align-items-center mb-3">
-          <b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group class="custom">
               <b-form-checkbox-group
                 id="checkbox-group-1"
@@ -19,14 +19,14 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <treeselect class="custom"
                         v-model="districtValue"
                         :multiple="true"
                         placeholder="Dzielnica"
                         :options="districts"/>
           </b-col>
-          <b-col cols="4">
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-form-group
               class="custom">
               <b-form-input id="input-1" class="custom m-0"

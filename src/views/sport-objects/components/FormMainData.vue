@@ -21,7 +21,7 @@
 
     <b-col cols="12" lg="5" class="">
       <!--    radios    -->
-      <h2 class="mb-4">Aktywuj</h2>
+      <h2 class="my-4">Aktywuj</h2>
       <b-form-group>
         <b-form-radio v-model="sportObject.active" :value="element.value" class="d-inline-block mr-3"
                       :class="{'error-input-custom': veeErrors.has('sportObject.active'+index)}"
@@ -64,6 +64,7 @@
         </b-col>
       </b-row>
 
+      <DistrictSearch/>
       <!--    treeselect    -->
       <treeselect v-model="sportObject.district"
                   :multiple="false" class="custom mb-3"
@@ -89,24 +90,24 @@
 
       <!--buttons-->
       <b-row class="mt-4">
-        <b-col>
+        <b-col class="mt-3">
           <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteSportObject', sportObject.id, undefined, 'sport.objects', {tab: 'confirmed'})">
             <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
-        <b-col>
+        <b-col class="mt-3">
           <b-link block class="custom btn" :to="{ name: 'sport.objects', params: { 'tab': 'confirmed' } }">
             Anuluj
           </b-link>
         </b-col>
-        <b-col>
+        <b-col class="mt-3">
           <b-btn block class="custom" @click="submit(true)">
             Zapisz
           </b-btn>
         </b-col>
-        <b-col>
+        <b-col class="mt-3">
           <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
             Odtwierdz
           </b-btn>
@@ -127,11 +128,12 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
+  import DistrictSearch from "@/components/DistrictSearch";
 
   export default {
     name: 'FormMainData',
     props: ['sportObject', 'districts'],
-    components: {Treeselect, ImageInputAdvanced},
+    components: {DistrictSearch, Treeselect, ImageInputAdvanced},
     mixins: [EventBusEmit, FormMixin],
     data() {
       return {

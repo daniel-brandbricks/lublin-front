@@ -1,53 +1,62 @@
 <template>
   <div class="wrap">
-    <section class="classes-sports-box">
+    <section class="classes-sports-box" v-if="frontSks">
       <b-container>
         <b-row class="justify-content-center">
-          <b-col cols="12" lg="5">
-            <section class="header-slider mini-">
+          <b-col cols="12" sm="10" md="8" lg="6">
+            <h2 class="main c-green mb-2">{{frontSks.mainTitle}}</h2>
+            <h5 class="sup mb-0">
+              Opis
+            </h5>
+            <p class="mb-3">{{frontSks.description}}</p>
+            <div>
+              <span class="icon icon-www pr-1 c-black-05"></span>
+              <a target="_blank" :href="frontSks.www">{{frontSks.www}}</a>
+            </div>
+
+            <section class="header-slider mini- my-5 pb-3"
+                     v-if="frontSks && frontSks.sliderImages && frontSks.sliderImages.length > 0">
                 <b-carousel
                   class="custom"
                   id="carousel-fade"
                   :interval="400000000"
                   fade
                   indicators>
-                  <b-carousel-slide>
+                  <b-carousel-slide :key="index" v-for="(slide,index) in frontSks.sliderImages">
                     <template v-slot:img>
-                      <img src="https://picsum.photos/444/284/?image=72" alt="">
-                    </template>
-                  </b-carousel-slide>
-                  <b-carousel-slide>
-                    <template v-slot:img>
-                      <img src="https://picsum.photos/444/284/?image=92" alt="">
-                    </template>
-                  </b-carousel-slide>
-                  <b-carousel-slide>
-                    <template v-slot:img>
-                      <img src="https://picsum.photos/444/284/?image=34" alt="123">
+                      <div class="slider-content pb-3">
+                        <div class="slider-wrap-img text-right">
+                          <img :src="slide.path" alt="Slide 1">
+                        </div>
+                      </div>
                     </template>
                   </b-carousel-slide>
                 </b-carousel>
             </section>
-          </b-col>
-          <b-col cols="12" lg="7">
-            <h2 class="main c-green mb-2">SKSy</h2>
-            <h5 class="sup mb-0">
-              Opis
-            </h5>
-            <p class="mb-3">
-              Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat, elementum velit
-              et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas, mollis libero
-              in, ullamcorper est.
-            </p>
-            <p class="mb-3">
-              Sed bibendum. Nulla massa leo, semper lacinia elit vel, semper molestie justo. Donec sed libero placerat,
-              elementum velit et, elementum libero. Nunc auctor risus et dolor ultricies convallis. Mauris vel nisi egestas,
-              mollis libero in, ullamcorper est. Sed bibendum
-            </p>
-            <div>
-              <span class="icon icon-www pr-1 c-black-05"></span>
-              www.pozaspo.com
-            </div>
+
+            <section class="header-slider mini- my-5 pb-3"
+                     v-if="frontSks && frontSks.youtubeLinks
+                     && frontSks.youtubeLinks.length > 0 && 'object' ===  typeof frontSks.youtubeLinks">
+              <b-container class="">
+                <b-carousel
+                  class="custom"
+                  id="carousel-fade"
+                  :interval="400000000"
+                  fade
+                  indicators>
+                  <b-carousel-slide :key="index" v-for="(link,index) in frontSks.youtubeLinks">
+                    <template v-slot:img>
+                      <div class="slider-content pb-3">
+                        <div class="slider-wrap-img text-right">
+                          <iframe :src="link">
+                          </iframe>
+                        </div>
+                      </div>
+                    </template>
+                  </b-carousel-slide>
+                </b-carousel>
+              </b-container>
+            </section>
           </b-col>
         </b-row>
       </b-container>
@@ -65,56 +74,41 @@
     components: { Treeselect },
     data () {
       return {
-        msg: 'TEST',
-        selected: [],
-        options: [
-          { text: 'Klub', value: '1' },
-          { text: 'Szkoła', value: '2' }
-        ],
-        value: null,
-        optionsTS: [ {
-          id: 'a',
-          label: 'first',
-          children: [ {
-            id: 'aa',
-            label: 'aa'
-          }, {
-            id: 'ab',
-            label: 'ab'
-          } ]
-        }, {
-          id: 'b',
-          label: 'second'
-        }, {
-          id: 'c',
-          label: 'third'
-        } ]
+        frontSks: false
       }
     },
     methods: {
-      getUser () {
-        this.$store.dispatch('getAllUsers')
-          .then((response) => {
-            console.log(response)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      },
-      logout () {
-        this.$store.dispatch('logout')
-          .then((response) => {
-            console.log(response)
-          })
+      prepareMenuItem(menuItem) {
+        if (menuItem.youtubeLinks === null || menuItem.youtubeLinks.length < 1) {
+          menuItem.youtubeLinks = []
+        } else {
+          menuItem.youtubeLinks = menuItem.youtubeLinks.split('|||')
+        }
+        this.frontSks = menuItem
       }
     },
     created () {
+      this.$store.dispatch('getSKS')
+        .then(response => {
+          this.prepareMenuItem(response)
+        })
+      this.$store.dispatch('getMenuAndFooter')
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .header-slider .slider-wrap-img iframe {
+    height: 300px;
+    width: 1000px;
+    max-height: 50vw;
+    max-width: 100%;
+  }
+
+  .header-slider .slider-wrap-img {
+    margin-left: 0 !important;
+  }
 
   ul {
     list-style-type: none;

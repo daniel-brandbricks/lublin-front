@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col>
+      <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
         <h2 class="my-3">Zajęcia (filtruj, aby pojawiały się na mapie)</h2>
 
         <b-form-group class="custom my-3">
@@ -54,7 +54,7 @@
                     :options="leadersTreeselect"/>
 
       </b-col>
-      <b-col>
+      <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
         <date-picker v-model="selectedYear" :lang="datepickerParams.lang"
                      :class="{'error-input-custom': veeErrors.has('selectedYear')}"
                      :name="'selectedYear'" :key="'selectedYear'"

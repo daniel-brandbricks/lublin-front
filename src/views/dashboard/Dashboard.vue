@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <b-row class="justify-content-between">
-      <b-col :cols="$store.getters.isAdmin ? 6 : 12">
+<!--      :cols="$store.getters.isAdmin ? 6 : 12"  -->
+      <b-col :class="{'col-xl-6': $store.getters.isAdmin, 'col-lg-6': $store.getters.isAdmin, 'col-md-12': $store.getters.isAdmin, 'col-sm-12': $store.getters.isAdmin}">
         <h3 class="mb-4">Do zatwierdzenia</h3>
 
         <!--    Schools And Clubs    -->
@@ -172,7 +173,7 @@
         </b-collapse>
       </b-col>
 
-      <b-col cols="6" v-if="$store.getters.isAdmin">
+      <b-col class="col-xl-6 col-lg-6 col-md-12 col-sm-12" v-if="$store.getters.isAdmin">
         <h3 class="mb-4">Ostatnie zmiany</h3>
 
         <b-table

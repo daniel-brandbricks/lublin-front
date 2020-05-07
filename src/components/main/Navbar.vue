@@ -3,7 +3,8 @@
     <div class="container">
       <b-navbar toggleable="xl" type="white" class="custom p-0">
         <b-navbar-brand :to="{name:'home'}">
-          <img src="/static/img/logo.svg" alt="LOGO">
+          <img v-if="$store.getters.menuAndFooter && $store.getters.menuAndFooter.menu"
+               :src="$store.getters.menuAndFooter.menu.image" class="bgc-yellow" alt="LOGO">
         </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse">
@@ -31,7 +32,7 @@
               Klasy sportowe <br class="d-sm-none d-xl-block">
               i profilowane
             </b-nav-item>
-            <b-nav-item href="#">
+            <b-nav-item target="_blank" :href="navbarItems.link" v-if="navbarItems">
               Współzawodnictwo Sportowe <br class="d-sm-none d-xl-block">
               Szkół Miasta Lublin
             </b-nav-item>
@@ -44,6 +45,18 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
+
+      <b-navbar class="pb-3 d-flex justify-content-center help-items-container">
+        <span @click="changeColor(1)" class="help-item-color c-pointer d-inline-block contrast-wb mx-1">A</span>
+        <span @click="changeColor(2)" class="help-item-color c-pointer d-inline-block contrast-by mx-1">A</span>
+        <span @click="changeColor(3)" class="help-item-color c-pointer d-inline-block contrast-yb mx-1">A</span>
+        <span @click="changeColor(4)" class="help-item-color c-pointer d-inline-block contrast-classic mr-3 mx-1">A</span>
+
+        <span @click="changeFontSize(1)" class="font-size-1 help-item-font-size c-pointer d-inline-block ml-3 mx-1">A</span>
+        <span @click="changeFontSize(2)" class="font-size-2 help-item-font-size c-pointer d-inline-block mx-1">A+</span>
+        <span @click="changeFontSize(3)" class="font-size-3 help-item-font-size c-pointer d-inline-block mx-1">A++</span>
+      </b-navbar>
+
     </div>
     <!--  LOGIN  -->
     <b-modal id="modal-login"
@@ -187,11 +200,12 @@
         <img src="/static/img/logo.svg" alt="LOGO">
       </div>
       <h2 class="mb-3 text-center">
-        Dziękujemy <br>
-        za złożenie danych
+        Wszystko <br>
+        przebiegło pomyślnie
       </h2>
       <p class="fix-card-text">
-        Nulla massa leo, semper lacinia elit vel, semper molestie justo.
+        Teraz sprawdż podany w formularzu <br>
+        email, by dokończyć proces rejestracji.
       </p>
       <div class="btn-container d-flex flex-column w-100 mt-3">
         <b-btn variant="primary"
@@ -248,6 +262,8 @@
     name: 'Navbar',
     data () {
       return {
+        navbarItems: null,
+
         selectedRegister: '1',
 
         // school
@@ -269,7 +285,7 @@
         email: '',
         password: '',
 
-        loginError: false,
+        loginError: false
       }
     },
     watch: {
@@ -293,6 +309,50 @@
       }
     },
     methods: {
+      changeFontSize (size) {
+        let typeStyles = {2: 'fonts-size-1', 3: 'fonts-size-2'}
+        let main = document.getElementsByClassName('main-wrap')[0]
+        let cookies = document.cookie.split('; ')
+
+        let helpClass = ''
+        for (let index in cookies) {
+          let data;
+          if (cookies[index] && (data = cookies[index].split('='))) {
+            if (data[0] === 'styleTypeColor') helpClass += data[1]
+          }
+        }
+
+        main.className = 'main-wrap ' + helpClass
+        if (size === 1) {
+          document.cookie = 'styleFontSize=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          return
+        }
+
+        document.cookie = 'styleFontSize=' + typeStyles[size]
+        main.classList.add(typeStyles[size])
+      },
+      changeColor (type) {
+        let typeStyles = {1: 'colors-wb', 2: 'colors-by', 3: 'colors-yb'}
+        let main = document.getElementsByClassName('main-wrap')[0]
+
+        let cookies = document.cookie.split('; ')
+        let helpClass = ''
+        for (let index in cookies) {
+          let data;
+          if (cookies[index] && (data = cookies[index].split('='))) {
+            if (data[0] === 'styleFontSize') helpClass += data[1]
+          }
+        }
+
+        main.className = 'main-wrap ' + helpClass
+        if (type === 4) {
+          document.cookie = 'styleTypeColor=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          return
+        }
+
+        document.cookie = 'styleTypeColor=' + typeStyles[type]
+        main.classList.add(typeStyles[type])
+      },
       sendResetPass () {
         if (!this.validateEmail(this.emailResetPass)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
@@ -455,6 +515,10 @@
     },
     created () {
       this.$store.dispatch('getDisciplines')
+      this.$store.dispatch('getNavbarItems')
+        .then(response => {
+          this.navbarItems = response
+        })
     }
   }
 </script>
