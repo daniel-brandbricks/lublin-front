@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="container">
-      <b-navbar toggleable="xl" type="white" class="custom p-0">
+      <b-navbar toggleable="xl" type="white" class="pt-4 custom p-0">
         <b-navbar-brand :to="{name:'home'}">
           <img v-if="$store.getters.menuAndFooter && $store.getters.menuAndFooter.menu"
                :src="$store.getters.menuAndFooter.menu.image" class="bgc-yellow" alt="LOGO">
@@ -50,11 +50,21 @@
         <span @click="changeColor(1)" class="help-item-color c-pointer d-inline-block contrast-wb mx-1">A</span>
         <span @click="changeColor(2)" class="help-item-color c-pointer d-inline-block contrast-by mx-1">A</span>
         <span @click="changeColor(3)" class="help-item-color c-pointer d-inline-block contrast-yb mx-1">A</span>
-        <span @click="changeColor(4)" class="help-item-color c-pointer d-inline-block contrast-classic mr-3 mx-1">A</span>
+        <span @click="changeColor(4)"
+              class="help-item-color c-pointer d-inline-block contrast-classic mr-3 mx-1">A</span>
 
-        <span @click="changeFontSize(1)" class="font-size-1 help-item-font-size c-pointer d-inline-block ml-3 mx-1">A</span>
+        <span @click="changeFontSize(1)"
+              class="font-size-1 help-item-font-size c-pointer d-inline-block ml-3 mx-1">A</span>
         <span @click="changeFontSize(2)" class="font-size-2 help-item-font-size c-pointer d-inline-block mx-1">A+</span>
-        <span @click="changeFontSize(3)" class="font-size-3 help-item-font-size c-pointer d-inline-block mx-1">A++</span>
+        <span @click="changeFontSize(3)"
+              class="font-size-3 help-item-font-size c-pointer d-inline-block mr-3 mx-1">A++</span>
+
+        <b-link class="ml-3 mx-1 sm" target="_blank" href="https://lublin.eu/urzad-miasta-lublin/jak-zalatwic-sprawe/tlumacz-jezyka-migowego/">
+          <b-btn size="sm" variant="primary">tlumacz jezyka migowego</b-btn>
+        </b-link>
+        <b-link class="mx-1 sm" target="_blank" href="https://bip.lublin.eu/">
+          <b-btn size="sm" variant="primary">BIP</b-btn>
+        </b-link>
       </b-navbar>
 
     </div>
@@ -260,7 +270,7 @@
     components: {Treeselect},
     mixins: [listMixin, ToastMixin],
     name: 'Navbar',
-    data () {
+    data() {
       return {
         navbarItems: null,
 
@@ -294,10 +304,10 @@
       }
     },
     computed: {
-      disciplines () {
+      disciplines() {
         return this.$store.getters.disciplines
       },
-      disciplinesTreeselect () {
+      disciplinesTreeselect() {
         let disciplines = this.disciplines
         let prepared = []
 
@@ -309,7 +319,7 @@
       }
     },
     methods: {
-      changeFontSize (size) {
+      changeFontSize(size) {
         let typeStyles = {2: 'fonts-size-1', 3: 'fonts-size-2'}
         let main = document.getElementsByClassName('main-wrap')[0]
         let cookies = document.cookie.split('; ')
@@ -331,7 +341,7 @@
         document.cookie = 'styleFontSize=' + typeStyles[size]
         main.classList.add(typeStyles[size])
       },
-      changeColor (type) {
+      changeColor(type) {
         let typeStyles = {1: 'colors-wb', 2: 'colors-by', 3: 'colors-yb'}
         let main = document.getElementsByClassName('main-wrap')[0]
 
@@ -353,7 +363,7 @@
         document.cookie = 'styleTypeColor=' + typeStyles[type]
         main.classList.add(typeStyles[type])
       },
-      sendResetPass () {
+      sendResetPass() {
         if (!this.validateEmail(this.emailResetPass)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
@@ -380,7 +390,7 @@
             this.showToast(error.data.error, 'Wystąpil błąd')
           })
       },
-      sendCreateSchool () {
+      sendCreateSchool() {
         if (!this.validateEmail(this.schoolEmail)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
@@ -409,7 +419,7 @@
           })
       },
       // todo
-      sendCreateLeader () {
+      sendCreateLeader() {
         if (!this.validateEmail(this.leaderEmail)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
@@ -440,12 +450,12 @@
             console.log(error)
           })
       },
-      showForgotPassModal () {
+      showForgotPassModal() {
         this.resetModal()
         this.$bvModal.hide('modal-login')
         this.$bvModal.show('modal-login-newPass')
       },
-      resetModal () {
+      resetModal() {
         this.leaderEmail = ''
         this.leaderPhone = ''
         this.leaderDisciplines = null
@@ -461,11 +471,11 @@
         this.password = ''
         this.emailResetPass = ''
       },
-      validateEmail (email) {
+      validateEmail(email) {
         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return re.test(String(email).toLowerCase())
       },
-      login () {
+      login() {
         console.log(111)
         if (this.email === '') {
           this.emptyEmail = false
@@ -513,7 +523,7 @@
           })
       }
     },
-    created () {
+    created() {
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getNavbarItems')
         .then(response => {

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import _auth from '@/store/_auth'
+import {API_EXCEL_GEN_URL, API_PDF_GEN_URL} from '@/config/AppConfig'
 
 export default {
   state: {
@@ -51,7 +52,9 @@ export default {
         })
       }
       // download('http://lublin.bbapp.pl/api/pdf-generate/?filters=' + dataJSON, `${fileName}.pdf`)
-      download('http://lublin.local/api/pdf-generate/?filters=' + dataJSON, `${fileName}.pdf`)
+      let url = API_PDF_GEN_URL
+      console.log(url)
+      download(url + dataJSON, `${fileName}.pdf`)
     },
     getExcel (context, data) {
       const fileName = data.type
@@ -61,7 +64,7 @@ export default {
 
       // header with token set in apiService
       // axios.get('http://lublin.bbapp.pl/api/xlsx-generate/?filters=' + dataJSON, {
-      axios.get('http://lublin.local/api/xlsx-generate/?filters=' + dataJSON, {
+      axios.get({API_EXCEL_GEN_URL} + dataJSON, {
         responseType: 'blob'
       }).then(response => {
         console.log(response)

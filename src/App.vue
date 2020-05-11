@@ -94,6 +94,11 @@
 </script>
 
 <style lang="scss">
+  * {
+    outline: unset !important;
+    outline-color: unset !important;
+  }
+
   /*
   FONTS
   */

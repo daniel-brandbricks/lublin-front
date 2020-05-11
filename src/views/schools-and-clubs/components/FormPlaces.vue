@@ -9,7 +9,7 @@
             <div class="text-center custom-class">
               <p class="m-auto">{{index + 1}}</p>
             </div>
-            <p @click="removePlace(index)" v-if="school.places.length > 0">usuń</p>
+            <p @click="removePlace(index)" v-if="school.places.length > 0 && place.id === undefined">usuń</p>
           </div>
           <div class="col-11 pl-4">
             <h2 class="mb-4">Dane ogólne</h2>
