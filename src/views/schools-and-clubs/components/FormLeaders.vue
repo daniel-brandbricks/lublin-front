@@ -14,7 +14,8 @@
                 ({{invitation.leader.email}})</p>
             </div>
             <div class="col-3 text-right">
-              <b-btn v-if="invitation.active === false" variant="primary" class="custom mb-0" @click="acceptLeaderInvitation(invitation.leader.id)">
+              <b-btn v-if="invitation.active === false" variant="primary" class="custom mb-0"
+                     @click="acceptLeaderInvitation(invitation.leader.id)">
                 Zatwierdź
               </b-btn>
               <span v-else class="status active">zatwierdzony</span>
@@ -88,7 +89,7 @@
     props: ['school'],
     components: {LeaderTable, Treeselect},
     mixins: [EventBusEmit],
-    data () {
+    data() {
       return {
         id: this.$route.params.id,
         // tmp
@@ -101,7 +102,7 @@
     },
     computed: {
       ...mapGetters(['leaders', 'disciplines', 'sportObjects', 'lessons']),
-      leadersTreeselect () {
+      leadersTreeselect() {
         let leadersPrepared = []
         for (let index in this.leaders) {
           let leaderExists = false
@@ -119,7 +120,7 @@
         }
         return leadersPrepared
       },
-      disciplinesTreeselect () {
+      disciplinesTreeselect() {
         let disciplinesPrepared = []
         for (let index in this.disciplines) {
           disciplinesPrepared.push({
@@ -129,7 +130,7 @@
         }
         return disciplinesPrepared
       },
-      sportObjectsTreeselect () {
+      sportObjectsTreeselect() {
         let sportObjectsPrepared = []
         for (let index in this.sportObjects) {
           sportObjectsPrepared.push({
@@ -139,7 +140,7 @@
         }
         return sportObjectsPrepared
       },
-      leadersIdsToPass () {
+      leadersIdsToPass() {
         let schoolsUsers = this.school.schoolsUsers || []
         let ids = []
 
@@ -154,7 +155,7 @@
 
         return ids
       },
-      statusSlot () {
+      statusSlot() {
         let data = {}
         let leaderIds = {}
 
@@ -173,7 +174,7 @@
       }
     },
     methods: {
-      acceptLeaderInvitation (leaderId) {
+      acceptLeaderInvitation(leaderId) {
         let school = {
           id: this.$route.params.id,
           leaders: [leaderId]
@@ -187,7 +188,7 @@
           })
       },
       // for FormLeaders to change field status (to use SchoolUser status)
-      getStatusPersonInSchool (item) {
+      getStatusPersonInSchool(item) {
         let schoolUser = this.school.schoolsUsers.find(x => {
           return parseInt(x.user.id) === parseInt(item.id)
         })
@@ -195,10 +196,10 @@
         return schoolUser.status
       },
 
-      openLeadersModal () {
+      openLeadersModal() {
         if (this.$refs.leaderModal) this.$refs.leaderModal.show()
       },
-      submit () {
+      submit() {
         let school = {
           id: this.$route.params.id,
           leaders: this.selectedLeaders
@@ -212,15 +213,13 @@
         this.$refs.leaderModal.hide()
       }
     },
-    mounted () {
+    mounted() {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({eventBusMethod: 'OPEN_SCHOOLS_LEADERS_MODAL'})
     },
-    created () {
-      console.log(this.school)
-      if (this.school) {
-        this.$store.dispatch('getLessons')
-      }
+    created() {
+      this.$store.dispatch('getLessons', {filters: {lesson: {schoolsAndClubs: [this.id]}}})
+
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getSportObjects')
       this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})

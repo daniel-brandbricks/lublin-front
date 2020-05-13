@@ -13,7 +13,7 @@
 
       <!--   Component for todo Entity   -->
       <FormLeaders :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormLeaders"
-                   :key="$route.params.tab+'FormLeaders'" v-if="$route.params.tab === 'leaders'"/>
+                   :key="$route.params.tab+'FormLeaders'+school.id" v-if="$route.params.tab === 'leaders'"/>
 
       <!--   Component for GroupEntity   -->
       <FormParticipantGroups :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormParticipantGroups"
@@ -219,7 +219,7 @@
       if (this.id) {
         this.$store.dispatch('getSchool', { id: this.id })
           .then((response) => {
-            this.school = response
+            this.school = JSON.parse(JSON.stringify(response))
 
             console.log('more tab links')
             // set more tab links
