@@ -270,7 +270,7 @@
     components: {Treeselect},
     mixins: [listMixin, ToastMixin],
     name: 'Navbar',
-    data() {
+    data () {
       return {
         navbarItems: null,
 
@@ -304,10 +304,10 @@
       }
     },
     computed: {
-      disciplines() {
+      disciplines () {
         return this.$store.getters.disciplines
       },
-      disciplinesTreeselect() {
+      disciplinesTreeselect () {
         let disciplines = this.disciplines
         let prepared = []
 
@@ -319,14 +319,14 @@
       }
     },
     methods: {
-      changeFontSize(size) {
+      changeFontSize (size) {
         let typeStyles = {2: 'fonts-size-1', 3: 'fonts-size-2'}
         let main = document.getElementsByClassName('main-wrap')[0]
         let cookies = document.cookie.split('; ')
 
         let helpClass = ''
         for (let index in cookies) {
-          let data;
+          let data
           if (cookies[index] && (data = cookies[index].split('='))) {
             if (data[0] === 'styleTypeColor') helpClass += data[1]
           }
@@ -334,21 +334,21 @@
 
         main.className = 'main-wrap ' + helpClass
         if (size === 1) {
-          document.cookie = 'styleFontSize=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          document.cookie = 'styleFontSize=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
           return
         }
 
         document.cookie = 'styleFontSize=' + typeStyles[size]
         main.classList.add(typeStyles[size])
       },
-      changeColor(type) {
+      changeColor (type) {
         let typeStyles = {1: 'colors-wb', 2: 'colors-by', 3: 'colors-yb'}
         let main = document.getElementsByClassName('main-wrap')[0]
 
         let cookies = document.cookie.split('; ')
         let helpClass = ''
         for (let index in cookies) {
-          let data;
+          let data
           if (cookies[index] && (data = cookies[index].split('='))) {
             if (data[0] === 'styleFontSize') helpClass += data[1]
           }
@@ -356,14 +356,14 @@
 
         main.className = 'main-wrap ' + helpClass
         if (type === 4) {
-          document.cookie = 'styleTypeColor=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          document.cookie = 'styleTypeColor=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
           return
         }
 
         document.cookie = 'styleTypeColor=' + typeStyles[type]
         main.classList.add(typeStyles[type])
       },
-      sendResetPass() {
+      sendResetPass () {
         if (!this.validateEmail(this.emailResetPass)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
@@ -390,7 +390,7 @@
             this.showToast(error.data.error, 'Wystąpil błąd')
           })
       },
-      sendCreateSchool() {
+      sendCreateSchool () {
         if (!this.validateEmail(this.schoolEmail)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
@@ -419,7 +419,7 @@
           })
       },
       // todo
-      sendCreateLeader() {
+      sendCreateLeader () {
         if (!this.validateEmail(this.leaderEmail)) {
           this.$bvToast.toast('Niepoprawny format adresu e-mail', {
             title: 'Uwaga!',
@@ -450,12 +450,12 @@
             console.log(error)
           })
       },
-      showForgotPassModal() {
+      showForgotPassModal () {
         this.resetModal()
         this.$bvModal.hide('modal-login')
         this.$bvModal.show('modal-login-newPass')
       },
-      resetModal() {
+      resetModal () {
         this.leaderEmail = ''
         this.leaderPhone = ''
         this.leaderDisciplines = null
@@ -471,11 +471,11 @@
         this.password = ''
         this.emailResetPass = ''
       },
-      validateEmail(email) {
+      validateEmail (email) {
         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return re.test(String(email).toLowerCase())
       },
-      login() {
+      login () {
         console.log(111)
         if (this.email === '') {
           this.emptyEmail = false
@@ -523,7 +523,7 @@
           })
       }
     },
-    created() {
+    created () {
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getNavbarItems')
         .then(response => {
