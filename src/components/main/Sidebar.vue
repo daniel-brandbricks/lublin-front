@@ -157,6 +157,7 @@
           </b-link>
 
           <b-link :to="{name:'messages'}"
+                  v-if="$store.getters.isAdmin || $store.getters.isDirector"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>

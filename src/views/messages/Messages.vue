@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center">
-      <b-col cols="6">
+      <b-col lg="6" sm="12" class="mb-2">
         <h4 class="mb-4">Dane ogólne</h4>
         <b-form-group class="custom mb-2">
           <b-form-input id="title-1" class="custom m-0"
@@ -35,7 +35,17 @@
         />
 
         <b-row class="mt-4">
-          <b-col cols="4">
+          <b-col sm="12" lg="4" class="mb-2">
+            <b-btn block variant="primary" class="custom" @click="selectAll(0)">
+              Wszystkie Szkoły / Kluby
+            </b-btn>
+          </b-col>
+          <b-col sm="12" lg="4" class="mb-2">
+            <b-btn block variant="primary" class="custom" @click="selectAll(1)">
+              Wszystkich prowadzących
+            </b-btn>
+          </b-col>
+          <b-col sm="12" lg="4" class="mb-2">
             <b-btn block variant="primary" class="custom" @click="sendMessage()">
               Wyślij
             </b-btn>
@@ -43,7 +53,7 @@
         </b-row>
       </b-col>
 
-      <b-col cols="6">
+      <b-col lg="6" sm="12">
         <h4 class="mb-3">Wysłane</h4>
         <b-table
           :items="mails"
@@ -154,10 +164,20 @@
         return this.sender ? this.sender.mailTemplates : []
       },
       mails () {
-        return this.sender ? this.sender.mails : []
+        if (this.sender && this.sender.mails && this.sender.mails.length > 0) {
+          let mails = JSON.parse(JSON.stringify(this.sender.mails))
+          return mails.sort((a, b) => b.id - a.id)
+        }
+        return []
       }
     },
     methods: {
+      selectAll (type) {
+        for (let index in type === 0 ? this.schoolsTreeselect : this.leadersTreeselect) {
+          if (type === 0 && !this.selectedSchoolOrCLub.includes(this.schoolsTreeselect[index].id)) { this.selectedSchoolOrCLub.push(this.schoolsTreeselect[index].id) }
+          if (type === 1 && !this.selectedLeaders.includes(this.leadersTreeselect[index].id)) { this.selectedLeaders.push(this.leadersTreeselect[index].id) }
+        }
+      },
       resetModal () {
         this.selectedMail = {
           title: '',

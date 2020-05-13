@@ -6,7 +6,7 @@
         <h5 v-b-toggle.collapse-invitations class="c-pointer">
           <span class="mr-3">^</span>Aplikacje prowadzących
         </h5>
-        <b-collapse id="collapse-invitations" class="mt-2">
+        <b-collapse visible id="collapse-invitations" class="mt-2">
           <div :key="index" v-for="(invitation, index) in school.invitations"
                class="row justify-content-between mb-2 align-items-center">
             <div class="col-9">
@@ -55,7 +55,7 @@
     <!--  :fieldsParams="[{key: 'status', label: 'Status dla tego obiektu'}]" :parentType="'school'"  -->
     <leader-table :is-confirmed="'all'" :ids-to-pass="leadersIdsToPass" :key="$route.params.tab"
                   @school-leader-change-status="$parent.changeSchoolLeaderStatus" :status-slot="statusSlot"
-                  ref="leaderComponent"
+                  ref="leaderComponent" :forSchool="true"
                   :filters="{selectedDisciplines: selectedDisciplines, selectedSportObjects: selectedSportObjects, search: search}"/>
 
     <b-modal ref="leaderModal" centered title="Dodaj prowadzącego" hide-footer size="lg">
@@ -100,7 +100,7 @@
       }
     },
     computed: {
-      ...mapGetters(['leaders', 'disciplines', 'sportObjects']),
+      ...mapGetters(['leaders', 'disciplines', 'sportObjects', 'lessons']),
       leadersTreeselect () {
         let leadersPrepared = []
         for (let index in this.leaders) {
@@ -218,6 +218,9 @@
     },
     created () {
       console.log(this.school)
+      if (this.school) {
+        this.$store.dispatch('getLessons')
+      }
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getSportObjects')
       this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})

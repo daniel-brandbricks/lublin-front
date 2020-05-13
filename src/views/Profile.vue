@@ -31,7 +31,7 @@
                         name="user.phone" key="user.phone" v-validate="{'required':true}"
                         v-model="user.phone"/>
         </b-form-group>
-<!--        <b-form-group class="custom mb-2" :label="(isDirector && authUser.role === 1) ? 'E-mail dla konta' : 'E-mail'">-->
+        <!--        <b-form-group class="custom mb-2" :label="(isDirector && authUser.role === 1) ? 'E-mail dla konta' : 'E-mail'">-->
         <b-form-group class="custom mb-2" label="Email do logowania">
           <b-form-input id="email-1" class="custom m-0"
                         :class="{'error-input-custom': veeErrors.has('user.email')}"
@@ -130,7 +130,7 @@
     mixins: [EventBusEmit, FormMixin, ToastMixin],
     name: 'Profile',
     components: {Treeselect},
-    data () {
+    data() {
       return {
         selectedSchools: [],
 
@@ -153,7 +153,7 @@
     watch: {
       authUser: function (val) {
         if (this.authUser && this.authUser.role === 1 &&
-        (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
+          (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
           /** @buttonLink route name || false if button must be hidden */
           this.changeAdminNavbarButton({
             eventBusMethod: 'OPEN_SCHOOLS_INVITE_MODAL',
@@ -161,7 +161,7 @@
           })
         }
         if (this.authUser && this.authUser.role === 1 &&
-        (this.authUser.schoolsUsers.length > 0 && this.authUser.schoolsUsers[0].role === 1)) {
+          (this.authUser.schoolsUsers.length > 0 && this.authUser.schoolsUsers[0].role === 1)) {
           this.$store.dispatch('getSchool', {id: this.authUser.schoolsUsers[0].school.id})
             .then(response => {
               this.schoolName = response.name
@@ -170,13 +170,13 @@
       }
     },
     computed: {
-      authUser () {
+      authUser() {
         return this.$store.getters.authUser
       },
-      isDirector () {
+      isDirector() {
         return this.$store.getters.isDirector
       },
-      schoolsTreeselect () {
+      schoolsTreeselect() {
         let data = this.$store.getters.schools
 
         if (undefined === this.authUser || this.authUser === null) {
@@ -206,7 +206,7 @@
       }
     },
     methods: {
-      submitReplacement (id) {
+      submitReplacement(id) {
         this.$store.dispatch('putLeader', {
           id: this.authUser.id,
           replacementId: id,
@@ -215,18 +215,29 @@
           this.$store.dispatch('getCurrentUser')
         })
       },
-      sendInvite () {
+      sendInvite() {
         this.$store.dispatch('putLeader', {
           id: this.authUser.id,
           schools: this.selectedSchools,
           actionType: 'sendSchoolInvitation'
-        }).catch(error => {
-          this.showToast(error.data.error, 'Wystąpil błąd')
         })
+          .then(response => {
+            this.$bvToast.toast('Twoja prośba o dołączenie do wybranej Szkoły / Klubu została wysłana. Zachowaj teraz cierpliwość. Szkoła / Klub musi zatwierdzić Twoje zgłoszenie. Jeśli zgłoszenie zostanie zatwierdzone zobaczysz wybraną Szkołę / Klub w swoim panelu Prowadzącego w zakładce „Kluby i Szkoły – zatwierdzone.”', {
+              title: 'Uwaga!',
+              toaster: 'b-toaster-bottom-right',
+              solid: true,
+              variant: 'info',
+              appendToast: false,
+              autoHideDelay: 500000,
+            })
+          })
+          .catch(error => {
+            this.showToast(error.data.error, 'Wystąpil błąd')
+          })
         this.selectedSchools = []
         this.$refs.schoolInviteModal.hide()
       },
-      submit () {
+      submit() {
         this.$validator.validateScopes()
           .then((result) => {
             if (result === false) return
@@ -254,11 +265,11 @@
                 this.newPassword = ''
                 this.confirmPassword = ''
                 this.showToast((error && error.data && error.data.error)
-                ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
+                  ? error.data.error : 'Wystąpil błąd', 'Uwaga', 'danger')
               })
           })
       },
-      checkPassword () {
+      checkPassword() {
         if (this.confirmPassword !== this.newPassword) {
           this.showToast('Hasła nie są identyczne', 'Uwaga', 'danger')
           return false
@@ -269,13 +280,13 @@
         }
         return true
       },
-      openSchoolsInviteModal () {
+      openSchoolsInviteModal() {
         if (this.$refs.schoolInviteModal) this.$refs.schoolInviteModal.show()
       }
     },
-    mounted () {
+    mounted() {
       if (this.authUser && this.authUser.role === 1 &&
-      (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
+        (this.authUser.schoolsUsers.length < 1 || this.authUser.schoolsUsers[0].role === 0)) {
         /** @buttonLink route name || false if button must be hidden */
         this.changeAdminNavbarButton({
           eventBusMethod: 'OPEN_SCHOOLS_INVITE_MODAL',
@@ -283,7 +294,7 @@
         })
       }
     },
-    created () {
+    created() {
       EventBus.$on('OPEN_SCHOOLS_INVITE_MODAL', (params) => {
         this.openSchoolsInviteModal()
       })

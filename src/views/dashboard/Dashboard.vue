@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <b-row class="justify-content-between">
-<!--      :cols="$store.getters.isAdmin ? 6 : 12"  -->
-      <b-col :class="{'col-xl-6': $store.getters.isAdmin, 'col-lg-6': $store.getters.isAdmin, 'col-md-12': $store.getters.isAdmin, 'col-sm-12': $store.getters.isAdmin}">
+      <!--      :cols="$store.getters.isAdmin ? 6 : 12"  -->
+      <b-col
+        :class="{'col-xl-6': $store.getters.isAdmin, 'col-lg-6': $store.getters.isAdmin, 'col-md-12': $store.getters.isAdmin, 'col-sm-12': $store.getters.isAdmin}">
         <h3 class="mb-4">Do zatwierdzenia</h3>
 
         <!--    Schools And Clubs    -->
@@ -134,42 +135,42 @@
         <!--    Parties    -->
         <h4 v-b-toggle.collapse-parties><span class="mr-3">^</span>Imprezy</h4>
         <b-collapse visible id="collapse-parties" class="mt-2">
-            <b-table
-              :items="eventsToConfirm"
-              :fields="fieldsEvents"
-              striped
-              sort-icon-left
-              responsive="md"
-              class="custom table-responsive"
-              @row-clicked="eventRowRedirect"
-            >
-              <template slot="dateStart" slot-scope="scope">
-                <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
-              </template>
+          <b-table
+            :items="eventsToConfirm"
+            :fields="fieldsEvents"
+            striped
+            sort-icon-left
+            responsive="md"
+            class="custom table-responsive"
+            @row-clicked="eventRowRedirect"
+          >
+            <template slot="dateStart" slot-scope="scope">
+              <span>{{scope.item.dateStart.substr(0, scope.item.dateStart.indexOf(' '))}}</span>
+            </template>
 
-              <template slot="discipline" slot-scope="scope">
+            <template slot="discipline" slot-scope="scope">
           <span v-if="scope.item.discipline && scope.item.discipline.id">
             {{getDisciplineTitleById(scope.item.discipline.id)}}
           </span>
-              </template>
+            </template>
 
-              <template slot="organization" slot-scope="scope">
-                <span v-if="scope.item.organization">{{scope.item.organization}}</span>
-                <span v-else-if="scope.item.school && scope.item.school.id">
+            <template slot="organization" slot-scope="scope">
+              <span v-if="scope.item.organization">{{scope.item.organization}}</span>
+              <span v-else-if="scope.item.school && scope.item.school.id">
             {{getSchoolNameById(scope.item.school.id)}}
           </span>
-              </template>
+            </template>
 
-              <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isAdmin">
-                <b-btn variant="primary" class="custom mb-0" @click="confirmEvent(scope.item.id)">
-                  Zatwierdź
-                </b-btn>
-              </template>
-              <template slot="edit" slot-scope="scope">
-                <span class="c-pointer">Szczegóły</span>
-              </template>
+            <template slot="btnTable" slot-scope="scope" v-if="$store.getters.isAdmin">
+              <b-btn variant="primary" class="custom mb-0" @click="confirmEvent(scope.item.id)">
+                Zatwierdź
+              </b-btn>
+            </template>
+            <template slot="edit" slot-scope="scope">
+              <span class="c-pointer">Szczegóły</span>
+            </template>
 
-            </b-table>
+          </b-table>
         </b-collapse>
       </b-col>
 
@@ -202,6 +203,27 @@
           </template>
           <!--              @row-clicked="rowRedirect"-->
         </b-table>
+      </b-col>
+
+      <b-col class="col-xl-6 col-lg-6 col-md-12 col-sm-12" v-if="school && !$store.getters.isAdmin && $store.getters.isDirector">
+        <h5 v-b-toggle.collapse-invitations class="c-pointer">
+          <span class="mr-3">^</span>Aplikacje prowadzących
+        </h5>
+        <b-collapse visible id="collapse-invitations" class="mt-2">
+          <div :key="index" v-for="(invitation, index) in school.invitations"
+               class="row justify-content-between mb-2 align-items-center">
+            <div class="col-9">
+              <p class="mb-0">{{index + 1}}. {{invitation.leader.firstName}} {{invitation.leader.lastName}}
+                ({{invitation.leader.email}})</p>
+            </div>
+            <div class="col-3 text-right">
+              <b-btn v-if="invitation.active === false" variant="primary" class="custom mb-0" @click="acceptLeaderInvitation(invitation.leader.id)">
+                Zatwierdź
+              </b-btn>
+              <span v-else class="status active">zatwierdzony</span>
+            </div>
+          </div>
+        </b-collapse>
       </b-col>
     </b-row>
 
@@ -236,41 +258,42 @@
   import LeaderMixin from '@/mixins/leader-mixin'
   import LeaderTable from '@/views/leaders/components/LeaderTable'
   import EventBusEmit from '@/mixins/event-bus-emit'
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   export default {
-    components: { LeaderTable },
-    mixins: [ SchoolsAndClubsMixin, SportObjectsMixin, EventBusEmit, LeaderMixin ],
-    data () {
+    components: {LeaderTable},
+    mixins: [SchoolsAndClubsMixin, SportObjectsMixin, EventBusEmit, LeaderMixin],
+    data() {
       return {
+        school: null,
         fieldsSchools: [
-          { key: 'type', label: 'Typ', sortable: true },
-          { key: 'name', label: 'Nazwa', sortable: true },
-          { key: 'object', label: 'Obiekty sportowe', sortable: true },
-          { key: 'data', label: 'Data dodania', sortable: true },
-          { key: 'btnTable', label: '', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'type', label: 'Typ', sortable: true},
+          {key: 'name', label: 'Nazwa', sortable: true},
+          {key: 'object', label: 'Obiekty sportowe', sortable: true},
+          {key: 'data', label: 'Data dodania', sortable: true},
+          {key: 'btnTable', label: '', sortable: true},
+          {key: 'edit', label: ''}
         ],
         fieldsSportObjects: [
-          { key: 'name', label: 'Nazwa obiektu', sortable: true },
-          { key: 'type', label: 'Typ obiektu', sortable: true },
-          { key: 'data', label: 'Data dodania', sortable: true },
-          { key: 'btnTable', label: '', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'name', label: 'Nazwa obiektu', sortable: true},
+          {key: 'type', label: 'Typ obiektu', sortable: true},
+          {key: 'data', label: 'Data dodania', sortable: true},
+          {key: 'btnTable', label: '', sortable: true},
+          {key: 'edit', label: ''}
         ],
         fieldsLeaders: [
-          { key: 'fullName', label: 'Imię i Nazwisko', sortable: true },
-          { key: 'disciplines', label: 'Dyscyplina', sortable: true },
-          { key: 'status', label: 'Status w systemie', sortable: true },
-          { key: 'btnTable', label: '', sortable: true }
+          {key: 'fullName', label: 'Imię i Nazwisko', sortable: true},
+          {key: 'disciplines', label: 'Dyscyplina', sortable: true},
+          {key: 'status', label: 'Status w systemie', sortable: true},
+          {key: 'btnTable', label: '', sortable: true}
         ],
         fieldsEvents: [
-          { key: 'dateStart', label: 'Data rozpoczęcia', sortable: true },
-          { key: 'title', label: 'Nazwa', sortable: true },
-          { key: 'discipline', label: 'Dyscyplina', sortable: true },
-          { key: 'organization', label: 'Organizator', sortable: true },
-          { key: 'btnTable', label: '', sortable: true },
-          { key: 'edit', label: '' }
+          {key: 'dateStart', label: 'Data rozpoczęcia', sortable: true},
+          {key: 'title', label: 'Nazwa', sortable: true},
+          {key: 'discipline', label: 'Dyscyplina', sortable: true},
+          {key: 'organization', label: 'Organizator', sortable: true},
+          {key: 'btnTable', label: '', sortable: true},
+          {key: 'edit', label: ''}
         ],
 
         // LOGS
@@ -289,63 +312,74 @@
           {val: 'POST', label: 'Dodanie'},
           {val: 'PUT', label: 'Edycja'},
           {val: 'DELETE', label: 'Usunięcie'}
-        ],
+        ]
       }
     },
     computed: {
       ...mapGetters(['sportObjectsToConfirm', 'sportObjectTypes',
         'disciplines', 'leadersToConfirm', 'eventsToConfirm']),
-      schoolsToConfirm () {
+      schoolsToConfirm() {
         return this.$store.getters.schoolsToConfirm
-      },
+      }
     },
     methods: {
-      confirmEvent (id) {
-        this.$store.dispatch('putEvent', { id: id, confirmed: 1 })
+      acceptLeaderInvitation (leaderId) {
+        let school = {
+          id: this.school.id,
+          leaders: [leaderId]
+        }
+
+        this.$store.dispatch('putSchool', school)
           .then((response) => {
-            this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
+            this.school = this.$store.getters.school(this.isConfirmed, this.school.id)
           })
       },
-      confirmLeader (id) {
-        this.$store.dispatch('putLeader', { id: id, confirmed: 1 })
+      confirmEvent(id) {
+        this.$store.dispatch('putEvent', {id: id, confirmed: 1})
           .then((response) => {
-            this.$store.dispatch('getLeaders', { confirmed: 0 })
+            this.$store.dispatch('getEvents', {confirmed: 0, forSchool: true})
           })
       },
-      confirmSchoolAndClubItem (id) {
-        this.$store.dispatch('putSchool', { id: id, confirmed: 1 })
+      confirmLeader(id) {
+        this.$store.dispatch('putLeader', {id: id, confirmed: 1})
           .then((response) => {
-            this.$store.dispatch('getSchools', { confirmed: 0 })
+            this.$store.dispatch('getLeaders', {confirmed: 0})
           })
       },
-      confirmSportObjectItem (id) {
-        this.$store.dispatch('putSportObject', { id: id, confirmed: 1 })
+      confirmSchoolAndClubItem(id) {
+        this.$store.dispatch('putSchool', {id: id, confirmed: 1})
           .then((response) => {
-            this.$store.dispatch('getSportObjects', { confirmed: 0 })
+            this.$store.dispatch('getSchools', {confirmed: 0})
           })
       },
-      schoolRowRedirect (school, isConfirmed) {
+      confirmSportObjectItem(id) {
+        this.$store.dispatch('putSportObject', {id: id, confirmed: 1})
+          .then((response) => {
+            this.$store.dispatch('getSportObjects', {confirmed: 0})
+          })
+      },
+      schoolRowRedirect(school, isConfirmed) {
         this.$router.push({
           name: 'school.or.club',
-          params: { 'tab': 'main-data', 'id': school.id, 'isConfirmed': isConfirmed }
+          params: {'tab': 'main-data', 'id': school.id, 'isConfirmed': isConfirmed}
         })
       },
-      sportObjectRowRedirect (sportObject, isConfirmed) {
+      sportObjectRowRedirect(sportObject, isConfirmed) {
         this.$router.push({
           name: 'sport.object',
-          params: { 'tab': 'main-data', 'id': sportObject.id, 'isConfirmed': isConfirmed }
+          params: {'tab': 'main-data', 'id': sportObject.id, 'isConfirmed': isConfirmed}
         })
       },
-      leaderRowRedirect (leader, isConfirmed) {
+      leaderRowRedirect(leader, isConfirmed) {
         this.$router.push({
           name: 'leader',
-          params: { 'tab': 'main-data', 'id': leader.id, 'isConfirmed': isConfirmed }
+          params: {'tab': 'main-data', 'id': leader.id, 'isConfirmed': isConfirmed}
         })
       },
-      eventRowRedirect (event, isConfirmed) {
+      eventRowRedirect(event, isConfirmed) {
         this.$router.push({
           name: 'event',
-          params: { 'tab': 'main-data', 'id': event.id, 'isConfirmed': isConfirmed }
+          params: {'tab': 'main-data', 'id': event.id, 'isConfirmed': isConfirmed}
         })
       },
 
@@ -362,26 +396,34 @@
           return x.val === name
         })
         return undefined === namePrepared ? '' : namePrepared.label
-      },
+      }
     },
-    created () {
+    created() {
       this.$store.dispatch('getSchools')
-      this.$store.dispatch('getSportObjects', { confirmed: 0 })
+      .then(response => {
+        if (!this.$store.getters.isAdmin && this.$store.getters.isDirector) {
+          this.$store.dispatch('getSchool', {id: response[0].id})
+          .then(resp => {
+          this.school = JSON.parse(JSON.stringify(resp))
+          })
+        }
+      })
+      this.$store.dispatch('getSportObjects', {confirmed: 0})
       this.$store.dispatch('getSportObjectTypes')
       this.$store.dispatch('getLeaders', {confirmed: 0})
-      this.$store.dispatch('getEvents', { confirmed: 0, forSchool: true })
+      this.$store.dispatch('getEvents', {confirmed: 0, forSchool: true})
       this.$store.dispatch('getDisciplines')
 
       if (this.$store.getters.isAdmin) {
-      this.$store.dispatch('getLogs', {currentPage: 1, perPage: 10})
-        .then(response => {
-          this.historyData = response.data
-        })
+        this.$store.dispatch('getLogs', {currentPage: 1, perPage: 10})
+          .then(response => {
+            this.historyData = response.data
+          })
       }
 
       /** @buttonLink route name || false if button must be hidden */
-      this.changeAdminNavbarButton({ buttonLink: false })
-      this.changeAdminNavbarBreadcrumbs([ { text: 'Dashboard', active: true } ])
+      this.changeAdminNavbarButton({buttonLink: false})
+      this.changeAdminNavbarBreadcrumbs([{text: 'Dashboard', active: true}])
     }
   }
 </script>

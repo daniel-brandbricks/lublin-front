@@ -31,14 +31,13 @@
               if (school.invitations && school.invitations.length > 0) {
                 for (let index in school.invitations) {
                   if (school.invitations[index].active === false) {
-                    this.$bvToast.toast('Masz nową aplikację od prowadzącego. ' +
-                      'Sprawdż to w swojej szkołe / klubu w zakładce "Prowadzący" ', {
-                        title: 'Uwaga!',
-                        toaster: 'b-toaster-bottom-right',
-                        solid: true,
-                        variant: 'info',
-                        appendToast: false,
-                        autoHideDelay: 5000000
+                    this.$bvToast.toast('Masz nowe zgłoszenie od prowadzącego, by je zaakceptować przejdź do zakładki „Kluby i Szkoły – Prowadzący.”', {
+                      title: 'Uwaga!',
+                      toaster: 'b-toaster-bottom-right',
+                      solid: true,
+                      variant: 'info',
+                      appendToast: false,
+                      autoHideDelay: 5000000
                     })
                   }
                 }

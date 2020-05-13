@@ -31,7 +31,7 @@
         <!--        </template>-->
 
         <template slot="lessons" slot-scope="scope">
-          <span>{{scope.item.lessons.length}}</span>
+          <span>{{getLessonsLength(scope.item.lessons)}}</span>
         </template>
 
         <template slot="status" slot-scope="scope">
@@ -111,7 +111,7 @@
 
   export default {
     name: 'ListToConfirm',
-    props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams', 'parentType', 'statusSlot'],
+    props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams', 'parentType', 'statusSlot', 'forSchool'],
     mixins: [LeaderMixin, TableMixin],
     data () {
       return {
@@ -168,6 +168,17 @@
       }
     },
     methods: {
+      getLessonsLength (lessons) {
+        if (this.forSchool === undefined) return lessons.length
+        let prepared = []
+        let ids = (lessons && lessons.length > 0) ? lessons.map(x => x.id) : []
+        let storeLessons = this.$store.getters.lessons || []
+        for (let index in storeLessons) {
+          if (ids.includes(storeLessons[index].id)) prepared.push(1)
+        }
+
+        return prepared.length
+      },
       changeLeaderStatus (id, status) {
         if (undefined === this.statusSlot) {
           this.$store.dispatch('putLeader', {
