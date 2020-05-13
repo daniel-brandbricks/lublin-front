@@ -158,6 +158,7 @@
 
           <b-link :to="{name:'messages'}"
                   active-class="active"
+                  v-if="$store.getters.isDirector"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
             Komunikaty<span class="pl-4"></span>
