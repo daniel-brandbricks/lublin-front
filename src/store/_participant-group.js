@@ -124,8 +124,8 @@ export default {
               return
             }
 
-            context.commit('setParticipantGroups', response)
-            resolve()
+            context.commit('setParticipantGroups', (response && response.data) ? response.data : response)
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)

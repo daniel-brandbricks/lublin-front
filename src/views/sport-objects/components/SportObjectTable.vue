@@ -129,7 +129,6 @@
       }
     },
     methods: {
-      // todo
       filter (currentPage = 1, reset = false) {
         let filters = this.filters
         filters.idsToPass = this.idsToPass

@@ -36,7 +36,8 @@
       <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="justify-content-between align-items-center">
           <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
-            <treeselect v-model="selectedSchools" v-if="selectedSchools"
+            <treeselect v-model="selectedSchools" v-if="selectedSchools &&
+            (undefined === this.participant && undefined === this.school)"
                         :multiple="true" class="custom"
                         placeholder="Szkoła / Klub" :options="schoolsTreeselect"
             />
@@ -64,9 +65,24 @@
 
       <!--   Table   -->
       <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
+        <b-row class="justify-content-end mb-3">
+          <b-btn variant="primary" class="mr-3" @click="filter(1, true)">Filtruj</b-btn>
+        </b-row>
+
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+          aria-controls="history-table"
+        />
+
         <b-table
           :items="participantGroups"
           :fields="fields"
+          :per-page="perPage"
           striped
           sort-icon-left
           responsive="md"
@@ -120,6 +136,10 @@
     mixins: [EventBusEmit, ParticipantGroupMixin],
     data() {
       return {
+        currentPage: 1,
+        perPage: 5,
+        totalRows: 0,
+
         fields: [
           {key: 'title', label: 'Nazwa listy', sortable: true},
           {key: 'discipline', label: 'Dyscyplina', sortable: true},
@@ -151,7 +171,14 @@
         let preparedSchools = []
 
         for (let schoolIndex in data) {
-          preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+          if (this.school) {
+            if (data[schoolIndex].id === this.school.id) preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+          } else if (this.schoolIds) {
+            if (this.schoolIds.includes(data[schoolIndex].id)) preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+          } else {
+            preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+
+          }
         }
 
         return preparedSchools
@@ -168,45 +195,92 @@
       participantGroups() {
         let participantGroups = this.$store.getters.participantGroups
 
-        let filteredParticipantGroups = []
-        let search = this.search || ''
-        let selectedGender = this.selectedGender || []
-        let disciplines = this.selectedDisciplines || []
-        let lessonCategories = this.selectedLessonCategories || []
-        let classes = this.selectedClasses || []
-        let selectedSchools = this.selectedSchools || []
+        // let filteredParticipantGroups = []
+        // let search = this.search || ''
+        // let selectedGender = this.selectedGender || []
+        // let disciplines = this.selectedDisciplines || []
+        // let lessonCategories = this.selectedLessonCategories || []
+        // let classes = this.selectedClasses || []
+        // let selectedSchools = this.selectedSchools || []
+        //
+        // for (let index in participantGroups) {
+        //   if (search.length > 0 && participantGroups[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
+        //   if (selectedGender.length > 0 && participantGroups[index].sex.filter(x => selectedGender.includes(x)).length < 1) continue
+        //   // if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue
+        //   if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
+        //   if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
+        //   if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
+        //   if (selectedSchools.length > 0 && !selectedSchools.includes(parseInt(participantGroups[index].school.id))) continue
+        //
+        //   // for school & leader & participant component
+        //   if (this.participant && this.participant.id) {
+        //     let participantExists = participantGroups[index].participants && participantGroups[index].participants.find(x => {
+        //       return x.id === this.participant.id
+        //     })
+        //
+        //     if (undefined === participantExists) continue
+        //   }
+        //   if (this.school && this.school.id) {
+        //     if (this.school.id !== participantGroups[index].school.id) continue
+        //   }
+        //   if (this.schoolIds && this.schoolIds.length > 0) {
+        //     if (!this.schoolIds.includes(participantGroups[index].school.id)) continue
+        //   }
+        //
+        //   filteredParticipantGroups.push(participantGroups[index])
+        // }
 
-        for (let index in participantGroups) {
-          if (search.length > 0 && participantGroups[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
-          if (selectedGender.length > 0 && participantGroups[index].sex.filter(x => selectedGender.includes(x)).length < 1) continue
-          // if (selectedGender.length > 0 && !selectedGender.includes(participantGroups[index].sex)) continue
-          if (disciplines.length > 0 && !disciplines.includes(parseInt(participantGroups[index].discipline.id))) continue
-          if (lessonCategories.length > 0 && !lessonCategories.includes(parseInt(participantGroups[index].lessonCategory.id))) continue
-          if (classes.length > 0 && !classes.includes(parseInt(participantGroups[index].class.id))) continue
-          if (selectedSchools.length > 0 && !selectedSchools.includes(parseInt(participantGroups[index].school.id))) continue
-
-          // for school & leader & participant component
-          if (this.participant && this.participant.id) {
-            let participantExists = participantGroups[index].participants && participantGroups[index].participants.find(x => {
-              return x.id === this.participant.id
-            })
-
-            if (undefined === participantExists) continue
-          }
-          if (this.school && this.school.id) {
-            if (this.school.id !== participantGroups[index].school.id) continue
-          }
-          if (this.schoolIds && this.schoolIds.length > 0) {
-            if (!this.schoolIds.includes(participantGroups[index].school.id)) continue
-          }
-
-          filteredParticipantGroups.push(participantGroups[index])
-        }
-
-        return filteredParticipantGroups
+        return participantGroups
+        // return filteredParticipantGroups
+      }
+    },
+    watch: {
+      currentPage: function (val) {
+        this.filter(val)
       }
     },
     methods: {
+      filter (currentPage = 1, reset = false) {
+        let filters = {
+          search: this.search || '',
+          selectedGender: this.selectedGender || [],
+          disciplines: this.selectedDisciplines || [],
+          lessonCategories: this.selectedLessonCategories || [],
+          classes: this.selectedClasses || [],
+          selectedSchools: this.selectedSchools || []
+        }
+
+        if (this.participant && this.participant.id) {
+          filters.participantId = this.participant.id
+          // let participantExists = participantGroups[index].participants && participantGroups[index].participants.find(x => {
+          //   return x.id === this.participant.id
+          // })
+
+          // if (undefined === participantExists) continue
+        }
+        if (this.school && this.school.id) {
+          filters.schoolId = this.school.id
+          // if (this.school.id !== participantGroups[index].school.id) continue
+        }
+        if (this.schoolIds && this.schoolIds.length > 0) {
+          filters.schoolIds = this.schoolIds
+          // if (!this.schoolIds.includes(participantGroups[index].school.id)) continue
+        }
+
+        this.$store.dispatch('getParticipantGroups', {
+          filters: filters, currentPage: currentPage, perPage: this.perPage
+        })
+          .then(response => {
+            this.filterResponse(response, reset)
+          })
+
+      },
+      filterResponse(response, reset) {
+        // this.historyData = response.data
+        this.totalRows = response.totalCount
+
+        if (reset) this.currentPage = 1
+      },
       getSchoolNameById (id) {
         let schools = this.$store.getters.schools
         if (undefined === schools || schools === null || schools.length < 1) return ''
@@ -249,7 +323,7 @@
       }
     },
     created() {
-      this.$store.dispatch('getParticipantGroups')
+      this.filter()
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
