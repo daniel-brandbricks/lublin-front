@@ -8,7 +8,7 @@
 
     <b-row class="justify-content-center">
       <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
-        <b-row class="align-items-center mb-3">
+        <b-row class="align-items-center">
           <!--          <b-col>-->
           <!--            <b-form-group class="custom">-->
           <!--              <b-form-checkbox-group-->

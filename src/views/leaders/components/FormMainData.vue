@@ -106,18 +106,18 @@
       <!--buttons-->
       <b-row class="mt-4" v-if="$store.getters.isAdmin">
         <b-col>
-          <b-btn variant="delete" class="custom" :disabled="leader.id === undefined"
+          <b-btn variant="delete" class="custom mt-3" :disabled="leader.id === undefined"
                  @click="deleteFromForm('deleteLeader', leader.id, undefined, 'leaders', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
         <b-col>
-          <b-link block class="custom btn" :to="{ name: 'leaders', params: { 'tab': 'confirmed' } }">
+          <b-link block class="custom btn mt-3" :to="{ name: 'leaders', params: { 'tab': 'confirmed' } }">
             Anuluj
           </b-link>
         </b-col>
         <b-col>
-          <b-btn block class="custom" @click="submit(leader.confirmed, true)">
+          <b-btn block class="custom mt-3" @click="submit(leader.confirmed, true)">
             Zapisz
           </b-btn>
         </b-col>

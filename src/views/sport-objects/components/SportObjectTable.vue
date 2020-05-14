@@ -1,9 +1,25 @@
 <template>
   <b-row class="justify-content-center">
     <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
+      <b-row class="justify-content-end mb-3">
+        <b-btn variant="primary" class="mr-3" @click="filter(1, true)">Filtruj</b-btn>
+      </b-row>
+
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        align="fill"
+        size="sm"
+        class="my-0"
+        aria-controls="history-table"
+      />
+
+<!--      :items="sportObjectsListFiltered"-->
       <b-table
-        :items="sportObjectsListFiltered"
+        :items="sportObjects"
         :fields="fields"
+        :per-page="perPage"
         striped
         sort-icon-left
         responsive="md"
@@ -70,6 +86,10 @@
     mixins: [ SportObjectsMixin, TableMixin ],
     data () {
       return {
+        currentPage: 1,
+        perPage: 5,
+        totalRows: 0,
+
         // table
         fields: [
           { key: 'title', label: 'Nazwa obiektu', sortable: true },
@@ -83,31 +103,59 @@
         ]
       }
     },
+    watch: {
+      currentPage: function (val) {
+        this.filter(val)
+      }
+    },
     computed: {
       sportObjects () {
         let sportObjectsPassedByIds = []
         let storeSportObjects = this.isConfirmed === 'all' ? this.$store.getters.sportObjects
         : this.isConfirmed ? this.$store.getters.sportObjectsConfirmed : this.$store.getters.sportObjectsToConfirm
 
-        console.log(storeSportObjects)
-
         // this block for filtering by passed ids through parent-related entities
-        if (undefined === this.idsToPass) {
+        // if (undefined === this.idsToPass) {
           sportObjectsPassedByIds = storeSportObjects
-        } else {
-          for (let index in storeSportObjects) {
-            if (this.idsToPass.includes(parseInt(storeSportObjects[index].id))) {
-              sportObjectsPassedByIds.push(storeSportObjects[index])
-            }
-          }
-        }
-
-        console.log(sportObjectsPassedByIds)
+        // } else {
+        //   for (let index in storeSportObjects) {
+        //     if (this.idsToPass.includes(parseInt(storeSportObjects[index].id))) {
+        //       sportObjectsPassedByIds.push(storeSportObjects[index])
+        //     }
+        //   }
+        // }
 
         return sportObjectsPassedByIds
       }
     },
     methods: {
+      // todo
+      filter (currentPage = 1, reset = false) {
+        let filters = this.filters
+        filters.idsToPass = this.idsToPass
+
+        if (this.isConfirmed === 'all') {
+          this.$store.dispatch('getSportObjects', {confirmed: 0, filters: filters, currentPage: currentPage, perPage: this.perPage})
+            .then(response => {
+              this.filterResponse(response, reset)
+            })
+          this.$store.dispatch('getSportObjects', {confirmed: 1, filters: filters, currentPage: currentPage, perPage: this.perPage})
+            .then(response => {
+              this.filterResponse(response, reset)
+            })
+        } else {
+          this.$store.dispatch('getSportObjects', {confirmed: this.isConfirmed ? 1 : 0, filters: filters, currentPage: currentPage, perPage: this.perPage})
+            .then(response => {
+              this.filterResponse(response, reset)
+            })
+        }
+      },
+      filterResponse(response, reset) {
+        // this.historyData = response.data
+        this.totalRows = response.totalCount
+
+        if (reset) this.currentPage = 1
+      },
       rowRedirect (row) {
         this.$parent.rowRedirect(row.id, true)
       },
@@ -120,12 +168,13 @@
       }
     },
     created () {
-      if (this.isConfirmed === 'all') {
-        this.$store.dispatch('getSportObjects', {confirmed: 0})
-        this.$store.dispatch('getSportObjects', {confirmed: 1})
-      } else {
-        this.$store.dispatch('getSportObjects', {confirmed: this.isConfirmed ? 1 : 0})
-      }
+      this.filter()
+      // if (this.isConfirmed === 'all') {
+      //   this.$store.dispatch('getSportObjects', {confirmed: 0})
+      //   this.$store.dispatch('getSportObjects', {confirmed: 1})
+      // } else {
+      //   this.$store.dispatch('getSportObjects', {confirmed: this.isConfirmed ? 1 : 0})
+      // }
 
       this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getSportObjectTypes')

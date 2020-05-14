@@ -100,11 +100,11 @@
               Zapisz
             </b-btn>
           </b-col>
-          <b-col>
-            <b-btn v-if="school.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
-              Odtwierdz
-            </b-btn>
-            <b-btn block v-else variant="primary" class="custom" @click="submitSetConfirm(1, true)">
+          <b-col v-if="!school.confirmed">
+<!--            <b-btn v-if="school.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">-->
+<!--              Odtwierdz-->
+<!--            </b-btn>-->
+            <b-btn block variant="primary" class="custom" @click="submitSetConfirm(1, true)">
               Zatwierdź
             </b-btn>
           </b-col>
