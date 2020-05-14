@@ -55,8 +55,22 @@
 
       <!--   Table   -->
       <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
+        <b-row class="justify-content-end mb-3">
+          <b-btn variant="primary" class="mr-3" @click="filter(1, true)">Filtruj</b-btn>
+        </b-row>
+
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+          aria-controls="history-table"
+        />
+
         <b-table
-          :items="lessonsList"
+          :items="storeLessons"
           :fields="fields"
           striped
           sort-icon-left
@@ -127,10 +141,14 @@
     name: 'LessonList',
     components: {Treeselect},
     props: ['lesson', 'isConfirmed', 'school', 'participant',
-            'sportObject', 'schoolIds', 'participantGroup', 'leader'],
+      'sportObject', 'schoolIds', 'participantGroup', 'leader'],
     mixins: [EventBusEmit, LessonMixin],
-    data () {
+    data() {
       return {
+        currentPage: 1,
+        perPage: 20,
+        totalRows: 0,
+
         fields: [
           {key: 'school', label: 'Szkoła / Klub', sortable: true},
           {key: 'title', label: 'Nazwa zajęcia', sortable: true},
@@ -155,10 +173,13 @@
     },
     computed: {
       ...mapGetters(['leaderById', 'classes', 'lessonCategories', 'disciplines']),
-      leadersConfirmed () {
+      leadersConfirmed() {
         return this.$store.getters.leadersConfirmed
       },
-      schoolsAndClubs () {
+      storeLessons() {
+        return this.$store.getters.lessons
+      },
+      schoolsAndClubs() {
         return this.$store.getters.schools
       },
       buildUserNames: () => (user) => {
@@ -183,32 +204,84 @@
       //   return names.substring(0, names.length - 2)
       // }
     },
+    watch: {
+      currentPage: function (val) {
+        this.filter(val)
+      }
+    },
     methods: {
-      getSchoolNameById (id) {
+      filter(currentPage = 1, reset = false) {
+        let filters = {
+          selectedType: this.selectedType || [],
+          lesson: {
+            selectedDiscipline: this.selectedDisciplines || [],
+            selectedCategory: this.selectedLessonCategories || [],
+            selectedClass: this.selectedClasses || [],
+            selectedLesson: this.search || '',
+          }
+        }
+
+        if (this.participant && this.participant.id) {
+          let res = this.participant.participantGroups.map(x => {
+            return x.participantGroup.id
+          })
+          filters.participantGroups = (res && res.length > 0) ? res : []
+        }
+        if (this.participantGroup && this.participantGroup.id) {
+          filters.participantGroups = [this.participantGroup.id]
+        }
+
+        if (this.school && this.school.id) {
+          filters.lesson.schoolsAndClubs = [this.school.id]
+        }
+        if (this.leader && this.leader.id) {
+          filters.lesson.selectedLeader = [this.leader.id]
+        }
+        if ((this.schoolIds && this.schoolIds.length > 0)) {
+          filters.lesson.schoolsAndClubs = this.schoolIds
+        }
+        if (this.sportObject && this.sportObject.id) {
+          filters.lesson.selectedSportObject = [this.sportObject.id]
+        }
+
+        this.$store.dispatch('getLessons', {
+          filters: filters, currentPage: currentPage, perPage: this.perPage
+        })
+          .then(response => {
+            this.filterResponse(response, reset)
+          })
+      },
+      filterResponse(response, reset) {
+        // this.historyData = response.data
+        this.totalRows = response.totalCount
+
+        if (reset) this.currentPage = 1
+      },
+      getSchoolNameById(id) {
         if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
         return this.schoolsAndClubs.find((obj) => {
           return obj.id === id
         }).name
       },
-      getDisciplineTitleById (id) {
+      getDisciplineTitleById(id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''
         return this.disciplines.find((obj) => {
           return obj.id === id
         }).title
       },
-      getLessonCategoryTitleById (id) {
+      getLessonCategoryTitleById(id) {
         if (undefined === this.lessonCategories || this.lessonCategories === null || this.lessonCategories.length < 1) return ''
         return this.lessonCategories.find((obj) => {
           return obj.id === id
         }).title
       },
-      getClassTitleById (id) {
+      getClassTitleById(id) {
         if (undefined === this.classes || this.classes === null || this.classes.length < 1) return ''
         return this.classes.find((obj) => {
           return obj.id === id
         }).title
       },
-      rowRedirect (row) {
+      rowRedirect(row) {
         let filters = {
           selectedType: this.selectedType,
           search: this.search,
@@ -231,14 +304,15 @@
         this.selectedDisciplines = filtersParsed.selectedDisciplines
         this.selectedLessonCategories = filtersParsed.selectedLessonCategories
         this.selectedClasses = filtersParsed.selectedClasses
+        this.filter()
       }
     },
-    created () {
+    created() {
       if (this.$route.params.filters) {
         this.changeFilters(this.$route.params.filters)
       }
+      this.filter()
 
-      this.$store.dispatch('getLessons')
       this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
@@ -258,8 +332,8 @@
       this.changeAdminNavbarButton({buttonLink: 'lesson', params: {tab: 'main-data'}})
       if (undefined === this.school && this.sportObject === undefined && this.schoolIds === undefined &&
         this.participantGroup === undefined && this.participant === undefined && this.leader === undefined) {
-          this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
-        }
+        this.changeAdminNavbarBreadcrumbs([{text: 'Lista zajęć', active: true}])
+      }
     }
   }
 </script>

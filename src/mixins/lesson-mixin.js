@@ -82,7 +82,6 @@ export default {
       return preparedPlaces
     },
     lessonsList () {
-      let lessons = this.$store.getters.lessons
       let schools = this.$store.getters.schools
 
       let filteredLessons = []
@@ -93,7 +92,7 @@ export default {
       let classes = this.selectedClasses || []
 
       for (let index in lessons) {
-        if (search.length > 0 && lessons[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
+        if (search.length > 0 && lessons[index].title && lessons[index].title.toLowerCase().indexOf(search.toLowerCase()) === -1) continue
         // if (selectedType.length > 0 && !selectedType.includes(lessons[index].school)) continue
 
         if (selectedType.length > 0) {

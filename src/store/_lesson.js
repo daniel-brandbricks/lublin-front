@@ -150,7 +150,7 @@ export default {
             }
 
             console.log(response)
-            context.commit('setLessons', response)
+            context.commit('setLessons', (response && response.data) ? response.data : response)
             resolve(response)
           })
           .catch(error => {
