@@ -88,8 +88,8 @@ export default {
               return
             }
 
-            context.commit('setParticipants', response)
-            resolve()
+            context.commit('setParticipants', (response && response.data) ? response.data : response)
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)
