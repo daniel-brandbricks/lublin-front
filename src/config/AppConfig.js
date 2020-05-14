@@ -34,8 +34,6 @@ export const DISTRICTS = [
 ]
 
 export const YEARS = [
-  { id: 1999, label: 1999 },
-  { id: 2000, label: 2000 },
   { id: 2001, label: 2001 },
   { id: 2002, label: 2002 },
   { id: 2003, label: 2003 },
@@ -113,5 +111,5 @@ export const DATEPICKER_PARAMS = {
 
 export const CALENDAR_PARAMS = {
   months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-  weekdays: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+  weekdays: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So']
 }
