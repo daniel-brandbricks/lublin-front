@@ -60,6 +60,7 @@
         <b-table
           :items="participantList"
           :fields="fields"
+          :per-page="perPage"
           striped
           sort-icon-left
           responsive="md"

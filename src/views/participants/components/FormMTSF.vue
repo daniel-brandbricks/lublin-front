@@ -391,7 +391,12 @@
         this.points = {}
       },
       checkPunkts () {
-        this.$store.dispatch('checkMtsfPoints', {data: {actionType: 'checkMtsfPoints', mtsf: this.mtsf}})
+        let mtsf = this.mtsf
+        mtsf.participant = {
+          id: this.id
+        }
+        console.log(mtsf)
+        this.$store.dispatch('checkMtsfPoints', {data: {actionType: 'checkMtsfPoints', mtsf: mtsf}})
           .then(response => {
             this.points = {...response}
           })
@@ -402,8 +407,16 @@
       submit (endTest = false) {
         if (endTest) this.mtsf.finalDate = true
 
-        const method = this.mtsf.id ? 'putMtsf' : 'postMtsf'
-        const id = this.mtsf.id ? this.mtsf.id : this.id
+        let method, id
+        if (this.mtsf.id) {
+          method = 'putMtsf'
+          id = this.mtsf.id
+        } else {
+          method = 'postMtsf'
+          id = this.id
+        }
+        // const method = this.mtsf.id ? 'putMtsf' : 'postMtsf'
+        // const id = this.mtsf.id ? this.mtsf.id : this.id
 
         this.$store.dispatch(method, {id: id, data: this.mtsf})
           .then(response => {
@@ -418,7 +431,7 @@
       openMTSFModal (mtsfId) {
         if (mtsfId) {
           let mtsf = this.$store.getters.mtsf(mtsfId)
-          if (mtsf) this.mtsf = mtsf
+          if (mtsf) this.mtsf = JSON.parse(JSON.stringify(mtsf))
         }
         if (this.$refs.modalMTSF) {
           this.$refs.modalMTSF.show()

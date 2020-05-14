@@ -455,10 +455,17 @@
         if (endTest) this.mtsf.finalDate = true
 
         this.mtsf.season.id = this.participantGroup.season.id
-        const method = this.mtsf.id ? 'putMtsf' : 'postMtsf'
-        const id = this.mtsf.id ? this.mtsf.id : this.id
+        // eslint-disable-next-line no-unused-vars
+        let method, id
+        if (this.mtsf.id) {
+          method = 'putMtsf'
+          id = this.mtsf.id
+        } else {
+          method = 'postMtsf'
+          id = this.id
+        }
 
-        this.$store.dispatch(method, {id: this.mtsf.participant.id, data: this.mtsf})
+        this.$store.dispatch(method, {id: method === 'putMtsf' ? id : this.mtsf.participant.id, data: this.mtsf})
           .then(response => {
             this.$refs.modalMTSF.hide()
           })
@@ -472,7 +479,7 @@
         if (mtsfId) {
           let mtsf = this.$store.getters.mtsf(mtsfId)
           console.log(mtsf)
-          if (mtsf) this.mtsf = {...mtsf}
+          if (mtsf) this.mtsf = JSON.parse(JSON.stringify(mtsf))
         }
 
         if (this.$refs.modalMTSF) {

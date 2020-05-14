@@ -129,7 +129,7 @@ export default {
               return
             }
 
-            context.commit('setMtsfList', response)
+            context.commit('setMtsfList', (response && response.data) ? response.data : response)
             resolve(response)
           })
           .catch(error => {

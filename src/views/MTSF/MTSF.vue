@@ -38,15 +38,26 @@
         </b-row>
         <b-row class="text-right">
           <b-col>
-            <b-btn class="m-0" @click="filterMtsfList" variant="primary">Filtruj</b-btn>
+            <b-btn class="m-0 mb-2" @click="filterMtsfList(1, true)" variant="primary">Filtruj</b-btn>
           </b-col>
         </b-row>
       </b-col>
       <b-col cols="12">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+          aria-controls="history-table"
+        />
+
         <h4>Wyniki</h4>
         <b-table
           :items="listItems"
           :fields="fields"
+          :per-page="perPage"
           striped
           sort-icon-left
           responsive="md"
@@ -101,6 +112,10 @@
     mixins: [EventBusEmit],
     data() {
       return {
+        currentPage: 1,
+        perPage: 20,
+        totalRows: 0,
+
         generateExcel: true,
         generatePdf: true,
         selectedType: 'Mtsf',
@@ -160,6 +175,9 @@
       }
     },
     watch: {
+      currentPage: function (val) {
+        this.filterMtsfList(val)
+      },
       isLoading: function (val) {
         if (val) {
           this.$refs.loadingModal.show()
@@ -193,15 +211,18 @@
       }
     },
     methods: {
-      filterMtsfList() {
+      filterMtsfList(currentPage = 1, reset = false) {
         let filters = {
           searchText: this.searchText,
           selectedLeaders: this.selectedLeaders,
           selectedSeasons: this.selectedSeasons
         }
-        this.$store.dispatch('getMtsfList', {filters: filters})
+        this.$store.dispatch('getMtsfList',
+          {filters: filters, currentPage: currentPage, perPage: this.perPage})
           .then(response => {
-            this.listItems = response
+            this.totalRows = response.totalCount
+            this.listItems = response.data
+            if (reset) this.currentPage = 1
           })
       },
       changeAdminNavbarButtonWithParams() {

@@ -59,12 +59,11 @@ export default {
     getExcel (context, data) {
       const fileName = data.type
       const dataJSON = JSON.stringify(data)
-
+      let url = API_EXCEL_GEN_URL
       context.commit('isLoading', true)
-
       // header with token set in apiService
       // axios.get('http://lublin.bbapp.pl/api/xlsx-generate/?filters=' + dataJSON, {
-      axios.get({API_EXCEL_GEN_URL} + dataJSON, {
+      axios.get(url + dataJSON, {
         responseType: 'blob'
       }).then(response => {
         console.log(response)
