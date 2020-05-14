@@ -153,6 +153,9 @@
     },
     created () {
       this.$store.dispatch('getSchools', {})
+        .then(response => {
+          if (this.$store.getters.isDirector && !this.$store.getters.isAdmin) this.$router.push({name: 'school.or.club', params: {'tab': 'main-data', 'id': response[0].id}})
+        })
 
       if (this.$route.params.tab === undefined) {
         this.$router.push({ name: 'schools.and.clubs', params: { 'tab': 'confirmed' } })

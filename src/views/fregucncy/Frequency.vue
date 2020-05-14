@@ -285,6 +285,11 @@
         return preparedSchools
       }
     },
+    watch: {
+      currentPage: function (val) {
+        this.filter(val)
+      }
+    },
     methods: {
       getFrequencyCount (participants) {
         if (!participants) return

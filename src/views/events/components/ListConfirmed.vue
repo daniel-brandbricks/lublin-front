@@ -34,7 +34,7 @@
               :schoolsAndClubsTreeselect="schoolsAndClubsTreeselect"/>
       <b-btn class="d-block ml-auto" variant="primary" @click="findEvents">Szukaj</b-btn>
     </b-col>
-    <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
+    <b-col class="col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-4">
 <!--      <b-row class="justify-content-center">-->
 <!--        <b-col cols="12">-->
 <!--          <TabLinks :links="tabLinks"></TabLinks>-->

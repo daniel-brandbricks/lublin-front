@@ -120,13 +120,13 @@ export default {
 
             if (data) {
               data.confirmed === 1
-                ? context.commit('setConfirmedSportObjects', response)
-                : context.commit('setSportObjectsToConfirm', response)
+                ? context.commit('setConfirmedSportObjects', (response && response.data) ? response.data : response)
+                : context.commit('setSportObjectsToConfirm', (response && response.data) ? response.data : response)
             } else {
-              context.commit('setSportObjects', response)
+              context.commit('setSportObjects', (response && response.data) ? response.data : response)
             }
 
-            resolve()
+            resolve(response)
           })
           .catch(error => {
             console.log(error.response)
