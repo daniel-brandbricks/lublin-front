@@ -82,6 +82,7 @@ export default {
       return preparedPlaces
     },
     lessonsList () {
+      let lessons = this.$store.getters.lessons
       let schools = this.$store.getters.schools
 
       let filteredLessons = []

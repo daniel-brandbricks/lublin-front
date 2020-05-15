@@ -87,7 +87,7 @@
     data () {
       return {
         currentPage: 1,
-        perPage: 5,
+        perPage: 20,
         totalRows: 0,
 
         // table

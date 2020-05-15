@@ -205,7 +205,8 @@
         </b-table>
       </b-col>
 
-      <b-col class="col-xl-6 col-lg-6 col-md-12 col-sm-12" v-if="school && !$store.getters.isAdmin && $store.getters.isDirector">
+      <b-col class="col-xl-6 col-lg-6 col-md-12 col-sm-12"
+             v-if="school && !$store.getters.isAdmin && $store.getters.isDirector">
         <h5 v-b-toggle.collapse-invitations class="c-pointer">
           <span class="mr-3">^</span>Aplikacje prowadzących
         </h5>
@@ -217,7 +218,8 @@
                 ({{invitation.leader.email}})</p>
             </div>
             <div class="col-3 text-right">
-              <b-btn v-if="invitation.active === false" variant="primary" class="custom mb-0" @click="acceptLeaderInvitation(invitation.leader.id)">
+              <b-btn v-if="invitation.active === false" variant="primary" class="custom mb-0"
+                     @click="acceptLeaderInvitation(invitation.leader.id)">
                 Zatwierdź
               </b-btn>
               <span v-else class="status active">zatwierdzony</span>
@@ -323,7 +325,7 @@
       }
     },
     methods: {
-      acceptLeaderInvitation (leaderId) {
+      acceptLeaderInvitation(leaderId) {
         let school = {
           id: this.school.id,
           leaders: [leaderId]
@@ -396,18 +398,18 @@
           return x.val === name
         })
         return undefined === namePrepared ? '' : namePrepared.label
-      }
+      },
     },
     created() {
       this.$store.dispatch('getSchools')
-      .then(response => {
-        if (!this.$store.getters.isAdmin && this.$store.getters.isDirector) {
-          this.$store.dispatch('getSchool', {id: response[0].id})
-          .then(resp => {
-          this.school = JSON.parse(JSON.stringify(resp))
-          })
-        }
-      })
+        .then(response => {
+          if (!this.$store.getters.isAdmin && this.$store.getters.isDirector) {
+            this.$store.dispatch('getSchool', {id: response[0].id})
+              .then(resp => {
+                this.school = JSON.parse(JSON.stringify(resp))
+              })
+          }
+        })
       this.$store.dispatch('getSportObjects', {confirmed: 0})
       this.$store.dispatch('getSportObjectTypes')
       this.$store.dispatch('getLeaders', {confirmed: 0})
