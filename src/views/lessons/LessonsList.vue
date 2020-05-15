@@ -260,9 +260,11 @@
       },
       getSchoolNameById(id) {
         if (undefined === this.schoolsAndClubs || this.schoolsAndClubs === null || this.schoolsAndClubs.length < 1) return ''
-        return this.schoolsAndClubs.find((obj) => {
+        let res = this.schoolsAndClubs.find((obj) => {
           return obj.id === id
-        }).name
+        })
+
+        return res ? res.name : ''
       },
       getDisciplineTitleById(id) {
         if (undefined === this.disciplines || this.disciplines === null || this.disciplines.length < 1) return ''

@@ -143,13 +143,15 @@
         })
         return school ? school.name : ''
       },
-      rowRedirectEvent (row) {
-        this.$router.push({
-          name: 'event',
-          params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': true }
-        })
+      rowRedirectEvent(row) {
+        if (this.$store.getters.isAdmin || this.$store.getters.isDirector) {
+          this.$router.push({
+            name: 'event',
+            params: {'tab': 'main-data', 'id': row.id, 'isConfirmed': true}
+          })
+        }
       },
-      rowRedirectLesson (row) {
+      rowRedirectLesson(row) {
         this.$router.push({
           name: 'lesson',
           params: {'tab': 'main-data', 'id': row.id}

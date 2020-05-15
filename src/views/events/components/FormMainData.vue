@@ -222,7 +222,7 @@
         </div>
         <b-btn variant="primary" class="custom mt-4" @click="addDate" block>Dodaj datę</b-btn>
 
-        <b-row class="mt-4">
+        <b-row class="mt-4" v-if="$store.getters.isDirector || $store.getters.isAdmin">
           <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
             <b-btn variant="delete" class="custom"
                    @click="deleteFromForm('deleteEvent', event.id, undefined, 'events', {tab: 'confirmed'})">

@@ -1,7 +1,7 @@
 <template>
   <b-col cols="12">
     <b-row>
-<!--      :cols="splitComponents ? 6 : 12"    -->
+      <!--      :cols="splitComponents ? 6 : 12"    -->
       <b-col :sm="12" :md="12" :lg="splitComponents ? 6 : 12" :xl="splitComponents ? 6 : 12">
         <template>
           <date-pick
@@ -218,13 +218,15 @@
       }
     },
     methods: {
-      rowRedirectEvent (row) {
-        this.$router.push({
-          name: 'event',
-          params: { 'tab': 'main-data', 'id': row.id, 'isConfirmed': true }
-        })
+      rowRedirectEvent(row) {
+        if (this.$store.getters.isAdmin || this.$store.getters.isDirector) {
+          this.$router.push({
+            name: 'event',
+            params: {'tab': 'main-data', 'id': row.id, 'isConfirmed': true}
+          })
+        }
       },
-      rowRedirectLesson (row) {
+      rowRedirectLesson(row) {
         this.$router.push({
           name: 'lesson',
           params: {'tab': 'main-data', 'id': row.id}
@@ -250,11 +252,11 @@
           if (dateTo <= dateTime) return true
         }
       },
-      isFutureDate (date) {
+      isFutureDate(date) {
         const currentDate = new Date();
         return date > currentDate;
       },
-      recalculateCalendar () {
+      recalculateCalendar() {
         let dates = {}
         if ((this.showEvents && this.showEvents.length > 0) || this.calendarFront) {
           this.calculateCalendarDayEvents(this.events, dates)
@@ -265,7 +267,7 @@
 
         this.dates = {...dates}
       },
-      calculateCalendarDayEvents (val, dates) {
+      calculateCalendarDayEvents(val, dates) {
         for (let index in val) {
           let datesArr = this.calculateDatesDifference(val[index].dateStart, val[index].dateEnd)
 
