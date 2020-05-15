@@ -56,8 +56,9 @@
       },
       participantsTreeselect () {
         console.log(this.participantGroup)
-        let data = this.$store.getters.participants
+        let data = this.$store.getters.participantsBySchoolId
         let prepared = []
+        console.log(data)
         for (let participantIndex in data) {
           if (this.participantGroup.participants.length < 1 ||
             undefined === this.participantGroup.participants.find(x => {
@@ -82,8 +83,12 @@
             this.$parent.refreshParticipantGroup()
             this.showToast('Dane zostały zapisane', 'Uwaga', 'success')
           })
-          .catch((err) => {
-            this.showToast('Wystąpil błąd', 'Uwaga', 'danger')
+          .catch((error) => {
+            if (error && error.data && error.data.error) {
+              this.showToast(error.data.error, 'Uwaga!', 'danger')
+            } else {
+              this.showToast('Wystąpił błąd', 'Uwaga!', 'danger')
+            }
           })
         this.selectedParticipants = []
         this.$refs.participantPGModal.hide()
@@ -95,6 +100,8 @@
       }
     },
     created () {
+      this.$store.dispatch('getParticipantsBySchool', {schools: this.participantGroup.school.id})
+
       EventBus.$on('OPEN_PARTICIPANT_LIST_MODAL', (params) => {
         this.openParticipantListModal()
       })

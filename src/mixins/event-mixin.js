@@ -26,6 +26,7 @@ export default {
       return this.$store.getters.schools
     },
     eventListFiltered () {
+      console.log(this.eventsConfirmed)
       let events = this.eventsConfirmed || this.eventsToConfirm || []
       let filteredEvents = []
 

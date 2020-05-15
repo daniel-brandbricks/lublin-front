@@ -320,7 +320,11 @@
           })
           // eslint-disable-next-line handle-callback-err
           .catch((error) => {
-            this.showToast('Wystąpił błąd podczas zapisywania', 'Uwaga!', 'danger')
+            if (error && error.data && error.data.error) {
+              this.showToast(error.data.error, 'Uwaga!', 'danger')
+            } else {
+              this.showToast('Wystąpił błąd podczas zapisywania', 'Uwaga!', 'danger')
+            }
           })
 
         this.$refs.modalFrequency.hide()

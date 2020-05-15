@@ -74,7 +74,7 @@
     },
     watch: {
       errorCached: function (val) {
-        this.$bvToast.toast('Wystąpil błąd lub nie masz uprawnień dla wygenerowania raportów', {
+        this.$bvToast.toast('Wystąpil błąd lub nie masz uprawnień dla wygenerowania raportów lub ilość wyników równa się 0', {
           title: 'Uwaga!',
           toaster: 'b-toaster-bottom-right',
           solid: true,

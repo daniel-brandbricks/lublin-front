@@ -88,6 +88,7 @@
           </b-form-group>
 
           <h2 class="my-4">Lokalizacja</h2>
+          <DistrictSearch/>
 
           <!--    treeselect    -->
           <treeselect v-model="school.district"
@@ -181,10 +182,11 @@
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
   import ToastMixin from '@/mixins/toast-mixin'
   import {DISTRICTS} from '@/config/AppConfig'
+  import DistrictSearch from "@/components/DistrictSearch";
 
   export default {
     name: 'ConfirmSchool',
-    components: {Treeselect, ImageInputAdvanced},
+    components: {Treeselect, ImageInputAdvanced, DistrictSearch},
     mixins: [ToastMixin, EventBusEmit, FormMixin],
     data () {
       return {
@@ -254,7 +256,7 @@
               .then((response) => {
                 if (response && response.status && response.status === 'OK') {
                   let routeParams = {}
-                  routeParams['toastText'] = 'Konto zostało aktywowane'
+                  routeParams['toastText'] = 'Konto zostało stworzone. Zachowaj teraz cierpliwość. Szkoła / Klub musi być zatwierdzona przez administratora.'
                   routeParams['toastVariant'] = 'success'
                   this.$router.push({
                     name: 'home',

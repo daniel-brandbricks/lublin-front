@@ -3,11 +3,15 @@ import * as apiService from '@/services/apiService'
 export default {
   state: {
     participants: [],
+    participantsBySchoolId: [],
     participant: null
   },
   getters: {
     participants (state) {
       return state.participants
+    },
+    participantsBySchoolId (state) {
+      return state.participantsBySchoolId
     },
     // participant (state) {
     //   return state.participant
@@ -31,6 +35,9 @@ export default {
     }
   },
   mutations: {
+    setParticipantsBySchoolId (state, data) {
+      state.participantsBySchoolId = data
+    },
     setParticipants (state, data) {
       state.participants = data
     },
@@ -71,6 +78,24 @@ export default {
             }
 
             context.commit('setParticipant', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getParticipantsBySchool (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/participant', 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setParticipantsBySchoolId', (response && response.data) ? response.data : response)
             resolve(response)
           })
           .catch(error => {

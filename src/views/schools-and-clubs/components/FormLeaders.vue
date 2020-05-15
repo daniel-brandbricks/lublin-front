@@ -83,12 +83,13 @@
   import {mapGetters} from 'vuex'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import EventBus from '@/event-bus'
+  import ToastMixin from '@/mixins/toast-mixin'
 
   export default {
     name: 'FormLeaders',
     props: ['school'],
     components: {LeaderTable, Treeselect},
-    mixins: [EventBusEmit],
+    mixins: [EventBusEmit, ToastMixin],
     data() {
       return {
         id: this.$route.params.id,
@@ -210,6 +211,14 @@
             this.$parent.updateSchool()
             this.selectedLeaders = []
           })
+        .catch((error) => {
+          console.log(error)
+          if (error && error.data && error.data.error) {
+            this.showToast(error.data.error, 'Uwaga!', 'danger')
+          } else {
+            this.showToast('Wystąpił błąd', 'Uwaga!', 'danger')
+          }
+        })
         this.$refs.leaderModal.hide()
       }
     },

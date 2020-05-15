@@ -511,15 +511,21 @@
           .catch((error) => {
             this.loginError = true
 
-            // todo mixin
-            this.$bvToast.toast('Nieprawidłowy adres e-mail lub hasło', {
-              title: 'Uwaga!',
-              toaster: 'b-toaster-bottom-full',
-              solid: true,
-              variant: 'danger'
-            })
-
-            console.log(error)
+            if (error && error.data && error.data.error) {
+              this.$bvToast.toast(error.data.error, {
+                title: 'Uwaga!',
+                toaster: 'b-toaster-bottom-full',
+                solid: true,
+                variant: 'danger'
+              })
+            } else {
+              this.$bvToast.toast('Nieprawidłowy adres e-mail lub hasło', {
+                title: 'Uwaga!',
+                toaster: 'b-toaster-bottom-full',
+                solid: true,
+                variant: 'danger'
+              })
+            }
           })
       }
     },

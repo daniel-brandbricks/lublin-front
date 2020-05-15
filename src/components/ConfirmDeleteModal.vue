@@ -91,6 +91,7 @@
           .catch((error) => {
             this.hideModal()
             console.log(error)
+            console.log(this.routeToPush)
             // console.log(this.routeParams)
             if (this.routeToPush) {
               // this.routeParams['toastText'] = 'Dane zostały usunięte'
@@ -100,9 +101,8 @@
                 // name: this.routeToPush,
                 // params: this.routeParams
               // })
-            } else {
-              this.showToast('Wystąpil błąd', 'Uwaga!', 'danger')
             }
+            this.showToast((error && error.data) ? error.data.error : 'Wystąpil błąd', 'Uwaga!', 'danger')
           })
       }
     },

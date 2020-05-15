@@ -183,7 +183,7 @@
           this.$refs.loadingModal.show()
         } else {
           this.$refs.loadingModal.hide()
-          this.$bvToast.toast('Ilość wyników przy wygenerowaniu MTSF zależy od uprawnień, które masz w szkołach / klubach.', {
+          this.$bvToast.toast('Ilość wyników przy wygenerowaniu MTSF zależy od uprawnień, które masz w szkołach / klubach lub wybranej filtracji.', {
             title: 'Uwaga!',
             toaster: 'b-toaster-bottom-right',
             solid: true,

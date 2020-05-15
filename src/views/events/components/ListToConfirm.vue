@@ -1,6 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
+    <b-col cols="12" xl="12" lg="12" md="12" sm="12" class="mb-2">
       <b-table
         :items="eventListFiltered"
         :fields="fields"
