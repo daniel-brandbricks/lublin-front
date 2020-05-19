@@ -86,7 +86,7 @@
           </span>
                 </template>
 
-                <template slot="edit" slot-scope="scope">
+                <template v-if="$store.getters.isAdmin || $store.getters.isDirector" slot="edit" slot-scope="scope">
                   <span class="c-pointer">Szczegóły</span>
                 </template>
 
