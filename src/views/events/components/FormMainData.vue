@@ -7,7 +7,7 @@
           <ImageInputAdvanced :imgPath="event.images[index].path" @afterCropImage="afterCropImage"
                               :image-multiple="true" :imageId="image.id"
                               :min-aspect-ratio="5/4" :max-aspect-ratio="6/4" :min-height="100"
-                              :min-width="100" :max-height="1000" :max-width="1000"/>
+                              :min-width="100" :max-height="5000" :max-width="5000"/>
         </div>
 
         <b-btn variant="primary" class="custom mt-4" @click="addImage" block>Dodaj kolejne</b-btn>

@@ -3,7 +3,7 @@
     <b-col cols="12" lg="3" class="">
       <h2>Logo</h2>
       <ImageInputAdvanced :imgPath="menu.logo" @afterCropImage="afterCropImage" v-if="menu"
-                          :max-height="1000" :max-width="1000"/>
+                          :max-height="5000" :max-width="5000"/>
     </b-col>
     <b-col cols="12" lg="5">
       <h2>Struktura menu</h2>

@@ -3,7 +3,7 @@
     <b-col cols="12" lg="3" class="">
       <h2>Logo</h2>
       <ImageInputAdvanced :imgPath="footer.image" @afterCropImage="afterCropImage" v-if="loaded"
-                          :max-height="1000" :max-width="1000"/>
+                          :max-height="5000" :max-width="5000"/>
     </b-col>
     <b-col cols="12" lg="5" v-if="footer">
       <h2>Footer</h2>

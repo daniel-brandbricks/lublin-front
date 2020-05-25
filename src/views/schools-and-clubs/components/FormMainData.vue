@@ -6,7 +6,7 @@
       <!--      <img src="http://lublin.local/assets/images/schools/14/odnP7-school_4%20tets.png" alt="">-->
       <ImageInputAdvanced :imgPath="school.image" @afterCropImage="afterCropImage" v-if="school"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
-                          :min-width="100" :max-height="1000" :max-width="1000"/>
+                          :min-width="100" :max-height="5000" :max-width="5000"/>
     </b-col>
 
     <b-col cols="12" lg="5" class="">
