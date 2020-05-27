@@ -15,6 +15,22 @@
       <vue-editor :editorToolbar="customToolbar" v-model="restPage.description"/>
 <!--      <div v-html="restPage.description"></div>-->
 
+      <b-form-group class="custom checkbox-big-span my-2">
+        <b-form-checkbox-group
+          id="checkbox-group-1"
+          v-model="showFullCode"
+          :options="[{text: 'Pokaż kod', value: true}]"
+          :unchecked-value="false"
+          value="false"
+          name="flavour-1"
+        />
+      </b-form-group>
+
+      <b-form-group v-show="showFullCode && showFullCode.length > 0" class="custom mt-2 mb-2">
+        <b-form-textarea id="name-1" class="custom m-0"
+                      v-model="restPage.description"/>
+      </b-form-group>
+
       <b-row class="mt-3 justify-content-center justify-content-sm-end">
         <b-col cols="12" sm="4">
           <b-btn block variant="primary" class="custom" @click="submit(1, true)">
@@ -42,6 +58,7 @@
     mixins: [EventBusEmit, FormMixin],
     data () {
       return {
+        showFullCode: false,
         customToolbar: [[{
                           header: [false, 1, 2, 3, 4, 5, 6]
                         }], ['bold', 'italic', 'underline', 'strike'], // toggled buttons
