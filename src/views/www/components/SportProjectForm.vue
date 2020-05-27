@@ -1,7 +1,7 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="3" class="">
-      <h2>dLogo</h2>
+      <h2>Logo</h2>
       <ImageInputAdvanced :imgPath="sportProject.image" @afterCropImage="afterCropImage"
                           v-if="loaded"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
