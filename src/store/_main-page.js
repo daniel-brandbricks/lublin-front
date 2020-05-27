@@ -208,7 +208,7 @@ export default {
     getFrontSportProject (context, data) {
       const id = data.id
       return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/sport-project/' + id, 'get', true, null, null, 200)
+        apiService.makeApiCall('main-mage/sport-project/' + id, 'get', true, null, null, 200)
           .then(response => {
             if (response === 'error') {
               resolve('error')
