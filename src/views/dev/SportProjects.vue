@@ -10,12 +10,12 @@
       </b-row>
     </b-container>
     <section class="mb-3"
-             v-if="frontSportProjects && frontSportProjects.length > 0"
+             v-if="frontSportProjects && frontSportProjects.data && frontSportProjects.data.length > 0"
     >
       <b-container>
         <b-row class="justify-content-around">
-          <b-col cols="12" md="6" lg="3" class="mb-3" :key="index"
-                   v-for="(sportProject,index) in frontSportProjects">
+          <b-col cols="12" md="6" lg="3" class="mb-3" :key="index" v-if="sportProject && sportProject.active"
+                   v-for="(sportProject,index) in frontSportProjects.data">
           <b-card
             class="custom min-h-457"
             footer-class="p-0"
@@ -30,14 +30,31 @@
             </b-card-text>
 
             <div class="box-sub d-flex justify-content-end">
-              <b-btn variant="icon" class="custom card-arrow p-0 mb-n1">
-                <a target="_blank" :href="sportProject.link">
+              <b-btn variant="arrow" :to="{name:'sportProjectsInner', params: {id: sportProject.id} }" class="p-0" >
                 <span class="icon icon-arrow_right c-red"></span>
-                </a>
               </b-btn>
+<!--              <b-btn variant="icon" class="custom card-arrow p-0 mb-n1">-->
+<!--                <a target="_blank" :href="sportProject.link">-->
+<!--                <span class="icon icon-arrow_right c-red"></span>-->
+<!--                </a>-->
+<!--              </b-btn>-->
             </div>
           </b-card>
         </b-col>
+          <b-col cols="12">
+            <div class="wrap-box-btn">
+              <div class="pagination-box">
+                <div class="pagination-items active">{{currentPage}}</div>
+                <div class="pagination-items">z {{Math.ceil(frontSportProjects.totalCount / perPage)}}</div>
+              </div>
+              <b-btn variant="arrow" @click="changePage(false)">
+                <span class="icon icon-bracket_left sm"></span>
+              </b-btn>
+              <b-btn variant="arrow" @click="changePage(true)">
+                <span class="icon icon-bracket_right sm"></span>
+              </b-btn>
+            </div>
+          </b-col>
         </b-row>
       </b-container>
     </section>
@@ -49,6 +66,9 @@
     name: 'SportProjects',
     data () {
       return {
+        currentPage: 1,
+        perPage: 4,
+        totalRows: 0,
       }
     },
     computed: {
@@ -56,7 +76,25 @@
         return this.$store.getters.frontSportProjects
       }
     },
-    methods: {},
+    methods: {
+      changePage (nextPage) {
+        let pages = Math.ceil(this.frontSportProjects.totalCount / this.perPage)
+        let newPage = nextPage ? this.currentPage + 1 : this.currentPage - 1
+        if (newPage > pages || newPage <= 0) return
+        this.currentPage = newPage
+        this.filterSportProjects()
+      },
+      filterSportProjects (refreshCurrentPage) {
+        if (refreshCurrentPage) this.currentPage = 1
+
+        let filters = {
+          currentPage: this.currentPage,
+          perPage: this.perPage
+        }
+        this.$store.dispatch('getSportProjects', filters).then(res => {
+        })
+      }
+    },
     created () {
       this.$store.dispatch('getSportProjects')
       this.$store.dispatch('getMenuAndFooter')

@@ -34,15 +34,15 @@
                     placeholder="Prowadzący" :options="leadersTreeselect"
         />
 
-        <b-row class="mt-4">
-          <b-col sm="12" lg="4" class="mb-2">
+        <b-row class="mt-4 justify-content-end">
+          <b-col sm="12" lg="4" class="mb-2" v-if="$store.getters.isAdmin">
             <b-btn block variant="primary" class="custom" @click="selectAll(0)">
               Wszystkie Szkoły / Kluby
             </b-btn>
           </b-col>
           <b-col sm="12" lg="4" class="mb-2">
             <b-btn block variant="primary" class="custom" @click="selectAll(1)">
-              Wszystkich prowadzących
+              Wszystkie prowadzące
             </b-btn>
           </b-col>
           <b-col sm="12" lg="4" class="mb-2">

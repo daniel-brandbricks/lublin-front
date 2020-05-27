@@ -8,7 +8,10 @@ export default {
       totalCount: 1
     },
     frontEvents: [],
-    frontSportProjects: [],
+    frontSportProjects: {
+      data: [],
+      totalCount: 1
+    },
     frontSportClasses: {},
     frontDisciplines: [],
     menuAndFooter: []
@@ -25,6 +28,19 @@ export default {
     },
     frontLessons (state) {
       return state.frontLessons
+    },
+    frontSportProject: (state) => (id) => {
+      console.log(state.frontSportProjects)
+      if (state.frontSportProjects.data === undefined || state.frontSportProjects.data === null) return
+      for (let i = 0; i < state.frontSportProjects.data.length; i++) {
+        const frontSportProject = state.frontSportProjects.data[i]
+        if (undefined === frontSportProject || frontSportProject === null || frontSportProject.length < 1) {
+          continue
+        }
+        if (parseInt(frontSportProject.id) === parseInt(id)) {
+          return frontSportProject
+        }
+      }
     },
     frontLesson: (state) => (id) => {
       if (state.frontLessons.data === undefined || state.frontLessons.data === null) return
@@ -72,6 +88,30 @@ export default {
     },
     setFrontLessons (state, data) {
       state.frontLessons = data
+    },
+    setFrontSportObject (state, data) {
+      console.log(data)
+      const id = data.id
+      let frontSportProjects = state.frontSportProjects || []
+
+      if (undefined === id || id === null) {
+        return
+      }
+
+      if (frontSportProjects.data === undefined || frontSportProjects.data === null) frontSportProjects.data = []
+
+      for (let i = 0; i < frontSportProjects.data.length; i++) {
+        const storeSportObject = frontSportProjects.data[i]
+        if (storeSportObject.id !== id) {
+          continue
+        }
+        frontSportProjects.data.splice(i, 1, data)
+
+        state.frontSportProjects.data = frontSportProjects.data
+        return
+      }
+
+      frontSportProjects.data.push(data)
     },
     setFrontLesson (state, data) {
       const id = data.id
@@ -161,6 +201,25 @@ export default {
           })
           .catch(error => {
             console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getFrontSportProject (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/sport-project/' + id, 'get', true, null, null, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setFrontSportObject', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
             reject(error.response)
           })
       })

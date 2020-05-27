@@ -81,9 +81,13 @@
             ]
           } else {
             breadcrumbs = [
-              {text: this.$route.params.schoolName,
-               to: {name: 'school.or.club',
-                    params: {'tab': 'leaders', 'id': this.$route.params.schoolId}}},
+              {
+                text: this.$route.params.schoolName,
+                to: {
+                  name: 'school.or.club',
+                  params: {'tab': 'leaders', 'id': this.$route.params.schoolId}
+                }
+              },
               {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
             ]
           }
@@ -143,6 +147,16 @@
         this.$router.push({name: 'leader', params: {'tab': 'main-data'}})
       }
 
+      if (this.$store.getters.isDirector && !this.$store.getters.isAdmin) {
+        this.$router.push({name: 'leader',
+                           params: {
+                             'tab': 'permissions',
+                             'id': this.$route.params.id,
+                             'schoolName': undefined === this.statusSlot ? null : this.statusSlot.schoolName,
+                             'schoolId': undefined === this.statusSlot ? null : this.statusSlot.schoolId
+        }})
+      }
+
       // set isConfirmed data from table redirect only
       if (this.$route.params.isConfirmed) {
         this.isConfirmed = this.$route.params.isConfirmed
@@ -195,7 +209,7 @@
                 title: 'Zajęcia',
                 link: 'leader',
                 tab: 'lessons'
-              },
+              }
               // {
               //   title: 'Kalendarz',
               //   link: 'leader',
@@ -218,6 +232,16 @@
               //   tab: 'events'
               // }
             ]
+
+            if (this.$store.getters.isDirector && !this.$store.getters.isAdmin) {
+              this.tabLinks = [
+                {
+                  title: 'Uprawnienia',
+                  link: 'leader',
+                  tab: 'permissions'
+                }
+              ]
+            }
           })
       }
 
@@ -234,9 +258,13 @@
         ]
       } else {
         breadcrumbs = [
-          {text: this.$route.params.schoolName,
-           to: {name: 'school.or.club',
-                params: {'tab': 'leaders', 'id': this.$route.params.schoolId}}},
+          {
+            text: this.$route.params.schoolName,
+            to: {
+              name: 'school.or.club',
+              params: {'tab': 'leaders', 'id': this.$route.params.schoolId}
+            }
+          },
           {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
         ]
       }
@@ -249,5 +277,4 @@
 </script>
 
 <style scoped>
-
 </style>

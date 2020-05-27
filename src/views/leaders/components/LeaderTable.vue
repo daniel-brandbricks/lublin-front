@@ -196,7 +196,7 @@
 
         this.$router.push({
           name: 'leader',
-          params: {'tab': 'main-data',
+          params: {'tab': (this.$store.getters.isDirector && !this.$store.getters.isAdmin) ? 'permissions' : 'main-data',
                    'id': row.id,
                    'isConfirmed': false,
                    'schoolName': undefined === this.statusSlot ? null : this.statusSlot.schoolName,

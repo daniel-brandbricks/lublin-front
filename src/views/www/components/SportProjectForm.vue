@@ -1,7 +1,7 @@
 <template>
   <b-row class="justify-content-center">
     <b-col cols="12" lg="3" class="">
-      <h2>Logo</h2>
+      <h2>dLogo</h2>
       <ImageInputAdvanced :imgPath="sportProject.image" @afterCropImage="afterCropImage"
                           v-if="loaded"
                           :min-aspect-ratio="8/8" :max-aspect-ratio="10/8" :min-height="100"
@@ -27,6 +27,14 @@
                       name="sportProject.title" key="sportProject.title" v-validate="{'required':true}"
                       v-model="sportProject.title"/>
       </b-form-group>
+
+      <b-form-group class="custom">
+        <b-form-input id="input-1" class="custom"
+                      placeholder="Organizator"
+                      :class="{'error-input-custom': veeErrors.has('sportProject.organizer')}"
+                      name="sportProject.organizer" key="sportProject.title" v-validate="{'required':true}"
+                      v-model="sportProject.organizer"/>
+      </b-form-group>
       <textarea class="custom w-100 mb-3" v-model="sportProject.description" placeholder="Opis"
                 :class="{'error-input-custom': veeErrors.has('sportProject.description')}"
                 name="event.description" :key="'sportProject.description'" :v-validate="'required'"/>
@@ -43,6 +51,20 @@
                       :class="{'error-input-custom': veeErrors.has('sportProject.link')}"
                       name="sportProject.link" key="sportProject.link" v-validate="{'required':true}"
                       v-model="sportProject.link"/>
+      </b-form-group>
+      <b-form-group class="custom">
+        <b-form-input id="input-4" class="custom"
+                      placeholder="Telefon"
+                      :class="{'error-input-custom': veeErrors.has('sportProject.phone')}"
+                      name="sportProject.phone" key="sportProject.phone" v-validate="{'required':true}"
+                      v-model="sportProject.phone"/>
+      </b-form-group>
+      <b-form-group class="custom">
+        <b-form-input id="input-5" class="custom"
+                      placeholder="Facebook"
+                      :class="{'error-input-custom': veeErrors.has('sportProject.facebook')}"
+                      name="sportProject.facebook" key="sportProject.facebook" v-validate="{'required':true}"
+                      v-model="sportProject.facebook"/>
       </b-form-group>
 
       <b-row class="mt-4">
@@ -86,6 +108,9 @@
         sportProject: {
           id: this.id,
           title: '',
+          organizer: '',
+          facebook: '',
+          phone: '',
           active: false,
           link: '',
           description: '',

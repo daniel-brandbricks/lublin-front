@@ -93,6 +93,10 @@
 </script>
 
 <style lang="scss">
+  .permission-treeselect .vue-treeselect__menu {
+    min-width: 670px !important;
+  }
+
   * {
     outline: unset !important;
     outline-color: unset !important;

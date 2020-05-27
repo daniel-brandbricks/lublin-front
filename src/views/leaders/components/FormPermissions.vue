@@ -62,7 +62,7 @@
             </div>
             <div class="col-10">
               <!--              {{permissions[index].permissions[permissionIndex]}}-->
-              <treeselect class="custom mb-3" v-if="permissions[index].permissions[permissionIndex]"
+              <treeselect class="custom mb-3 permission-treeselect" v-if="permissions[index].permissions[permissionIndex]"
                           v-model="permissions[index].permissions[permissionIndex].id"
                           :multiple="false"
                           :class="{'error-input-custom': veeErrors.has('permissions.permissions'+index+'_'+permissionIndex)}"
@@ -360,6 +360,21 @@
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getSportObjects', {confirmed: 0})
       this.$store.dispatch('getSportObjects', {confirmed: 1})
+
+      console.log(this.$route.params.schoolName)
+      if (this.$route.params.schoolName !== undefined && this.$route.params.schoolName !== null) {
+       let breadcrumbs = [
+          {
+            text: this.$route.params.schoolName,
+            to: {
+              name: 'school.or.club',
+              params: {'tab': 'leaders', 'id': this.$route.params.schoolId}
+            }
+          },
+          {text: this.id ? this.leader.firstName + ' ' + this.leader.lastName : 'Nowy', active: true}
+        ]
+        this.changeAdminNavbarBreadcrumbs(breadcrumbs)
+      }
     }
   }
 </script>

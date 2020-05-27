@@ -6,6 +6,7 @@ import Sports from '@/views/dev/Sports'
 import SportsInner from '@/views/dev/SportsInner'
 import SportEvents from '@/views/dev/SportEvents'
 import SportEventsInner from '@/views/dev/SportEventsInner'
+import SportProjectsInner from '@/views/dev/SportProjectsInner'
 import SportProjects from '@/views/dev/SportProjects'
 import SportClasses from '@/views/dev/SportsClasses'
 import SKS from '@/views/dev/SKS'
@@ -43,6 +44,11 @@ const mainRouter = {
       path: 'sport-projects',
       name: 'sportProjects',
       component: SportProjects
+    },
+    {
+      path: 'sport-projects/:id',
+      name: 'sportProjectsInner',
+      component: SportProjectsInner
     },
     {
       path: 'sport-events',
