@@ -201,7 +201,7 @@
         school: {
           id: this.id,
           image: null,
-          active: true,
+          active: false,
           confirmed: false,
           type: 0,
           name: '',
