@@ -4,7 +4,8 @@
       <div class="row align-items-start" v-if="computedList"
            v-for="(season,index) in computedList" :key="index">
         <div class="col-2">
-          <p @click="deleteSeason(season.id)"
+<!--          @click="deleteSeason(season.id)"    -->
+          <p class="d-none"
              v-if="computedList.length > 0">usuń <span class="pl-1">{{index + 1}}</span></p>
         </div>
         <div class="col-10 pl-2">

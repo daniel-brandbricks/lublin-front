@@ -63,7 +63,7 @@
           <b-form-group
             class="custom">
             <b-form-input id="input-1" class="custom"
-                          placeholder="Hasło"
+                          placeholder="Hasło" type="password"
                           :class="{'error-input-custom': veeErrors.has('school.password')}"
                           name="school.password" key="school.password"
                           v-validate="{'required': true}"
@@ -71,7 +71,7 @@
           </b-form-group>
           <b-form-group
             class="custom">
-            <b-form-input id="input-1" class="custom"
+            <b-form-input id="input-1" class="custom" type="password"
                           placeholder="Powtrórz hasło"
                           :class="{'error-input-custom': veeErrors.has('passwordConfirm')}"
                           name="passwordConfirm" key="passwordConfirm"

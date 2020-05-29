@@ -107,7 +107,7 @@
             Zapisz
           </b-btn>
         </b-col>
-        <b-col class="mt-3">
+        <b-col class="mt-3" v-if="$store.getters.isAdmin">
           <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
             Odtwierdz
           </b-btn>

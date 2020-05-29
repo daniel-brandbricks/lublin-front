@@ -23,11 +23,13 @@
             </b-form-group>
 
             <!--    treeselect    -->
-            <treeselect v-model="school.places[index].type.id" v-if="school.places[index].type"
+<!--            <treeselect v-model="school.places[index].type.id" v-if="school.places[index].type"-->
+            <treeselect v-model="place.type.id" v-if="place.type"
                         :multiple="false" class="custom mb-3"
+                        :id="'select-0'+index"
                         placeholder="Typ" :options="sportObjectTypesPrepared"
-                        :class="{'error-input-custom': veeErrors.has('sportObject.type')}"
-                        name="sportObject.type" key="sportObject.type" v-validate="{'required':true}"/>
+                        :class="{'error-input-custom': veeErrors.has('sportObject.type'+index)}"
+                        :name="'sportObject.type'+index" :key="'sportObject.type'+index" v-validate="{'required':true}"/>
 
             <!--    treeselect    -->
             <treeselect v-model="place.district"
@@ -42,7 +44,7 @@
             <h2 class="my-4">Lokalizacja</h2>
             <b-form-group
               class="custom">
-              <b-form-input id="input-1" class="custom"
+              <b-form-input :id="'input-1'+index" class="custom"
                             placeholder="Adres"
                             :class="{'error-input-custom': veeErrors.has('place.address'+index)}"
                             :name="'place.address'+index" :key="'place.address'+index"

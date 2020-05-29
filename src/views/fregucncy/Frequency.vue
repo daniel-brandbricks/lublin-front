@@ -203,14 +203,14 @@
         ],
 
         fields: [
-          {key: 'title', label: 'Nazwa', sortable: true},
-          {key: 'day', label: 'Dzień', sortable: true},
-          {key: 'hour', label: 'Godzina', sortable: true},
-          {key: 'category', label: 'Kategoria', sortable: true},
-          {key: 'discipline', label: 'Dyscyplina', sortable: true},
-          {key: 'list', label: 'Lista', sortable: true},
-          {key: 'leader', label: 'Prowadzący', sortable: true},
-          {key: 'frequency', label: 'Obecność', sortable: true}
+          {key: 'title', label: 'Nazwa', sortable: false},
+          {key: 'day', label: 'Dzień', sortable: false},
+          {key: 'hour', label: 'Godzina', sortable: false},
+          {key: 'category', label: 'Kategoria', sortable: false},
+          {key: 'discipline', label: 'Dyscyplina', sortable: false},
+          {key: 'list', label: 'Lista', sortable: false},
+          {key: 'leader', label: 'Prowadzący', sortable: false},
+          {key: 'frequency', label: 'Obecność', sortable: false}
         ],
 
         // temp

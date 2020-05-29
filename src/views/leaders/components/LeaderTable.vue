@@ -113,7 +113,7 @@
     name: 'ListToConfirm',
     props: ['filters', 'isConfirmed', 'idsToPass', 'fieldsParams', 'parentType', 'statusSlot', 'forSchool'],
     mixins: [LeaderMixin, TableMixin],
-    data () {
+    data() {
       return {
         fields: [
           {key: 'fullName', label: 'Imię i Nazwisko', sortable: true},
@@ -121,20 +121,20 @@
           // {key: 'sportObject', label: 'Obiekt', sortable: true},
           {key: 'lessons', label: 'Zajęcia', sortable: true},
           {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
-          { key: 'btnTable', label: '', sortable: true },
+          {key: 'btnTable', label: '', sortable: true},
           {key: 'edit', label: ''}
         ]
       }
     },
     computed: {
       ...mapGetters(['disciplines', 'sportObjects', 'lessons']),
-      leadersConfirmed () {
+      leadersConfirmed() {
         return this.$store.getters.leadersConfirmed
       },
-      leaders () {
+      leaders() {
         let leadersPassedByIds = []
         let storeLeaders = this.isConfirmed === 'all' ? this.$store.getters.leaders
-        : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
+          : this.isConfirmed ? this.$store.getters.leadersConfirmed : this.$store.getters.leadersToConfirm
 
         let filteredLeaders = []
         for (let leaderIndex in storeLeaders) {
@@ -163,12 +163,12 @@
 
         return leadersPassedByIds
       },
-      isDirector () {
+      isDirector() {
         return this.$store.getters.isDirector
       }
     },
     methods: {
-      getLessonsLength (lessons) {
+      getLessonsLength(lessons) {
         if (this.forSchool === undefined) return lessons.length
         let prepared = []
         let ids = (lessons && lessons.length > 0) ? lessons.map(x => x.id) : []
@@ -179,7 +179,7 @@
 
         return prepared.length
       },
-      changeLeaderStatus (id, status) {
+      changeLeaderStatus(id, status) {
         if (undefined === this.statusSlot) {
           this.$store.dispatch('putLeader', {
             id: id,
@@ -191,32 +191,38 @@
 
         this.$emit(this.statusSlot.event, ({id: id, status: status}))
       },
-      rowRedirect (row) {
+      rowRedirect(row) {
         if (!this.isDirector) return
 
         this.$router.push({
           name: 'leader',
-          params: {'tab': (this.$store.getters.isDirector && !this.$store.getters.isAdmin) ? 'permissions' : 'main-data',
-                   'id': row.id,
-                   'isConfirmed': false,
-                   'schoolName': undefined === this.statusSlot ? null : this.statusSlot.schoolName,
-                   'schoolId': undefined === this.statusSlot ? null : this.statusSlot.schoolId}
+          params: {
+            'tab': (this.$store.getters.isDirector && !this.$store.getters.isAdmin) ? 'permissions' : 'main-data',
+            'id': row.id,
+            'isConfirmed': false,
+            'schoolName': undefined === this.statusSlot ? null : this.statusSlot.schoolName,
+            'schoolId': undefined === this.statusSlot ? null : this.statusSlot.schoolId
+          }
         })
         // this.$parent.rowRedirect(row.id, false)
       },
-      confirmItem (id) {
-        this.$store.dispatch('putLeader', { id: id, confirmed: 1 })
+      confirmItem(id) {
+        this.$store.dispatch('putLeader', {id: id, confirmed: 1})
           .then((response) => {
-            this.$store.dispatch('getLeaders', { confirmed: 0 })
+            this.$store.dispatch('getLeaders', {confirmed: 0})
           })
       }
     },
-    created () {
-      if (this.isConfirmed === 'all') {
-        this.$store.dispatch('getLeaders', {confirmed: 0})
-        this.$store.dispatch('getLeaders', {confirmed: 1})
+    created() {
+      if (this.forSchool) {
+        this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
       } else {
-        this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
+        if (this.isConfirmed === 'all') {
+          this.$store.dispatch('getLeaders', {confirmed: 0})
+          this.$store.dispatch('getLeaders', {confirmed: 1})
+        } else {
+          this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
+        }
       }
       // this.$store.dispatch('getDisciplines')
     }

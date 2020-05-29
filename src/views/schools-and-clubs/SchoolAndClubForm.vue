@@ -156,7 +156,7 @@
 
       // FormPlaces
       addPlace (placeDefault) {
-        let copy = {...placeDefault}
+        let copy = JSON.parse(JSON.stringify(placeDefault))
         // copy.collectionType = 'add'
         this.school.places.push(copy)
       },

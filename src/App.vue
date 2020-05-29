@@ -93,6 +93,12 @@
 </script>
 
 <style lang="scss">
+  .flex-break {
+    width: 100%;
+    flex-basis: 100%;
+    height: 0;
+  }
+
   .permission-treeselect .vue-treeselect__menu {
     min-width: 670px !important;
   }

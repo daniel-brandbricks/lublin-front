@@ -110,7 +110,8 @@
       if (this.imgPath) {
         this.image = this.imgPath
       } else {
-        this.image = 'https://placeimg.com/200/200/any'
+        this.image = ''
+        // this.image = 'https://placeimg.com/200/200/any'
       }
     }
   }
