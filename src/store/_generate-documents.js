@@ -32,9 +32,7 @@ export default {
 
       function download (url, filename) {
         fetch(url, {
-          headers: {
-            'X-AUTH-Token': _auth.state.authToken
-          }
+          credentials: 'include',
         }).then(function (t) {
           if (t.status === 400 || t.status === 401 || t.status === 402) {
             context.commit('isLoading', false)
@@ -64,6 +62,7 @@ export default {
       // header with token set in apiService
       // axios.get('http://lublin.bbapp.pl/api/xlsx-generate/?filters=' + dataJSON, {
       axios.get(url + dataJSON, {
+        withCredentials: true,
         responseType: 'blob'
       }).then(response => {
         console.log(response)

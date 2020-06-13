@@ -12,7 +12,7 @@
           indicators>
           <b-carousel-slide :key="index" v-for="(slide,index) in mainPageData.slider">
             <template v-slot:img>
-              <div class="slider-content pb-3">
+              <div v-if="slide" class="slider-content pb-3">
                 <div class="slider-wrap-card">
                   <div class="slider-card">
                     <h2>{{slide.title}}</h2>
@@ -48,14 +48,14 @@
       <b-container>
         <b-row class="justify-content-around">
           <b-col cols="12" md="6" lg="3" class="mb-3" :key="index"
-          v-for="(event,index) in frontEvents">
-            <b-card
-              class="custom min-h-457"
-              footer-class="p-0"
-              :img-src="event.images.length > 0 && event.images[0].path ? event.images[0].path : ''"
-              body-class="d-flex flex-column justify-content-between"
-              img-alt="Image"
-              img-top>
+                 v-for="(event,index) in frontEvents">
+            <b-card v-if="event"
+                    class="custom min-h-457"
+                    footer-class="p-0"
+                    :img-src="event.images.length > 0 && event.images[0].path ? event.images[0].path : ''"
+                    body-class="d-flex flex-column justify-content-between"
+                    img-alt="Image"
+                    img-top>
               <b-card-text text-tag="div" class="height-hidden flex-grow-1">
                 <h2 class="card-title " title="lorem8">{{event.title}}</h2>
                 <p class="">{{event.description}}</p>
@@ -130,18 +130,18 @@
         <b-row>
           <b-col cols="12" md="6" lg="4" class="mb-3" :key="index"
                  v-for="(lesson,index) in frontLessons.data">
-            <b-card
-              class="custom"
-              footer-class="p-0">
+            <b-card v-if="lesson"
+                    class="custom"
+                    footer-class="p-0">
 
               <h2 class="card-title nowrap" title="lorem8">{{lesson.title}}</h2>
               <p class="mb-0">{{lesson.place.address}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <p class="card-signature mb-0" v-if="$store.getters.frontDisciplines">
                   <span class="icon icon-discipline pr-1"></span>
-                  {{$store.getters.frontDisciplines.find(x => {return x.id === lesson.discipline.id}).title}}
+                  {{getLessonDisciplineTitle(lesson)}}
                 </p>
-                <b-btn variant="arrow" :to="{name:'sportsInner', params: {id: lesson.id} }" class="p-0" >
+                <b-btn variant="arrow" :to="{name:'sportsInner', params: {id: lesson.id} }" class="p-0">
                   <span class="icon icon-arrow_right c-red"></span>
                 </b-btn>
               </div>
@@ -176,13 +176,13 @@
         <b-row class="justify-content-around">
           <b-col cols="12" md="6" lg="3" class="mb-3" :key="index"
                  v-for="(sportProject,index) in mainPageData.sportProjects">
-            <b-card
-              class="custom min-h-457"
-              footer-class="p-0"
-              :img-src="sportProject.image"
-              body-class="d-flex flex-column justify-content-between"
-              img-alt="Image"
-              img-top>
+            <b-card v-if="sportProject"
+                    class="custom min-h-457"
+                    footer-class="p-0"
+                    :img-src="sportProject.image"
+                    body-class="d-flex flex-column justify-content-between"
+                    img-alt="Image"
+                    img-top>
               <b-card-text text-tag="div" class="height-hidden flex-grow-1">
                 <h2 class="card-title " title="lorem8">{{sportProject.title}}</h2>
                 <p
@@ -190,28 +190,28 @@
               </b-card-text>
 
               <div class="box-sub d-flex justify-content-end">
-                <b-btn variant="arrow" :to="{name:'sportProjectsInner', params: {id: sportProject.id} }" class="p-0" >
+                <b-btn variant="arrow" :to="{name:'sportProjectsInner', params: {id: sportProject.id} }" class="p-0">
                   <span class="icon icon-arrow_right c-red"></span>
                 </b-btn>
-<!--                <b-btn variant="icon" class="custom card-arrow p-0 mb-n1">-->
-<!--                  <a target="_blank" :href="sportProject.link">-->
-<!--                  <span class="icon icon-arrow_right c-red"></span>-->
-<!--                  </a>-->
-<!--                  </b-btn>-->
+                <!--                <b-btn variant="icon" class="custom card-arrow p-0 mb-n1">-->
+                <!--                  <a target="_blank" :href="sportProject.link">-->
+                <!--                  <span class="icon icon-arrow_right c-red"></span>-->
+                <!--                  </a>-->
+                <!--                  </b-btn>-->
               </div>
             </b-card>
           </b-col>
 
-<!--          <b-col cols="12">-->
-<!--            <div class="wrap-box-btn">-->
-<!--              <b-btn variant="arrow">-->
-<!--                <span class="icon icon-bracket_left sm"></span>-->
-<!--              </b-btn>-->
-<!--              <b-btn variant="arrow">-->
-<!--                <span class="icon icon-bracket_right sm"></span>-->
-<!--              </b-btn>-->
-<!--            </div>-->
-<!--          </b-col>-->
+          <!--          <b-col cols="12">-->
+          <!--            <div class="wrap-box-btn">-->
+          <!--              <b-btn variant="arrow">-->
+          <!--                <span class="icon icon-bracket_left sm"></span>-->
+          <!--              </b-btn>-->
+          <!--              <b-btn variant="arrow">-->
+          <!--                <span class="icon icon-bracket_right sm"></span>-->
+          <!--              </b-btn>-->
+          <!--            </div>-->
+          <!--          </b-col>-->
 
         </b-row>
       </b-container>
@@ -227,14 +227,14 @@
 
   export default {
     name: 'Test',
-    components: { Treeselect },
+    components: {Treeselect},
     data () {
       return {
         selectedDistrict: null,
         selectedDiscipline: null,
         options: [
-          { text: 'Klub', value: '0' },
-          { text: 'Szkoła', value: '1' }
+          {text: 'Klub', value: '0'},
+          {text: 'Szkoła', value: '1'}
         ],
         selectedType: [],
 
@@ -245,7 +245,7 @@
       mainPageData () {
         return this.$store.getters.mainPageData
       },
-      frontEvents() {
+      frontEvents () {
         return this.$store.getters.frontEvents
       },
       frontLessons () {
@@ -263,6 +263,13 @@
       }
     },
     methods: {
+      getLessonDisciplineTitle (lesson) {
+        let discipline = this.$store.getters.frontDisciplines.find(x => {
+          return x.id === lesson.discipline.id
+        })
+        if (discipline && discipline.title) return discipline.title
+        return ''
+      },
       filterLessons () {
         let filters = {
           type: this.selectedType,

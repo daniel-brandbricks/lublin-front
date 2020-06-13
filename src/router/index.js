@@ -28,6 +28,7 @@ router.beforeEach((to, from, next) => {
   // check admin access
   let isAdminRoute = to.fullPath.indexOf('/admin/') !== -1
   if (isAdminRoute && !store.getters.isLoggedIn) {
+    console.log('router pidar')
     next('/home')
   }
 

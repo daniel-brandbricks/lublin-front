@@ -6,6 +6,7 @@ import store from '@/store'
 const CancelToken = axios.CancelToken
 
 let cancelTokens = {}
+let csrfToken = false
 
 export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, params, responseStatusToCheck = null, responseKeysToCheck = []) {
   let cancelTokenKey = uri
@@ -21,6 +22,11 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
       cancelTokens[cancelTokenKey]()
     }
 
+    let headers = {
+      'Content-Type': 'application/json'
+    }
+    headers['X-CSRF-Token'] = localStorage.getItem('x-csrf-token') || ''
+
     addAuthHeader = isAuthorized
 
     axios({
@@ -28,7 +34,9 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
       method,
       data,
       params,
-      // headers: headers,
+      withCredentials: true,
+      crossdomain: true,
+      headers: headers,
       cancelToken: new CancelToken(function executor (c) {
         cancelTokens[cancelTokenKey] = c
       })
@@ -38,6 +46,11 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
           resolve('error')
           return
         }
+        if (response.headers && response.headers['x-csrf-token']) {
+          localStorage.setItem('x-csrf-token', response.headers['x-csrf-token'])
+          // csrfToken = response.headers['x-csrf-token']
+        }
+
         if (checkResponse(response, responseStatusToCheck) === false) {
           resolve('error')
         }
@@ -49,15 +62,20 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         resolve(data)
       })
       .catch(error => {
-        console.log(error.response)
         if (isAuthorized && error.response && error.response.data.error === 'empty user') {
-          console.log('api service TOKEN_EXPIRED')
-          store.dispatch('clearAuthToken')
-          router.push({ name: 'home' })
+          console.log(error.response.data.error)
+          store.dispatch('logout')
+            .then(resp => {
+              router.push({ name: 'home' })
+            })
+            // eslint-disable-next-line handle-callback-err
+            .catch(err => {
+              router.push({ name: 'home' })
+            })
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
-          console.log('api service 401 [2]')
+          console.log(error.response)
           store.dispatch('logout')
             .then(resp => {
               router.push({ name: 'home' })
@@ -85,7 +103,7 @@ let addAuthHeader = false
 
 axios.interceptors.request.use((config) => {
   if (addAuthHeader && store.getters.isLoggedIn) {
-    config.headers['X-AUTH-Token'] = store.state.authModule.authToken
+    // config.headers['X-AUTH-Token'] = store.state.authModule.authToken
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
   }
   return config

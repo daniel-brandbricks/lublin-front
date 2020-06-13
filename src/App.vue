@@ -24,7 +24,7 @@
     watch: {
       authUser: function (val) {
         // for directors
-        if (val.schoolsUsers.length > 0 && val.schoolsUsers[0].role === 1) {
+        if (val && val.schoolsUsers && val.schoolsUsers.length > 0 && val.schoolsUsers[0].role === 1) {
           this.$store.dispatch('getSchool', {id: val.schoolsUsers[0].school.id})
             .then((res) => {
               let school = res
@@ -82,12 +82,15 @@
     },
     mounted () {
       window.setInterval(() => {
-        this.$store.dispatch('getActualSidebarData')
+        if (this.$store.getters.isLoggedIn) {
+          this.$store.dispatch('getActualSidebarData')
+        }
       }, 60000)
     },
     created () {
       this.$store.dispatch('getActualSidebarData')
       this.$store.dispatch('getCurrentUser')
+      this.$store.dispatch('getCsrfToken')
     }
   }
 </script>

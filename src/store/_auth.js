@@ -3,19 +3,27 @@ import * as apiService from '@/services/apiService'
 
 // import router from '@/router'
 
-let generateToken = function () {
-  let authToken = localStorage.getItem('authToken')
-  if (authToken !== null && authToken !== '') {
-    return authToken
-  }
-  return null
+// let generateToken = function () {
+//   let authToken = localStorage.getItem('authToken')
+//   if (authToken !== null && authToken !== '') {
+//     return authToken
+//   }
+//   return null
+// }
+
+function getCookie (name) {
+  const value = `; ${document.cookie}`
+  console.log(value)
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+  return false
 }
 
 // let prefix = BASE_API_URL
 
 export default {
   state: {
-    authToken: generateToken(),
+    // authToken: generateToken(),
     authUser: null,
     userRole: null,
     isDirector: false,
@@ -28,14 +36,16 @@ export default {
     sidebarData (state) {
       return state.sidebarData
     },
-    authToken (state) {
-      return state.authToken
-    },
+    // authToken (state) {
+    //   return state.authToken
+    // },
     isLoggedIn: function (state) {
-      if (state.authToken && state.authToken.length > 0) {
-        return true
-      }
-      return false
+      var res = getCookie('authl')
+      return (res === '1')
+      // if (state.authToken && state.authToken.length > 0) {
+      //   return true
+      // }
+      // return false
     },
     authUser (state) {
       console.log(state.authUser)
@@ -60,14 +70,15 @@ export default {
     setSidebarData (state, data) {
       state.sidebarData = data
     },
-    setAuthToken (state, data) {
-      localStorage.setItem('authToken', data.authToken)// JSON.stringify(data))
-      state.authToken = data.authToken
-    },
-    destroyAuthToken (state) {
-      localStorage.setItem('authToken', '')
-      state.authToken = null
-    },
+    // setAuthToken (state, data) {
+    // let isLoggend = getCookie('authl')
+    // localStorage.setItem('authToken', data.authToken)// JSON.stringify(data))
+    // state.authToken = data.authToken
+    // },
+    // destroyAuthToken (state) {
+    // localStorage.setItem('authToken', '')
+    // state.authToken = null
+    // },
     setAuthUser (state, data) {
       console.log(data)
       if (data === null) {
@@ -99,15 +110,16 @@ export default {
   },
   actions: {
     // we need it? todo check
-    autoSignIn (context, data) {
-      context.commit('setAuthToken', {
-        authToken: data.authToken
-      })
-    },
+    // autoSignIn (context, data) {
+    //   context.commit('setAuthToken', {
+    //     authToken: data.authToken
+    //   })
+    // },
     login (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('login/', 'post', false, data, null, 200)
           .then(response => {
+            console.log(response)
             if (response === 'error') {
               resolve('error')
               return
@@ -115,7 +127,7 @@ export default {
 
             console.log(response)
 
-            context.commit('setAuthToken', response)
+            // context.commit('setAuthToken', response)
             context.commit('setAuthUser', response)
             context.dispatch('getActualSidebarData')
             resolve(response)
@@ -130,7 +142,7 @@ export default {
       console.log('LOGOUT')
       return new Promise((resolve, reject) => {
         let data = {
-          token: context.getters.authToken
+          // token: context.getters.authToken
         }
         apiService.makeApiCall('logout/', 'post', true, data, null, 200)
           .then(response => {
@@ -140,20 +152,24 @@ export default {
               return
             }
 
-            context.commit('destroyAuthToken')
+            localStorage.removeItem('x-csrf-token')
+            // context.commit('destroyAuthToken')
             context.commit('setAuthUser', null)
+
+            context.dispatch('getCsrfToken')
             resolve()
           })
           .catch(error => {
             console.log(error)
             console.log(error.response)
+            context.dispatch('getCsrfToken')
             reject(error.response)
           })
       })
     },
-    clearAuthToken (context) {
-      context.commit('destroyAuthToken')
-    },
+    // clearAuthToken (context) {
+    //   context.commit('destroyAuthToken')
+    // },
     getCurrentUser (context, data) {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('me/', 'get', true, null, null)
@@ -183,6 +199,22 @@ export default {
             }
 
             context.commit('setSidebarData', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error.response)
+          })
+      })
+    },
+    getCsrfToken (context, data) {
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('csrf-token/', 'get', true, null, null)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
             resolve(response)
           })
           .catch(error => {

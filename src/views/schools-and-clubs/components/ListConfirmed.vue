@@ -12,8 +12,9 @@
       >
         <template slot="type" slot-scope="scope">
           <div class="d-flex align-items-center justify-content-between">
-            <div class="wrap-img-type-table mr-3">
-              <img :src="scope.item.image || 'https://placeimg.com/50/50/any'" alt="">
+            <div class="wrap-img-type-table mr-3" v-if="scope.item.image">
+              <img :src="scope.item.image" alt="">
+<!--         || 'https://placeimg.com/50/50/any'     -->
             </div>
             <span>{{scope.item.type == 0 ? 'Klub' : 'Szkoła'}}</span>
           </div>
