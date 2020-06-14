@@ -118,7 +118,6 @@ export default {
   },
   actions: {
     setPermissions (context, value) {
-      console.log(value)
     },
     addEmptyPermission (context) {
       context.commit('addEmptyPermission')

@@ -101,7 +101,6 @@
           return this.$store.getters.lessonSportObjects
         },
         set (value) {
-          console.log(value)
           this.$store.dispatch('setLessonSportObjects', value)
         }
       },

@@ -24,12 +24,22 @@ const routes = [
 
 const router = new Router({routes, mode: 'history'})
 
+function getCookie (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+  return false
+}
+
 router.beforeEach((to, from, next) => {
   // check admin access
   let isAdminRoute = to.fullPath.indexOf('/admin/') !== -1
-  if (isAdminRoute && !store.getters.isLoggedIn) {
-    console.log('router pidar')
-    next('/home')
+  if (isAdminRoute) {
+    var res = getCookie('authl')
+    if (res !== '1') {
+      console.log('home here')
+      next('/home')
+    }
   }
 
   next()

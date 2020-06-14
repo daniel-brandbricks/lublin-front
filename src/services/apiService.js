@@ -66,10 +66,12 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
           console.log(error.response.data.error)
           store.dispatch('logout')
             .then(resp => {
+              console.log('home here')
               router.push({ name: 'home' })
             })
             // eslint-disable-next-line handle-callback-err
             .catch(err => {
+              console.log('home here')
               router.push({ name: 'home' })
             })
         }
@@ -78,10 +80,12 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
           console.log(error.response)
           store.dispatch('logout')
             .then(resp => {
+              console.log('home here')
               router.push({ name: 'home' })
             })
             // eslint-disable-next-line handle-callback-err
             .catch(err => {
+              console.log('home here')
               router.push({ name: 'home' })
             })
         }
