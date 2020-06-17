@@ -536,7 +536,7 @@
       }
     },
     created() {
-      this.$store.dispatch('getDisciplines')
+      // this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getNavbarItems')
         .then(response => {
           this.navbarItems = response

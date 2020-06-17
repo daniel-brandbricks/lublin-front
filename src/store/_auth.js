@@ -23,6 +23,7 @@ function getCookie (name) {
 export default {
   state: {
     dispatchedCSRF: false,
+    dispatchedLogin: false,
     // authToken: generateToken(),
     authUser: null,
     userRole: null,
@@ -130,9 +131,22 @@ export default {
             // context.commit('setAuthToken', response)
             context.commit('setAuthUser', response)
             context.dispatch('getActualSidebarData')
+            context.state.dispatchedLogin = false
             resolve(response)
           })
           .catch(error => {
+            if (error.response && error.response.data && error.response.data.error && error.response.data.error ===
+              'CSRF middleware failed. Invalid CSRF token. This looks like a cross-site request forgery.') {
+                context.dispatch('logout').then(res => {
+                  console.log(111)
+                    console.log(context.state.dispatchedLogin)
+                  if (context.state.dispatchedLogin === false) {
+                    console.log(122)
+                    context.state.dispatchedLogin = true
+                    context.dispatch('login', data)
+                  }
+                })
+              }
             console.log(error.response)
             reject(error.response)
           })
@@ -215,6 +229,7 @@ export default {
               resolve('error')
               return
             }
+            context.state.dispatchedCSRF = false
             resolve(response)
           })
           .catch(error => {
