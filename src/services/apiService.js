@@ -77,7 +77,7 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         }
 
         if ((error.response && error.response.status === 401) || error.status === 401) {
-          console.log(error.response)
+          if (uri === 'me/') return
           store.dispatch('logout')
             .then(resp => {
               console.log('home here')

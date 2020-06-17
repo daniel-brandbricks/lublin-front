@@ -88,7 +88,7 @@
       }, 60000)
     },
     created () {
-      this.$store.dispatch('getActualSidebarData')
+      // this.$store.dispatch('getActualSidebarData')
       this.$store.dispatch('getCurrentUser')
       this.$store.dispatch('getCsrfToken')
     }

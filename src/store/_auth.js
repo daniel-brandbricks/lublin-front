@@ -22,6 +22,7 @@ function getCookie (name) {
 
 export default {
   state: {
+    dispatchedCSRF: false,
     // authToken: generateToken(),
     authUser: null,
     userRole: null,
@@ -217,6 +218,10 @@ export default {
             resolve(response)
           })
           .catch(error => {
+            if (context.state.dispatchedCSRF === false) {
+              context.dispatch('getCsrfToken')
+              context.state.dispatchedCSRF = true
+            }
             console.log(error)
             reject(error.response)
           })
