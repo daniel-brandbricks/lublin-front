@@ -47,7 +47,7 @@
           <span class="border-span">Skok w dal z miejsca</span><br><span>cm</span>
         </span>
           <span class="text-center d-inline-block mw-100">
-          <span class="border-span">Bieg na 600 m</span><br><span>s</span>
+          <span class="border-span">{{getBiegDlugaDystancjaName(selectedItem.name)}}</span><br><span>s</span>
         </span>
           <span class="text-center d-inline-block mw-100">
           <span class="border-span">Siła dłoni</span><br><span>kg</span>
@@ -176,7 +176,7 @@
   export default {
     components: {},
     mixins: [EventBusEmit],
-    data() {
+    data () {
       return {
         selectedItem: {
           name: null
@@ -185,11 +185,32 @@
       }
     },
     computed: {
-      mtsfDataList() {
+      mtsfDataList () {
         return this.$store.getters.mtsfDataList
       }
     },
     methods: {
+      getBiegDlugaDystancjaName (data) {
+        if (data === null) return
+        let boy = data.search('Chłopcy') !== -1
+        let age = data.match(/\d/g)
+        age = age.join('')
+        age = parseInt(age)
+
+        let distance = 0
+        if (boy && age > 11) {
+          distance = 1000
+        } else if (!boy && age > 11) {
+          distance = 800
+        } else {
+          distance = 600
+        }
+
+        console.log(boy)
+        console.log(age)
+        console.log(data)
+        return 'Bieg na ' + distance + ' m'
+      },
       submit () {
         this.selectedItem.bieg50m = this.selectedItem.bieg50m.join('|')
         this.selectedItem.skokDalZMiejsca = this.selectedItem.skokDalZMiejsca.join('|')
@@ -205,7 +226,7 @@
         this.resetModal()
         this.$refs['MTSFDataModal'].hide()
       },
-      parseColumn(data) {
+      parseColumn (data) {
         if (data) {
           if (typeof data === 'string') {
             return data.split('|')
@@ -214,12 +235,12 @@
         }
         return 'Nie ma danych'
       },
-      resetModal() {
+      resetModal () {
         this.selectedItem = {
           name: null
         }
       },
-      openModal(item, toEdit) {
+      openModal (item, toEdit) {
         this.$set(this, 'selectedItem', item)
         this.selectedItem.bieg50m = this.parseColumn(this.selectedItem.bieg50m)
         this.selectedItem.skokDalZMiejsca = this.parseColumn(this.selectedItem.skokDalZMiejsca)
@@ -234,7 +255,7 @@
         this.$refs['MTSFDataModal'].show()
       }
     },
-    created() {
+    created () {
       this.$store.dispatch('getMtsfDataList')
     }
   }
