@@ -1,7 +1,7 @@
 import * as apiService from '@/services/apiService'
 // import { BASE_API_URL } from '@/config/AppConfig'
 
-// import router from '@/router'
+import router from '@/router'
 
 // let generateToken = function () {
 //   let authToken = localStorage.getItem('authToken')
@@ -117,10 +117,12 @@ export default {
     //   })
     // },
     login (context, data) {
+      console.log(context.state.dispatchedLogin)
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('login/', 'post', false, data, null, 200)
           .then(response => {
             console.log(response)
+            console.log(333)
             if (response === 'error') {
               resolve('error')
               return
@@ -131,29 +133,32 @@ export default {
             // context.commit('setAuthToken', response)
             context.commit('setAuthUser', response)
             context.dispatch('getActualSidebarData')
+
+            if (context.state.dispatchedLogin) {
+              router.push({name: 'dashboard'})
+            }
             context.state.dispatchedLogin = false
             resolve(response)
           })
           .catch(error => {
+            console.log(error.response.data)
             if (error.response && error.response.data && error.response.data.error && error.response.data.error ===
-              'CSRF middleware failed. Invalid CSRF token. This looks like a cross-site request forgery.') {
-                context.dispatch('logout').then(res => {
-                  console.log(111)
-                    console.log(context.state.dispatchedLogin)
-                  if (context.state.dispatchedLogin === false) {
-                    console.log(122)
-                    context.state.dispatchedLogin = true
-                    context.dispatch('login', data)
-                  }
-                })
+              'Spróbuj wykonać akcje jeszcze raz.') {
+                context.state.dispatchedLogin = true
+                context.dispatch('logout', {login: data})
               }
             console.log(error.response)
             reject(error.response)
           })
       })
     },
-    logout (context) {
+    logout (context, data) {
       console.log('LOGOUT')
+      let loginData = false
+      if (data && data.login) {
+        loginData = JSON.parse(JSON.stringify(data.login))
+        delete data.login
+      }
       return new Promise((resolve, reject) => {
         let data = {
           // token: context.getters.authToken
@@ -170,13 +175,14 @@ export default {
             // context.commit('destroyAuthToken')
             context.commit('setAuthUser', null)
 
-            context.dispatch('getCsrfToken')
+            console.log(data)
+            context.dispatch('getCsrfToken', loginData)
             resolve()
           })
           .catch(error => {
             console.log(error)
             console.log(error.response)
-            context.dispatch('getCsrfToken')
+            context.dispatch('getCsrfToken', loginData)
             reject(error.response)
           })
       })
@@ -221,7 +227,8 @@ export default {
           })
       })
     },
-    getCsrfToken (context, data) {
+    getCsrfToken (context, loginData) {
+      console.log(loginData)
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('csrf-token/', 'get', true, null, null)
           .then(response => {
@@ -229,6 +236,11 @@ export default {
               resolve('error')
               return
             }
+
+            if (loginData) {
+              context.dispatch('login', loginData)
+            }
+
             context.state.dispatchedCSRF = false
             resolve(response)
           })

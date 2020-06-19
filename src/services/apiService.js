@@ -62,6 +62,9 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
         resolve(data)
       })
       .catch(error => {
+        if (error.response && error.response.data.error === 'CSRF middleware failed. Invalid CSRF token. This looks like a cross-site request forgery.') {
+          error.response.data.error = 'Spróbuj wykonać akcje jeszcze raz.'
+        }
         if (isAuthorized && error.response && error.response.data.error === 'empty user') {
           console.log(error.response.data.error)
           store.dispatch('logout')
