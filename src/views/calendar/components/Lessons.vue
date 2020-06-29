@@ -128,8 +128,18 @@
       // copied in FormMainData.vue -> sports-objects
       schoolsAndClubsPrepared () {
         let data = this.$store.getters.schoolsConfirmed
-        let preparedSchools = []
+        let user = this.$store.getters.authUser
 
+        let userSchools = []
+        if (user && user.role === 1 && user.schoolsUsers && user.schoolsUsers.length > 0) {
+          for (let index in user.schoolsUsers) {
+            if (user.schoolsUsers[index].status || user.schoolsUsers[index].role === 1) {
+              userSchools.push(user.schoolsUsers[index].school.id)
+            }
+          }
+        }
+
+        let preparedSchools = []
         for (let schoolIndex in data) {
           if (this.selectedType.length > 0) {
             if (this.selectedType.includes(data[schoolIndex].type)) {
@@ -140,10 +150,29 @@
           }
         }
 
-        return preparedSchools
+        let result = []
+        if (userSchools.length > 0 && preparedSchools.length > 0) {
+          for (let index in preparedSchools) {
+            if (userSchools.includes(preparedSchools[index].id)) result.push(preparedSchools[index])
+          }
+        } else {
+          result = preparedSchools
+        }
+
+        return result
       },
       sportObjectsTreeselect () {
         return schoolIds => {
+          console.log(this.$route.name)
+          if (this.$route.name === 'reports') {
+            let sportObjects = this.$store.getters.sportObjectsConfirmed
+            let prepared = []
+            for (let index in sportObjects) {
+              prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+            }
+            return prepared
+          }
+
           if (null === schoolIds || undefined === schoolIds) return []
           let sportObjects = this.$store.getters.sportObjectsConfirmed
           console.log(sportObjects)

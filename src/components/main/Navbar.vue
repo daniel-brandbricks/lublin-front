@@ -120,7 +120,7 @@
         </b-tab>
 
         <!--  SING UP  -->
-        <b-tab title="Rejstracja" @click="resetModal">
+        <b-tab title="Rejestracja" @click="resetModal">
           <b-form-group class="custom">
             <b-form-group>
               <div class="d-flex">
@@ -153,7 +153,7 @@
               <div class="btn-container d-flex flex-column w-100 mt-3">
                 <b-btn variant="primary" @click="sendCreateSchool"
                        class="custom text-nowrap   mb-sm-0 w-100">
-                  <span class="icon icon-mail pr-2"></span> Wyślij danne
+                  <span class="icon icon-mail pr-2"></span> Wyślij dane
                 </b-btn>
 
               </div>
@@ -174,6 +174,7 @@
               <treeselect v-model="leaderDisciplines"
                           :multiple="true"
                           :options="disciplinesTreeselect"
+                          placeholder="Dyscypliny"
                           class="custom mb-4"/>
               <!--            <b-btn variant="icon" class="custom my-2 text-uppercase fix-sub">-->
               <!--              dodaj kolejną <span class="_plus ml-2"></span>-->
@@ -193,7 +194,7 @@
               <div class="btn-container d-flex flex-column w-100 mt-3">
                 <b-btn variant="primary" @click="sendCreateLeader"
                        class="custom text-nowrap   mb-sm-0 w-100">
-                  <span class="icon icon-mail pr-2"></span> Wyślij danne
+                  <span class="icon icon-mail pr-2"></span> Wyślij dane
                 </b-btn>
 
               </div>
@@ -311,7 +312,7 @@
     },
     computed: {
       disciplines() {
-        return this.$store.getters.disciplines
+        return this.$store.getters.frontDisciplines
       },
       disciplinesTreeselect() {
         let disciplines = this.disciplines

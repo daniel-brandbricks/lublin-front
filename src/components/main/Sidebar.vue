@@ -53,6 +53,17 @@
             </span>
           </b-link>
 
+          <b-link :to="{name:'admin.sport.objects', params: {'tab': 'confirmed'} }"
+                  active-class="active"
+                  :class="{'active': 'admin.sport.object' === $route.name}"
+                  class="list-group-item">
+            <span class="icon icon-icon_www"></span>
+            Obiekty sportowe (admin)
+<!--            <span v-if="sidebarData.placesToConfirm">-->
+<!--              > <span class="to-confirm">{{sidebarData.placesToConfirm}}</span>-->
+<!--            </span>-->
+          </b-link>
+
           <b-link :to="{name:'leaders', params: {'tab': 'confirmed'} }"
                   v-if="$store.getters.isAdmin"
                   :class="{'active': 'leader' === $route.name}"

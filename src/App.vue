@@ -46,7 +46,7 @@
         }
 
         // for leaders
-        if (val.replacements && val.replacements.length > 0) {
+        if (val && val.replacements && val.replacements.length > 0) {
           for (let index in val.replacements) {
             if (val.replacements[index].checked === false) {
               this.$bvToast.toast('Masz nowe zastępstwa. Sprawdż w zakładce "Moj profil"', {

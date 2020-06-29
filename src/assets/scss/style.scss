@@ -51,6 +51,19 @@
 
 /*-------------------DANIEL---------------------*/
 
+.image-placeholder {
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+  background-color: lightgray;
+
+  h1 {
+    font-size: 30px;
+    line-height: 150px;
+    text-align: center;
+  }
+}
+
 .vdpCell.selectable {
   position: relative;
 }

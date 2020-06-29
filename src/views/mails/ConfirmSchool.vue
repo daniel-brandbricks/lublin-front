@@ -116,10 +116,10 @@
           </b-form-group>
           <b-form-group
             class="custom">
+<!--            :class="{'error-input-custom': veeErrors.has('school.openHours')}"-->
+<!--            name="school.openHours" key="school.openHours" v-validate="{'required':true}"-->
             <b-form-input id="input-1" class="custom"
                           placeholder="Godziny otwarcia"
-                          :class="{'error-input-custom': veeErrors.has('school.openHours')}"
-                          name="school.openHours" key="school.openHours" v-validate="{'required':true}"
                           v-model="school.openHours"/>
           </b-form-group>
           <!--      todo or not todo v-validate="{'required':true}" -->

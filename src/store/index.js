@@ -25,6 +25,7 @@ import mainPageModule from './_main-page'
 import senderModule from './_sender'
 import generateDocumentsModule from './_generate-documents'
 import mtsfModule from './_mtsf'
+import adminSportObject from './_admin-sport-object'
 
 // cms
 import sectionModule from './_section'
@@ -63,6 +64,7 @@ export default new Vuex.Store({
     senderModule,
     generateDocumentsModule,
     mtsfModule,
+    adminSportObject,
 
     // cms
     restPageModule,

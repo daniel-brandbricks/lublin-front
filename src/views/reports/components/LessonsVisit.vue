@@ -51,7 +51,7 @@
                     v-model="lessons.selectedLeader"
                     :multiple="true"
                     placeholder="Prowadzący"
-                    :options="leadersTreeselect"/>
+                    :options="leadersTreeselect(lessons.schoolsAndClubs)"/>
 
       </b-col>
       <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
@@ -79,7 +79,6 @@
                     :multiple="true"
                     placeholder="Klasa"
                     :options="lessonClassTreeselect"/>
-
 
         <h6 class="mt-4 my-3">Lokalizacja</h6>
         <treeselect class="custom mb-2"
@@ -110,14 +109,14 @@
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import EventBusEmit from '@/mixins/event-bus-emit'
-  import {DATEPICKER_PARAMS, DISTRICTS} from "@/config/AppConfig";
+  import {DATEPICKER_PARAMS, DISTRICTS} from '@/config/AppConfig'
   import DatePicker from 'vue2-datepicker'
 
   export default {
     components: {Treeselect, DatePicker},
     mixins: [EventBusEmit],
     props: ['lessons'],
-    data() {
+    data () {
       return {
         selectedYear: null,
         datepickerParams: DATEPICKER_PARAMS,
@@ -163,33 +162,44 @@
       },
       sportObjectsTreeselect () {
         return schoolIds => {
-          if (null === schoolIds || undefined === schoolIds) return []
+          // if (null === schoolIds || undefined === schoolIds) return []
           let sportObjects = this.$store.getters.sportObjectsConfirmed
-          console.log(sportObjects)
+          // console.log(sportObjects)
           let prepared = []
           for (let index in sportObjects) {
             // get places with @schoolId
-            if (!schoolIds.includes(parseInt(sportObjects[index].school.id))) continue
+            // if (!schoolIds.includes(parseInt(sportObjects[index].school.id))) continue
             prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
           }
           return prepared
         }
       },
       leadersTreeselect () {
-        let leaders = this.$store.getters.leadersConfirmed
-        let leadersPrepared = []
-        for (let index in leaders) {
-          leadersPrepared.push({
-            id: leaders[index].id,
-            label: leaders[index].email
-          })
+        return schoolIds => {
+          console.log(schoolIds)
+          if (undefined === schoolIds || null === schoolIds) return []
+          let leaders = this.$store.getters.leadersConfirmed
+          let leadersPrepared = []
+          for (let index in leaders) {
+            if (undefined === leaders[index].schoolsUsers || leaders[index].schoolsUsers === null || leaders[index].schoolsUsers.length < 1) continue
+            let hasSchool = false
+            for (let suIndex in leaders[index].schoolsUsers) {
+              if (schoolIds.includes(leaders[index].schoolsUsers[suIndex].school.id)) hasSchool = true
+            }
+            if (!hasSchool) continue
+
+            leadersPrepared.push({
+              id: leaders[index].id,
+              label: (leaders[index].firstName ? leaders[index].firstName : '') + ' ' + (leaders[index].lastName ? leaders[index].lastName : '')
+            })
+          }
+          return leadersPrepared
         }
-        return leadersPrepared
       },
       disciplinesTreeselect () {
         // eslint-disable-next-line one-var
         let disciplinesPrepared = [],
-          disciplines = this.$store.getters.disciplines
+            disciplines = this.$store.getters.disciplines
         for (let index in disciplines) {
           disciplinesPrepared.push({
             id: disciplines[index].id,
@@ -227,12 +237,12 @@
           date: this.selectedYear
         }
         this.$store.dispatch('getLessons', {filters: lessonFilters})
-        .then(response => {
-          this.$parent.setLocations(response)
-        })
+          .then(response => {
+            this.$parent.setLocations(response)
+          })
       }
     },
-    created() {
+    created () {
       this.$store.dispatch('getSchools', {})
     }
   }

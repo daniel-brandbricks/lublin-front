@@ -1,25 +1,6 @@
 <template>
   <b-row class="justify-content-center">
-    <!--   image   -->
-    <b-col cols="12" lg="3" class="">
-      <h2>Przypisany do</h2>
-      <!--    treeselect    -->
-      <template v-if="sportObject.school">
-        <treeselect v-model="sportObject.school.id"
-                    @input="checkSchoolAddressForObject"
-                    :multiple="false"
-                    :searchable="false"
-                    placeholder="Klub / Szkoła"
-                    :disabled="!!sportObject.id"
-                    :options="schoolsAndClubsPrepared"
-                    class="custom"/>
-
-        <!--        <ImageInputAdvanced :key="sportObject.school.id" :imgPath="getSchoolImageById(sportObject.school.id)"-->
-        <!--                            :hideImage="true"/>-->
-      </template>
-    </b-col>
-
-    <b-col cols="12" lg="5" class="">
+    <b-col cols="12" lg="8" class="">
       <!--    radios    -->
       <h2 class="my-4">Aktywuj</h2>
       <b-form-group>
@@ -51,17 +32,6 @@
         <b-col>
           <h2 class="my-4">Lokalizacja</h2>
         </b-col>
-        <b-col>
-<!--          <b-form-group class="custom mt-4 mb-3" v-if="sportObject.school.id">-->
-<!--            <b-form-checkbox-group-->
-<!--              @change="setSchoolAddressToObject"-->
-<!--              v-model="onSchoolTerritory"-->
-<!--              id="checkbox-group-type"-->
-<!--              :options="[ { text: 'Na terenie szkoły', value: 1 } ]"-->
-<!--              name="checkbox-group-type"-->
-<!--            />-->
-<!--          </b-form-group>-->
-        </b-col>
       </b-row>
 
       <DistrictSearch/>
@@ -89,35 +59,54 @@
       </b-form-group>
 
       <!--buttons-->
-<!--      <b-row class="mt-4">-->
-<!--        <b-col class="mt-3">-->
-<!--          <b-btn variant="delete" class="custom"-->
-<!--                 @click="deleteFromForm('deleteSportObject', sportObject.id, undefined, 'sport.objects', {tab: 'confirmed'})">-->
-<!--            &lt;!&ndash; todo Vetal' &ndash;&gt;-->
-<!--            Usuń-->
-<!--          </b-btn>-->
-<!--        </b-col>-->
-<!--        <b-col class="mt-3">-->
-<!--          <b-link block class="custom btn" :to="{ name: 'sport.objects', params: { 'tab': 'confirmed' } }">-->
-<!--            Anuluj-->
-<!--          </b-link>-->
-<!--        </b-col>-->
-<!--        <b-col class="mt-3">-->
-<!--          <b-btn block class="custom" @click="submit(true)">-->
-<!--            Zapisz-->
-<!--          </b-btn>-->
-<!--        </b-col>-->
-<!--        <b-col class="mt-3" v-if="$store.getters.isAdmin">-->
-<!--          <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">-->
-<!--            Odtwierdz-->
-<!--          </b-btn>-->
-<!--          <b-btn block v-else variant="primary" class="custom mt-2" @click="submitSetConfirm(1, true)">-->
-<!--            Zatwierdź-->
-<!--          </b-btn>-->
-<!--        </b-col>-->
-<!--      </b-row>-->
+      <b-row class="mt-4">
+        <b-col lg="3" md="6" sm="12" class="mt-3">
+          <b-btn variant="delete" class="custom"
+                 @click="deleteFromForm('deleteAdminSportObject', sportObject.id, undefined, 'admin.sport.objects', {tab: 'confirmed'})">
+            <!-- todo Vetal' -->
+            Usuń
+          </b-btn>
+        </b-col>
+        <b-col lg="3" md="6" sm="12" class="mt-3">
+          <b-link block class="custom btn" :to="{ name: 'admin.sport.objects', params: { 'tab': 'confirmed' } }">
+            Anuluj
+          </b-link>
+        </b-col>
+        <b-col lg="3" md="6" sm="12" class="mt-3">
+          <b-btn block class="custom" @click="submit(true)">
+            Zapisz
+          </b-btn>
+        </b-col>
+        <b-col lg="3" md="6" sm="12" class="mt-3" v-if="$store.getters.isAdmin">
+          <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
+            Odtwierdz
+          </b-btn>
+          <b-btn block v-else variant="primary" class="custom mt-sm-2 mt-lg-0" @click="submitSetConfirm(1, true)">
+            Zatwierdź
+          </b-btn>
+        </b-col>
+      </b-row>
+      <b-row class="mt-4 justify-content-center">
+        <b-col lg="3" md="6" sm="12" class="mt-3">
+          <b-btn block variant="primary" class="custom mt-sm-2 mt-lg-0" @click="$refs['copySObjToSchool'].show()">
+            Kopiuj do szkoły/klubu
+          </b-btn>
+        </b-col>
+      </b-row>
     </b-col>
 
+    <b-modal ref="copySObjToSchool" centered title="" hide-footer size="md">
+      <treeselect class="custom"
+                  v-model="selectedSchools"
+                  :multiple="true"
+                  placeholder="Szkoła/Klub"
+                  :options="schoolsAndClubsPrepared"/>
+      <b-row class="mt-2">
+        <b-col>
+          <b-btn variant="primary" @click="copyToSchool()" class="w-25 float-right">Kopiuj</b-btn>
+        </b-col>
+      </b-row>
+    </b-modal>
   </b-row>
 </template>
 
@@ -138,23 +127,17 @@
     data() {
       return {
         name: 'map',
-        onSchoolTerritory: []
+        selectedSchools: []
       }
     },
     computed: {
-      // copied in Calendar.vue -> LessonsList.vue
-      schoolsAndClubsPrepared() {
+      schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
         let preparedSchools = []
-        console.log(data)
+
         for (let schoolIndex in data) {
-          preparedSchools.push({
-            id: data[schoolIndex].id,
-            label: data[schoolIndex].name,
-            image: data[schoolIndex].image
-          })
+          preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
         }
-        console.log(preparedSchools)
 
         return preparedSchools
       },
@@ -170,29 +153,20 @@
       }
     },
     methods: {
-      checkSchoolAddressForObject() {
-        if (this.onSchoolTerritory.length < 1) return
-        this.setSchoolAddressToObject(this.onSchoolTerritory)
-      },
-      setSchoolAddressToObject(val) {
-        if (val.length < 1) return
-
-        let schools = this.$store.getters.schools
-        for (let index in schools) {
-          if (schools[index].id === this.sportObject.school.id) {
-            console.log(schools[index])
-            this.sportObject.district = schools[index].district
-            this.sportObject.address = schools[index].address
-            this.sportObject.postcode = schools[index].postcode
-          }
+      copyToSchool () {
+        let data = {
+          method: 'copyToSchool',
+          selectedSchools: this.selectedSchools,
+          id: this.sportObject.id
         }
 
-        console.log(this.sportObject.school.id)
-      },
-      getSchoolImageById(id) {
-        let schools = this.schoolsAndClubsPrepared
-        let school = schools.find(obj => parseInt(obj.id) === parseInt(id))
-        return undefined === school ? '' : (school.image && school.image.length > 0 ? school.image : '')
+        this.$store.dispatch('putAdminSportObject', data)
+          .then(() => {
+            this.postSubmitRedirect('admin.sport.objects')
+          })
+          .catch((error) => {
+            this.postSubmitError(error)
+          })
       },
       submit(validRequired) {
         if (validRequired) {
@@ -228,8 +202,8 @@
     created() {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
+      this.$store.dispatch('getSchools', {confirmed: 1})
 
-      this.$store.dispatch('getSchools', {})
       this.$store.dispatch('getSportObjectTypes')
     }
   }

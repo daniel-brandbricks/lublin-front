@@ -96,13 +96,13 @@
             title: 'Dane ogólne',
             link: 'school.or.club',
             tab: 'main-data'
-          },
-          {
-            title: 'Obiekty sportowe',
-            link: 'school.or.club',
-            tab: 'places',
-            method: 'checkValidMainForm'
           }
+          // {
+          //   title: 'Obiekty sportowe',
+          //   link: 'school.or.club',
+          //   tab: 'places',
+          //   method: 'checkValidMainForm'
+          // }
         ],
         districts: DISTRICTS,
 

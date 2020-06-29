@@ -27,7 +27,7 @@
                       v-model="leader.lastName"/>
       </b-form-group>
 
-      <h5 class="my-3">Dyscipliny</h5>
+      <h5 class="my-3">Dyscypliny</h5>
       <div class="row" v-if="leader.disciplines"
            v-for="(discipline,index) in leader.disciplines" :key="index">
         <div class="col-2">

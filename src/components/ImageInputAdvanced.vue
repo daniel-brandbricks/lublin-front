@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="wrap-img-input mb-3 mt-4">
-      <img :src="image" alt="img">
+      <img v-if="image && image.length > 0" :src="image" alt="img">
+      <div v-else class="image-placeholder">
+        <h1>&#10064;</h1>
+      </div>
     </div>
     <b-row>
       <b-col v-if="imageMultiple">

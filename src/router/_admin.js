@@ -36,6 +36,8 @@ import MenuItemData from '@/views/www/components/MenuItemData'
 import SportProjectForm from '@/views/www/components/SportProjectForm'
 import Recipient from '@/views/messages/components/Recipient'
 import CmsRestPageData from "@/views/www/components/CmsRestPageData";
+import AdminSportObjectsList from '@/views/sport-objects-admin/AdminSportObjectsList'
+import AdminSportObjectForm from '@/views/sport-objects-admin/AdminSportObjectForm'
 
 const adminRouter = {
   path: '/admin',
@@ -112,6 +114,17 @@ const adminRouter = {
       path: 'sport-object/:tab?/:id?',
       name: 'sport.object',
       component: SportObjectForm
+    },
+
+    {
+      path: 'sport-objects-admin/:tab?',
+      name: 'admin.sport.objects',
+      component: AdminSportObjectsList
+    },
+    {
+      path: 'sport-object-admin/:tab?/:id?',
+      name: 'admin.sport.object',
+      component: AdminSportObjectForm
     },
 
     // Leaders

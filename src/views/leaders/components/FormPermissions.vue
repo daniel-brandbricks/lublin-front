@@ -34,20 +34,21 @@
           <!--                      v-validate="{'required':true}" placeholder="Obiekt"-->
           <!--                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>-->
 
-          <h5 class="my-4">Status</h5>
-          <b-form-group>
-            <b-form-radio v-model="permissions[index].status" :value="element.value"
-                          class="d-inline-block mr-3"
-                          :class="{'error-input-custom': veeErrors.has('participant.active'+radioIndex+'_'+index)}"
-                          :name="'participant.active'+radioIndex+'_'+index"
-                          :key="'participant.active'+radioIndex+'_'+index"
-                          v-validate="{'required':true}"
-                          v-for="(element,radioIndex) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
-              {{ element.title }}
-            </b-form-radio>
-          </b-form-group>
+<!--          <h5 class="my-4">Status</h5>-->
+<!--          <b-form-group>-->
+<!--            <b-form-radio v-model="permissions[index].status" :value="element.value"-->
+<!--                          class="d-inline-block mr-3"-->
+<!--                          :class="{'error-input-custom': veeErrors.has('participant.active'+radioIndex+'_'+index)}"-->
+<!--                          :name="'participant.active'+radioIndex+'_'+index"-->
+<!--                          :key="'participant.active'+radioIndex+'_'+index"-->
+<!--                          v-validate="{'required':true}"-->
+<!--                          v-for="(element,radioIndex) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">-->
+<!--              {{ element.title }}-->
+<!--            </b-form-radio>-->
+<!--          </b-form-group>-->
 
-          <h5 class="my-4">Uprawnienia</h5>
+          <h5 class="mt-4">Uprawnienia</h5>
+          <b-btn class="my-2" variant="primary" @click="checkAllPermissions(index)">Zaznać wszystko</b-btn>
 <!--          <b-btn variant="primary" @click="setAllPermissions(index)" class="mb-4">Zaznacz wszystko</b-btn>-->
 <!--          {{permissions[index]}}-->
           <div class="row" v-if="permissions[index].permissions"
@@ -104,7 +105,7 @@
           </div>
         </div>
         <div class="col-10">
-          <b-btn @click="$store.dispatch('addEmptyPermission')" variant="primary" block class="w-50">+ Dodaj obiekt
+          <b-btn @click="$store.dispatch('addEmptyPermission')" variant="primary" block class="w-50">+ Dodaj uprawnienie
           </b-btn>
         </div>
       </div>
@@ -171,6 +172,7 @@
           return this.$store.getters.permissions
         },
         set (value) {
+          console.log(value)
           this.$store.dispatch('setPermissions', value)
         }
       },
@@ -210,6 +212,13 @@
       }
     },
     methods: {
+      checkAllPermissions (index) {
+        console.log(index)
+        console.log(this.permissions)
+        this.permissions[index].permissions = [{ 'id': 3, 'selected': [ '2', '3' ] }, { 'id': 4, 'selected': [ '2', '3' ] }, { 'id': 5, 'selected': [] }, { 'id': 8, 'selected': [] }, { 'id': 9, 'selected': [] }]
+        // { "id": 3, "selected": [ "2", "3" ] }, { "id": 4, "selected": [ "2", "3" ] }, { "id": 5, "selected": [] }, { "id": 8, "selected": [] }, { "id": 9, "selected": [] }
+        // this.permissions[index] = { 'id': 3, 'selected': [ '2', '3' ] }, { 'id': 4, 'selected': [ '2', '3' ] }, { 'id': 5, 'selected': [] }, { 'id': 8, 'selected': [] }, { 'id': 9, 'selected': [] }
+      },
       setAllPermissions (index) {
         // this.permissions[index] = {
         //   'permissions': [{'id': 3, 'selected': ['3', '2']}, {
@@ -362,7 +371,7 @@
 
       console.log(this.$route.params.schoolName)
       if (this.$route.params.schoolName !== undefined && this.$route.params.schoolName !== null) {
-       let breadcrumbs = [
+        let breadcrumbs = [
           {
             text: this.$route.params.schoolName,
             to: {

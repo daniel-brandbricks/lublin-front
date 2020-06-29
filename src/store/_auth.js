@@ -41,7 +41,7 @@ export default {
     //   return state.authToken
     // },
     isLoggedIn: function (state) {
-      var res = getCookie('authl')
+      var res = '1' // getCookie('authl')
       return (res === '1')
       // if (state.authToken && state.authToken.length > 0) {
       //   return true

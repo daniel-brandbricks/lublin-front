@@ -130,8 +130,8 @@
 
       <!--buttons-->
       <b-row class="mt-4">
-        <div class="col">
-          <b-btn variant="delete" class="custom"
+        <div>
+          <b-btn variant="delete" class="custom" v-if="school.id"
                  @click="deleteFromForm('deleteSchool', school.id, undefined, 'schools.and.clubs', {tab: 'confirmed'})"> <!-- todo Vetal' -->
             Usuń
           </b-btn>
@@ -139,17 +139,16 @@
             Anuluj
           </b-link>
         </div>
-
         <b-col>
           <b-btn block class="custom" @click="submit(true)">
             Zapisz
           </b-btn>
         </b-col>
-        <b-col>
-          <b-btn block variant="primary" class="custom" @click="goToFormTab('places')">
-            Dalej
-          </b-btn>
-        </b-col>
+<!--        <b-col>-->
+<!--          <b-btn block variant="primary" class="custom" @click="goToFormTab('places')">-->
+<!--            Dalej-->
+<!--          </b-btn>-->
+<!--        </b-col>-->
       </b-row>
     </b-col>
   </b-row>

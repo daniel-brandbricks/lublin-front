@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
     var res = getCookie('authl')
     if (res !== '1') {
       console.log('home here')
-      next('/home')
+      // next('/home')
     }
   }
 

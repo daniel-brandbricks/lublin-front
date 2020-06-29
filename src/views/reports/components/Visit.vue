@@ -24,6 +24,8 @@
         <p>Obiekt sportowy: {{item.dataToShow.placeTitle}}</p>
         <p>Czas: {{item.dataToShow.time.join('-')}}</p>
         <p>Adres: {{item.query}}</p>
+        <p>Prowadzący: {{item.dataToShow.leader}}</p>
+        <p>Zastępstwo: {{item.dataToShow.replacement}}</p>
         <hr>
       </div>
     </b-modal>
@@ -109,15 +111,31 @@
           return
         }
 
+        let leaders = this.$store.getters.leadersConfirmed || []
         let places = []
         for (let index in lessons) {
+          console.log(lessons[index])
+          let leader = (lessons[index] && lessons[index].leader && lessons[index].leader.id)
+            ? leaders.find(x => x.id === lessons[index].leader.id) : false
+          let replacement = ''
+          if (lessons[index] && lessons[index].replacementLeaders) {
+            for (let lepLead in lessons[index].replacementLeaders) {
+              if (lessons[index].replacementLeaders[lepLead].active) {
+                let repLeadObj = leaders.find(x => x.id === lessons[index].replacementLeaders[lepLead].leader.id)
+                if (repLeadObj) replacement += repLeadObj.firstName + ' ' + repLeadObj.lastName + '. '
+              }
+            }
+          }
+
           places.push({
             query: 'Lublin, ' + lessons[index].place.address,
             dataToShow: {
               title: lessons[index].title,
               placeTitle: lessons[index].place.title,
               school: lessons[index].school.name,
-              time: (lessons[index].newTimeRange === null) ? lessons[index].timeRange : lessons[index].newTimeRange
+              time: (lessons[index].newTimeRange === null) ? lessons[index].timeRange : lessons[index].newTimeRange,
+              leader: !leader ? '' : leader.firstName + ' ' + leader.lastName,
+              replacement: replacement
             },
             fields: ['name', 'geometry']
           })
@@ -143,6 +161,7 @@
             Obiekt sportowy: ${dataToShow.placeTitle} <br>
             Czas: ${dataToShow.time.join('-')} <br>
             Adres: ${place.name} <br>
+            Prowadzący: ${dataToShow.leader.email}
           `)
             infowindow.open(map, this)
           })

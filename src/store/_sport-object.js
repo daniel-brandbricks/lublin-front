@@ -134,61 +134,61 @@ export default {
           })
       })
     },
-    postSportObject (context, data) {
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/place', 'post', true, data, null, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('setSportObject', response)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    putSportObject (context, data) {
-      const id = data.id
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/place/' + id, 'put', true, data, null, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('setSportObject', response)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    },
-    deleteSportObject (context, data) {
-      const id = data.id
-      return new Promise((resolve, reject) => {
-        apiService.makeApiCall('resource/place/' + id, 'delete', true, data, null, 200)
-          .then(response => {
-            if (response === 'error') {
-              resolve('error')
-              return
-            }
-
-            context.commit('deleteSportObject', response)
-            resolve()
-          })
-          .catch(error => {
-            console.log(error.response)
-            reject(error.response)
-          })
-      })
-    }
+    // postSportObject (context, data) {
+    //   return new Promise((resolve, reject) => {
+    //     apiService.makeApiCall('resource/place', 'post', true, data, null, 200)
+    //       .then(response => {
+    //         if (response === 'error') {
+    //           resolve('error')
+    //           return
+    //         }
+    //
+    //         context.commit('setSportObject', response)
+    //         resolve()
+    //       })
+    //       .catch(error => {
+    //         console.log(error.response)
+    //         reject(error.response)
+    //       })
+    //   })
+    // },
+    // putSportObject (context, data) {
+    //   const id = data.id
+    //   return new Promise((resolve, reject) => {
+    //     apiService.makeApiCall('resource/place/' + id, 'put', true, data, null, 200)
+    //       .then(response => {
+    //         if (response === 'error') {
+    //           resolve('error')
+    //           return
+    //         }
+    //
+    //         context.commit('setSportObject', response)
+    //         resolve()
+    //       })
+    //       .catch(error => {
+    //         console.log(error.response)
+    //         reject(error.response)
+    //       })
+    //   })
+    // },
+    // deleteSportObject (context, data) {
+    //   const id = data.id
+    //   return new Promise((resolve, reject) => {
+    //     apiService.makeApiCall('resource/place/' + id, 'delete', true, data, null, 200)
+    //       .then(response => {
+    //         if (response === 'error') {
+    //           resolve('error')
+    //           return
+    //         }
+    //
+    //         context.commit('deleteSportObject', response)
+    //         resolve()
+    //       })
+    //       .catch(error => {
+    //         console.log(error.response)
+    //         reject(error.response)
+    //       })
+    //   })
+    // }
   }
 }

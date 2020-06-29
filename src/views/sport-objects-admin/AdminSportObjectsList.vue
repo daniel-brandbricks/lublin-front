@@ -5,7 +5,6 @@
         <TabLinks :links="tabLinks"/>
       </b-col>
     </b-row>
-
     <b-row class="justify-content-center">
       <b-col class="col-12 col-xl-8 col-lg-8 col-md-12 col-sm-12 mt-4">
         <b-row class="align-items-center">
@@ -41,7 +40,6 @@
     <SportObjectTable :filters="{districtValue: districtValue, search: search}" :sportObjectTypes="sportObjectTypes"
                       :is-confirmed="true" :key="$route.params.tab" v-if="$route.params.tab === 'confirmed'"
                       :fieldsParams="[
-                        { key: 'lessons', label: 'Zajęcia', toInsert: true },
                         { key: 'status', label: 'Status w systemie', sortable: true, toInsert: true },
                         { key: 'edit', label: '', toInsert: true }
                         ]"/>
@@ -67,7 +65,7 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import TabLinks from '../../components/TabLinks'
   // import EventBus from '@/event-bus'
-  import SportObjectTable from '@/views/sport-objects/components/SportObjectTable'
+  import SportObjectTable from '@/views/sport-objects-admin/components/SportObjectTable'
 
   export default {
     components: {TabLinks, Treeselect, SportObjectTable},
@@ -77,22 +75,15 @@
         tabLinks: [
           {
             title: 'Zatwierdzone',
-            link: 'sport.objects',
+            link: 'admin.sport.objects',
             tab: 'confirmed'
           },
           {
             title: 'Do zatwierdzenia',
-            link: 'sport.objects',
+            link: 'admin.sport.objects',
             tab: 'to-confirm'
           }
         ],
-
-        // checkboxes
-        // selectedType: [],
-        // typeOptions: [
-        //   { text: 'klub', value: 0 },
-        //   { text: 'szkola', value: 1 }
-        // ],
 
         // search
         search: '',
@@ -113,16 +104,16 @@
         this.tabLinks = [
           {
             title: 'Zatwierdzone',
-            link: 'sport.objects',
+            link: 'admin.sport.objects',
             tab: 'confirmed'
           },
           {
-            title: 'Do zatwierdzenia (' + this.$store.getters.sportObjectsToConfirm.length + ')',
-            link: 'sport.objects',
+            title: 'Do zatwierdzenia (' + this.$store.getters.adminSportObjectsToConfirm.length + ')',
+            link: 'admin.sport.objects',
             tab: 'to-confirm'
           }
         ]
-        return this.$store.getters.sportObjectsToConfirm
+        return this.$store.getters.adminSportObjectsToConfirm
       },
       isDirector () {
         return this.$store.getters.isDirector
@@ -136,32 +127,31 @@
         if (!this.isDirector) return
 
         this.$router.push({
-          name: 'sport.object',
+          name: 'admin.sport.object',
           params: {'tab': 'main-data', 'id': id, 'isConfirmed': isConfirmed}
         })
       },
       checkNavButton (val) {
-        this.changeAdminNavbarButton({buttonLink: false})
-        // if (val) {
-        //   /** @buttonLink route name || false if button must be hidden */
-        //   this.changeAdminNavbarButton({buttonLink: 'sport.object', params: {tab: 'main-data'}})
-        // } else {
-        //   this.changeAdminNavbarButton({buttonLink: false})
-        // }
+        if (val) {
+          /** @buttonLink route name || false if button must be hidden */
+          this.changeAdminNavbarButton({buttonLink: 'admin.sport.object', params: {tab: 'main-data'}})
+        } else {
+          this.changeAdminNavbarButton({buttonLink: false})
+        }
       }
     },
     created () {
-      this.$store.dispatch('getSportObjects', {confirmed: 0})
-      this.$store.dispatch('getSportObjects', {confirmed: 1})
+      this.$store.dispatch('getAdminSportObjects', {confirmed: 0})
+      this.$store.dispatch('getAdminSportObjects', {confirmed: 1})
 
       if (this.$route.params.tab === undefined) {
-        this.$router.push({name: 'sport.objects', params: {'tab': 'confirmed'}})
+        this.$router.push({name: 'admin.sport.objects', params: {'tab': 'confirmed'}})
       }
 
       this.$store.dispatch('getSportObjectTypes')
 
       this.checkNavButton(this.isDirector)
-      this.changeAdminNavbarBreadcrumbs([{text: 'Obiekty sportowe', active: true}])
+      this.changeAdminNavbarBreadcrumbs([{text: 'Obiekty sportowe (admin)', active: true}])
     }
   }
 </script>

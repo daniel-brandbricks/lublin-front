@@ -29,11 +29,9 @@
         </b-col>
         <b-col cols="12" lg="6">
           <p class="text-footer">
-            Współzawodnictwo Sportowe <br> Szkół Miasta Lublin <br>
+            Urząd Miasta Lublin, Wydział Sportu <br> {{$store.getters.menuAndFooter.footer.address}} <br>
             <span class="icon icon-icon_mail"></span>{{$store.getters.menuAndFooter.footer.email}} <br>
             <span class="icon icon-icon_phone"></span>{{$store.getters.menuAndFooter.footer.phone}}
-          <br>
-            {{$store.getters.menuAndFooter.footer.address}}
           </p>
         </b-col>
       </b-row>
