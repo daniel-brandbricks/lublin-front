@@ -52,8 +52,8 @@
         </b-collapse>
 
         <!--    Sports Objects    -->
-        <h4 v-b-toggle.collapse-sport-objects><span class="mr-3">^</span>Obiekty sportowe</h4>
-        <b-collapse visible id="collapse-sport-objects" class="mt-2">
+        <h4 v-if="$store.getters.isAdmin" v-b-toggle.collapse-sport-objects><span class="mr-3">^</span>Obiekty sportowe</h4>
+        <b-collapse v-if="$store.getters.isAdmin" visible id="collapse-sport-objects" class="mt-2">
           <b-table
             :items="sportObjectsToConfirm"
             :fields="fieldsSportObjects"

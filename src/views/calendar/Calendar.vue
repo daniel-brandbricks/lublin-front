@@ -199,7 +199,7 @@
         events.selectedYearFrom = this.selectedYearFrom
         events.selectedYearTo = this.selectedYearTo
 
-        this.$store.dispatch('getLessons', {filters: lessonFilters})
+        this.$store.dispatch('getLessons', {adminPlaces: true, filters: lessonFilters})
           .then(res => {
             this.$store.dispatch('getEvents', { confirmed: 1, filters: events })
               .then(res => {
@@ -239,6 +239,7 @@
       this.initCurrentMonthRange()
 
       this.$store.dispatch('getSchools', { confirmed: 1, getAll: true })
+      this.$store.dispatch('getAdminSportObjects', { confirmed: 1 })
       this.$store.dispatch('getSportObjects', { confirmed: 1 })
       this.$store.dispatch('getLeaders', { confirmed: 1, forLesson: true })
       this.$store.dispatch('getDisciplines')

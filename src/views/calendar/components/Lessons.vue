@@ -27,11 +27,11 @@
                     class="custom"/>
       </b-col>
     </b-row>
-<!--    <treeselect class="custom mb-2"-->
-<!--                v-model="lessons.selectedLesson"-->
-<!--                :multiple="true"-->
-<!--                placeholder="Nazwa zajęcia"-->
-<!--                :options="lessons.sportObjects"/>-->
+    <!--    <treeselect class="custom mb-2"-->
+    <!--                v-model="lessons.selectedLesson"-->
+    <!--                :multiple="true"-->
+    <!--                placeholder="Nazwa zajęcia"-->
+    <!--                :options="lessons.sportObjects"/>-->
     <treeselect class="custom mb-2"
                 v-model="lessons.selectedSportObject"
                 :multiple="true"
@@ -64,39 +64,39 @@
                 :multiple="true"
                 placeholder="Klasa"
                 :options="lessonClassTreeselect"/>
-<!--    <treeselect class="custom mb-2"-->
-<!--                v-model="lessons.selectedYear"-->
-<!--                :multiple="true"-->
-<!--                placeholder="Rocznik"-->
-<!--                :options="lessons.years"/>-->
+    <!--    <treeselect class="custom mb-2"-->
+    <!--                v-model="lessons.selectedYear"-->
+    <!--                :multiple="true"-->
+    <!--                placeholder="Rocznik"-->
+    <!--                :options="lessons.years"/>-->
 
-<!--    <b-row class="align-items-center mb-2">-->
-<!--      <b-col>-->
-<!--        <b-form-group class="custom">-->
-<!--          <b-form-checkbox-group-->
-<!--            id="checkbox-group-gender"-->
-<!--            v-model="lessons.selectedGender"-->
-<!--            :options="lessons.genderOptions"-->
-<!--            name="checkbox-group-gender"-->
-<!--          ></b-form-checkbox-group>-->
-<!--        </b-form-group>-->
-<!--      </b-col>-->
-<!--      <b-col>-->
-<!--        <treeselect v-model="lessons.schoolsAndClubs"-->
-<!--                    :multiple="true"-->
-<!--                    :searchable="false"-->
-<!--                    placeholder="Lista"-->
-<!--                    :options="schoolsAndClubsPrepared"-->
-<!--                    :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"-->
-<!--                    name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"-->
-<!--                    class="custom"/>-->
-<!--      </b-col>-->
-<!--    </b-row>-->
-<!--    <treeselect class="custom mb-2"-->
-<!--                v-model="lessons.selectedParticipant"-->
-<!--                :multiple="true"-->
-<!--                placeholder="Imię i Nazwisko zawodnika"-->
-<!--                :options="lessons.leaders"/>-->
+    <!--    <b-row class="align-items-center mb-2">-->
+    <!--      <b-col>-->
+    <!--        <b-form-group class="custom">-->
+    <!--          <b-form-checkbox-group-->
+    <!--            id="checkbox-group-gender"-->
+    <!--            v-model="lessons.selectedGender"-->
+    <!--            :options="lessons.genderOptions"-->
+    <!--            name="checkbox-group-gender"-->
+    <!--          ></b-form-checkbox-group>-->
+    <!--        </b-form-group>-->
+    <!--      </b-col>-->
+    <!--      <b-col>-->
+    <!--        <treeselect v-model="lessons.schoolsAndClubs"-->
+    <!--                    :multiple="true"-->
+    <!--                    :searchable="false"-->
+    <!--                    placeholder="Lista"-->
+    <!--                    :options="schoolsAndClubsPrepared"-->
+    <!--                    :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"-->
+    <!--                    name="sportObject.schools" key="sportObject.schools" v-validate="{'required':true}"-->
+    <!--                    class="custom"/>-->
+    <!--      </b-col>-->
+    <!--    </b-row>-->
+    <!--    <treeselect class="custom mb-2"-->
+    <!--                v-model="lessons.selectedParticipant"-->
+    <!--                :multiple="true"-->
+    <!--                placeholder="Imię i Nazwisko zawodnika"-->
+    <!--                :options="lessons.leaders"/>-->
   </div>
 </template>
 
@@ -107,14 +107,14 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
 
   export default {
-    components: { Treeselect },
-    mixins: [ EventBusEmit ],
-    props: [ 'lessons', 'districts' ],
+    components: {Treeselect},
+    mixins: [EventBusEmit],
+    props: ['lessons', 'districts'],
     data () {
       return {
         typeOptions: [
-          { text: 'klub', value: 0 },
-          { text: 'szkola', value: 1 }
+          {text: 'klub', value: 0},
+          {text: 'szkola', value: 1}
         ],
         selectedType: []
       }
@@ -143,10 +143,10 @@
         for (let schoolIndex in data) {
           if (this.selectedType.length > 0) {
             if (this.selectedType.includes(data[schoolIndex].type)) {
-              preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+              preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
             }
           } else {
-            preparedSchools.push({ id: data[schoolIndex].id, label: data[schoolIndex].name })
+            preparedSchools.push({id: data[schoolIndex].id, label: data[schoolIndex].name})
           }
         }
 
@@ -163,26 +163,26 @@
       },
       sportObjectsTreeselect () {
         return schoolIds => {
-          console.log(this.$route.name)
-          if (this.$route.name === 'reports') {
-            let sportObjects = this.$store.getters.sportObjectsConfirmed
-            let prepared = []
-            for (let index in sportObjects) {
-              prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
-            }
-            return prepared
-          }
-
-          if (null === schoolIds || undefined === schoolIds) return []
-          let sportObjects = this.$store.getters.sportObjectsConfirmed
-          console.log(sportObjects)
+          // console.log(this.$route.name)
+          // if (this.$route.name === 'reports') {
+          let sportObjects = this.$store.getters.adminSportObjectsConfirmed
           let prepared = []
           for (let index in sportObjects) {
-            // get places with @schoolId
-            if (!schoolIds.includes(parseInt(sportObjects[index].school.id))) continue
             prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
           }
           return prepared
+          // }
+
+          // if (null === schoolIds || undefined === schoolIds) return []
+          // let sportObjects = this.$store.getters.sportObjectsConfirmed
+          // console.log(sportObjects)
+          // let prepared = []
+          // for (let index in sportObjects) {
+          //   get places with @schoolId
+          // if (!schoolIds.includes(parseInt(sportObjects[index].school.id))) continue
+          // prepared.push({id: sportObjects[index].id, label: sportObjects[index].title})
+          // }
+          // return prepared
         }
       },
       leadersTreeselect () {

@@ -86,7 +86,7 @@
           </b-btn>
         </b-col>
       </b-row>
-      <b-row class="mt-4 justify-content-center">
+      <b-row class="mt-4 justify-content-center" v-if="sportObject && sportObject.id && sportObject.id !== null">
         <b-col lg="3" md="6" sm="12" class="mt-3">
           <b-btn block variant="primary" class="custom mt-sm-2 mt-lg-0" @click="$refs['copySObjToSchool'].show()">
             Kopiuj do szkoły/klubu

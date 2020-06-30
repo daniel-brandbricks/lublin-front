@@ -65,6 +65,7 @@
       }
 
       this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getAdminSportObjects', { confirmed: 1 })
       this.$store.dispatch('getSportObjects', { confirmed: 1 })
       this.$store.dispatch('getLeaders', { confirmed: 1, forLesson: true })
       this.$store.dispatch('getDisciplines')

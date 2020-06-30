@@ -7,9 +7,9 @@
                     :key="$route.params.tab+'FormMainData'" v-if="$route.params.tab === 'main-data'"/>
 
       <!--   Component for PlaceEntity   -->
-      <FormPlaces :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormPlaces"
-                  :districts="districts"
-                  :key="$route.params.tab+'FormPlaces'" v-if="$route.params.tab === 'places'"/>
+<!--      <FormPlaces :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormPlaces"-->
+<!--                  :districts="districts"-->
+<!--                  :key="$route.params.tab+'FormPlaces'" v-if="$route.params.tab === 'places'"/>-->
 
       <!--   Component for todo Entity   -->
       <FormLeaders :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormLeaders"
@@ -229,12 +229,12 @@
                 link: 'school.or.club',
                 tab: 'main-data'
               },
-              {
-                title: 'Obiekty',
-                link: 'school.or.club',
-                tab: 'places',
-                method: 'checkValidMainForm'
-              },
+              // {
+              //   title: 'Obiekty',
+              //   link: 'school.or.club',
+              //   tab: 'places',
+              //   method: 'checkValidMainForm'
+              // },
               {
                 title: 'Prowadzący',
                 link: 'school.or.club',

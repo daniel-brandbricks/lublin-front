@@ -163,7 +163,7 @@
       sportObjectsTreeselect () {
         return schoolIds => {
           // if (null === schoolIds || undefined === schoolIds) return []
-          let sportObjects = this.$store.getters.sportObjectsConfirmed
+          let sportObjects = this.$store.getters.adminSportObjectsConfirmed
           // console.log(sportObjects)
           let prepared = []
           for (let index in sportObjects) {
@@ -236,7 +236,7 @@
           lesson: this.lessons,
           date: this.selectedYear
         }
-        this.$store.dispatch('getLessons', {filters: lessonFilters})
+        this.$store.dispatch('getLessons', {adminPlaces: true, filters: lessonFilters})
           .then(response => {
             this.$parent.setLocations(response)
           })

@@ -140,7 +140,7 @@ export default {
     //       .then(response => {
     //         if (response === 'error') {
     //           resolve('error')
-    //           return
+    //           returnapi/me/
     //         }
     //
     //         context.commit('setSportObject', response)

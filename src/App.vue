@@ -91,7 +91,9 @@
       if (this.$store.getters.isLoggedIn) {
         this.$store.dispatch('getActualSidebarData')
       }
-      this.$store.dispatch('getCurrentUser')
+      if (!['confirm.school'].includes(this.$route.name)) {
+        this.$store.dispatch('getCurrentUser')
+      }
       this.$store.dispatch('getCsrfToken')
     }
   }
