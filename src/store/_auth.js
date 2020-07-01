@@ -24,6 +24,7 @@ export default {
   state: {
     dispatchedCSRF: false,
     dispatchedLogin: false,
+    dispatchedLoginCount: 0,
     // authToken: generateToken(),
     authUser: null,
     userRole: null,
@@ -144,9 +145,12 @@ export default {
             console.log(error.response.data)
             if (error.response && error.response.data && error.response.data.error && error.response.data.error ===
               'Spróbuj wykonać akcje jeszcze raz.') {
-                context.state.dispatchedLogin = true
+              context.state.dispatchedLogin = true
+              context.state.dispatchedLoginCount++
+              if (context.state.dispatchedLoginCount < 3) {
                 context.dispatch('logout', {login: data})
               }
+            }
             console.log(error.response)
             reject(error.response)
           })
