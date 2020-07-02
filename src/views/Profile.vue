@@ -75,7 +75,7 @@
 
         <div class="mt-2" v-if="authUser && authUser.replacements.length > 0">
           <h4>Zastępstwa</h4>
-          <div v-if="item.checked === false" v-for="(item,index) in authUser.replacements" class="mb-1">
+          <div v-if="item.checked === false" :key="index" v-for="(item,index) in authUser.replacements" class="mb-1">
             <b-row class="justify-content-end">
               <b-col>
                 {{item.lesson.title}}

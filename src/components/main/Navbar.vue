@@ -222,7 +222,7 @@
       </h2>
       <p class="fix-card-text">
         Teraz sprawdż podany w formularzu <br>
-        email, by dokończyć proces rejestracji.
+        email, by dokończyć proces {{isProcessRegistration ? 'rejestracji' : 'zmiany hasła'}}.
       </p>
       <div class="btn-container d-flex flex-column w-100 mt-3">
         <b-btn variant="primary"
@@ -302,7 +302,9 @@
         email: '',
         password: '',
 
-        loginError: false
+        loginError: false,
+
+        isProcessRegistration: false
       }
     },
     watch: {
@@ -388,6 +390,7 @@
           .then((response) => {
             // todo check response
             console.log(response)
+            this.isProcessRegistration = false
             this.$bvModal.hide('modal-login-newPass')
             this.$bvModal.show('modal-login-registration')
           })
@@ -416,6 +419,7 @@
         })
           .then((response) => {
             console.log(response)
+            this.isProcessRegistration = true
             this.$bvModal.hide('modal-login')
             this.$bvModal.show('modal-login-registration')
           })
@@ -449,6 +453,7 @@
           .then((response) => {
             console.log(response)
             this.$bvModal.hide('modal-login')
+            this.isProcessRegistration = true
             this.$bvModal.show('modal-login-registration')
           })
           // eslint-disable-next-line handle-callback-err

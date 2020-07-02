@@ -48,7 +48,7 @@
 <!--          </b-form-group>-->
 
           <h5 class="mt-4">Uprawnienia</h5>
-          <b-btn class="my-2" variant="primary" @click="checkAllPermissions(index)">Zaznać wszystko</b-btn>
+          <b-btn class="my-2" variant="primary" @click="checkAllPermissions(index)">Wszystkie uprawnienia</b-btn>
 <!--          <b-btn variant="primary" @click="setAllPermissions(index)" class="mb-4">Zaznacz wszystko</b-btn>-->
 <!--          {{permissions[index]}}-->
           <div class="row" v-if="permissions[index].permissions"

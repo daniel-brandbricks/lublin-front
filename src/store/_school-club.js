@@ -96,6 +96,7 @@ export default {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('resource/school/' + id, 'get', true, data, null, 200)
           .then(response => {
+            console.log(response)
             if (response === 'error') {
               resolve('error')
               return

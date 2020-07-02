@@ -59,7 +59,7 @@
       </b-form-group>
 
       <!--buttons-->
-      <b-row class="mt-4">
+      <b-row class="mt-4" v-if="isAdmin">
         <b-col lg="3" md="6" sm="12" class="mt-3">
           <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteAdminSportObject', sportObject.id, undefined, 'admin.sport.objects', {tab: 'confirmed'})">
@@ -86,10 +86,17 @@
           </b-btn>
         </b-col>
       </b-row>
-      <b-row class="mt-4 justify-content-center" v-if="sportObject && sportObject.id && sportObject.id !== null">
+      <b-row class="mt-4 justify-content-center" v-if="sportObject && sportObject.id && sportObject.id !== null && isAdmin">
         <b-col lg="3" md="6" sm="12" class="mt-3">
           <b-btn block variant="primary" class="custom mt-sm-2 mt-lg-0" @click="$refs['copySObjToSchool'].show()">
             Kopiuj do szkoły/klubu
+          </b-btn>
+        </b-col>
+      </b-row>
+      <b-row class="mt-2 justify-content-end" v-else>
+        <b-col lg="3" md="6" sm="12" class="mt-3">
+          <b-btn block variant="primary" class="custom mt-sm-2 mt-lg-0" @click="copyToSchool(true)">
+            Dodaj do szkoły/klubu
           </b-btn>
         </b-col>
       </b-row>
@@ -117,20 +124,23 @@
   import EventBusEmit from '@/mixins/event-bus-emit'
   import FormMixin from '@/mixins/form-mixin'
   import ImageInputAdvanced from '@/components/ImageInputAdvanced'
-  import DistrictSearch from "@/components/DistrictSearch";
+  import DistrictSearch from '@/components/DistrictSearch'
 
   export default {
     name: 'FormMainData',
     props: ['sportObject', 'districts'],
     components: {DistrictSearch, Treeselect, ImageInputAdvanced},
     mixins: [EventBusEmit, FormMixin],
-    data() {
+    data () {
       return {
         name: 'map',
         selectedSchools: []
       }
     },
     computed: {
+      isAdmin () {
+        return this.$store.getters.isAdmin
+      },
       schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
         let preparedSchools = []
@@ -141,7 +151,7 @@
 
         return preparedSchools
       },
-      sportObjectTypesPrepared() {
+      sportObjectTypesPrepared () {
         let data = this.$store.getters.sportObjectTypes
         let preparedSchools = []
 
@@ -153,10 +163,22 @@
       }
     },
     methods: {
-      copyToSchool () {
+      copyToSchool (isDirector) {
+        let schools = []
+        if (isDirector) {
+          let user = this.$store.getters.authUser
+          console.log(this.$store.getters.authUser)
+          if (user && user.schoolsUsers && user.schoolsUsers.length > 0 &&
+            user.role === 1 && user.schoolsUsers[0].role === 1) {
+              schools.push(user.schoolsUsers[0].school.id)
+            }
+        } else {
+          schools = this.selectedSchools
+        }
+
         let data = {
           method: 'copyToSchool',
-          selectedSchools: this.selectedSchools,
+          selectedSchools: schools,
           id: this.sportObject.id
         }
 
@@ -168,7 +190,7 @@
             this.postSubmitError(error)
           })
       },
-      submit(validRequired) {
+      submit (validRequired) {
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
@@ -184,7 +206,7 @@
           this.$parent.submit()
         }
       },
-      submitSetConfirm(isConfirmed, validRequired = true) {
+      submitSetConfirm (isConfirmed, validRequired = true) {
         console.log(this.isValidForm)
         if (validRequired) {
           if (this.checkValidForm()) {
@@ -199,7 +221,7 @@
         }
       }
     },
-    created() {
+    created () {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
       this.$store.dispatch('getSchools', {confirmed: 1})

@@ -69,11 +69,11 @@
             link: 'leaders',
             tab: 'confirmed'
           },
-          {
-            title: 'Do zatwierdzenia (' + this.$store.getters.leadersToConfirm.length + ')',
-            link: 'leaders',
-            tab: 'to-confirm'
-          }
+          // {
+          //   title: 'Do zatwierdzenia (' + this.$store.getters.leadersToConfirm.length + ')',
+          //   link: 'leaders',
+          //   tab: 'to-confirm'
+          // }
         ],
 
         selectedDisciplines: [],
@@ -118,11 +118,11 @@
             link: 'leaders',
             tab: 'confirmed'
           },
-          {
-            title: 'Do zatwierdzenia (' + val.length + ')',
-            link: 'leaders',
-            tab: 'to-confirm'
-          }
+          // {
+          //   title: 'Do zatwierdzenia (' + val.length + ')',
+          //   link: 'leaders',
+          //   tab: 'to-confirm'
+          // }
         ]
       }
     },

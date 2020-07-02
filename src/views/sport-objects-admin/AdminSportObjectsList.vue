@@ -95,6 +95,9 @@
     },
     watch: {
       isDirector: function (val) {
+        // this.checkNavButton(val)
+      },
+      isAdmin: function (val) {
         this.checkNavButton(val)
       }
     },
@@ -118,6 +121,9 @@
       isDirector () {
         return this.$store.getters.isDirector
       },
+      isAdmin () {
+        return this.$store.getters.isAdmin
+      },
       sportObjectTypes () {
         return this.$store.getters.sportObjectTypes
       }
@@ -132,6 +138,7 @@
         })
       },
       checkNavButton (val) {
+        console.log(val)
         if (val) {
           /** @buttonLink route name || false if button must be hidden */
           this.changeAdminNavbarButton({buttonLink: 'admin.sport.object', params: {tab: 'main-data'}})
@@ -150,8 +157,8 @@
 
       this.$store.dispatch('getSportObjectTypes')
 
-      this.checkNavButton(this.isDirector)
-      this.changeAdminNavbarBreadcrumbs([{text: 'Obiekty sportowe (admin)', active: true}])
+      this.checkNavButton(this.isAdmin)
+      this.changeAdminNavbarBreadcrumbs([{text: 'Obiekty sportowe (wszystkie)', active: true}])
     }
   }
 </script>

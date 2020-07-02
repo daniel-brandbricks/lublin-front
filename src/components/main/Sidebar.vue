@@ -54,11 +54,12 @@
           </b-link>
 
           <b-link :to="{name:'admin.sport.objects', params: {'tab': 'confirmed'} }"
+                  v-if="$store.getters.isDirector"
                   active-class="active"
                   :class="{'active': 'admin.sport.object' === $route.name}"
                   class="list-group-item">
             <span class="icon icon-icon_www"></span>
-            Obiekty sportowe (admin)
+            Obiekty sportowe (wszystkie)
 <!--            <span v-if="sidebarData.placesToConfirm">-->
 <!--              > <span class="to-confirm">{{sidebarData.placesToConfirm}}</span>-->
 <!--            </span>-->

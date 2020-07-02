@@ -28,6 +28,7 @@
           this.$store.dispatch('getSchool', {id: val.schoolsUsers[0].school.id})
             .then((res) => {
               let school = res
+              console.log(res)
               if (school.invitations && school.invitations.length > 0) {
                 for (let index in school.invitations) {
                   if (school.invitations[index].active === false) {

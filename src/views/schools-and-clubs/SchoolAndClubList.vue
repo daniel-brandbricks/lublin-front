@@ -120,6 +120,7 @@
         this.checkNavButton(val)
       },
       isDirector: function (val) {
+        console.log(val)
         this.checkNavButton(val)
 
         if (this.isAdmin === false) {
@@ -147,6 +148,13 @@
           /** @buttonLink route name || false if button must be hidden */
           this.changeAdminNavbarButton({ buttonLink: 'school.or.club', params: { tab: 'main-data' } })
         } else {
+          this.tabLinks = [
+            {
+              title: 'Zatwierdzone',
+              link: 'schools.and.clubs',
+              tab: 'confirmed'
+            }
+          ]
           this.changeAdminNavbarButton({buttonLink: false})
         }
       }

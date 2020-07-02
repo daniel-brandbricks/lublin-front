@@ -132,7 +132,7 @@
       }
 
       let breadcrumbs = [
-        { text: 'Obiekty sportowe (admin)', to: { name: 'admin.sport.objects', params: { 'tab': 'confirmed' } } },
+        { text: 'Obiekty sportowe (wszystkie)', to: { name: 'admin.sport.objects', params: { 'tab': 'confirmed' } } },
         { text: this.id ? this.sportObject.name : 'Nowy', active: true }
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)
@@ -192,7 +192,7 @@
             ]
 
             let breadcrumbs = [
-              { text: 'Obiekty sportowe (admin)', to: { name: 'admin.sport.objects', params: { 'tab': 'confirmed' } } },
+              { text: 'Obiekty sportowe (wszystkie)', to: { name: 'admin.sport.objects', params: { 'tab': 'confirmed' } } },
               { text: this.id ? response.title : 'Nowy', active: true }
             ]
             this.changeAdminNavbarBreadcrumbs(breadcrumbs)

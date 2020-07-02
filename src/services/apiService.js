@@ -42,6 +42,8 @@ export function makeApiCall (uri, method = 'GET', isAuthorized = false, data, pa
       })
     })
       .then((response) => {
+        console.log(uri)
+        console.log(response)
         if (undefined === response) {
           resolve('error')
           return
