@@ -103,18 +103,28 @@
     },
     watch: {
       '$store.getters.schoolsToConfirm': function (val) {
-        this.tabLinks = [
-          {
-            title: 'Zatwierdzone',
-            link: 'schools.and.clubs',
-            tab: 'confirmed'
-          },
-          {
-            title: 'Do zatwierdzenia (' + val.length + ')',
-            link: 'schools.and.clubs',
-            tab: 'to-confirm'
-          }
-        ]
+        if (this.isAdmin) {
+          this.tabLinks = [
+            {
+              title: 'Zatwierdzone',
+              link: 'schools.and.clubs',
+              tab: 'confirmed'
+            },
+            {
+              title: 'Do zatwierdzenia (' + val.length + ')',
+              link: 'schools.and.clubs',
+              tab: 'to-confirm'
+            }
+          ]
+        } else {
+          this.tabLinks = [
+            {
+              title: 'Zatwierdzone',
+              link: 'schools.and.clubs',
+              tab: 'confirmed'
+            }
+          ]
+        }
       },
       isAdmin: function (val) {
         this.checkNavButton(val)
