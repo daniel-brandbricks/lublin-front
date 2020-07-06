@@ -60,31 +60,31 @@
 
       <!--buttons-->
       <b-row class="mt-4" v-if="isAdmin">
-        <b-col lg="3" md="6" sm="12" class="mt-3">
+        <b-col lg="4" md="6" sm="12" class="mt-3">
           <b-btn variant="delete" class="custom"
                  @click="deleteFromForm('deleteAdminSportObject', sportObject.id, undefined, 'admin.sport.objects', {tab: 'confirmed'})">
             <!-- todo Vetal' -->
             Usuń
           </b-btn>
         </b-col>
-        <b-col lg="3" md="6" sm="12" class="mt-3">
+        <b-col lg="4" md="6" sm="12" class="mt-3">
           <b-link block class="custom btn" :to="{ name: 'admin.sport.objects', params: { 'tab': 'confirmed' } }">
             Anuluj
           </b-link>
         </b-col>
-        <b-col lg="3" md="6" sm="12" class="mt-3">
+        <b-col lg="4" md="6" sm="12" class="mt-3">
           <b-btn block class="custom" @click="submit(true)">
             Zapisz
           </b-btn>
         </b-col>
-        <b-col lg="3" md="6" sm="12" class="mt-3" v-if="$store.getters.isAdmin">
-          <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">
-            Odtwierdz
-          </b-btn>
-          <b-btn block v-else variant="primary" class="custom mt-sm-2 mt-lg-0" @click="submitSetConfirm(1, true)">
-            Zatwierdź
-          </b-btn>
-        </b-col>
+<!--        <b-col lg="3" md="6" sm="12" class="mt-3" v-if="$store.getters.isAdmin">-->
+<!--          <b-btn v-if="sportObject.confirmed" block variant="primary" class="custom" @click="submitSetConfirm(0)">-->
+<!--            Odtwierdz-->
+<!--          </b-btn>-->
+<!--          <b-btn block v-else variant="primary" class="custom mt-sm-2 mt-lg-0" @click="submitSetConfirm(1, true)">-->
+<!--            Zatwierdź-->
+<!--          </b-btn>-->
+<!--        </b-col>-->
       </b-row>
       <b-row class="mt-4 justify-content-center" v-if="sportObject && sportObject.id && sportObject.id !== null && isAdmin">
         <b-col lg="3" md="6" sm="12" class="mt-3">

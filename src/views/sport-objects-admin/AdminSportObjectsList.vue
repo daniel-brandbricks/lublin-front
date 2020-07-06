@@ -78,11 +78,11 @@
             link: 'admin.sport.objects',
             tab: 'confirmed'
           },
-          {
-            title: 'Do zatwierdzenia',
-            link: 'admin.sport.objects',
-            tab: 'to-confirm'
-          }
+          // {
+          //   title: 'Do zatwierdzenia',
+          //   link: 'admin.sport.objects',
+          //   tab: 'to-confirm'
+          // }
         ],
 
         // search
@@ -110,11 +110,11 @@
             link: 'admin.sport.objects',
             tab: 'confirmed'
           },
-          {
-            title: 'Do zatwierdzenia (' + this.$store.getters.adminSportObjectsToConfirm.length + ')',
-            link: 'admin.sport.objects',
-            tab: 'to-confirm'
-          }
+          // {
+          //   title: 'Do zatwierdzenia (' + this.$store.getters.adminSportObjectsToConfirm.length + ')',
+          //   link: 'admin.sport.objects',
+          //   tab: 'to-confirm'
+          // }
         ]
         return this.$store.getters.adminSportObjectsToConfirm
       },

@@ -122,14 +122,10 @@ export default {
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('login/', 'post', false, data, null, 200)
           .then(response => {
-            console.log(response)
-            console.log(333)
             if (response === 'error') {
               resolve('error')
               return
             }
-
-            console.log(response)
 
             // context.commit('setAuthToken', response)
             context.commit('setAuthUser', response)
