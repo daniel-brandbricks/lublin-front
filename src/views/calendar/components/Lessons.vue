@@ -191,7 +191,7 @@
         for (let index in leaders) {
           leadersPrepared.push({
             id: leaders[index].id,
-            label: leaders[index].email
+            label: leaders[index].firstName + ' ' + leaders[index].lastName
           })
         }
         return leadersPrepared
