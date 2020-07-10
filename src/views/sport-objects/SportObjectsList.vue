@@ -80,11 +80,11 @@
             link: 'sport.objects',
             tab: 'confirmed'
           },
-          {
-            title: 'Do zatwierdzenia',
-            link: 'sport.objects',
-            tab: 'to-confirm'
-          }
+          // {
+          //   title: 'Do zatwierdzenia',
+          //   link: 'sport.objects',
+          //   tab: 'to-confirm'
+          // }
         ],
 
         // checkboxes
@@ -116,11 +116,11 @@
             link: 'sport.objects',
             tab: 'confirmed'
           },
-          {
-            title: 'Do zatwierdzenia (' + this.$store.getters.sportObjectsToConfirm.length + ')',
-            link: 'sport.objects',
-            tab: 'to-confirm'
-          }
+          // {
+          //   title: 'Do zatwierdzenia (' + this.$store.getters.sportObjectsToConfirm.length + ')',
+          //   link: 'sport.objects',
+          //   tab: 'to-confirm'
+          // }
         ]
         return this.$store.getters.sportObjectsToConfirm
       },

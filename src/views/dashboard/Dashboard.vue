@@ -7,7 +7,7 @@
         <h3 class="mb-4">Do zatwierdzenia</h3>
 
         <!--    Schools And Clubs    -->
-        <h4 v-b-toggle.collapse-schools v-if="$store.getters.isAdmin"><span class="mr-3">^</span>Kłuby i szkoły</h4>
+        <h4 v-b-toggle.collapse-schools v-if="$store.getters.isAdmin"><span class="mr-3">^</span>Kluby i szkoły</h4>
         <b-collapse v-if="$store.getters.isAdmin" visible id="collapse-schools" class="mt-2">
           <b-table
             :items="schoolListFiltered"

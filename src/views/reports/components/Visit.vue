@@ -161,7 +161,7 @@
             Obiekt sportowy: ${dataToShow.placeTitle} <br>
             Czas: ${dataToShow.time.join('-')} <br>
             Adres: ${place.name} <br>
-            Prowadzący: ${dataToShow.leader.email}
+            Prowadzący: ${dataToShow.leader}
           `)
             infowindow.open(map, this)
           })

@@ -283,7 +283,7 @@
       this.changeAdminNavbarButton({ buttonLink: false })
 
       let breadcrumbs = [
-        { text: 'Kłuby i szkoły', to: { name: 'schools.and.clubs', params: { 'tab': 'confirmed' } } },
+        { text: 'Kluby i szkoły', to: { name: 'schools.and.clubs', params: { 'tab': 'confirmed' } } },
         { text: this.id ? parseInt(this.school.type) === 1 ? 'Szkoła' : 'Klub' : 'Nowy', active: true }
       ]
       this.changeAdminNavbarBreadcrumbs(breadcrumbs)

@@ -182,7 +182,7 @@
         <a href="#" class="list-group-item text-center"
            @click.prevent="logout">
           <span class="icon icon-icon_discipline"></span>
-          Wylogui
+          Wyloguj
         </a>
       </footer>
     </div>
