@@ -153,7 +153,6 @@ export default {
       })
     },
     logout (context, data) {
-      console.log('LOGOUT')
       let loginData = false
       if (data && data.login) {
         loginData = JSON.parse(JSON.stringify(data.login))

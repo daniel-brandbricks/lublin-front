@@ -319,7 +319,7 @@ export default {
           })
       })
     },
-    getSportProjects (context, data) {
+    getFrontSportProjects (context, data) {
       console.log(data)
       return new Promise((resolve, reject) => {
         apiService.makeApiCall('front/sport-projects', 'get', true, data, data, 200)

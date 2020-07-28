@@ -91,12 +91,13 @@
           currentPage: this.currentPage,
           perPage: this.perPage
         }
-        this.$store.dispatch('getSportProjects', filters).then(res => {
+        this.$store.dispatch('getFrontSportProjects', filters).then(res => {
         })
       }
     },
     created () {
-      this.$store.dispatch('getSportProjects')
+      this.filterSportProjects()
+      // this.$store.dispatch('getSportProjects')
       this.$store.dispatch('getMenuAndFooter')
     }
   }

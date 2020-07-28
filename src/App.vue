@@ -95,7 +95,7 @@
       if (!['confirm.school'].includes(this.$route.name)) {
         this.$store.dispatch('getCurrentUser')
       }
-      this.$store.dispatch('getCsrfToken')
+      // this.$store.dispatch('getCsrfToken')
     }
   }
 </script>
