@@ -24,15 +24,15 @@
         <b-col cols="12" lg="4" md="5" sm="10" class="">
 
           <!--    radios    -->
-          <h2 class="mb-4">Aktywuj</h2>
-          <b-form-group>
-            <b-form-radio v-model="school.active" :value="element.value" class="d-inline-block mr-3"
-                          :class="{'error-input-custom': veeErrors.has('school.active')}"
-                          name="school.active" :key="'school.active'+index" v-validate="{'required':true}"
-                          v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
-              {{ element.title }}
-            </b-form-radio>
-          </b-form-group>
+<!--          <h2 class="mb-4">Aktywuj</h2>-->
+<!--          <b-form-group>-->
+<!--            <b-form-radio v-model="school.active" :value="element.value" class="d-inline-block mr-3"-->
+<!--                          :class="{'error-input-custom': veeErrors.has('school.active')}"-->
+<!--                          name="school.active" :key="'school.active'+index" v-validate="{'required':true}"-->
+<!--                          v-for="(element,index) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">-->
+<!--              {{ element.title }}-->
+<!--            </b-form-radio>-->
+<!--          </b-form-group>-->
 
           <h2 class="my-4">Dane ogólne</h2>
           <b-form-group>
@@ -201,7 +201,7 @@
         school: {
           id: this.id,
           image: null,
-          active: false,
+          active: true,
           confirmed: false,
           type: 0,
           name: '',
