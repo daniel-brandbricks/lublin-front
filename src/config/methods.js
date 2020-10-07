@@ -51,7 +51,9 @@ export function empty (v) {
 
 export function checkPesel (s) {
   // Sprawdź długość, musi być 11 znaków
-  if (s.length !== 11) return false
+  if (s.length < 7) return false
+  return true
+  // if (s.length !== 11) return false
 
   // Sprawdź, czy wszystkie znaki to cyfry
   // eslint-disable-next-line no-array-constructor

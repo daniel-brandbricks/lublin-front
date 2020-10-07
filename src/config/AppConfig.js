@@ -98,7 +98,7 @@ export const LESSON_REPEAT = [
 
 export const DATEPICKER_PARAMS = {
   lang: {
-    days: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'],
+    days: ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'N'],
     months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
     pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
     placeholder: {
@@ -111,5 +111,5 @@ export const DATEPICKER_PARAMS = {
 
 export const CALENDAR_PARAMS = {
   months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-  weekdays: ['N', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So']
+  weekdays: ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'N'],
 }

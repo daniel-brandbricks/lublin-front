@@ -36,7 +36,7 @@
       </b-form-group>
       <b-form-group class="custom mb-2">
         <b-form-input id="name-1" class="custom m-0"
-                      placeholder="Pesel"
+                      placeholder="Pesel - proszę podać pierwszych 7 cyfr"
                       :class="{'error-input-custom': veeErrors.has('participant.pesel')}"
                       name="participant.pesel" key="participant.pesel" v-validate="{'required':true, 'pesel': true, 'numeric': true}"
                       v-model="participant.pesel"/>
