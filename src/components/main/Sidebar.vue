@@ -98,7 +98,7 @@
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>
-            Lista zajęć ({{sidebarData.lessons}})
+            Lista zajęć - harmonogram ({{sidebarData.lessons}})
           </b-link>
 
           <b-link :to="{name:'calendar', params: {'tab': 'calendar'}}"
