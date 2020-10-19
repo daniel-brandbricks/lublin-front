@@ -135,7 +135,7 @@
           </b-link>
 
           <b-link :to="{name:'reports', params: {'tab': 'reporting'}}"
-                  v-if="$store.getters.isAdmin"
+                  v-if="$store.getters.isAdmin || $store.getters.isDirector"
                   active-class="active"
                   class="list-group-item">
             <span class="icon icon-icon_discipline"></span>

@@ -103,7 +103,7 @@
       </template>
 
       <div slot="default" class="d-flex">
-        <p>{{selectedMail.description}}</p>
+        <p style="white-space: pre-wrap">{{selectedMail.description}}</p>
       </div>
     </b-modal>
   </div>

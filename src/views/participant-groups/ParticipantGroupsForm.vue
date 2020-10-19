@@ -112,6 +112,9 @@
           school: {
             id: null
           },
+          leader: {
+            id: null
+          },
           lessons: []
         },
 
@@ -267,6 +270,7 @@
             console.log(response)
             this.participantGroup = response
             if (response.season === null) this.participantGroup.season = {id: null}
+            if (response.leader === null) this.participantGroup.leader = {id: null}
             this.setDataFromExistedParticipantGroup(response)
 
             this.tabLinks = [

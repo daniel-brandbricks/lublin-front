@@ -14,6 +14,11 @@ import DeclarationAvailability from "@/views/dev/DeclarationAvailability";
 import InformationClause from "@/views/dev/InformationClause";
 import PrivacyPolicy from "@/views/dev/PrivacyPolicy";
 
+const buildRouter = {
+  path: '/dist/home',
+  redirect: '/'
+}
+
 const mainRouter = {
   path: '/',
   redirect: '/home',
@@ -88,4 +93,4 @@ const mainRouter = {
   ]
 }
 
-export default mainRouter
+export { mainRouter, buildRouter }

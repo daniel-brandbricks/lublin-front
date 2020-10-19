@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import store from '@/store'
 
 // modules
-import mainRouter from '@/router/_main'
+import { mainRouter, buildRouter } from '@/router/_main'
 import adminRouter from '@/router/_admin'
 import { login, dev, my, confirmMail, changeMail, resetPassword, confirmSchool } from '@/router/_other'
 import _auth from '@/store/_auth'
@@ -12,6 +12,7 @@ Vue.use(Router)
 
 const routes = [
   mainRouter,
+  buildRouter,
   adminRouter,
   login,
   dev,

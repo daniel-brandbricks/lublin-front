@@ -71,10 +71,10 @@
           class="my-0"
           aria-controls="history-table"
         />
+        <!--        id="frequency-table"-->
         <b-table
-          id="frequency-table"
-          :items="tableData"
           @sort-changed="sortingChanged"
+          :items="tableData"
           :fields="fields"
           :per-page="perPage"
           striped
@@ -83,33 +83,32 @@
           class="custom table-responsive">
 
           <template slot="title" slot-scope="scope">
-            <span v-if="scope.item.lesson">{{scope.item.lesson.title}}</span>
+            <span>{{ scope.item.title }}</span>
           </template>
-          <template slot="day" slot-scope="scope">
-            <span v-if="scope.item.lesson">{{scope.item.lesson.date}}</span>
+          <template slot="date" slot-scope="scope">
+            <span>{{ scope.item.date }}</span>
           </template>
-          <template slot="hour" slot-scope="scope">
-            <span v-if="scope.item.lesson">{{scope.item.lesson.timeRange}}</span>
+          <template slot="timeRange" slot-scope="scope">
+            <span>{{ scope.item.timeRange }}</span>
           </template>
-          <template slot="category" slot-scope="scope">
-            <span v-if="scope.item.lesson">{{scope.item.lesson.lessonCategory.title}}</span>
+          <template slot="lessonCategory" slot-scope="scope">
+            <span v-if="scope.item.lessonCategory">{{ scope.item.lessonCategory.title }}</span>
           </template>
           <template slot="discipline" slot-scope="scope">
-            <span v-if="scope.item.lesson">{{scope.item.lesson.discipline.title}}</span>
+            <span v-if="scope.item.discipline">{{ scope.item.discipline.title }}</span>
           </template>
-          <template slot="list" slot-scope="scope">
-            <span v-if="scope.item.lesson">{{scope.item.lesson.participantGroup.title}}</span>
+          <template slot="participantGroup" slot-scope="scope">
+            <span v-if="scope.item.participantGroup">{{ scope.item.participantGroup.title }}</span>
           </template>
           <template slot="leader" slot-scope="scope">
-            <span
-              v-if="scope.item.lesson">{{scope.item.lesson.leader.firstName}} {{scope.item.lesson.leader.firstName}}</span>
+            <span v-if="scope.item.leader">{{ scope.item.leader.firstName }} {{ scope.item.leader.firstName }}</span>
             <br>
-            <span v-if="scope.item.lesson">{{scope.item.lesson.leader.email}}</span>
+            <span v-if="scope.item.leader">{{ scope.item.leader.email }}</span>
           </template>
           <template slot="frequency" slot-scope="scope">
             <span class="c-pointer" v-if="scope.item"
                   @click="showFrequency(scope.item.frequencyParticipants, scope.item.id)">Szczegóły
-              ({{getFrequencyCount(scope.item.frequencyParticipants)}})</span>
+              ({{ getFrequencyCount(scope.item.frequencyParticipants) }})</span>
           </template>
 
         </b-table>
@@ -133,7 +132,7 @@
           <b-col>
             <ul class="d-block">
               <li>
-                {{val.fullName}}:
+                {{ val.fullName }}:
               </li>
             </ul>
           </b-col>
@@ -174,7 +173,7 @@
     props: ['schoolId', 'lessonId'],
     components: {Treeselect, Lessons, DatePicker},
     mixins: [EventBusEmit, ToastMixin],
-    data() {
+    data () {
       return {
         datepickerParams: DATEPICKER_PARAMS,
 
@@ -203,13 +202,13 @@
         ],
 
         fields: [
-          {key: 'title', label: 'Nazwa', sortable: false},
-          {key: 'day', label: 'Dzień', sortable: false},
-          {key: 'hour', label: 'Godzina', sortable: false},
-          {key: 'category', label: 'Kategoria', sortable: false},
-          {key: 'discipline', label: 'Dyscyplina', sortable: false},
-          {key: 'list', label: 'Lista', sortable: false},
-          {key: 'leader', label: 'Prowadzący', sortable: false},
+          {key: 'title', label: 'Nazwa', sortable: true},
+          {key: 'date', label: 'Dzień', sortable: true},
+          {key: 'timeRange', label: 'Godzina', sortable: true},
+          {key: 'lessonCategory', label: 'Kategoria', sortable: true},
+          {key: 'discipline', label: 'Dyscyplina', sortable: true},
+          {key: 'participantGroup', label: 'Lista', sortable: true},
+          {key: 'leader', label: 'Prowadzący', sortable: true},
           {key: 'frequency', label: 'Obecność', sortable: false}
         ],
 
@@ -274,7 +273,7 @@
       }
     },
     computed: {
-      schoolsAndClubsPrepared() {
+      schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
         let preparedSchools = []
         for (let schoolIndex in data) {
@@ -302,7 +301,7 @@
 
         return activeCount + '/' + totalCount
       },
-      saveFrequency() {
+      saveFrequency () {
         console.log(this.parsedFrequency)
         console.log(this.frequencyId)
 
@@ -311,9 +310,12 @@
             let data = [...this.tableData]
             for (let index in data) {
               if (data[index].id === response.id) {
-                data[index] = response
+                const preparedItem = {...response.lesson}
+                preparedItem.frequencyParticipants = response.frequencyParticipants
+                data[index] = preparedItem
               }
             }
+            console.log(data)
             this.tableData = data
 
             this.showToast('Dane zostały zapisane', 'Uwaga!', 'success')
@@ -331,18 +333,23 @@
         this.parsedFrequency = {}
         this.frequencyId = null
       },
-      showFrequency(val, frequencyId) {
+      showFrequency (val, frequencyId) {
         this.parsedFrequency = JSON.parse(val)
         this.frequencyId = frequencyId
         this.$refs.modalFrequency.show()
       },
-      filterResponse(response, reset) {
-        this.tableData = response.data
+      filterResponse (response, reset) {
+        const data = response.data.map(item => {
+          const preparedItem = {...item.lesson}
+          preparedItem.frequencyParticipants = item.frequencyParticipants
+          return preparedItem
+        })
+        this.tableData = /* response. */ data
         this.totalRows = response.totalCount
 
         if (reset) this.currentPage = 1
       },
-      filter(currentPage = 1, reset = false) {
+      filter (currentPage = 1, reset = false) {
         let filters = {
           selectedYearFrom: this.selectedYearFrom,
           selectedYearTo: this.selectedYearTo,
@@ -355,11 +362,11 @@
             this.filterResponse(response, reset)
           })
       },
-      sortingChanged(ctx) {
+      sortingChanged (ctx) {
         console.log(ctx)
       }
     },
-    created() {
+    created () {
       this.$store.dispatch('getSchools', {})
 
       if (this.schoolId) {

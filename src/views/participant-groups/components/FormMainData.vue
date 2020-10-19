@@ -43,6 +43,16 @@
       </b-form-group>
       <b-form-group  class="custom mb-2">
         <treeselect class="custom m-0"
+                    v-if="participantGroup.leader"
+                    v-model="participantGroup.leader.id"
+                    :multiple="false"
+                    :disabled="participantGroup.id && participantGroup.leader.id !== null"
+                    placeholder="Prowadzący" :options="leadersTreeselectBySchool([participantGroup.school.id])"
+                    :class="{'error-input-custom': veeErrors.has('participantGroup.leader')}"
+                    name="participantGroup.leader" key="participantGroup.leader" v-validate="{'required':true}"/>
+      </b-form-group>
+      <b-form-group  class="custom mb-2">
+        <treeselect class="custom m-0"
                     v-if="participantGroup.discipline"
                     v-model="participantGroup.discipline.id"
                     :multiple="false"
@@ -140,6 +150,9 @@
           classes: [],
           school: {
             id: null
+          },
+          leader: {
+            id: null
           }
         },
 
@@ -147,6 +160,27 @@
       }
     },
     computed: {
+      leadersTreeselectBySchool () {
+        return schoolIds => {
+          if (schoolIds === null || undefined === schoolIds) return []
+          let leaders = this.$store.getters.leadersConfirmed
+          console.log(leaders)
+          let prepared = []
+          for (let index in leaders) {
+            let exist = false
+            for (let schoolIndex in leaders[index].schoolsUsers) {
+              if (schoolIds.includes(leaders[index].schoolsUsers[schoolIndex].school.id)) {
+                exist = true
+              }
+            }
+
+            if (exist) {
+              prepared.push({id: leaders[index].id, label: leaders[index].firstName + ' ' + leaders[index].lastName})
+            }
+          }
+          return prepared
+        }
+      },
       disciplines () {
         return this.$store.getters.disciplines
       },
@@ -213,6 +247,7 @@
       // /** @buttonLink route name || false if button must be hidden */
       // this.changeAdminNavbarButton({eventBusMethod: false})
 
+      this.$store.dispatch('getLeaders', { confirmed: 1 })
       this.$store.dispatch('getSeasons')
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getParticipantGroups')

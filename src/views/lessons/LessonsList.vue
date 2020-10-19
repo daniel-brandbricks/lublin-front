@@ -151,6 +151,7 @@
         totalRows: 0,
 
         fields: [
+          {key: 'date', label: 'Data', sortable: true},
           {key: 'school', label: 'Szkoła / Klub', sortable: true},
           {key: 'title', label: 'Nazwa zajęcia', sortable: true},
           {key: 'disciplines', label: 'Dyscyplina', sortable: false},

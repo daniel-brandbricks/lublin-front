@@ -5,7 +5,8 @@ import {API_EXCEL_GEN_URL, API_PDF_GEN_URL} from '@/config/AppConfig'
 export default {
   state: {
     isLoading: false,
-    errorCached: false
+    errorCached: false,
+    errorCachedGenDoc: false
   },
   getters: {
     isLoading (state) {
@@ -13,6 +14,9 @@ export default {
     },
     errorCached (state) {
       return state.errorCached
+    },
+    errorCachedGenDoc (state) {
+      return state.errorCachedGenDoc
     }
   },
   mutations: {
@@ -21,6 +25,9 @@ export default {
     },
     errorCached (state, data) {
       state.errorCached = !state.errorCached
+    },
+    errorCachedGenDoc (state, data) {
+      state.errorCachedGenDoc = !state.errorCachedGenDoc
     }
   },
   actions: {
@@ -47,6 +54,9 @@ export default {
             context.commit('isLoading', false)
           }
           )
+        }).catch(err => {
+          context.commit('isLoading', false)
+          context.commit('errorCachedGenDoc', false)
         })
       }
       // download('http://lublin.bbapp.pl/api/pdf-generate/?filters=' + dataJSON, `${fileName}.pdf`)
@@ -65,6 +75,11 @@ export default {
         withCredentials: true,
         responseType: 'blob'
       }).then(response => {
+        if (undefined === response) {
+          context.commit('isLoading', false)
+          context.commit('errorCachedGenDoc', false)
+        }
+
         console.log(response)
         let blob = new Blob([response.data], {
           type: 'application/vnd.ms-excel'

@@ -70,11 +70,24 @@
     computed: {
       errorCached () {
         return this.$store.getters.errorCached
+      },
+      errorCachedGenDoc () {
+        return this.$store.getters.errorCachedGenDoc
       }
     },
     watch: {
       errorCached: function (val) {
         this.$bvToast.toast('Wystąpil błąd lub nie masz uprawnień dla wygenerowania raportów lub ilość wyników równa się 0', {
+          title: 'Uwaga!',
+          toaster: 'b-toaster-bottom-right',
+          solid: true,
+          variant: 'danger',
+          appendToast: false,
+          autoHideDelay: 20000
+        })
+      },
+      errorCachedGenDoc: function (val) {
+        this.$bvToast.toast('Wystąpil błąd spróbuj jeszcze raz lub odśwież stronę lub zmień parametry (inna data, mniej wyników...)', {
           title: 'Uwaga!',
           toaster: 'b-toaster-bottom-right',
           solid: true,
