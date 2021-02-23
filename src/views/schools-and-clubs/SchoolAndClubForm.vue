@@ -27,6 +27,9 @@
       <FormParticipants :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormCompetitors"
                        :key="$route.params.tab+'FormCompetitors'" v-if="$route.params.tab === 'competitors'"/>
 
+      <FormSchoolParticipants :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormSchoolCompetitors"
+                       :key="$route.params.tab+'FormSchoolCompetitors'" v-if="$route.params.tab === 'school-competitors'"/>
+
 <!--      &lt;!&ndash;   Component for todo Entity   &ndash;&gt;-->
 <!--      <FormEvents :school="school" :isValidForm="isValidForm" @childSubmit="submit" ref="FormActivities"-->
 <!--                      :key="$route.params.tab+'FormEvents'" v-if="$route.params.tab === 'events'"/>-->
@@ -65,6 +68,7 @@
   import FormLeaders from '@/views/schools-and-clubs/components/FormLeaders'
   import FormParticipantGroups from '@/views/schools-and-clubs/components/FormParticipantGroups'
   import FormParticipants from '@/views/schools-and-clubs/components/FormParticipants'
+  import FormSchoolParticipants from '@/views/schools-and-clubs/components/FormSchoolParticipants'
   import FormCalendar from '@/views/schools-and-clubs/components/FormCalendar'
   import FormFrequency from '@/views/schools-and-clubs/components/FormFrequency'
   import FormMTSF from '@/views/schools-and-clubs/components/FormMTSF'
@@ -86,6 +90,7 @@
       FormParticipants,
       FormCalendar,
       FormFrequency,
+      FormSchoolParticipants,
       FormMTSF
     },
     mixins: [ EventBusEmit, FormMixin, ToastMixin ],
@@ -245,10 +250,15 @@
                 link: 'school.or.club',
                 tab: 'participant-groups'
               },
+              // {
+              //   title: 'Zawodnicy',
+              //   link: 'school.or.club',
+              //   tab: 'competitors'
+              // },
               {
                 title: 'Zawodnicy',
                 link: 'school.or.club',
-                tab: 'competitors'
+                tab: 'school-competitors'
               },
               {
                 title: 'Zajęcia',

@@ -71,7 +71,7 @@
       }
     },
     created () {
-      this.$store.dispatch('getSchools', { confirmed: 1 })
+      this.$store.dispatch('getSchools', { confirmed: 1, forMe: true })
     }
   }
 </script>

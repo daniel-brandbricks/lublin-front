@@ -1,99 +1,98 @@
 <template>
   <div class="container">
     <b-row class="justify-content-center">
+<!--      <b-col cols="12">-->
+<!--        <h4>Zakres</h4>-->
+
+<!--        <b-row class="">-->
+<!--          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">-->
+<!--            <b-row class="my-2">-->
+<!--              <b-col cols="5">-->
+<!--                <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"-->
+<!--                             :class="{'error-input-custom': veeErrors.has('history.from')}"-->
+<!--                             :name="'history.from'" :key="'history.from'"-->
+<!--                             id="inputDatapicFrom" placeholder="" class="w-100 custom mb-3">-->
+<!--                </date-picker>-->
+<!--              </b-col>-->
+<!--              <b-col cols="2">-->
+<!--                <hr class="mt-4">-->
+<!--              </b-col>-->
+<!--              <b-col cols="5">-->
+<!--                <date-picker v-model="selectedYearTo" :lang="datepickerParams.lang"-->
+<!--                             :class="{'error-input-custom': veeErrors.has('history.to')}"-->
+<!--                             :name="'history.to'" :key="'history.to'"-->
+<!--                             id="inputDatapicTo" placeholder="" class="w-100 custom mb-3">-->
+<!--                </date-picker>-->
+<!--              </b-col>-->
+<!--            </b-row>-->
+<!--          </b-col>-->
+<!--          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="my-2">-->
+<!--            <treeselect class="custom"-->
+<!--                        v-model="selectedAction"-->
+<!--                        :multiple="false"-->
+<!--                        placeholder="Rodzaj akcji"-->
+<!--                        :options="actions"/>-->
+<!--          </b-col>-->
+<!--        </b-row>-->
+
+<!--        &lt;!&ndash;        <b-form-group class="custom checkbox-big-span mb-3">&ndash;&gt;-->
+<!--        &lt;!&ndash;          <b-form-checkbox-group&ndash;&gt;-->
+<!--        &lt;!&ndash;            id="checkbox-group-1"&ndash;&gt;-->
+<!--        &lt;!&ndash;            v-model="showLessons"&ndash;&gt;-->
+<!--        &lt;!&ndash;            :options="[{text: 'Zajęcia', value: 1}]"&ndash;&gt;-->
+<!--        &lt;!&ndash;            :unchecked-value="false"&ndash;&gt;-->
+<!--        &lt;!&ndash;            value="false"&ndash;&gt;-->
+<!--        &lt;!&ndash;            name="flavour-1"&ndash;&gt;-->
+<!--        &lt;!&ndash;          />&ndash;&gt;-->
+<!--        &lt;!&ndash;        </b-form-group>&ndash;&gt;-->
+
+<!--        <b-row class="align-items-center mb-2">-->
+<!--          <b-col>-->
+<!--            <b-form-group class="custom">-->
+<!--              <b-form-checkbox-group-->
+<!--                id="checkbox-group-type"-->
+<!--                v-model="selectedType"-->
+<!--                :options="typeOptions"-->
+<!--                name="checkbox-group-type"-->
+<!--              ></b-form-checkbox-group>-->
+<!--            </b-form-group>-->
+<!--          </b-col>-->
+<!--          <b-col>-->
+<!--            <treeselect v-model="lessons.schoolsAndClubs"-->
+<!--                        :multiple="true"-->
+<!--                        :searchable="false"-->
+<!--                        placeholder="Kto wprowadził zmianę"-->
+<!--                        :options="schoolsAndClubsPrepared"-->
+<!--                        :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"-->
+<!--                        name="sportObject.schools" key="sportObject.schools"-->
+<!--                        class="custom"/>-->
+<!--          </b-col>-->
+<!--        </b-row>-->
+
+<!--        &lt;!&ndash;        <lessons v-show="showLessons.length > 0" :lessons="lessons"/>&ndash;&gt;-->
+
+<!--        &lt;!&ndash;        <b-form-group class="custom checkbox-big-span my-3">&ndash;&gt;-->
+<!--        &lt;!&ndash;          <b-form-checkbox-group&ndash;&gt;-->
+<!--        &lt;!&ndash;            id="checkbox-group-show-events"&ndash;&gt;-->
+<!--        &lt;!&ndash;            v-model="showEvents"&ndash;&gt;-->
+<!--        &lt;!&ndash;            :options="[{text: 'Imprezy sportowe', value: 1}]"&ndash;&gt;-->
+<!--        &lt;!&ndash;            :unchecked-value="false"&ndash;&gt;-->
+<!--        &lt;!&ndash;            value="false"&ndash;&gt;-->
+<!--        &lt;!&ndash;            name="checkbox-group-show-events"&ndash;&gt;-->
+<!--        &lt;!&ndash;          />&ndash;&gt;-->
+<!--        &lt;!&ndash;        </b-form-group>&ndash;&gt;-->
+
+<!--        &lt;!&ndash;        <events v-show="showEvents.length > 0" :events="events"/>&ndash;&gt;-->
+<!--      </b-col>-->
+
+<!--      <b-col cols="12">-->
+<!--        <b-row class="justify-content-end">-->
+<!--          <b-btn variant="primary" class="mr-3" @click="filter(1, true)">Filtruj</b-btn>-->
+<!--        </b-row>-->
+<!--      </b-col>-->
+
       <b-col cols="12">
-        <h4>Zakres</h4>
-
-        <b-row class="">
-          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
-            <b-row class="my-2">
-              <b-col cols="5">
-                <date-picker v-model="selectedYearFrom" :lang="datepickerParams.lang"
-                             :class="{'error-input-custom': veeErrors.has('history.from')}"
-                             :name="'history.from'" :key="'history.from'"
-                             id="inputDatapicFrom" placeholder="" class="w-100 custom mb-3">
-                </date-picker>
-              </b-col>
-              <b-col cols="2">
-                <hr class="mt-4">
-              </b-col>
-              <b-col cols="5">
-                <date-picker v-model="selectedYearTo" :lang="datepickerParams.lang"
-                             :class="{'error-input-custom': veeErrors.has('history.to')}"
-                             :name="'history.to'" :key="'history.to'"
-                             id="inputDatapicTo" placeholder="" class="w-100 custom mb-3">
-                </date-picker>
-              </b-col>
-            </b-row>
-          </b-col>
-          <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="my-2">
-            <treeselect class="custom"
-                        v-model="selectedAction"
-                        :multiple="false"
-                        placeholder="Rodzaj akcji"
-                        :options="actions"/>
-          </b-col>
-        </b-row>
-
-
-        <!--        <b-form-group class="custom checkbox-big-span mb-3">-->
-        <!--          <b-form-checkbox-group-->
-        <!--            id="checkbox-group-1"-->
-        <!--            v-model="showLessons"-->
-        <!--            :options="[{text: 'Zajęcia', value: 1}]"-->
-        <!--            :unchecked-value="false"-->
-        <!--            value="false"-->
-        <!--            name="flavour-1"-->
-        <!--          />-->
-        <!--        </b-form-group>-->
-
-        <b-row class="align-items-center mb-2">
-          <b-col>
-            <b-form-group class="custom">
-              <b-form-checkbox-group
-                id="checkbox-group-type"
-                v-model="selectedType"
-                :options="typeOptions"
-                name="checkbox-group-type"
-              ></b-form-checkbox-group>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <treeselect v-model="lessons.schoolsAndClubs"
-                        :multiple="true"
-                        :searchable="false"
-                        placeholder="Kto wprowadził zmianę"
-                        :options="schoolsAndClubsPrepared"
-                        :class="{'error-input-custom': veeErrors.has('sportObject.schools')}"
-                        name="sportObject.schools" key="sportObject.schools"
-                        class="custom"/>
-          </b-col>
-        </b-row>
-
-        <!--        <lessons v-show="showLessons.length > 0" :lessons="lessons"/>-->
-
-        <!--        <b-form-group class="custom checkbox-big-span my-3">-->
-        <!--          <b-form-checkbox-group-->
-        <!--            id="checkbox-group-show-events"-->
-        <!--            v-model="showEvents"-->
-        <!--            :options="[{text: 'Imprezy sportowe', value: 1}]"-->
-        <!--            :unchecked-value="false"-->
-        <!--            value="false"-->
-        <!--            name="checkbox-group-show-events"-->
-        <!--          />-->
-        <!--        </b-form-group>-->
-
-        <!--        <events v-show="showEvents.length > 0" :events="events"/>-->
-      </b-col>
-
-      <b-col cols="12">
-        <b-row class="justify-content-end">
-          <b-btn variant="primary" class="mr-3" @click="filter(1, true)">Filtruj</b-btn>
-        </b-row>
-      </b-col>
-
-      <b-col cols="12">
-        <h4>Wyniki</h4>
+<!--        <h4>Wyniki</h4>-->
         <b-pagination
           v-model="currentPage"
           :total-rows="totalRows"
@@ -124,8 +123,8 @@
               <template slot="method" slot-scope="scope">
                 <span v-if="scope.item">{{getMethodName(scope.item.method)}}</span>
               </template>
-              <template slot="school" slot-scope="scope">
-                <span v-if="scope.item.school">{{scope.item.school.name}}</span>
+              <template slot="type" slot-scope="scope">
+                <span v-if="scope.item.type">{{scope.item.type}}</span>
               </template>
               <template slot="changes" slot-scope="scope">
                 <span v-show="scope.item.method !== 'DELETE'" class="c-pointer"
@@ -152,9 +151,14 @@
 
       <div slot="default" class="d-flex">
         <b-row>
-          <ul class="d-block">
+          <ul v-if="typeof parsedChanges === 'object'" class="d-block">
             <li :key="index" v-for="(val, changesName, index) in parsedChanges">
               {{changesName}}: {{val}}
+            </li>
+          </ul>
+          <ul v-else>
+            <li>
+              {{parsedChanges}}
             </li>
           </ul>
         </b-row>
@@ -164,12 +168,12 @@
 </template>
 
 <script>
-  // node_modules
+// node_modules
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import EventBusEmit from '@/mixins/event-bus-emit'
 
-  import {DISTRICTS, DATEPICKER_PARAMS} from '@/config/AppConfig'
+  import {DATEPICKER_PARAMS, DISTRICTS} from '@/config/AppConfig'
 
   import Lessons from '@/views/calendar/components/Lessons'
   import Events from '@/components/common-views/Events'
@@ -179,8 +183,9 @@
   export default {
     components: {Treeselect, Lessons, Events, Calendar, DatePicker},
     mixins: [EventBusEmit],
-    data() {
+    data () {
       return {
+        id: this.$route.params.id,
         datepickerParams: DATEPICKER_PARAMS,
 
         parsedChanges: {},
@@ -296,9 +301,7 @@
         historyFields: [
           {key: 'createdLog', label: 'Kiedy', sortable: true},
           {key: 'user', label: 'Kto', sortable: true},
-          {key: 'method', label: 'Rodzaj akcji', sortable: true},
-          {key: 'object', label: 'Gdzie', sortable: true},
-          {key: 'school', label: 'szkoła / klub', sortable: true},
+          {key: 'type', label: 'Typ', sortable: true},
           {key: 'changes', label: 'Zmiana', sortable: true},
           {key: 'id', label: 'id', sortable: true}
         ],
@@ -310,7 +313,7 @@
       }
     },
     computed: {
-      schoolsAndClubsPrepared() {
+      schoolsAndClubsPrepared () {
         let data = this.$store.getters.schools
         let preparedSchools = []
         for (let schoolIndex in data) {
@@ -330,23 +333,34 @@
       }
     },
     methods: {
-      sortingChanged(ctx) {
+      sortingChanged (ctx) {
         console.log(ctx)
       },
-      hideModal() {
+      hideModal () {
         this.$refs.modalChanges.hide()
       },
-      showChanges(val) {
-        this.parsedChanges = JSON.parse(val)
+      showChanges (val) {
+        console.log(val)
+        if (val && val.dyscypliny && Array.isArray(val.dyscypliny)) {
+          val.dyscypliny = val.dyscypliny.join(', ')
+        }
+        if (val && val['nowe szkoły/kluby'] && Array.isArray(val['nowe szkoły/kluby'])) {
+          val['nowe szkoły/kluby'] = val['nowe szkoły/kluby'].join(', ')
+        }
+        if (val && val['szkoły/kluby'] && Array.isArray(val['szkoły/kluby'])) {
+          val['szkoły/kluby'] = val['szkoły/kluby'].join(', ')
+        }
+
+        this.parsedChanges = val
         this.$refs.modalChanges.show()
       },
-      getMethodName(name) {
+      getMethodName (name) {
         let namePrepared = this.actionsBE.find(x => {
           return x.val === name
         })
         return undefined === namePrepared ? '' : namePrepared.label
       },
-      filter(currentPage = 1, reset = false) {
+      filter (currentPage = 1, reset = false) {
         let filters = {
           selectedYearFrom: this.selectedYearFrom,
           selectedYearTo: this.selectedYearTo,
@@ -359,24 +373,47 @@
             this.filterResponse(response, reset)
           })
       },
-      filterResponse(response, reset) {
-        console.log(response.data)
-        this.historyData = response.data
+      IsJsonString (str) {
+        try {
+          JSON.parse(str)
+        } catch (e) {
+          return false
+        }
+        return true
+      },
+      filterResponse (response, reset) {
+        this.historyData = response.map(el => {
+          if (this.IsJsonString(el.changes)) {
+            let changes = JSON.parse(el.changes)
+            Object.keys(changes).forEach(key => {
+              if (['dyscypliny', 'szkoły/kluby', 'nowe szkoły/kluby'].includes(key) &&
+                changes[key].includes('||')) {
+                  changes[key] = changes[key].split('||').filter(String)
+                }
+            })
+            el.changes = changes
+          }
+          return el
+        })
         this.totalRows = response.totalCount
 
         if (reset) this.currentPage = 1
       }
     },
-    created() {
-      this.$store.dispatch('getSchools', {})
-      this.$store.dispatch('getLogs', {currentPage: this.currentPage, perPage: this.perPage})
+    created () {
+      this.$store.dispatch('getParticipantHistory', {
+        id: this.id,
+        currentPage: this.currentPage,
+        perPage: this.perPage,
+        type: 'history'
+      })
         .then(response => {
           this.filterResponse(response)
         })
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
-      this.changeAdminNavbarBreadcrumbs([{text: 'Logi', active: true}])
+      // this.changeAdminNavbarBreadcrumbs([{text: 'Logi', active: true}])
     }
   }
 </script>

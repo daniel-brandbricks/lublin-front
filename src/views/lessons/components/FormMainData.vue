@@ -305,7 +305,7 @@
     props: ['lesson'],
     components: {Treeselect, DatePicker},
     mixins: [EventBusEmit, FormMixin, LessonMixin],
-    data() {
+    data () {
       return {
         orgType: 0,
         lessonRepeat: LESSON_REPEAT,
@@ -323,11 +323,11 @@
     },
     computed: {
       ...mapGetters(['schools', 'disciplines', 'participantGroups', 'sportObjectsConfirmed',
-        'leadersConfirmed', 'classes', 'lessonCategories']),
-      authUser() {
+                     'leadersConfirmed', 'classes', 'lessonCategories']),
+      authUser () {
         return this.$store.getters.authUser
       },
-      sportObjectsTreeselect() {
+      sportObjectsTreeselect () {
         return schoolId => {
           let sportObjects = this.sportObjectsConfirmed
           let prepared = []
@@ -339,7 +339,7 @@
           return prepared
         }
       },
-      participantGroupsTreeselect() {
+      participantGroupsTreeselect () {
         return schoolId => {
           let participantGroups = this.participantGroups
           let prepared = []
@@ -351,7 +351,7 @@
           return prepared
         }
       },
-      leadersTreeselect() {
+      leadersTreeselect () {
         return schoolId => {
           let leadersConfirmed = this.leadersConfirmed
           let prepared = []
@@ -360,7 +360,7 @@
             if (!Array.isArray(leadersConfirmed[index].schoolsUsers) ||
               undefined === leadersConfirmed[index].schoolsUsers.find(x => {
                 return parseInt(x.school.id) === schoolId
-              })) {
+            })) {
               continue
             }
             prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
@@ -368,7 +368,7 @@
           return prepared
         }
       },
-      leadersReplaceTreeselect() {
+      leadersReplaceTreeselect () {
         return schoolId => {
           let leadersConfirmed = this.leadersConfirmed
           let prepared = []
@@ -377,13 +377,13 @@
             if (!Array.isArray(leadersConfirmed[index].schoolsUsers) ||
               undefined === leadersConfirmed[index].schoolsUsers.find(x => {
                 return parseInt(x.school.id) === schoolId
-              })) {
+            })) {
               continue
             }
             if ((this.lesson.leader.id && this.lesson.leader.id === leadersConfirmed[index].id) ||
               undefined !== this.lesson.replacementLeaders.find(x => {
                 return x.leader.id === leadersConfirmed[index].id
-              })) {
+            })) {
               prepared.push({
                 id: leadersConfirmed[index].id,
                 label: leadersConfirmed[index].firstName,
@@ -398,17 +398,17 @@
       }
     },
     methods: {
-      getRepetitionDate(repetition) {
+      getRepetitionDate (repetition) {
         let selectedDate = new Date(this.lesson.date)
         let newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + (7 * repetition))
         return newDate.getFullYear() + '-' +
           ((newDate.getMonth() + 1) < 10 ? ('0' + (newDate.getMonth() + 1)) : (newDate.getMonth() + 1)) +
           '-' + ((newDate.getDate()) < 10 ? ('0' + (newDate.getDate())) : (newDate.getDate()))
       },
-      removeReplacedLeader(index) {
+      removeReplacedLeader (index) {
         this.lesson.replacementLeaders.splice(index, 1)
       },
-      addReplacedLeader() {
+      addReplacedLeader () {
         this.lesson.replacementLeaders.push({
           lesson: {
             id: this.id
@@ -419,7 +419,7 @@
           }
         })
       },
-      submit(tabToRedirect) {
+      submit (tabToRedirect) {
         if (this.authUser.role === 1 && !this.$store.getters.isDirector) {
           this.lesson.leader.id = this.authUser.id
         }
@@ -429,27 +429,29 @@
             this.$parent.submit()
           })
       },
-      activateLesson() {
+      activateLesson () {
         this.lesson.active = true
         this.submit()
       },
-      goToFormTab(tabName) {
+      goToFormTab (tabName) {
         this.$parent.goToFormTab(tabName)
       },
-      checkValidTabForm() {
+      checkValidTabForm () {
         return this.$validator.validateScopes()
       }
     },
-    mounted() {
+    mounted () {
       if (this.$route.params.validateForm) {
         this.checkValidForm()
       }
     },
-    created() {
+    created () {
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})
 
-      this.$store.dispatch('getSchools')
+      const filters = {}
+      if (!this.$store.getters.isAdmin) filters['forMe'] = true
+      this.$store.dispatch('getSchools', filters)
       this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
       this.$store.dispatch('getSportObjects', {confirmed: 1})
       this.$store.dispatch('getDisciplines')

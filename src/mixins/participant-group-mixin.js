@@ -57,6 +57,16 @@ export default {
 
       return preparedClasses
     },
+    participantGroupLeader () {
+      let data = this.$store.getters.leadersConfirmed
+      let leaders = []
+
+      for (let leaderIndex in data) {
+        leaders.push({ id: data[leaderIndex].id, label: data[leaderIndex].email})
+      }
+
+      return leaders
+    },
     //  todo
     participantGroupFiltered () {
       if (!this.filters) this.filters = {}

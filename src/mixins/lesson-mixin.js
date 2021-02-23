@@ -32,6 +32,17 @@ export default {
 
       return preparedLeaders
     },
+    lessonLeaderEmail () {
+      let data = this.$store.getters.leadersConfirmed
+      let preparedLeaders = []
+
+      for (let leaderIndex in data) {
+        let fullName = data[leaderIndex].email
+        preparedLeaders.push({id: data[leaderIndex].id, label: fullName})
+      }
+
+      return preparedLeaders
+    },
     lessonDiscipline () {
       let data = this.$store.getters.disciplines || []
       let preparedDisciplines = []

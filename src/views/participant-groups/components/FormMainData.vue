@@ -197,7 +197,7 @@
     watch: {
       'participantGroup.school.id': function (schoolId) {
         if (undefined === schoolId || schoolId === null) return
-        this.$store.dispatch('getParticipants', {schools: schoolId})
+        this.$store.dispatch('getParticipants', {filters: {schoolId: schoolId}})
         this.$parent.clearParticipants(schoolId)
       }
     },

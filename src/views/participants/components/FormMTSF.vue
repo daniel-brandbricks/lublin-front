@@ -293,14 +293,16 @@
 
         console.log(this.searchText)
         for (let index in mtsfList) {
-          let string = ' ' +
-            (mtsfList[index].participant.firstName ? (mtsfList[index].participant.firstName.toLowerCase() + ' ') : '') +
-            (mtsfList[index].participant.lastName ? (mtsfList[index].participant.lastName.toLowerCase() + ' ') : '') +
-            (mtsfList[index].participant.enterDate ? (mtsfList[index].participant.enterDate.toLowerCase() + ' ') : '') +
-            (mtsfList[index].participant.removeDate ? (mtsfList[index].participant.removeDate.toLowerCase() + ' ') : '') +
-            (mtsfList[index].finalDate ? (mtsfList[index].finalDate.toLowerCase() + ' ') : '')
+          if (mtsfList[index] && mtsfList[index].participant) {
+            let string = ' ' +
+              (mtsfList[index].participant.firstName ? (mtsfList[index].participant.firstName.toLowerCase() + ' ') : '') +
+              (mtsfList[index].participant.lastName ? (mtsfList[index].participant.lastName.toLowerCase() + ' ') : '') +
+              (mtsfList[index].participant.enterDate ? (mtsfList[index].participant.enterDate.toLowerCase() + ' ') : '') +
+              (mtsfList[index].participant.removeDate ? (mtsfList[index].participant.removeDate.toLowerCase() + ' ') : '') +
+              (mtsfList[index].finalDate ? (mtsfList[index].finalDate.toLowerCase() + ' ') : '')
 
-          if (this.searchText.length > 0 && string.indexOf(this.searchText.toLowerCase()) === -1) continue
+            if (this.searchText.length > 0 && string.indexOf(this.searchText.toLowerCase()) === -1) continue
+          }
 
           if (this.selectedSeasons && this.selectedSeasons.length > 0 &&
             !this.selectedSeasons.includes(mtsfList[index].season.id)) continue
@@ -322,6 +324,7 @@
       },
       seasonsForFormTreeselect () {
         let data = this.$store.getters.seasons
+        if (data.length < 1) return []
         let preparedSeasons = []
         let participantMtsfs = this.participantMtsfs || []
 

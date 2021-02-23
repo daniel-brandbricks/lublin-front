@@ -110,7 +110,7 @@
   export default {
     components: {Treeselect, MTSFValuesList, TabLinks},
     mixins: [EventBusEmit],
-    data() {
+    data () {
       return {
         currentPage: 1,
         perPage: 20,
@@ -150,10 +150,10 @@
       }
     },
     computed: {
-      isLoading() {
+      isLoading () {
         return this.$store.getters.isLoading
       },
-      seasonsTreeselect() {
+      seasonsTreeselect () {
         let data = this.$store.getters.seasons
         let preparedSeasons = []
 
@@ -163,7 +163,7 @@
 
         return preparedSeasons
       },
-      leadersTreeselect() {
+      leadersTreeselect () {
         let leadersPrepared = []
         for (let index in this.$store.getters.leadersConfirmed) {
           leadersPrepared.push({
@@ -211,21 +211,22 @@
       }
     },
     methods: {
-      filterMtsfList(currentPage = 1, reset = false) {
+      filterMtsfList (currentPage = 1, reset = false) {
         let filters = {
           searchText: this.searchText,
           selectedLeaders: this.selectedLeaders,
           selectedSeasons: this.selectedSeasons
         }
         this.$store.dispatch('getMtsfList',
-          {filters: filters, currentPage: currentPage, perPage: this.perPage})
+                             {filters: filters, currentPage: currentPage, perPage: this.perPage})
           .then(response => {
+            console.log(response.data)
             this.totalRows = response.totalCount
             this.listItems = response.data
             if (reset) this.currentPage = 1
           })
       },
-      changeAdminNavbarButtonWithParams() {
+      changeAdminNavbarButtonWithParams () {
         this.changeAdminNavbarButton({
           buttonLink: false,
           generateExcel: this.generateExcel,
@@ -242,7 +243,7 @@
         })
       }
     },
-    created() {
+    created () {
       if (this.$route.params.tab === undefined) {
         this.$router.push({name: 'mtsf', params: {'tab': 'participants'}})
       }

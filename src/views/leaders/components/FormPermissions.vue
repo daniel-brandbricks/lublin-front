@@ -5,7 +5,7 @@
            v-for="(schoolPermission,index) in permissions" :key="index">
         <div class="col-2" v-if="checkAccess(schoolPermission)">
           <div class="text-center _custom-css">
-            <p class="m-auto">{{isAdmin ? index + 1 : 1}}</p>
+            <p class="m-auto">{{ isAdmin ? index + 1 : 1 }}</p>
           </div>
           <template v-if="permissions.length > 0">
             <!--            {{permissions[index].id}}-->
@@ -34,28 +34,28 @@
           <!--                      v-validate="{'required':true}" placeholder="Obiekt"-->
           <!--                      :options="sportObjectsTreeselect(permissions[index].schoolUser.school.id)"/>-->
 
-<!--          <h5 class="my-4">Status</h5>-->
-<!--          <b-form-group>-->
-<!--            <b-form-radio v-model="permissions[index].status" :value="element.value"-->
-<!--                          class="d-inline-block mr-3"-->
-<!--                          :class="{'error-input-custom': veeErrors.has('participant.active'+radioIndex+'_'+index)}"-->
-<!--                          :name="'participant.active'+radioIndex+'_'+index"-->
-<!--                          :key="'participant.active'+radioIndex+'_'+index"-->
-<!--                          v-validate="{'required':true}"-->
-<!--                          v-for="(element,radioIndex) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">-->
-<!--              {{ element.title }}-->
-<!--            </b-form-radio>-->
-<!--          </b-form-group>-->
+          <!--          <h5 class="my-4">Status</h5>-->
+          <!--          <b-form-group>-->
+          <!--            <b-form-radio v-model="permissions[index].status" :value="element.value"-->
+          <!--                          class="d-inline-block mr-3"-->
+          <!--                          :class="{'error-input-custom': veeErrors.has('participant.active'+radioIndex+'_'+index)}"-->
+          <!--                          :name="'participant.active'+radioIndex+'_'+index"-->
+          <!--                          :key="'participant.active'+radioIndex+'_'+index"-->
+          <!--                          v-validate="{'required':true}"-->
+          <!--                          v-for="(element,radioIndex) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">-->
+          <!--              {{ element.title }}-->
+          <!--            </b-form-radio>-->
+          <!--          </b-form-group>-->
 
           <h5 class="mt-4">Uprawnienia</h5>
           <b-btn class="my-2" variant="primary" @click="checkAllPermissions(index)">Wszystkie uprawnienia</b-btn>
-<!--          <b-btn variant="primary" @click="setAllPermissions(index)" class="mb-4">Zaznacz wszystko</b-btn>-->
-<!--          {{permissions[index]}}-->
+          <!--          <b-btn variant="primary" @click="setAllPermissions(index)" class="mb-4">Zaznacz wszystko</b-btn>-->
+          <!--          {{permissions[index]}}-->
           <div class="row" v-if="permissions[index].permissions"
                v-for="(permission,permissionIndex) in permissions[index].permissions" :key="index+'_'+permissionIndex">
             <div class="col-2">
               <div class="text-center">
-                <p class="m-auto">{{permissionIndex + 1}}</p>
+                <p class="m-auto">{{ permissionIndex + 1 }}</p>
               </div>
               <p class="_text-delete-left" v-if="permissions[index].permissions.length > 0"
                  @click="$store.dispatch('deletePermissionRow', {parentId: permissions[index].id, index: permissionIndex})">
@@ -63,7 +63,8 @@
             </div>
             <div class="col-10">
               <!--              {{permissions[index].permissions[permissionIndex]}}-->
-              <treeselect class="custom mb-3 permission-treeselect" v-if="permissions[index].permissions[permissionIndex]"
+              <treeselect class="custom mb-3 permission-treeselect"
+                          v-if="permissions[index].permissions[permissionIndex]"
                           v-model="permissions[index].permissions[permissionIndex].id"
                           :multiple="false"
                           :class="{'error-input-custom': veeErrors.has('permissions.permissions'+index+'_'+permissionIndex)}"
@@ -86,7 +87,7 @@
           <div class="row my-2">
             <div class="col-2">
               <div class="text-center">
-                <p class="m-auto">{{permissions[index].permissions.length + 1}}</p>
+                <p class="m-auto">{{ permissions[index].permissions.length + 1 }}</p>
               </div>
             </div>
             <div class="col-10">
@@ -101,7 +102,7 @@
       <div class="row mt-4" v-if="checkAccessToAdd(permissions)">
         <div class="col-2">
           <div class="text-center _custom-css" v-if="isAdmin">
-            <p class="m-auto">{{permissions.length + 1}}</p>
+            <p class="m-auto">{{ permissions.length + 1 }}</p>
           </div>
         </div>
         <div class="col-10">
@@ -136,7 +137,7 @@
 </template>
 
 <script>
-  // node_modules
+// node_modules
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import FormMixin from '@/mixins/form-mixin'
@@ -169,7 +170,13 @@
         get () {
           console.log('get computed permissions')
           this.checkUniqSchools(this.$store.getters.permissions)
-          return this.$store.getters.permissions
+          let permissions = this.$store.getters.permissions
+          if (permissions && permissions.length > 0) {
+            permissions[0].permissions = this.$store.getters.permissions[0].permissions.filter(el => {
+              return el.id !== 8
+            })
+          }
+          return permissions
         },
         set (value) {
           console.log(value)
@@ -215,9 +222,12 @@
       checkAllPermissions (index) {
         console.log(index)
         console.log(this.permissions)
-        this.permissions[index].permissions = [{ 'id': 3, 'selected': [ '2', '3' ] }, { 'id': 4, 'selected': [ '2', '3' ] }, { 'id': 5, 'selected': [] }, { 'id': 8, 'selected': [] }, { 'id': 9, 'selected': [] }]
-        // { "id": 3, "selected": [ "2", "3" ] }, { "id": 4, "selected": [ "2", "3" ] }, { "id": 5, "selected": [] }, { "id": 8, "selected": [] }, { "id": 9, "selected": [] }
-        // this.permissions[index] = { 'id': 3, 'selected': [ '2', '3' ] }, { 'id': 4, 'selected': [ '2', '3' ] }, { 'id': 5, 'selected': [] }, { 'id': 8, 'selected': [] }, { 'id': 9, 'selected': [] }
+        this.permissions[index].permissions = [{'id': 3, 'selected': ['2', '3']}, {
+          'id': 4,
+          'selected': ['2', '3']
+        }, {'id': 5, 'selected': []}, {'id': 9, 'selected': []}]
+      // { "id": 3, "selected": [ "2", "3" ] }, { "id": 4, "selected": [ "2", "3" ] }, { "id": 5, "selected": [] }, { "id": 8, "selected": [] }, { "id": 9, "selected": [] }
+      // this.permissions[index] = { 'id': 3, 'selected': [ '2', '3' ] }, { 'id': 4, 'selected': [ '2', '3' ] }, { 'id': 5, 'selected': [] }, { 'id': 8, 'selected': [] }, { 'id': 9, 'selected': [] }
       },
       setAllPermissions (index) {
         // this.permissions[index] = {
@@ -243,7 +253,9 @@
         if (this.isDirector) {
           let user = this.$store.getters.authUser
           if (undefined === user || user === null || user === false ||
-            user.schoolsUsers.length < 1) return false
+            user.schoolsUsers.length < 1) {
+              return false
+            }
 
           if (permissions && permissions.length < 1) return true
 
@@ -265,7 +277,9 @@
           let user = this.$store.getters.authUser
           console.log(user)
           if (undefined === user || user === null || user === false ||
-            user.schoolsUsers.length < 1) return false
+            user.schoolsUsers.length < 1) {
+              return false
+            }
 
           let hasAccess = user.schoolsUsers.find(x => {
             // eslint-disable-next-line no-unused-expressions
@@ -388,17 +402,17 @@
 </script>
 
 <style scoped>
-  ._custom-css {
-    border-radius: 50%;
-    box-sizing: border-box;
-    height: 36px;
-    width: 36px;
-    border: 2px solid #D8D8D8;
-  }
+._custom-css {
+  border-radius: 50%;
+  box-sizing: border-box;
+  height: 36px;
+  width: 36px;
+  border: 2px solid #D8D8D8;
+}
 
-  ._text-delete-left {
-    position: absolute;
-    left: -25px;
-    top: 0;
-  }
+._text-delete-left {
+  position: absolute;
+  left: -25px;
+  top: 0;
+}
 </style>

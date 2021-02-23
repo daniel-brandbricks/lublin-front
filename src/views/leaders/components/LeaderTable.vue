@@ -1,6 +1,5 @@
 <template>
   <b-row class="justify-content-center">
-    {{fieldsParams}}
     <b-col class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
       <b-table
         ref="leader-table"

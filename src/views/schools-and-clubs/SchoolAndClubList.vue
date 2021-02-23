@@ -170,7 +170,9 @@
       }
     },
     created () {
-      this.$store.dispatch('getSchools', {})
+      const filters = {}
+      if (!this.$store.getters.isAdmin) filters['forMe'] = true
+      this.$store.dispatch('getSchools', filters)
         .then(response => {
           if (this.$store.getters.isDirector && !this.$store.getters.isAdmin) this.$router.push({name: 'school.or.club', params: {'tab': 'main-data', 'id': response[0].id}})
         })

@@ -51,14 +51,26 @@
                     class="custom"
         />
       </b-form-group>
+<!--      <b-form-group class="custom mb-2">-->
+<!--        <treeselect v-model="participant.school.id"-->
+<!--                    :disabled="participant.id && participant.school.id !== null"-->
+<!--                    :multiple="false"-->
+<!--                    placeholder="Szkoła / Klub"-->
+<!--                    :options="schoolsTreeselect"-->
+<!--                    :class="{'error-input-custom': veeErrors.has('participant.school')}"-->
+<!--                    name="participant.school" key="participant.school" v-validate="{'required':true}"-->
+<!--                    class="custom mb-2"-->
+<!--        />-->
+<!--      </b-form-group>-->
+
       <b-form-group class="custom mb-2">
-        <treeselect v-model="participant.school.id"
-                    :disabled="participant.id && participant.school.id !== null"
-                    :multiple="false"
-                    placeholder="Szkoła / Klub"
+        <!--                    :disabled="participant.id && participant.school.id !== null"-->
+        <treeselect v-model="participant.schools"
+                    :multiple="true"
+                    placeholder="Dodaj Szkoły / Kluby"
                     :options="schoolsTreeselect"
-                    :class="{'error-input-custom': veeErrors.has('participant.school')}"
-                    name="participant.school" key="participant.school" v-validate="{'required':true}"
+                    :class="{'error-input-custom': veeErrors.has('participant.schools')}"
+                    name="participant.schools" key="participant.schools" v-validate="{'required':true}"
                     class="custom mb-2"
         />
       </b-form-group>
@@ -162,7 +174,7 @@
 
   export default {
     name: 'FormMainData',
-    props: [ 'participant', 'years', 'participantYearsSelected'],
+    props: ['participant', 'years', 'participantYearsSelected'],
     components: { Treeselect },
     mixins: [ EventBusEmit, FormMixin, ParticipantMixin ],
     data () {
@@ -269,5 +281,3 @@
      border: 2px solid #D8D8D8;
    }
 </style>
-
-

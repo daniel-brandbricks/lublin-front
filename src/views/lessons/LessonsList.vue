@@ -50,6 +50,13 @@
                         placeholder="Klasa"
                         :options="lessonClass"/>
           </b-col>
+          <b-col xl="4" lg="4" md="12" sm="12" class="mb-2">
+            <treeselect class="custom"
+                        v-model="selectedLeaders"
+                        :multiple="true"
+                        placeholder="Prowadzący"
+                        :options="lessonLeaderEmail"/>
+          </b-col>
         </b-row>
       </b-col>
 
@@ -106,8 +113,9 @@
           <!--            <span>{{scope.item.leaders}}</span>-->
           <!--          </template>-->
 
-          <template slot="leaders" slot-scope="scope">
+          <template slot="leader" slot-scope="scope">
             <span v-if="scope.item && scope.item.leader">
+<!--              {{scope.item.leader.id}}-->
               {{ buildUserNames(leaderById(scope.item.leader.id)) }}
             </span>
           </template>
@@ -157,7 +165,7 @@
           {key: 'disciplines', label: 'Dyscyplina', sortable: false},
           {key: 'lessonCategories', label: 'Kategoria', sortable: false},
           {key: 'classes', label: 'Klasa', sortable: false},
-          {key: 'leaders', label: 'Prowadzący', sortable: false},
+          {key: 'leader', label: 'Prowadzący', sortable: true},
           {key: 'status', label: 'Status w systemie', sortable: false},
           {key: 'edit', label: ''}
         ],
@@ -170,7 +178,8 @@
         search: '',
         selectedDisciplines: [],
         selectedLessonCategories: [],
-        selectedClasses: []
+        selectedClasses: [],
+        selectedLeaders: []
       }
     },
     computed: {
@@ -219,6 +228,7 @@
             selectedDiscipline: this.selectedDisciplines || [],
             selectedCategory: this.selectedLessonCategories || [],
             selectedClass: this.selectedClasses || [],
+            selectedLeader: this.selectedLeaders || [],
             selectedLesson: this.search || '',
           }
         }

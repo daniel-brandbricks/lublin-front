@@ -34,6 +34,21 @@ export const DISTRICTS = [
 ]
 
 export const YEARS = [
+  { id: 1945, label: 1945 },
+  { id: 1946, label: 1946 },
+  { id: 1947, label: 1947 },
+  { id: 1948, label: 1948 },
+  { id: 1949, label: 1949 },
+  { id: 1950, label: 1950 },
+  { id: 1951, label: 1951 },
+  { id: 1952, label: 1952 },
+  { id: 1953, label: 1953 },
+  { id: 1954, label: 1954 },
+  { id: 1955, label: 1955 },
+  { id: 1956, label: 1956 },
+  { id: 1957, label: 1957 },
+  { id: 1958, label: 1958 },
+  { id: 1959, label: 1959 },
   { id: 1960, label: 1960 },
   { id: 1961, label: 1961 },
   { id: 1962, label: 1962 },
@@ -105,7 +120,7 @@ export const PERMISSIONS = [
   // { id: 6, label: 'Ustanawia/modyfikuje zastępstwo/odwołuje zajęcia (zmiany dotyczą również obiektu, terminu zajęć)' },
   // { id: 7, label: 'Usuwa pojedyncze i seryjnie zajęcia' },
   // todo
-  { id: 8, label: 'Wprowadza wyniki MTSF-u' },
+  // { id: 8, label: 'Wprowadza wyniki MTSF-u' },
   { id: 9, label: 'Archiwizuje listy zawodników z możliwością przeniesienia i edycji listy na kolejny rok/sezon' }
 ]
 

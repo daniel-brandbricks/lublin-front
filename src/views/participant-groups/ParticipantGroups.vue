@@ -60,6 +60,12 @@
                         placeholder="Klasa" :options="participantGroupClass"
             />
           </b-col>
+          <b-col xl="6" lg="6" md="12" sm="12" class="mb-2">
+            <treeselect v-model="selectedLeaders" v-if="selectedLeaders"
+                        :multiple="true" class="custom"
+                        placeholder="Prowadzący" :options="participantGroupLeader"
+            />
+          </b-col>
         </b-row>
       </b-col>
 
@@ -90,6 +96,9 @@
           @row-clicked="rowRedirect"
         >
 
+          <template slot="leader" slot-scope="scope">
+            <span>{{getLeaderFullName(scope.item.leader)}}</span>
+          </template>
           <template slot="discipline" slot-scope="scope">
             <span>{{getDisciplineTitleById(scope.item.discipline.id)}}</span>
           </template>
@@ -142,6 +151,7 @@
 
         fields: [
           {key: 'title', label: 'Nazwa listy', sortable: true},
+          {key: 'leader', label: 'Utworzona przez', sortable: true},
           {key: 'discipline', label: 'Dyscyplina', sortable: true},
           {key: 'sex', label: 'Płeć', sortable: true},
           {key: 'lessonCategory', label: 'Kategoria', sortable: true},
@@ -162,6 +172,7 @@
         selectedDisciplines: [],
         selectedLessonCategories: [],
         selectedClasses: [],
+        selectedLeaders: [],
         selectedSchools: []
       }
     },
@@ -247,6 +258,7 @@
           disciplines: this.selectedDisciplines || [],
           lessonCategories: this.selectedLessonCategories || [],
           classes: this.selectedClasses || [],
+          leaders: this.selectedLeaders || [],
           selectedSchools: this.selectedSchools || []
         }
 
@@ -289,6 +301,10 @@
         })
         return undefined === school ? '' : school.name
       },
+      getLeaderFullName(leader) {
+        if (undefined === leader || null === leader) return 'Bez prowadzącego'
+        return leader.firstName + ' ' + leader.lastName
+      },
       getSex(value) {
         if (!Array.isArray(value)) return ''
         let string = ''
@@ -327,6 +343,7 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
+      this.$store.dispatch('getLeaders', {confirmed: 1})
       this.$store.dispatch('getSchools', {})
 
       /** @buttonLink route name || false if button must be hidden */

@@ -76,6 +76,17 @@
               > <span class="to-confirm">{{sidebarData.leadersToConfirm}}</span>
             </span>
           </b-link>
+          <b-link :to="{name:'school.or.club', params: {'tab': 'leaders', 'id': $store.getters.authUser.schoolsUsers[0].school.id} }"
+                  v-if="!$store.getters.isAdmin && $store.getters.isDirector"
+                  :class="{'active': 'leader' === $route.name}"
+                  active-class="active"
+                  class="list-group-item">
+            <span class="icon icon-icon_www"></span>
+            Prowadzący ({{sidebarData.leaders}})
+            <span v-if="sidebarData.leadersToConfirm">
+              > <span class="to-confirm">{{sidebarData.leadersToConfirm}}</span>
+            </span>
+          </b-link>
 
           <b-link :to="{name:'participant.groups'}"
                   :class="{'active': 'participant.group' === $route.name}"

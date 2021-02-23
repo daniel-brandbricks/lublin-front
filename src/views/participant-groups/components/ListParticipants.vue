@@ -100,7 +100,7 @@
       }
     },
     created () {
-      this.$store.dispatch('getParticipantsBySchool', {schools: this.participantGroup.school.id})
+      this.$store.dispatch('getParticipantsBySchool', {filters: {schoolId: this.participantGroup.school.id}})
 
       EventBus.$on('OPEN_PARTICIPANT_LIST_MODAL', (params) => {
         this.openParticipantListModal()

@@ -4,11 +4,15 @@ export default {
   state: {
     participants: [],
     participantsBySchoolId: [],
-    participant: null
+    participant: null,
+    participantHistory: []
   },
   getters: {
     participants (state) {
       return state.participants
+    },
+    participantHistory (state) {
+      return state.participantHistory
     },
     participantsBySchoolId (state) {
       return state.participantsBySchoolId
@@ -40,6 +44,9 @@ export default {
     },
     setParticipants (state, data) {
       state.participants = data
+    },
+    setParticipantHistory (state, data) {
+      state.participantHistory = data
     },
     setParticipant (state, data) {
       const id = data.id
@@ -78,6 +85,25 @@ export default {
             }
 
             context.commit('setParticipant', response)
+            resolve(response)
+          })
+          .catch(error => {
+            console.log(error.response)
+            reject(error.response)
+          })
+      })
+    },
+    getParticipantHistory (context, data) {
+      const id = data.id
+      return new Promise((resolve, reject) => {
+        apiService.makeApiCall('resource/participant/' + id, 'get', true, data, data, 200)
+          .then(response => {
+            if (response === 'error') {
+              resolve('error')
+              return
+            }
+
+            context.commit('setParticipantHistory', response)
             resolve(response)
           })
           .catch(error => {

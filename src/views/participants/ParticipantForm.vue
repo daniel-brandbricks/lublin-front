@@ -8,6 +8,9 @@
 
     <FormMainData :participant="participant" @childSubmit="submit" ref="FormMainData" :years="years"
                   :key="$route.params.tab+'FormMainData'" v-show="$route.params.tab === 'main-data'"/>
+    <FormSchools :participant="participant" ref="FormSchools"
+                           :key="$route.params.tab+'FormSchools'"
+                           v-if="$route.params.tab === 'schools'"/>
     <FormParticipantGroups :participant="participant" ref="ParticipantList"
                            :key="$route.params.tab+'ParticipantList'"
                            v-if="$route.params.tab === 'participants-list'"/>
@@ -17,6 +20,8 @@
                   :key="$route.params.tab+'FormCalendar'" v-if="participant.id && $route.params.tab === 'calendar'"/>
     <FormMTSF :participant="participant" @childSubmit="submit" ref="FormMTSF"
                   :key="$route.params.tab+'FormMTSF'" v-if="participant.id && $route.params.tab === 'mtsf'"/>
+    <FormHistory :participant="participant" ref="FormHistory"
+                  :key="$route.params.tab+'FormHistory'" v-if="participant.id && $route.params.tab === 'history'"/>
 
     <b-modal ref="loadingModal" centered hide-header hide-header-close
              hide-footer size="lg">
@@ -33,6 +38,8 @@
   import FormLessons from '@/views/participants/components/FormLessons'
   import FormMTSF from '@/views/participants/components/FormMTSF'
   import FormCalendar from '@/views/participants/components/FormCalendar'
+  import FormSchools from '@/views/participants/components/FormSchools'
+  import FormHistory from '@/views/participants/components/FormHistory'
 
   import FormMainData from '@/views/participants/components/FormMainData'
   import {YEARS} from '../../config/AppConfig'
@@ -45,6 +52,8 @@
       FormParticipantGroups,
       FormLessons,
       FormCalendar,
+      FormSchools,
+      FormHistory,
       FormMTSF
     },
     mixins: [EventBusEmit, FormMixin],
@@ -69,6 +78,7 @@
           school: {
             id: null
           },
+          schoolsParticipants: [],
           // category: {
           //   id: null
           // },
@@ -189,6 +199,11 @@
                 tab: 'main-data'
               },
               {
+                title: 'Szkoły i kluby',
+                link: 'participant',
+                tab: 'schools'
+              },
+              {
                 title: 'Lista Zawodników',
                 link: 'participant',
                 tab: 'participants-list'
@@ -212,6 +227,11 @@
                 title: 'MTSF',
                 link: 'participant',
                 tab: 'mtsf'
+              },
+              {
+                title: 'Historia',
+                link: 'participant',
+                tab: 'history'
               }
             ]
 

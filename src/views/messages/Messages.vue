@@ -42,7 +42,7 @@
           </b-col>
           <b-col sm="12" lg="4" class="mb-2">
             <b-btn block variant="primary" class="custom" @click="selectAll(1)">
-              Wszystkie prowadzące
+              Wszyscy prowadzący
             </b-btn>
           </b-col>
           <b-col sm="12" lg="4" class="mb-2">

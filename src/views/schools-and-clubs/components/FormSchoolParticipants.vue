@@ -39,16 +39,6 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col>
-            <b-form-group class="custom d-inline-block">
-              <b-form-checkbox-group
-                :id="'checkbox-my-participants'"
-                v-model="showMyParticipants"
-                :options="myParticipantOptions"
-                :name="'checkbox-my-participants'"
-              />
-            </b-form-group>
-          </b-col>
         </b-row>
       </b-col>
       <!--   Table   -->
@@ -90,8 +80,28 @@
             <span>{{ scope.item.enterDate }}</span>
           </template>
 
-          <template slot="status" slot-scope="scope">
+          <template slot="schoolstatus" slot-scope="scope">
+            <template>
+              <b-dropdown class="status-dropdown">
+                <template v-slot:button-content>
+                <span class="status c-pointer"
+                    :class="{'active': !!getParticipantSchoolStatus(scope.item.schoolsParticipants)}">
+                  {{ !!getParticipantSchoolStatus(scope.item.schoolsParticipants) ? 'aktywny' : 'nieaktywny' }}
+                </span>
+                </template>
+                <b-dropdown-item :disabled="getParticipantSchoolStatus(scope.item.schoolsParticipants) == 1"
+                                 @click="changeParticipantStatusSchool(scope.item.id, 1)">
+                  Aktywuj
+                </b-dropdown-item>
+                <b-dropdown-item :disabled="getParticipantSchoolStatus(scope.item.schoolsParticipants) == 0"
+                                 @click="changeParticipantStatusSchool(scope.item.id, 0)">
+                  Dezaktywuj
+                </b-dropdown-item>
+              </b-dropdown>
+            </template>
+          </template>
 
+          <template slot="status" slot-scope="scope">
             <b-dropdown class="status-dropdown">
               <template v-if="undefined === statusSlot" v-slot:button-content>
                 <span class="status c-pointer"
@@ -141,7 +151,6 @@
   import ToastMixin from '@/mixins/toast-mixin'
   import EventBusEmit from '@/mixins/event-bus-emit'
   import ParticipantMixin from '@/mixins/participant-mixin'
-  import EventBus from '@/event-bus'
 
   export default {
     components: {Treeselect},
@@ -149,6 +158,7 @@
     mixins: [EventBusEmit, ParticipantMixin, ToastMixin],
     data () {
       return {
+        id: this.$route.params.id,
         currentPage: 1,
         perPage: 20,
         totalRows: 0,
@@ -161,6 +171,7 @@
           {key: 'enterDate', label: 'Data wpisu', sortable: true},
           {key: 'removeDate', label: 'Data wypisania', sortable: true},
           // {key: 'class', label: 'Klasa', sortable: true},
+          {key: 'schoolstatus', label: 'Status w szkołe/klubu', sortable: true},
           {key: 'status', label: this.statusSlot ? this.statusSlot.columnWord : 'Status w systemie', sortable: true},
           {key: 'edit', label: ''}
         ],
@@ -169,10 +180,6 @@
         genderOptions: [
           {text: 'kobieta', value: 0},
           {text: 'mężczyzna', value: 1}
-        ],
-        showMyParticipants: ['1'],
-        myParticipantOptions: [
-          {text: 'pokaż zawodników przypisanych do moich szkoł i klubów', value: 1}
         ],
 
         yearValue: null,
@@ -186,43 +193,13 @@
         return this.$store.getters.classes
       },
       participantList () {
-        // return this.$store.getters.participants
         let participants = this.$store.getters.participants
-        console.log(participants)
         let filteredParticipants = []
-        // let search = this.search || ''
-        // let selectedGender = this.selectedGender || []
-        // let yearValue = this.yearValue || []
-        // let classes = this.selectedClasses || []
 
         for (let index in participants) {
           if (undefined === participants[index] || participants[index] === null) {
             continue
           }
-
-          // let firstName = participants[index].firstName || ''
-          // let lastName = participants[index].lastName || ''
-          // let fullName = firstName.toLowerCase() + lastName.toLowerCase()
-          //
-          // if (search.length > 0 && fullName.indexOf(search.toLowerCase()) === -1) continue
-          // if (selectedGender.length > 0 && !selectedGender.includes(participants[index].sex)) continue
-          // if (yearValue.length > 0 && !yearValue.includes(parseInt(participants[index].year))) continue
-          // if (classes.length > 0 && !classes.includes(parseInt(participants[index].class))) continue
-          //
-          // // for school & leader & lesson component
-          // if ((this.lesson && this.lesson.participantGroup && this.lesson.participantGroup.id)) {
-          //   if (participants[index].participantGroups.length < 1) continue
-          //   let lessonExists = participants[index].participantGroups.find(x => {
-          //     return x.participantGroup.id === this.lesson.participantGroup.id
-          //   })
-          //   if (undefined === lessonExists) continue
-          // }
-          // if ((this.school && this.school.id)) {
-          //   if (this.school.id !== participants[index].school.id) continue
-          // }
-          // if ((this.schoolIds && this.schoolIds.length > 0)) {
-          //   if (!this.schoolIds.includes(participants[index].school.id)) continue
-          // }
 
           if (this.statusSlot) {
             let ids = Object.keys(this.statusSlot.ids)
@@ -236,8 +213,6 @@
           }
         }
 
-        console.log(filteredParticipants)
-
         return filteredParticipants
       }
     },
@@ -247,27 +222,35 @@
       }
     },
     methods: {
+      changeParticipantStatusSchool (participantId, status) {
+        this.$store.dispatch('putParticipant', {
+          id: participantId,
+          schoolId: this.id,
+          status: status,
+          actionType: 'changeSchoolStatus'
+        })
+      },
       filter (currentPage = 1, reset = false) {
         let filters = {
           search: this.search || '',
           selectedGender: this.selectedGender || [],
-          showMyParticipants: this.showMyParticipants || [],
-          yearValue: this.yearValue || []
+          yearValue: this.yearValue || [],
+          schoolId: this.id
         }
 
         if ((this.lesson && this.lesson.participantGroup && this.lesson.participantGroup.id)) {
           filters.participantGroupId = this.lesson.participantGroup.id
         }
-        if (this.school && this.school.id) {
-          filters.schoolId = this.school.id
-        }
-        if (this.schoolIds && this.schoolIds.length > 0) {
-          filters.schoolIds = this.schoolIds
-        }
+        // if (this.school && this.school.id) {
+        //   // filters.schoolId = this.school.id
+        //   filters.schoolId = this.id
+        // }
+        // if (this.schoolIds && this.schoolIds.length > 0) {
+        //   filters.schoolIds = this.schoolIds
+        // }
         if (this.statusSlot && this.statusSlot.ids) {
           filters.participantIds = Object.keys(this.statusSlot.ids)
         }
-
         this.$store.dispatch('getParticipants', {
           filters: filters, currentPage: currentPage, perPage: this.perPage
         })
@@ -282,9 +265,6 @@
         if (reset) this.currentPage = 1
       },
       changeParticipantStatus (id, status) {
-        console.log(this.statusSlot)
-        console.log(status)
-
         if (undefined === this.statusSlot) {
           this.$store.dispatch('putParticipant', {
             id: id,
@@ -313,6 +293,15 @@
           name: 'participant',
           params: {'tab': 'main-data', 'id': row.id}
         })
+      },
+      getParticipantSchoolStatus (schoolsParticipants) {
+        if (schoolsParticipants && schoolsParticipants.length > 0) {
+          let element = schoolsParticipants.find(e => {
+            return Number(e.school.id) === Number(this.id)
+          })
+          return element.status
+        }
+        return false
       }
     },
     created () {
