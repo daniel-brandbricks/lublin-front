@@ -235,11 +235,11 @@
         this.changeAdminNavbarButtonWithParams()
       },
       selectedType: function (val) {
-        if (val === 'Zajęcia') {
-          this.generateExcel = true
-        } else {
-          this.generateExcel = false
-        }
+        // if (val === 'Zajęcia') {
+        //   this.generateExcel = true
+        // } else {
+        //   this.generateExcel = false
+        // }
         this.changeAdminNavbarButtonWithParams()
       },
       lessons: {

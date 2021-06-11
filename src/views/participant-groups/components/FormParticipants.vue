@@ -163,7 +163,7 @@ console.log(data)
         if (validRequired) {
           this.preSubmit()
             .then((result) => {
-              if (!result) {
+              if (!result) {Zastępstwa
                 this.loading = false
                 return
               }
@@ -177,7 +177,7 @@ console.log(data)
       }
     },
     created () {
-      this.$store.dispatch('getParticipants', {schools: this.participantGroup.school.id})
+      this.$store.dispatch('getParticipants', {filters: {schoolId: this.participantGroup.school.id}})
     }
   }
 </script>

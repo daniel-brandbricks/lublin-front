@@ -496,7 +496,7 @@
 
       this.$store.dispatch('getMtsfList', {participantGroupId: this.id})
       this.$store.dispatch('getSeasons')
-      this.$store.dispatch('getParticipants', {schools: this.participantGroup.school.id})
+      this.$store.dispatch('getParticipants', {filters: {schoolId: this.participantGroup.school.id}})
     }
   }
 </script>

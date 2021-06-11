@@ -69,8 +69,7 @@
                     :multiple="true"
                     placeholder="Dodaj Szkoły / Kluby"
                     :options="schoolsTreeselect"
-                    :class="{'error-input-custom': veeErrors.has('participant.schools')}"
-                    name="participant.schools" key="participant.schools" v-validate="{'required':true}"
+                    name="participant.schools" key="participant.schools"
                     class="custom mb-2"
         />
       </b-form-group>
@@ -148,10 +147,18 @@
 <!--      </div>-->
 
       <!--buttons-->
+
       <b-row class="mt-4">
         <b-col>
           <b-btn block class="custom btn" :to="{ name: 'participants' }">
             Anuluj
+          </b-btn>
+        </b-col>
+        <b-col v-if="$store.getters.isAdmin || $store.getters.isDirector">
+          <b-btn variant="delete" class="custom"
+                 @click="deleteFromForm('deleteParticipant', participant.id, undefined, 'participants', {}, {}, true)">
+            <!-- todo Vetal' -->
+            Usuń
           </b-btn>
         </b-col>
         <b-col>

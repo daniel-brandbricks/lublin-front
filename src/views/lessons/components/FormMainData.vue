@@ -1,5 +1,36 @@
 <template>
   <b-row class="justify-content-center" v-if="lesson">
+    <!--  cykliczne usuwanie  -->
+<!--    <b-modal ref="cycleRemove"-->
+<!--             modal-class="custom"-->
+<!--             centered size="md"-->
+<!--             :hide-footer="true"-->
+<!--             footer-class="justify-content-between"-->
+<!--             title-tag="h2"-->
+<!--             header-class="pr-4 pb-0"-->
+<!--             no-close-on-backdrop>-->
+
+<!--      <template slot="modal-title">-->
+<!--        Czy napewno chcesz usunąć?-->
+<!--      </template>-->
+
+<!--      <div slot="default" class="my-3 d-flex justify-content-between">-->
+<!--        <b-btn class="custom mx-2" variant="secondary"-->
+<!--               @click.prevent="hideCycleRemoveModal">-->
+<!--          anuluj-->
+<!--        </b-btn>-->
+<!--        <b-btn v-if="remove" style="color: white" class="custom px-4 mx-2" variant="danger"-->
+<!--               @click.prevent="submitCycleRemove(true)">-->
+<!--          dezaktywuj-->
+<!--        </b-btn>-->
+<!--        <b-btn class="custom px-4" style="color: white" :class="remove ? 'mx-2' : ''" variant="danger"-->
+<!--               @click.prevent="submitCycleRemove(false)">-->
+<!--          usuń-->
+<!--        </b-btn>-->
+<!--      </div>-->
+<!--    </b-modal>-->
+    <!--  cykliczne usuwanie  -->
+
     <b-col cols="12" xl="6" lg="6" md="12" sm="12" class="mb-2">
       <!--     todo breadcrumbs -->
       <!--            <h5>Aktywuj</h5>-->
@@ -77,7 +108,8 @@
                     :class="{'error-input-custom': veeErrors.has('lesson.school')}"
                     name="lesson.school" key="lesson.school" v-validate="{'required':true}"/>
       </b-form-group>
-      <b-form-group class="custom mb-2" v-if="lesson.leader && !(authUser && authUser.role === 1 && !$store.getters.isDirector)">
+      <b-form-group class="custom mb-2"
+                    v-if="lesson.leader && !(authUser && authUser.role === 1 && !$store.getters.isDirector)">
         <treeselect class="custom m-0"
                     v-model="lesson.leader.id"
                     :disabled="lesson.leader.id !== null && lesson.id !== undefined"
@@ -159,7 +191,7 @@
         powtórzeń</h6>
       <b-collapse visible id="collapse-repetitions" class="mt-2">
         <div :key="index" v-for="(item,index) in lesson.repetition">
-          {{item}}. {{getRepetitionDate(item)}}
+          {{ item }}. {{ getRepetitionDate(item) }}
         </div>
       </b-collapse>
 
@@ -230,7 +262,8 @@
           <b-form-group>
             <b-form-radio v-model="lesson.replacementLeaders[index].active" :value="element.value"
                           class="d-inline-block mr-3"
-                          :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"                          :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
+                          :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"
+                          :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.active'+index)}"
                           :name="'lesson.replacementLeaders.active'+index"
                           v-validate="{'required':true}"
                           v-for="(element,index2) in [{title: 'Tak', value: true}, {title: 'Nie', value: false}]">
@@ -242,7 +275,8 @@
             <treeselect class="custom"
                         v-model="lesson.replacementLeaders[index].leader.id"
                         :multiple="false"
-                        :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"                        placeholder="Prowadzący" :options="leadersReplaceTreeselect(lesson.school.id)"
+                        :disabled="!!(authUser.id !== lesson.leader.id && lesson.id) && !$store.getters.isDirector"
+                        placeholder="Prowadzący" :options="leadersReplaceTreeselect(lesson.school.id)"
                         :class="{'error-input-custom': veeErrors.has('lesson.replacementLeaders.leaders'+index)}"
                         :name="'lesson.replacementLeaders.leaders'+index"
                         :key="'lesson.replacementLeaders.leaders'+index" v-validate="{'required':true}"/>
@@ -263,7 +297,7 @@
       <b-row class="mt-4">
         <b-col>
           <b-btn variant="delete" class="custom" v-if="lesson.active == 1"
-                 @click="deleteFromForm('deleteLesson', lesson.id, undefined, 'lessons', {})">
+                 @click="deleteFromForm('deleteLesson', lesson.id, undefined, 'lessons', {}, {}, true)">
             <!-- todo Vetal' -->
             Usuń
           </b-btn>
@@ -271,6 +305,14 @@
                  @click="activateLesson">
             <!-- todo Vetal' -->
             Przywróć
+          </b-btn>
+
+        </b-col>
+        <b-col v-if="lesson.active == 1">
+          <b-btn variant="delete" class="custom"
+                 @click="deleteFromForm('deleteLesson', lesson.id, undefined, 'lessons', {}, {cycle: true})">
+            <!-- todo Vetal' -->
+            Usuń czykliczne
           </b-btn>
         </b-col>
         <b-col>
@@ -363,7 +405,7 @@
             })) {
               continue
             }
-            prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
+            prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName + ' ' + leadersConfirmed[index].lastName})
           }
           return prepared
         }
@@ -386,11 +428,11 @@
             })) {
               prepared.push({
                 id: leadersConfirmed[index].id,
-                label: leadersConfirmed[index].firstName,
+                label: leadersConfirmed[index].firstName + ' ' + leadersConfirmed[index].lastName,
                 isDisabled: true
               })
             } else {
-              prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName})
+              prepared.push({id: leadersConfirmed[index].id, label: leadersConfirmed[index].firstName + ' ' + leadersConfirmed[index].lastName})
             }
           }
           return prepared
@@ -398,6 +440,15 @@
       }
     },
     methods: {
+      // submitCycleRemove () {
+      //   console.log(111)
+      // },
+      // showCycleRemoveModal () {
+      //   this.$refs.cycleRemove.show()
+      // },
+      // hideCycleRemoveModal () {
+      //   this.$refs.cycleRemove.hide()
+      // },
       getRepetitionDate (repetition) {
         let selectedDate = new Date(this.lesson.date)
         let newDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + (7 * repetition))
@@ -458,7 +509,7 @@
       this.$store.dispatch('getParticipantGroups')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
-      // this.$store.dispatch('getLessons')
+    // this.$store.dispatch('getLessons')
     }
   }
 </script>

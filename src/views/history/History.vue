@@ -201,12 +201,16 @@
         actions: [
           {id: 1, label: 'Dodanie'},
           {id: 2, label: 'Edycja'},
-          {id: 3, label: 'Usunięcie'}
+          {id: 3, label: 'Usunięcie'},
+          {id: 4, label: 'Usunięcie trwałe'},
+          {id: 5, label: 'Dezaktywacja'}
         ],
         actionsBE: [
           {val: 'POST', label: 'Dodanie'},
           {val: 'PUT', label: 'Edycja'},
-          {val: 'DELETE', label: 'Usunięcie'}
+          {val: 'DELETE', label: 'Usunięcie'},
+          {val: 'DELETE_FULL', label: 'Usunięcie trwałe'},
+          {val: 'DEACTIVE', label: 'Dezaktywacja'}
         ],
         years: [
           {id: 1, label: '2000'},

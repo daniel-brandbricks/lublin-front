@@ -2,7 +2,7 @@
   <b-form>
     <b-modal ref="confirmDeleteModal"
              modal-class="custom"
-             centered size="sm"
+             centered :size="remove ? 'md' : 'sm'"
              :hide-footer="true"
              footer-class="justify-content-between"
              title-tag="h2"
@@ -13,13 +13,17 @@
         Czy napewno chcesz usunąć {{toDeleteWord}}?
       </template>
 
-      <div slot="default" class="d-flex justify-content-between">
-        <b-btn class="custom" variant="secondary"
+      <div slot="default" class="my-3 d-flex justify-content-between">
+        <b-btn class="custom mx-2" variant="secondary"
                @click.prevent="hideModal">
           anuluj
         </b-btn>
-        <b-btn class="custom px-4" variant="danger"
-               @click.prevent="submitForm">
+        <b-btn v-if="remove" style="color: white" class="custom px-4 mx-2" variant="danger"
+               @click.prevent="submitForm(true)">
+          dezaktywuj
+        </b-btn>
+        <b-btn class="custom px-4" style="color: white" :class="remove ? 'mx-2' : ''" variant="danger"
+               @click.prevent="submitForm(false)">
           usuń
         </b-btn>
       </div>
@@ -42,7 +46,8 @@
         id: null,
         routeToPush: false,
         routeParams: {},
-        urlParams: {}
+        urlParams: {},
+        remove: false
       }
     },
     methods: {
@@ -70,8 +75,8 @@
       reset () {
         Object.assign(this.$data, this.$options.data.call(this))
       },
-      submitForm () {
-        this.$store.dispatch(this.method, { id: this.id, ...this.urlParams })
+      submitForm (deActive = false) {
+        this.$store.dispatch(this.method, { id: this.id, ...this.urlParams, deActive })
           .then((response) => {
             this.hideModal()
             console.log(response)
@@ -107,7 +112,7 @@
       }
     },
     created () {
-      EventBus.$on('SHOW_CONFIRM_DELETE_MODAL', (method = '', id = null, toDeleteWord, routeToPush, routeParams, urlParams) => {
+      EventBus.$on('SHOW_CONFIRM_DELETE_MODAL', (method = '', id = null, toDeleteWord, routeToPush, routeParams, urlParams, remove = false) => {
         this.reset()
 
         this.urlParams = urlParams
@@ -116,6 +121,8 @@
         this.toDeleteWord = toDeleteWord
         this.method = method
         this.id = id
+        console.log(remove)
+        this.remove = remove
 
         this.showModal()
       })
