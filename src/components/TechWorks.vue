@@ -1,5 +1,7 @@
 <template>
-  <div class="cookies-alert-bottom alert alert-info" :class="{'d-none': worksAccepted}">
+  <div class="cookies-alert-bottom alert alert-info" style="position: absolute !important;
+    top: 50%; font-size: 20px;
+    height: 12%;" :class="{'d-none': worksAccepted}">
     <a href="#" class="close" data-dismiss="alert" id="cookiesCloser" aria-label="close" @click="closeToast">&times;</a>
     Szanowni Panstwo, prace techniczne nad tym modulem "Prowadzacy" trwaja dluzej niz planowalismy. Caly czas dzialamy
     nad przywroceniem poprawnego funkcjonowania tej zakladki, ktora moze miec wplyw na dzialanie innych elementow
