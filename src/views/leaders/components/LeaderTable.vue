@@ -30,7 +30,7 @@
         <!--        </template>-->
 
         <template slot="lessons" slot-scope="scope">
-          <span>{{getLessonsLength(scope.item.lessons)}}</span>
+          <span>{{getLessonsLength(scope.item.lessons, scope.item.lessonsCount)}}</span>
         </template>
 
         <template slot="status" slot-scope="scope">
@@ -167,8 +167,8 @@
       }
     },
     methods: {
-      getLessonsLength(lessons) {
-        if (this.forSchool === undefined) return lessons.length
+      getLessonsLength(lessons, lessonsCount) {
+        if (this.forSchool === undefined) return lessonsCount
         let prepared = []
         let ids = (lessons && lessons.length > 0) ? lessons.map(x => x.id) : []
         let storeLessons = this.$store.getters.lessons || []
@@ -208,19 +208,19 @@
       confirmItem(id) {
         this.$store.dispatch('putLeader', {id: id, confirmed: 1})
           .then((response) => {
-            this.$store.dispatch('getLeaders', {confirmed: 0})
+            this.$store.dispatch('getLeaders', {confirmed: 0, returnType: 'short'})
           })
       }
     },
     created() {
       if (this.forSchool) {
-        this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
+        this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true, returnType: 'short'})
       } else {
         if (this.isConfirmed === 'all') {
-          this.$store.dispatch('getLeaders', {confirmed: 0})
-          this.$store.dispatch('getLeaders', {confirmed: 1})
+          this.$store.dispatch('getLeaders', {confirmed: 0, returnType: 'short'})
+          this.$store.dispatch('getLeaders', {confirmed: 1, returnType: 'short'})
         } else {
-          this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0})
+          this.$store.dispatch('getLeaders', {confirmed: this.isConfirmed ? 1 : 0, returnType: 'short'})
         }
       }
       // this.$store.dispatch('getDisciplines')

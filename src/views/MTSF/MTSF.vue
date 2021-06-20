@@ -251,7 +251,7 @@
       this.filterMtsfList()
 
       this.$store.dispatch('getSchools', {})
-      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 1, returnType: 'short'})
       this.$store.dispatch('getSeasons')
 
       this.changeAdminNavbarButtonWithParams()

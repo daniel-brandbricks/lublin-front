@@ -184,8 +184,8 @@
         this.$store.dispatch('putSchool', school)
           .then((response) => {
             this.$parent.updateSchool()
-            this.$store.dispatch('getLeaders', {confirmed: 0, forLesson: true})
-            this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
+            this.$store.dispatch('getLeaders', {confirmed: 0, forLesson: true, returnType: 'short'})
+            this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true, returnType: 'short'})
           })
       },
       // for FormLeaders to change field status (to use SchoolUser status)
@@ -231,7 +231,7 @@
 
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getSportObjects')
-      this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true})
+      this.$store.dispatch('getLeaders', {confirmed: 1, forLesson: true, returnType: 'short'})
 
       EventBus.$on('OPEN_SCHOOLS_LEADERS_MODAL', (params) => {
         this.openLeadersModal()

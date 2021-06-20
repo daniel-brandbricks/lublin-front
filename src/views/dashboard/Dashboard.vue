@@ -348,7 +348,7 @@ export default {
     confirmLeader (id) {
       this.$store.dispatch('putLeader', {id: id, confirmed: 1})
         .then((response) => {
-          this.$store.dispatch('getLeaders', {confirmed: 0})
+          this.$store.dispatch('getLeaders', {confirmed: 0, returnType: 'short'})
         })
     },
     confirmSchoolAndClubItem (id) {
@@ -415,7 +415,7 @@ export default {
       })
     this.$store.dispatch('getSportObjects', {confirmed: 0})
     this.$store.dispatch('getSportObjectTypes')
-    this.$store.dispatch('getLeaders', {confirmed: 0})
+    this.$store.dispatch('getLeaders', {confirmed: 0, returnType: 'short'})
     this.$store.dispatch('getEvents', {confirmed: 0, forSchool: true})
     this.$store.dispatch('getDisciplines')
 

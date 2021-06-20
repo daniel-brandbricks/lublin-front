@@ -28,7 +28,7 @@
         </template>
 
         <template slot="lessons" slot-scope="scope">
-          <span>{{scope.item.lessons.length}}</span>
+          <span>{{scope.item.lessonsCount}}</span>
         </template>
 
         <template slot="status" slot-scope="scope">
@@ -92,7 +92,7 @@
       }
     },
     created () {
-      this.$store.dispatch('getLeaders', { confirmed: 1 })
+      this.$store.dispatch('getLeaders', { confirmed: 1, returnType: 'short'})
       // this.$store.dispatch('getDisciplines')
     }
   }

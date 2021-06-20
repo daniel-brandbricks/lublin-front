@@ -235,8 +235,8 @@
     created () {
       this.$store.dispatch('getSender')
       this.$store.dispatch('getSchools', {confirmed: 1})
-      this.$store.dispatch('getLeaders', {confirmed: 1})
-      this.$store.dispatch('getLeaders', {confirmed: 0})
+      this.$store.dispatch('getLeaders', {confirmed: 1, returnType: 'short'})
+      this.$store.dispatch('getLeaders', {confirmed: 0, returnType: 'short'})
 
       /** @buttonLink route name || false if button must be hidden */
       this.changeAdminNavbarButton({buttonLink: false})

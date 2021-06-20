@@ -247,7 +247,7 @@
       // /** @buttonLink route name || false if button must be hidden */
       // this.changeAdminNavbarButton({eventBusMethod: false})
 
-      this.$store.dispatch('getLeaders', { confirmed: 1 })
+      this.$store.dispatch('getLeaders', { confirmed: 1, returnType: 'short' })
       this.$store.dispatch('getSeasons')
       this.$store.dispatch('getSchools')
       this.$store.dispatch('getParticipantGroups')

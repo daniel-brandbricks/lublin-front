@@ -147,11 +147,11 @@
         this.$router.push({ name: 'leaders', params: { 'tab': 'confirmed' } })
       }
 
-      this.$store.dispatch('getLeaders', {confirmed: 1})
-      this.$store.dispatch('getLeaders', {confirmed: 0})
+      this.$store.dispatch('getLeaders', {confirmed: 1, returnType: 'short'})
+      this.$store.dispatch('getLeaders', {confirmed: 0, returnType: 'short'})
 
       this.$store.dispatch('getDisciplines')
-      this.$store.dispatch('getSportObjects')
+      this.$store.dispatch('getSportObjects', {returnType: 'short'})
 
       this.checkNavButton(this.isDirector)
       this.changeAdminNavbarBreadcrumbs([ { text: 'Prowadzący', active: true } ])

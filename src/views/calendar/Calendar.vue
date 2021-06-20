@@ -241,7 +241,7 @@
       this.$store.dispatch('getSchools', { confirmed: 1, getAll: true })
       this.$store.dispatch('getAdminSportObjects', { confirmed: 1 })
       this.$store.dispatch('getSportObjects', { confirmed: 1 })
-      this.$store.dispatch('getLeaders', { confirmed: 1, forLesson: true })
+      this.$store.dispatch('getLeaders', { confirmed: 1, forLesson: true, returnType: 'short' })
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')

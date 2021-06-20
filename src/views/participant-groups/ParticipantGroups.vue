@@ -343,7 +343,7 @@
       this.$store.dispatch('getDisciplines')
       this.$store.dispatch('getLessonCategories')
       this.$store.dispatch('getClasses')
-      this.$store.dispatch('getLeaders', {confirmed: 1})
+      this.$store.dispatch('getLeaders', {confirmed: 1, returnType: 'short'})
       this.$store.dispatch('getSchools', {})
 
       /** @buttonLink route name || false if button must be hidden */
